@@ -20,6 +20,8 @@ class Film
 
     private $quality;
 
+    private $pics;
+
     public function getId()
     {
         return $this->id;
@@ -113,6 +115,17 @@ class Film
     {
         $this->quality = $quality;
 
+        return $this;
+    }
+
+    public function getPics()
+    {
+        return $this->pics;
+    }
+
+    public function setPics($pics): self
+    {
+        $this->pics = $pics;
         return $this;
     }
 }

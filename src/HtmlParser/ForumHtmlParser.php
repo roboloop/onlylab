@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Service;
+namespace App\HtmlParser;
 
 use App\Entity\Film;
 use App\Parser\GenreParser;
 use App\Parser\QualityParser;
 use App\Parser\SiteParser;
+use App\Util\UrlResolver;
 use Symfony\Component\DomCrawler\Crawler;
 
-class ForumParser
+class ForumHtmlParser
 {
     /** @var \App\Parser\SiteParser */
     private $siteParser;
@@ -19,14 +20,19 @@ class ForumParser
     /** @var \App\Parser\QualityParser */
     private $qualityParser;
 
+    /** @var \App\Util\UrlResolver */
+    private $urlResolver;
+
     public function __construct(
         SiteParser $siteParser,
         GenreParser $genreParser,
-        QualityParser $qualityParser)
+        QualityParser $qualityParser,
+        UrlResolver $urlResolver)
     {
         $this->siteParser       = $siteParser;
         $this->genreParser      = $genreParser;
         $this->qualityParser    = $qualityParser;
+        $this->urlResolver      = $urlResolver;
     }
 
     public function getParsed($content): array
@@ -46,7 +52,7 @@ class ForumParser
 
             return (new Film())
                 ->setId($id)
-                ->setHref($href)
+                ->setHref($this->urlResolver->url($href))
                 ->setTitle($title)
                 ->setSize($size)
                 ->setCreatedAt(new \DateTime($createdAt))

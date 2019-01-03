@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Hello!{% endblock %}
 
 {% block body %}
     <style>
@@ -15,8 +15,8 @@
                 <br>
                 {{ film.title }}
                 <br>
-                {{ film.href }}
-                <br>
+                <a href="{{ film.href }}">{{ film.href }}</a>
+                <br>index.html.twig
                 {{ film.size }}
                 <br>
                 {{ film.createdAt|date('d.m.Y H:i') }}
@@ -26,7 +26,12 @@
                 {{ film.genre }}
                 <br>
                 {{ film.quality }}
+
+                {% for pic in film.pics %}
+                    <img src="{{ pic }}" alt="pic">
+                {% endfor %}
             </li>
+            <br>
         {% endfor %}
     </ul>
 
