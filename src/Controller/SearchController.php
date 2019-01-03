@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Service\Filter;
 use App\Service\ForumParser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends AbstractController
@@ -16,7 +15,7 @@ class SearchController extends AbstractController
      * @param \App\Service\ForumParser $parser
      * @param \App\Service\Filter      $filter
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(ForumParser $parser, Filter $filter)
     {
@@ -27,8 +26,9 @@ class SearchController extends AbstractController
         $parsed     = $parser->getParsed($content);
         $filtered   = $filter->getFiltered($parsed);
 
-        dd($filtered);
-
-        return new JsonResponse($filtered);
+        return $this->render('search/index.html.twig', [
+            'films' => $filtered,
+            'controller_name' => get_class($this),
+        ]);
     }
 }
