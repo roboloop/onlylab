@@ -1,0 +1,10 @@
+bm_backup_manager:
+    database:
+        dev:
+            dsn: '%env(resolve:DATABASE_URL)%'
+            singleTransaction: true
+            ignoreTables: ['migration_versions']
+    storage:
+        local:
+            type: Local
+            root: '%kernel.project_dir%/dump'
