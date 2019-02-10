@@ -8,8 +8,8 @@ class StudioParser implements ParserInterface
 {
     public function parse(string $content)
     {
-        // TODO:
+        preg_match('~^\[([a-zA-Z0-9\/\\\.\s_-]+)\]~', $content, $matches);
 
-        return '2';
+        return $matches[1] ??  null;
     }
 }

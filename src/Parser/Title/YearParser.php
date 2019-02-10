@@ -10,6 +10,6 @@ class YearParser implements ParserInterface
     {
         // TODO:
 
-        return '1';
+        return $matches[1] ?? null;
     }
 }
