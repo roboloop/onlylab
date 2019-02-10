@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Genre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,32 +20,23 @@ class GenreRepository extends ServiceEntityRepository
         parent::__construct($registry, Genre::class);
     }
 
-    // /**
-    //  * @return Genre[] Returns an array of Genre objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function existsByTitle(array $titles)
     {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('g');
+        $this->addWhereConditions($qb, $titles, 'g', 'title', true);
 
-    /*
-    public function findOneBySomeField($value): ?Genre
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
+        return $qb
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+
+    private function addWhereConditions(QueryBuilder $qb, array $clauses, string $alias, string $column, bool $strict)
+    {
+        foreach ($clauses as $index => $clause) {
+            $conditions[] = "$alias.$column LIKE :string$index";
+            $qb->setParameter("string$index", $strict ? $clause : "%$clause%");
+        }
+
+        $qb->andWhere($qb->expr()->orX(...$conditions ?? []));
+    }
 }
