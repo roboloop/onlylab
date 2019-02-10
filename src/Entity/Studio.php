@@ -3,15 +3,16 @@
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampableEntity;
+use App\Enum\StudioStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
- * @ORM\Table(name="forums")
+ * @ORM\Entity(repositoryClass="App\Repository\StudioRepository")
+ * @ORM\Table(name="studios")
  */
-class Forum
+class Studio
 {
     use TimestampableEntity;
 
@@ -23,17 +24,17 @@ class Forum
     private $id;
 
     /**
-     * @ORM\Column(type="integer", unique=true)
-     */
-    private $trackerId;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $url;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="forum")
+     * @ORM\Column(type="integer")
+     */
+    private $status = StudioStatus::TYPICAL;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Topic", mappedBy="studios")
      */
     private $topics;
 
@@ -47,26 +48,26 @@ class Forum
         return $this->id;
     }
 
-    public function getTrackerId(): ?int
+    public function getUrl(): ?string
     {
-        return $this->trackerId;
+        return $this->url;
     }
 
-    public function setTrackerId(int $trackerId): self
+    public function setUrl(string $url): self
     {
-        $this->trackerId = $trackerId;
+        $this->url = $url;
 
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getStatus(): ?int
     {
-        return $this->title;
+        return $this->status;
     }
 
-    public function setTitle(string $title): self
+    public function setStatus(int $status): self
     {
-        $this->title = $title;
+        $this->status = $status;
 
         return $this;
     }
@@ -83,7 +84,7 @@ class Forum
     {
         if (!$this->topics->contains($topic)) {
             $this->topics[] = $topic;
-            $topic->setForum($this);
+            $topic->addStudio($this);
         }
 
         return $this;
@@ -93,10 +94,7 @@ class Forum
     {
         if ($this->topics->contains($topic)) {
             $this->topics->removeElement($topic);
-            // set the owning side to null (unless already changed)
-            if ($topic->getForum() === $this) {
-                $topic->setForum(null);
-            }
+            $topic->removeStudio($this);
         }
 
         return $this;

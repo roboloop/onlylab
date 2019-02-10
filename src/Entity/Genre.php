@@ -3,15 +3,16 @@
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampableEntity;
+use App\Enum\GenreStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
- * @ORM\Table(name="forums")
+ * @ORM\Entity(repositoryClass="App\Repository\GenreRepository")
+ * @ORM\Table(name="genres")
  */
-class Forum
+class Genre
 {
     use TimestampableEntity;
 
@@ -23,17 +24,17 @@ class Forum
     private $id;
 
     /**
-     * @ORM\Column(type="integer", unique=true)
-     */
-    private $trackerId;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="forum")
+     * @ORM\Column(type="integer")
+     */
+    private $status = GenreStatus::NOT_APPROVED;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Topic", mappedBy="genres")
      */
     private $topics;
 
@@ -47,18 +48,6 @@ class Forum
         return $this->id;
     }
 
-    public function getTrackerId(): ?int
-    {
-        return $this->trackerId;
-    }
-
-    public function setTrackerId(int $trackerId): self
-    {
-        $this->trackerId = $trackerId;
-
-        return $this;
-    }
-
     public function getTitle(): ?string
     {
         return $this->title;
@@ -67,6 +56,18 @@ class Forum
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
@@ -83,7 +84,7 @@ class Forum
     {
         if (!$this->topics->contains($topic)) {
             $this->topics[] = $topic;
-            $topic->setForum($this);
+            $topic->addGenre($this);
         }
 
         return $this;
@@ -93,10 +94,7 @@ class Forum
     {
         if ($this->topics->contains($topic)) {
             $this->topics->removeElement($topic);
-            // set the owning side to null (unless already changed)
-            if ($topic->getForum() === $this) {
-                $topic->setForum(null);
-            }
+            $topic->removeGenre($this);
         }
 
         return $this;

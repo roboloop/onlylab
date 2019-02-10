@@ -2,13 +2,19 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TopicRepository")
+ * @ORM\Table(name="topics")
  */
 class Topic
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -44,10 +50,10 @@ class Topic
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $createdAt;
+    private $trackerCreatedAt;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", unique=true))
      */
     private $trackerId;
 
@@ -58,9 +64,25 @@ class Topic
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="topics")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $forum;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Studio", inversedBy="topics")
+     */
+    private $studios;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="topics")
+     */
+    private $genres;
+
+    public function __construct()
+    {
+        $this->studios  = new ArrayCollection();
+        $this->genres   = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,14 +149,14 @@ class Topic
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getTrackerCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->trackerCreatedAt;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    public function setTrackerCreatedAt(?\DateTimeInterface $trackerCreatedAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->trackerCreatedAt = $trackerCreatedAt;
 
         return $this;
     }
@@ -171,6 +193,58 @@ class Topic
     public function setForum(?Forum $forum): self
     {
         $this->forum = $forum;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Studio[]
+     */
+    public function getStudios(): Collection
+    {
+        return $this->studios;
+    }
+
+    public function addStudio(Studio $studio): self
+    {
+        if (!$this->studios->contains($studio)) {
+            $this->studios[] = $studio;
+        }
+
+        return $this;
+    }
+
+    public function removeStudio(Studio $studio): self
+    {
+        if ($this->studios->contains($studio)) {
+            $this->studios->removeElement($studio);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Genre[]
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
+
+    public function addGenre(Genre $genre): self
+    {
+        if (!$this->genres->contains($genre)) {
+            $this->genres[] = $genre;
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): self
+    {
+        if ($this->genres->contains($genre)) {
+            $this->genres->removeElement($genre);
+        }
 
         return $this;
     }

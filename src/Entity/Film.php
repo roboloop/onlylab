@@ -6,19 +6,19 @@ class Film
 {
     private $id;
 
-    // private $title;
+    private $title;
 
-    // private $href;
+    private $href;
 
-    // private $size;
+    private $size;
 
-    // private $createdAt;
+    private $createdAt;
 
-    // private $site;
+    private $site;
 
     private $genre;
 
-    // private $quality;
+    private $quality;
 
     private $pics;
 
