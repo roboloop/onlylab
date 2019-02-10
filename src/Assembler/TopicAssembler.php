@@ -40,7 +40,6 @@ class TopicAssembler
      * @param \App\Bag\Bag $bag
      *
      * @return \App\Entity\Topic
-     * @throws \Exception
      */
     public function make(Bag $bag)
     {
@@ -61,8 +60,6 @@ class TopicAssembler
             ->setSize($size)
             ->setTrackerCreatedAt($trackerCreatedAt)
             ->setTrackerId($bag['trackerId'])
-            ->setReleaseAt($releaseAt)
-            ;
-
+            ->setReleaseAt($releaseAt);
     }
 }
