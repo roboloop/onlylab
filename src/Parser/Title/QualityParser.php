@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Parser;
+namespace App\Parser\Title;
 
-use App\Contract\Parser;
+use App\Contract\Parser\Parser;
 
 class QualityParser implements Parser
 {

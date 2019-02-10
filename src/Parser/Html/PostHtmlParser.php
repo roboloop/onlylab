@@ -1,6 +1,6 @@
 <?php
 
-namespace App\HtmlParser;
+namespace App\Parser\Html;
 
 use Symfony\Component\DomCrawler\Crawler;
 

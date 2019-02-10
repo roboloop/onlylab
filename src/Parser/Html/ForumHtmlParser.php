@@ -1,23 +1,23 @@
 <?php
 
-namespace App\HtmlParser;
+namespace App\Parser\Html;
 
 use App\Entity\Film;
-use App\Parser\GenreParser;
-use App\Parser\QualityParser;
-use App\Parser\SiteParser;
+use App\Parser\Title\GenreParser;
+use App\Parser\Title\QualityParser;
+use App\Parser\Title\SiteParser;
 use App\Util\UrlResolver;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ForumHtmlParser
 {
-    /** @var \App\Parser\SiteParser */
+    /** @var \App\Parser\Title\SiteParser */
     private $siteParser;
 
-    /** @var \App\Parser\GenreParser */
+    /** @var \App\Parser\Title\GenreParser */
     private $genreParser;
 
-    /** @var \App\Parser\QualityParser */
+    /** @var \App\Parser\Title\QualityParser */
     private $qualityParser;
 
     /** @var \App\Util\UrlResolver */
