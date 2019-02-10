@@ -2,9 +2,9 @@
 
 namespace App\Parser\Title;
 
-use App\Contract\Parser\Parser;
+use App\Contract\Parser\ParserInterface;
 
-class QualityParser implements Parser
+class QualityParser implements ParserInterface
 {
     public function parse(string $string): string
     {

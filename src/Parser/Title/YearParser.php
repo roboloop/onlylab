@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Parser\Content;
+namespace App\Parser\Title;
 
 use App\Contract\Parser\ParserInterface;
 
-class TopicLineParser implements ParserInterface
+class YearParser implements ParserInterface
 {
     public function parse(string $content)
     {
+        // TODO:
 
+        return '1';
     }
 }
