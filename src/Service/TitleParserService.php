@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Loader\ParsersLoader;
+use App\Parser\Title\GenreParser;
 use App\Parser\Title\QualityParser;
 use App\Parser\Title\StudioParser;
 use App\Parser\Title\YearParser;
@@ -30,5 +31,10 @@ class TitleParserService
     public function getStudio(string $title)
     {
         return $this->loader->getParser(StudioParser::class)->parse($title);
+    }
+
+    public function getGenres(string $title)
+    {
+        return $this->loader->getParser(GenreParser::class)->parse($title);
     }
 }
