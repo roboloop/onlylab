@@ -39,6 +39,11 @@ class Genre
      */
     private $topics;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->topics = new ArrayCollection();
@@ -97,6 +102,18 @@ class Genre
             $this->topics->removeElement($topic);
             $topic->removeGenre($this);
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
