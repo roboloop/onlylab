@@ -75,12 +75,12 @@ class Topic
     private $studios;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="topics")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="topics", cascade={"persist"})
      */
     private $genres;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="topic")
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="topic", cascade={"persist"})
      */
     private $images;
 
