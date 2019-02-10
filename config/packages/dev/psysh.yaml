@@ -1,0 +1,4 @@
+psysh:
+    variables:
+        em: '@doctrine.orm.entity_manager'
+        doctrine: '@doctrine'
