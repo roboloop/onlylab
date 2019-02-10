@@ -6,6 +6,7 @@ use App\Entity\Traits\TimestampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TopicRepository")
@@ -78,10 +79,16 @@ class Topic
      */
     private $genres;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="topic")
+     */
+    private $images;
+
     public function __construct()
     {
         $this->studios  = new ArrayCollection();
         $this->genres   = new ArrayCollection();
+        $this->images   = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,6 +251,37 @@ class Topic
     {
         if ($this->genres->contains($genre)) {
             $this->genres->removeElement($genre);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setTopic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getTopic() === $this) {
+                $image->setTopic(null);
+            }
         }
 
         return $this;

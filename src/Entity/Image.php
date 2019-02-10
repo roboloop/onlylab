@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -44,6 +45,12 @@ class Image
      * @ORM\Column(type="integer", nullable=true)
      */
     private $host;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Topic", inversedBy="images")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $topic;
 
     public function getId(): ?int
     {
@@ -106,6 +113,18 @@ class Image
     public function setHost(?int $host): self
     {
         $this->host = $host;
+
+        return $this;
+    }
+
+    public function getTopic(): ?Topic
+    {
+        return $this->topic;
+    }
+
+    public function setTopic(?Topic $topic): self
+    {
+        $this->topic = $topic;
 
         return $this;
     }
