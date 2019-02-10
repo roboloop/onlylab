@@ -2,7 +2,7 @@
 
 namespace App\Bag;
 
-class Bag
+class Bag implements \ArrayAccess
 {
     protected $parameters;
 
@@ -49,5 +49,28 @@ class Bag
     public function remove($key)
     {
         unset($this->parameters[$key]);
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->parameters[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return isset($this->parameters[$offset]) ? $this->parameters[$offset] : null;
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        if (null === $offset)
+            $this->parameters[] = $value;
+        else
+            $this->parameters[$offset] = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->parameters[$offset]);
     }
 }
