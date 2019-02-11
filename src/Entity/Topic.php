@@ -70,7 +70,7 @@ class Topic
     private $forum;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Studio", inversedBy="topics")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Studio", inversedBy="topics", cascade={"persist"})
      */
     private $studios;
 
