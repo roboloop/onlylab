@@ -2,14 +2,14 @@
 
 namespace App\Service;
 
-use App\HtmlParser\PostHtmlParser;
+use App\Parser\Html\PostHtmlParser;
 use App\Url\Fastpic;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PictureGetter
 {
-    /** @var \App\HtmlParser\PostHtmlParser */
+    /** @var \App\Parser\Html\PostHtmlParser */
     private $htmlParser;
 
     /** @var \GuzzleHttp\Client */

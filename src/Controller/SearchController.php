@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\HtmlParser\ForumHtmlParser;
-use App\HtmlParser\PostHtmlParser;
+use App\Parser\Html\ForumHtmlParser;
+use App\Parser\Html\PostHtmlParser;
 use App\Service\Filter;
 use App\Service\PictureGetter;
 use App\Url\Fastpic;
@@ -16,7 +16,7 @@ class SearchController extends AbstractController
     /**
      * @Route("/", methods={"GET"}, name="app_index")
      *
-     * @param \App\HtmlParser\ForumHtmlParser $parser
+     * @param \App\Parser\Html\ForumHtmlParser $parser
      * @param \App\Service\Filter             $filter
      * @param \App\Util\UrlResolver           $urlResolver
      * @param \App\Service\PictureGetter      $pictureGetter
@@ -43,7 +43,7 @@ class SearchController extends AbstractController
     /**
      * @Route("/1", methods={"GET"}, name="app_show")
      *
-     * @param \App\HtmlParser\PostHtmlParser $parser
+     * @param \App\Parser\Html\PostHtmlParser $parser
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
