@@ -2,42 +2,33 @@
 
 namespace App\Service\Parser\Html;
 
-use App\Entity\Film;
 use App\Service\Parser\Title\GenreParser;
 use App\Service\Parser\Title\QualityParser;
 use App\Service\Parser\Title\SiteParser;
-use App\Util\UrlResolver;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ForumHtmlParser
 {
-    /** @var \App\Parser\Title\SiteParser */
     private $siteParser;
-
-    /** @var \App\Parser\Title\GenreParser */
     private $genreParser;
-
-    /** @var \App\Parser\Title\QualityParser */
     private $qualityParser;
-
-    /** @var \App\Util\UrlResolver */
-    private $urlResolver;
+    private $forumLineParser;
 
     public function __construct(
         SiteParser $siteParser,
         GenreParser $genreParser,
         QualityParser $qualityParser,
-        UrlResolver $urlResolver)
+        ForumLineParser $forumLineParser)
     {
         $this->siteParser       = $siteParser;
         $this->genreParser      = $genreParser;
         $this->qualityParser    = $qualityParser;
-        $this->urlResolver      = $urlResolver;
+        $this->forumLineParser  = $forumLineParser;
     }
 
-    public function getParsed($content): array
+    public function forumLines(string $content)
     {
-        $crawler = new Crawler($this->cleaning($content));
+        $crawler = new Crawler($content);
 
         $lines = $crawler->filterXPath('//table[@class="forumline forum"]/tr[contains(@id, "tr-")]');
 
@@ -60,15 +51,5 @@ class ForumHtmlParser
                 ->setGenre($this->genreParser->parse($title))
                 ->setQuality($this->qualityParser->parse($title));
         });
-    }
-
-    private function cleaning($content): string
-    {
-        return str_replace(["\n", "\r\n", "\r", "\t"], '', $content);
-    }
-
-    public function forumLines(string $content)
-    {
-
     }
 }

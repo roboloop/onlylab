@@ -7,7 +7,7 @@ class ContentDecoder
     const DEFAULT_ENCODING = 'windows-1251';
     const TO_ENCODING = 'UTF-8';
 
-    public function decode(string $content, ?$encoding = null)
+    public function decode(string $content, ?string $encoding = null)
     {
         $encoding = $encoding ?: self::DEFAULT_ENCODING;
 
