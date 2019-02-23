@@ -11,6 +11,10 @@ class ContentDecoder
     {
         $encoding = $encoding ?: self::DEFAULT_ENCODING;
 
-        return iconv($encoding, 'UTF-8', $content);
+        return $content;
+
+        return mb_convert_encoding($content, $encoding, self::TO_ENCODING);
+
+        return iconv($encoding, self::TO_ENCODING, $content);
     }
 }
