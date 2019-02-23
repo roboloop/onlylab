@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Assembler;
+namespace App\Service\Assembler;
 
 use App\Bag\Bag;
 use App\Entity\Topic;
@@ -13,7 +13,6 @@ class EntireTopicAssembler
     private $imageAssembler;
     private $genreAssembler;
     private $genreService;
-    /** @var \App\Service\StudioService */
     private $studioService;
 
     public function __construct(

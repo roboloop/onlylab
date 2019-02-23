@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Resolver;
+namespace App\Service\Resolver;
 
 use DateTime;
 

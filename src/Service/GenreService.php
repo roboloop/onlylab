@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Assembler\GenreAssembler;
+use App\Service\Assembler\GenreAssembler;
 use App\Bag\Bag;
 use App\Repository\GenreRepository;
 

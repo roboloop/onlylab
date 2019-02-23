@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Assembler\StudioAssembler;
+use App\Service\Assembler\StudioAssembler;
 use App\Bag\Bag;
 use App\Repository\StudioRepository;
 

@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Parser\Html\PostHtmlParser;
+use App\Service\Parser\Html\PostHtmlParser;
 use App\Url\Fastpic;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;

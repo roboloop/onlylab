@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\TimestampableEntity;
-use App\Enum\GenreStatus;
+use App\Constant\GenreStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

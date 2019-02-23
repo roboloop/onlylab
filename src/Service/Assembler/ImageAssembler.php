@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Assembler;
+namespace App\Service\Assembler;
 
 use App\Bag\Bag;
 use App\Entity\Image;

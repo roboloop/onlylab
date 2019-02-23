@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Parser\Html;
+namespace App\Service\Parser\Html;
 
 use App\Entity\Film;
-use App\Parser\Title\GenreParser;
-use App\Parser\Title\QualityParser;
-use App\Parser\Title\SiteParser;
+use App\Service\Parser\Title\GenreParser;
+use App\Service\Parser\Title\QualityParser;
+use App\Service\Parser\Title\SiteParser;
 use App\Util\UrlResolver;
 use Symfony\Component\DomCrawler\Crawler;
 

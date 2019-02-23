@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filter\Topic;
+namespace App\Service\Filter\Topic;
 
 class GenreFilter
 {

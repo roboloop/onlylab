@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Url;
+namespace App\Service\Url;
 
 class Fastpic
 {

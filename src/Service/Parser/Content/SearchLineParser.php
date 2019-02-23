@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Parser\Content;
+namespace App\Service\Parser\Content;
 
 use App\Contract\Parser\ParserInterface;
 

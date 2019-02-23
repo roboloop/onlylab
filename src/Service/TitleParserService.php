@@ -3,10 +3,10 @@
 namespace App\Service;
 
 use App\Loader\ParsersLoader;
-use App\Parser\Title\GenreParser;
-use App\Parser\Title\QualityParser;
-use App\Parser\Title\StudioParser;
-use App\Parser\Title\YearParser;
+use App\Service\Parser\Title\GenreParser;
+use App\Service\Parser\Title\QualityParser;
+use App\Service\Parser\Title\StudioParser;
+use App\Service\Parser\Title\YearParser;
 
 class TitleParserService
 {

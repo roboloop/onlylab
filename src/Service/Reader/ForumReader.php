@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Reader;
+namespace App\Service\Reader;
 
 class ForumReader
 {
