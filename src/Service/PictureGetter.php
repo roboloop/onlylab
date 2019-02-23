@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Service\Parser\Html\PostHtmlParser;
+use App\Service\Parser\Html\TopicHtmlParser;
 use App\Url\Fastpic;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -18,7 +18,7 @@ class PictureGetter
     /** @var \App\Url\Fastpic */
     private $fastpic;
 
-    public function __construct(PostHtmlParser $htmlParser, ContainerInterface $container, Fastpic $fastpic)
+    public function __construct(TopicHtmlParser $htmlParser, ContainerInterface $container, Fastpic $fastpic)
     {
         $this->htmlParser = $htmlParser;
         $this->client = $container->get('eight_points_guzzle.client.onlytracker');

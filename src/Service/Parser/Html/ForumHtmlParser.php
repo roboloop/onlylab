@@ -66,4 +66,9 @@ class ForumHtmlParser
     {
         return str_replace(["\n", "\r\n", "\r", "\t"], '', $content);
     }
+
+    public function forumLines(string $content)
+    {
+
+    }
 }

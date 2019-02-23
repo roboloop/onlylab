@@ -8,7 +8,7 @@ class YearParser implements ParserInterface
 {
     public function parse(string $content)
     {
-        // TODO:
+        preg_match('~(20\d{2})~', $content, $matches);
 
         return $matches[1] ?? null;
     }

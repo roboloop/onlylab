@@ -4,7 +4,7 @@ namespace App\Service\Parser\Html;
 
 use Symfony\Component\DomCrawler\Crawler;
 
-class PostHtmlParser
+class TopicHtmlParser
 {
     public function picUrls(string $content): array
     {

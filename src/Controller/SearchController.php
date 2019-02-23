@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Service\Parser\Html\ForumHtmlParser;
-use App\Service\Parser\Html\PostHtmlParser;
+use App\Service\Parser\Html\TopicHtmlParser;
 use App\Service\Filter;
 use App\Service\PictureGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,11 +41,11 @@ class SearchController extends AbstractController
     // /**
     //  * @Route("/1", methods={"GET"}, name="app_show")
     //  *
-    //  * @param \App\Parser\Html\PostHtmlParser $parser
+    //  * @param \App\Parser\Html\TopicHtmlParser $parser
     //  *
     //  * @return \Symfony\Component\HttpFoundation\Response
     //  */
-    // public function show(PostHtmlParser $parser, Fastpic $fastpic)
+    // public function show(TopicHtmlParser $parser, Fastpic $fastpic)
     // {
     //     $path = $this->getParameter('kernel.project_dir');
     //
