@@ -16,7 +16,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{Client,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -40,3 +40,6 @@ services:
         calls:
             - [add, ["@backup_manager.databases.postgresql_database"]]
             - [add, ["@app.backup_manager.databases.ext_mysql_database"]]
+
+    # Guzzle clients
+    App\Client\TrackerClient: '@eight_points_guzzle.client.tracker'
