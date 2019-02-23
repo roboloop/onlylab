@@ -10,8 +10,9 @@ class StudioParser implements ParserInterface
     {
         preg_match('~^\[([a-zA-Z0-9\/\\\.\s_\(\)\-]+)\]~', $content, $matches);
 
-        if (!isset($matches[1]))
+        if (!isset($matches[1])) {
             return [];
+        }
 
         $splitted = preg_split('~[\\\/]~', $matches[1], null, PREG_SPLIT_NO_EMPTY);
         $withAliases = array_values(array_filter(array_map(function ($value) {
@@ -20,7 +21,7 @@ class StudioParser implements ParserInterface
             return !empty($value);
         }));
 
-        $notFlatten = array_map(function($value) {
+        $notFlatten = array_map(function ($value) {
             preg_match('~([a-zA-Z0-9_\-\.]*)\s*(?:\(([a-zA-Z0-9_\-\.]*)\))*~', $value, $res);
             array_shift($res);
             return $res;

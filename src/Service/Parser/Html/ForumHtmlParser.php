@@ -18,8 +18,8 @@ class ForumHtmlParser
         SiteParser $siteParser,
         GenreParser $genreParser,
         QualityParser $qualityParser,
-        ForumLineParser $forumLineParser)
-    {
+        ForumLineParser $forumLineParser
+    ) {
         $this->siteParser       = $siteParser;
         $this->genreParser      = $genreParser;
         $this->qualityParser    = $qualityParser;

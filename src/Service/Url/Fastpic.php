@@ -7,8 +7,9 @@ class Fastpic
     public function realPathAll(array $urls)
     {
         foreach ($urls as $url) {
-            if ($this->isSupport($url))
+            if ($this->isSupport($url)) {
                 $val = $this->realPath($url);
+            }
 
             $result[] = $val;
         }

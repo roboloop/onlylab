@@ -38,6 +38,6 @@ class OverwriteDumpCommand extends Command
 
          $output->writeln([
             'Dump of database successfully created: ' . $filename,
-        ]);
+         ]);
     }
 }

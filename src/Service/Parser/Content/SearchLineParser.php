@@ -8,6 +8,5 @@ class SearchLineParser implements ParserInterface
 {
     public function parse(string $content)
     {
-
     }
 }

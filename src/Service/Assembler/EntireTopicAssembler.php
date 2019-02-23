@@ -20,8 +20,8 @@ class EntireTopicAssembler
         ImageAssembler $imageAssembler,
         GenreAssembler $genreAssembler,
         StudioService $studioService,
-        GenreService $genreService)
-    {
+        GenreService $genreService
+    ) {
         $this->topicAssembler = $topicAssembler;
         $this->imageAssembler = $imageAssembler;
         $this->genreAssembler = $genreAssembler;

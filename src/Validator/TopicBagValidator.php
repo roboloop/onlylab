@@ -15,8 +15,9 @@ class TopicBagValidator implements ValidatorInterface
      */
     public function validate(Bag $bag)
     {
-        if ($bag->has('title') and $bag->has('size') and $bag->has('trackerCreatedAt') and $bag->has('trackerId') and $bag->has('releaseAt'))
+        if ($bag->has('title') and $bag->has('size') and $bag->has('trackerCreatedAt') and $bag->has('trackerId') and $bag->has('releaseAt')) {
             return;
+        }
 
         throw new RuntimeException('Not all data');
     }

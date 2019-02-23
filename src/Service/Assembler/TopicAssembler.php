@@ -28,8 +28,7 @@ class TopicAssembler
         TitleParserService $titleParser,
         SizeResolver $sizeResolver,
         DateResolver $dateResolver
-    )
-    {
+    ) {
         $this->bagValidator = $bagValidator;
         $this->titleParser  = $titleParser;
         $this->sizeResolver = $sizeResolver;

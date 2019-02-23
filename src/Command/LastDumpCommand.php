@@ -60,13 +60,15 @@ class LastDumpCommand extends Command
             $files = [];
             while (($file = readdir($dh)) !== false) {
                 $filename = $dir . '/' . $file;
-                if (is_file($filename) and preg_match('/\.sql\.gz$/', $filename))
+                if (is_file($filename) and preg_match('/\.sql\.gz$/', $filename)) {
                     $files[] = $filename;
+                }
             }
             closedir($dh);
 
-            if (empty($files))
+            if (empty($files)) {
                 return null;
+            }
 
             return basename(max($files));
         }

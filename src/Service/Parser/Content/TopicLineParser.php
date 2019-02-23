@@ -8,6 +8,5 @@ class TopicLineParser implements ParserInterface
 {
     public function parse(string $content)
     {
-
     }
 }

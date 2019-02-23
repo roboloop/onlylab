@@ -27,7 +27,7 @@ class StudioService
             return mb_strtolower($genre->getUrl());
         }, $existsStudios);
 
-        $toCreate = array_filter($urls, function($title) use ($existsUrls) {
+        $toCreate = array_filter($urls, function ($title) use ($existsUrls) {
             return !in_array(mb_strtolower($title), $existsUrls, true);
         });
 

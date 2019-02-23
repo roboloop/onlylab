@@ -11,8 +11,9 @@ class ParsersLoader
     public function addParsers(array $parsers)
     {
         foreach ($parsers as $parser) {
-            if (!$parser instanceof ParserInterface)
+            if (!$parser instanceof ParserInterface) {
                 throw new \RuntimeException();
+            }
 
             $this->addParser($parser);
         }

@@ -15,8 +15,8 @@ class GenreService
     public function __construct(
         GenreRepository $genreRepository,
         GenreAssembler $genreAssembler,
-        TitleParserService $titleParser)
-    {
+        TitleParserService $titleParser
+    ) {
         $this->genreRepository  = $genreRepository;
         $this->genreAssembler   = $genreAssembler;
         $this->titleParser      = $titleParser;
@@ -30,7 +30,7 @@ class GenreService
             return mb_strtolower($genre->getTitle());
         }, $existsGenres);
 
-        $toCreate = array_filter($titles, function($title) use ($existsTitles) {
+        $toCreate = array_filter($titles, function ($title) use ($existsTitles) {
             return !in_array(mb_strtolower($title), $existsTitles, true);
         });
 

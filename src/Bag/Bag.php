@@ -63,10 +63,11 @@ class Bag implements \ArrayAccess
 
     public function offsetSet($offset, $value)
     {
-        if (null === $offset)
+        if (null === $offset) {
             $this->parameters[] = $value;
-        else
+        } else {
             $this->parameters[$offset] = $value;
+        }
     }
 
     public function offsetUnset($offset)

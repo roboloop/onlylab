@@ -36,6 +36,6 @@ class CreateDumpCommand extends Command
 
          $output->writeln([
             'Dump of database successfully created: ' . $filename,
-        ]);
+         ]);
     }
 }

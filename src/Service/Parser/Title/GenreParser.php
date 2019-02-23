@@ -10,8 +10,9 @@ class GenreParser implements ParserInterface
     {
         preg_match('~\[(?!.*\[)(.*)\]~i', $content, $matches);
 
-        if (!isset($matches[1]))
+        if (!isset($matches[1])) {
             return [];
+        }
 
         $filtered = preg_grep('~\d{2}~u', $matches[1], PREG_GREP_INVERT);
 
