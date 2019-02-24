@@ -56,6 +56,13 @@ class EntireTopicAssembler
         return $topic;
     }
 
+    public function makeManyReviews(array $dtos)
+    {
+        return array_map(function ($dto) {
+            return $this->makeReview($dto);
+        }, $dtos);
+    }
+
     private function addImages(Topic $topic, array $images)
     {
         array_walk($images, function ($image) use ($topic) {

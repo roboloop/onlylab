@@ -39,4 +39,11 @@ class TopicAssembler
             ->setSize($size)
             ->setTrackerId($trackerId);
     }
+
+    public function makeMany(array $dtos)
+    {
+        return array_map(function ($dto) {
+            return $this->make($dto);
+        }, $dtos);
+    }
 }

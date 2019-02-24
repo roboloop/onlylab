@@ -24,14 +24,14 @@ class ForumHtmlParser
         $this->qualityParser    = $qualityParser;
     }
 
-    public function forumLines(string $content)
+    public function forumLinesDto(string $content)
     {
         $crawler = new Crawler($content);
 
         $lines = $crawler->filterXPath('//table[@class="forumline forum"]/tr[contains(@id, "tr-")]');
 
         return $this->filter($lines)->each(function (Crawler $node) {
-            return $this->forumLine($node);
+            return $this->forumLineDto($node);
         });
     }
 
@@ -43,7 +43,7 @@ class ForumHtmlParser
         });
     }
 
-    protected function forumLine(Crawler $line)
+    protected function forumLineDto(Crawler $line)
     {
         $trackerId      = $line->getNode(0)->getAttribute('id');
         $title      = $line->getNode(1)->firstChild->nodeValue;
