@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Service\Assembler\GenreAssembler;
-use App\Bag\Bag;
 use App\Repository\GenreRepository;
 
 class GenreService
@@ -22,7 +21,14 @@ class GenreService
         $this->titleParser      = $titleParser;
     }
 
-    public function getGenresFromTitles(array $titles)
+    public function genresFromTitle(string $title)
+    {
+        $genres = $this->titleParser->getGenres($title);
+
+        return $this->genresFromArray($genres);
+    }
+
+    public function genresFromArray(array $titles)
     {
         $existsGenres = $this->genreRepository->existsByTitle($titles);
         $existsTitles = array_map(function ($genre) {
@@ -37,10 +43,5 @@ class GenreService
         $newGenres = $this->genreAssembler->make($toCreate);
 
         return array_merge($existsGenres, $newGenres);
-    }
-
-    public function getGenres(Bag $topicBag)
-    {
-        return $this->titleParser->getGenres($topicBag['title']);
     }
 }

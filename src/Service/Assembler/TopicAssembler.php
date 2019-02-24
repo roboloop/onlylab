@@ -2,63 +2,41 @@
 
 namespace App\Service\Assembler;
 
-use App\Bag\Bag;
+use App\Dto\ForumLineDto;
 use App\Entity\Topic;
-use App\Resolver\DateResolver;
-use App\Resolver\SizeResolver;
+use App\Service\Parser\Title\SizeParser;
 use App\Service\TitleParserService;
-use App\Validator\TopicBagValidator;
 
 class TopicAssembler
 {
-    /** @var \App\Validator\TopicBagValidator */
-    private $bagValidator;
-
-    /** @var \App\Service\TitleParserService */
     private $titleParser;
-
-    /** @var \App\Resolver\SizeResolver */
-    private $sizeResolver;
-
-    /** @var \App\Resolver\DateResolver */
-    private $dateResolver;
+    private $sizeParser;
 
     public function __construct(
-        TopicBagValidator $bagValidator,
         TitleParserService $titleParser,
-        SizeResolver $sizeResolver,
-        DateResolver $dateResolver
+        SizeParser $sizeParser
     ) {
-        $this->bagValidator = $bagValidator;
         $this->titleParser  = $titleParser;
-        $this->sizeResolver = $sizeResolver;
-        $this->dateResolver = $dateResolver;
+        $this->sizeParser = $sizeParser;
     }
 
     /**
-     * @param \App\Bag\Bag $bag
+     * @param \App\Dto\ForumLineDto $dto
      *
      * @return \App\Entity\Topic
      */
-    public function make(Bag $bag)
+    public function make(ForumLineDto $dto)
     {
-        $this->bagValidator->validate($bag);
-        $quality        = $this->titleParser->getQuality($bag['title']);
-        $year           = $this->titleParser->getYear($bag['title']);
-        $studio         = $this->titleParser->getStudio($bag['title']);
-        $size           = $this->sizeResolver->resolve($bag['size']);
-        $trackerCreatedAt   = $this->dateResolver->resolve($bag['trackerCreatedAt']);
-        $releaseAt      = $this->dateResolver->resolve($bag['releaseAt']);
+        $trackerId      = $dto->getTrackerId();
+        $quality    = $this->titleParser->getQuality($dto->getTitle());
+        $year       = $this->titleParser->getYear($dto->getTitle());
+        $size       = $this->sizeParser->parse($dto->getSize());
 
-        $topic = new Topic();
-        return $topic
-            ->setTitle($bag['title'])
-            ->setStudio($studio)
+        return ($topic = new Topic())
+            ->setTitle($dto->getTitle())
             ->setYear($year)
             ->setQuality($quality)
             ->setSize($size)
-            ->setTrackerCreatedAt($trackerCreatedAt)
-            ->setTrackerId($bag['trackerId'])
-            ->setReleaseAt($releaseAt);
+            ->setTrackerId($trackerId);
     }
 }

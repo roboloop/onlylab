@@ -3,6 +3,7 @@
 namespace App\Service\Assembler;
 
 use App\Bag\Bag;
+use App\Dto\ForumLineDto;
 use App\Entity\Topic;
 use App\Service\GenreService;
 use App\Service\StudioService;
@@ -29,16 +30,12 @@ class EntireTopicAssembler
         $this->genreService   = $genreService;
     }
 
-    public function makeEntire(Bag $topicBag, Bag $imagesBag)
+    public function makeEntire(ForumLineDto $dto, Bag $imagesBag)
     {
-        $genres = $this->genreService->getGenresFromTitles(
-            $this->genreService->getGenres($topicBag)
-        );
-        $studios = $this->studioService->getStudiosFromUrls(
-            $this->studioService->getStudios($topicBag)
-        );
-        $topic  = $this->topicAssembler->make($topicBag);
-        $images = $this->imageAssembler->make($imagesBag);
+        $genres     = $this->genreService->genresFromTitle($dto->getTitle());
+        $studios    = $this->studioService->studiosFromTitle($dto->getTitle());
+        $topic      = $this->topicAssembler->make($dto);
+        $images     = $this->imageAssembler->make($imagesBag);
 
         $this->addImages($topic, $images);
         $this->addGenres($topic, $genres);
@@ -47,15 +44,11 @@ class EntireTopicAssembler
         return $topic;
     }
 
-    public function makeReview(Bag $topicBag)
+    public function makeReview(ForumLineDto $dto)
     {
-        $genres = $this->genreService->getGenresFromTitles(
-            $this->genreService->getGenres($topicBag)
-        );
-        $studios = $this->studioService->getStudiosFromUrls(
-            $this->studioService->getStudios($topicBag)
-        );
-        $topic  = $this->topicAssembler->make($topicBag);
+        $genres     = $this->genreService->genresFromTitle($dto->getTitle());
+        $studios    = $this->studioService->studiosFromTitle($dto->getTitle());
+        $topic      = $this->topicAssembler->make($dto);
 
         $this->addGenres($topic, $genres);
         $this->addStudios($topic, $studios);

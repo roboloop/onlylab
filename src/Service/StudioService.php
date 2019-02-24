@@ -19,25 +19,27 @@ class StudioService
         $this->titleParser = $titleParser;
     }
 
-    public function getStudiosFromUrls(array $urls)
+    public function studiosFromTitle(string $title)
     {
-        $existsStudios = $this->studioRepository->existsByUrl($urls);
+        $studios = $this->titleParser->getStudios($title);
+
+        return $this->studiosFromArray($studios);
+    }
+
+    public function studiosFromArray(array $studios)
+    {
+        $existsStudios = $this->studioRepository->existsByUrl($studios);
         $existsUrls = array_map(function ($genre) {
             /** @var \App\Entity\Studio $genre */
             return mb_strtolower($genre->getUrl());
         }, $existsStudios);
 
-        $toCreate = array_filter($urls, function ($title) use ($existsUrls) {
+        $toCreate = array_filter($studios, function ($title) use ($existsUrls) {
             return !in_array(mb_strtolower($title), $existsUrls, true);
         });
 
         $newStudios = $this->studioAssembler->make($toCreate);
 
         return array_merge($existsStudios, $newStudios);
-    }
-
-    public function getStudios(Bag $topicBag)
-    {
-        return $this->titleParser->getStudio($topicBag['url']);
     }
 }

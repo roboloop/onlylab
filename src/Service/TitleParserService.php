@@ -28,7 +28,7 @@ class TitleParserService
         return $this->loader->getParser(YearParser::class)->parse($title);
     }
 
-    public function getStudio(string $title)
+    public function getStudios(string $title)
     {
         return $this->loader->getParser(StudioParser::class)->parse($title);
     }

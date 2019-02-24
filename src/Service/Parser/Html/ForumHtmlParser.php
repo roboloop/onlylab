@@ -2,6 +2,7 @@
 
 namespace App\Service\Parser\Html;
 
+use App\Dto\ForumLineDto;
 use App\Service\Parser\Title\GenreParser;
 use App\Service\Parser\Title\QualityParser;
 use App\Service\Parser\Title\SiteParser;
@@ -12,18 +13,15 @@ class ForumHtmlParser
     private $siteParser;
     private $genreParser;
     private $qualityParser;
-    private $forumLineParser;
 
     public function __construct(
         SiteParser $siteParser,
         GenreParser $genreParser,
-        QualityParser $qualityParser,
-        ForumLineParser $forumLineParser
+        QualityParser $qualityParser
     ) {
         $this->siteParser       = $siteParser;
         $this->genreParser      = $genreParser;
         $this->qualityParser    = $qualityParser;
-        $this->forumLineParser  = $forumLineParser;
     }
 
     public function forumLines(string $content)
@@ -33,7 +31,7 @@ class ForumHtmlParser
         $lines = $crawler->filterXPath('//table[@class="forumline forum"]/tr[contains(@id, "tr-")]');
 
         return $this->filter($lines)->each(function (Crawler $node) {
-            return $this->forumLineParser->parse($node);
+            return $this->forumLine($node);
         });
     }
 
@@ -43,5 +41,23 @@ class ForumHtmlParser
             // This advert is missing the file size. Delete it.
             return null !== $node->children()->getNode(2)->firstChild;
         });
+    }
+
+    protected function forumLine(Crawler $line)
+    {
+        $trackerId      = $line->getNode(0)->getAttribute('id');
+        $title      = $line->getNode(1)->firstChild->nodeValue;
+        $size       = $line->getNode(2)->firstChild->nodeValue;
+
+        // TODO: author parse
+        $authorId   = null;
+        $authorName = null;
+
+        return (new ForumLineDto)
+            ->setTrackerId($trackerId)
+            ->setTitle($title)
+            ->setSize($size)
+            ->setAuthorId($authorId)
+            ->setAuthorName($authorName);
     }
 }
