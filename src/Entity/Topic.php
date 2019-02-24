@@ -10,7 +10,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TopicRepository")
- * @ORM\Table(name="topics")
  */
 class Topic
 {
@@ -27,11 +26,6 @@ class Topic
      * @ORM\Column(type="text")
      */
     private $title;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $studio;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -59,11 +53,6 @@ class Topic
     private $trackerId;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $releaseAt;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="topics")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -71,11 +60,13 @@ class Topic
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Studio", inversedBy="topics", cascade={"persist"})
+     * @ORM\JoinTable(name="studio_topic")
      */
     private $studios;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="topics", cascade={"persist"})
+     * @ORM\JoinTable(name="genre_topic")
      */
     private $genres;
 
@@ -104,18 +95,6 @@ class Topic
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getStudio(): ?string
-    {
-        return $this->studio;
-    }
-
-    public function setStudio(?string $studio): self
-    {
-        $this->studio = $studio;
 
         return $this;
     }
@@ -176,18 +155,6 @@ class Topic
     public function setTrackerId(int $trackerId): self
     {
         $this->trackerId = $trackerId;
-
-        return $this;
-    }
-
-    public function getReleaseAt(): ?\DateTimeInterface
-    {
-        return $this->releaseAt;
-    }
-
-    public function setReleaseAt(?\DateTimeInterface $releaseAt): self
-    {
-        $this->releaseAt = $releaseAt;
 
         return $this;
     }

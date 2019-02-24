@@ -8,7 +8,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
- * @ORM\Table(name="images")
  */
 class Image
 {

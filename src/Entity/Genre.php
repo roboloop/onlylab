@@ -11,7 +11,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GenreRepository")
- * @ORM\Table(name="genres")
  */
 class Genre
 {
