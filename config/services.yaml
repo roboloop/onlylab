@@ -43,3 +43,9 @@ services:
 
     # Guzzle clients
     App\Client\TrackerClient: '@eight_points_guzzle.client.tracker'
+
+    # Naming Strategy
+    app.doctrine.orm.naming_strategy.underscore_plural:
+        class: App\Mapping\Strategy\UnderscorePluralStrategy
+        arguments:
+            - !php/const CASE_LOWER
