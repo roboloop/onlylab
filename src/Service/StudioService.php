@@ -28,7 +28,7 @@ class StudioService
 
     public function studiosFromArray(array $studios)
     {
-        $existsStudios = $this->studioRepository->existsByUrl($studios);
+        $existsStudios = $this->existsByUrl($studios);
         $existsUrls = array_map(function ($genre) {
             /** @var \App\Entity\Studio $genre */
             return mb_strtolower($genre->getUrl());
@@ -41,5 +41,13 @@ class StudioService
         $newStudios = $this->studioAssembler->make($toCreate);
 
         return array_merge($existsStudios, $newStudios);
+    }
+
+    public function existsByUrl(array $studios)
+    {
+        if (empty($studios))
+            return [];
+
+        return $this->studioRepository->existsByUrl($studios);
     }
 }

@@ -30,7 +30,7 @@ class GenreService
 
     public function genresFromArray(array $titles)
     {
-        $existsGenres = $this->genreRepository->existsByTitle($titles);
+        $existsGenres = $this->existsByTitle($titles);
         $existsTitles = array_map(function ($genre) {
             /** @var \App\Entity\Genre $genre */
             return mb_strtolower($genre->getTitle());
@@ -43,5 +43,13 @@ class GenreService
         $newGenres = $this->genreAssembler->make($toCreate);
 
         return array_merge($existsGenres, $newGenres);
+    }
+
+    public function existsByTitle(array $titles)
+    {
+        if (empty($titles))
+            return [];
+
+        return $this->genreRepository->existsByTitle($titles);
     }
 }
