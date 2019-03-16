@@ -10,7 +10,6 @@ use App\Service\Parser\Title\YearParser;
 
 class TitleParserService
 {
-    /** @var \App\Loader\ParsersLoader */
     private $loader;
 
     public function __construct(ParsersLoader $loader)
