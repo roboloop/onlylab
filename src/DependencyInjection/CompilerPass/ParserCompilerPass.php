@@ -10,8 +10,8 @@ class ParserCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $definition     = $container->getDefinition('app.parser.loader');
-        $taggedServices = $container->findTaggedServiceIds('app.parser');
+        $definition     = $container->getDefinition('App\Loader\ParsersLoader');
+        $taggedServices = $container->findTaggedServiceIds('app.contract.parser.parser');
 
         $parsers = [];
         foreach ($taggedServices as $serviceId => $tags) {

@@ -11,6 +11,6 @@ class ApplicationExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $container->registerForAutoconfiguration(ParserInterface::class)
-            ->addTag('app.parser');
+            ->addTag('app.contract.parser.parser');
     }
 }
