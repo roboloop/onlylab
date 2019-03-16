@@ -49,7 +49,9 @@ class ForumPageHandler
         $dtos = $this->forumHtmlParser->forumLinesDto($content);
 
         // Convert raw data to array of entities containing parsed data (title, year, quality, etc.)
-        return $this->entireTopicAssembler->makeManyReviews($dtos);
+        $topics = $this->entireTopicAssembler->makeManyReviews($dtos);
+
+        return $topics;
     }
 
     /**
