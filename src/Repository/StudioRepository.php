@@ -32,6 +32,9 @@ class StudioRepository extends ServiceEntityRepository
 
     private function addWhereConditions(QueryBuilder $qb, array $clauses, string $alias, string $column, bool $strict)
     {
+        if (empty($clauses))
+            throw new \LogicException();
+
         foreach ($clauses as $index => $clause) {
             $conditions[] = "$alias.$column LIKE :string$index";
             $qb->setParameter("string$index", $strict ? $clause : "%$clause%");
