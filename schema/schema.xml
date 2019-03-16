@@ -35,7 +35,7 @@
 			<type label="Bit" length="0" sql="bit" quote=""/>
 		</group>
 	</datatypes>
-	<table x="273" y="27" name="Forum">
+	<table x="606" y="52" name="Forum">
 		<row name="id" null="1" autoincrement="1">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
@@ -60,7 +60,7 @@
 			<part>id</part>
 		</key>
 	</table>
-	<table x="653" y="209" name="Genre">
+	<table x="996" y="247" name="Genre">
 		<row name="id" null="1" autoincrement="1">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
@@ -89,7 +89,7 @@
 			<part>id</part>
 		</key>
 	</table>
-	<table x="497" y="58" name="Image">
+	<table x="830" y="83" name="Image">
 		<row name="id" null="1" autoincrement="1">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
@@ -131,7 +131,7 @@
 			<part>id</part>
 		</key>
 	</table>
-	<table x="560" y="439" name="Studio">
+	<table x="893" y="464" name="Studio">
 		<row name="id" null="1" autoincrement="1">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
@@ -156,7 +156,7 @@
 			<part>id</part>
 		</key>
 	</table>
-	<table x="121" y="294" name="Topic">
+	<table x="470" y="288" name="Topic">
 		<row name="id" null="1" autoincrement="1">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
@@ -164,6 +164,11 @@
 		<row name="tracker_id" null="1" autoincrement="0">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
+		</row>
+		<row name="auhor_id" null="1" autoincrement="0">
+			<datatype>INTEGER</datatype>
+			<default>NULL</default>
+			<relation table="User" row="id" />
 		</row>
 		<row name="title" null="1" autoincrement="0">
 			<datatype>VARCHAR</datatype>
@@ -189,10 +194,6 @@
 			<datatype>TIMESTAMP</datatype>
 			<default>NULL</default>
 		</row>
-		<row name="release_at" null="1" autoincrement="0">
-			<datatype>TIMESTAMP</datatype>
-			<default>NULL</default>
-		</row>
 		<row name="forum_id" null="1" autoincrement="0">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
@@ -210,7 +211,7 @@
 			<part>id</part>
 		</key>
 	</table>
-	<table x="348" y="433" name="Genre_Topic">
+	<table x="681" y="458" name="Genre_Topic">
 		<row name="id" null="1" autoincrement="1">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
@@ -229,7 +230,7 @@
 			<part>id</part>
 		</key>
 	</table>
-	<table x="348" y="589" name="Studio_Topic">
+	<table x="681" y="614" name="Studio_Topic">
 		<row name="id" null="1" autoincrement="1">
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
@@ -243,6 +244,31 @@
 			<datatype>INTEGER</datatype>
 			<default>NULL</default>
 			<relation table="Topic" row="id" />
+		</row>
+		<key type="PRIMARY" name="">
+			<part>id</part>
+		</key>
+	</table>
+	<table x="336" y="82" name="User">
+		<row name="id" null="1" autoincrement="1">
+			<datatype>INTEGER</datatype>
+			<default>NULL</default>
+		</row>
+		<row name="name" null="1" autoincrement="0">
+			<datatype>VARCHAR</datatype>
+			<default>NULL</default>
+		</row>
+		<row name="tracker_id" null="1" autoincrement="0">
+			<datatype>INTEGER</datatype>
+			<default>NULL</default>
+		</row>
+		<row name="created_at" null="1" autoincrement="0">
+			<datatype>TIMESTAMP</datatype>
+			<default>NULL</default>
+		</row>
+		<row name="updated_at" null="1" autoincrement="0">
+			<datatype>TIMESTAMP</datatype>
+			<default>NULL</default>
 		</row>
 		<key type="PRIMARY" name="">
 			<part>id</part>
