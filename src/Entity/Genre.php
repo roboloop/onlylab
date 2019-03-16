@@ -29,11 +29,6 @@ class Genre
     private $title;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $status = GenreStatus::NOT_APPROVED;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Topic", mappedBy="genres")
      */
     private $topics;
@@ -42,6 +37,11 @@ class Genre
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isApproved;
 
     public function __construct()
     {
@@ -61,18 +61,6 @@ class Genre
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(int $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
@@ -113,6 +101,18 @@ class Genre
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getIsApproved(): ?bool
+    {
+        return $this->isApproved;
+    }
+
+    public function setIsApproved(bool $isApproved): self
+    {
+        $this->isApproved = $isApproved;
 
         return $this;
     }

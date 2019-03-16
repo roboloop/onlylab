@@ -38,6 +38,11 @@ class Studio
      */
     private $topics;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isApproved;
+
     public function __construct()
     {
         $this->topics = new ArrayCollection();
@@ -96,6 +101,18 @@ class Studio
             $this->topics->removeElement($topic);
             $topic->removeStudio($this);
         }
+
+        return $this;
+    }
+
+    public function getIsApproved(): ?bool
+    {
+        return $this->isApproved;
+    }
+
+    public function setIsApproved(bool $isApproved): self
+    {
+        $this->isApproved = $isApproved;
 
         return $this;
     }

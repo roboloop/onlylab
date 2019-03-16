@@ -48,6 +48,9 @@ class ForumPageHandler
         // Convert html to array of entities containing raw data (id, whole title, size, etc.)
         $dtos = $this->forumHtmlParser->forumLinesDto($content);
 
+        $genres = $this->collector->genreCollector($dtos);
+        // $studios
+
         // Convert raw data to array of entities containing parsed data (title, year, quality, etc.)
         $topics = $this->entireTopicAssembler->makeManyReviews($dtos);
 
