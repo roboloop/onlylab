@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Worker;
+namespace App\Service\Handler;
 
 use App\Service\Assembler\EntireTopicAssembler;
 use App\Service\Parser\Html\ForumHtmlParser;
@@ -8,7 +8,7 @@ use App\Service\Parser\Html\TopicHtmlParser;
 use App\Service\Transformer\ContentDecoder;
 use App\Service\Transformer\TextCleaner;
 
-class TopicPageWorker
+class TopicPageHandler
 {
     private $contentDecoder;
     private $textCleaner;
