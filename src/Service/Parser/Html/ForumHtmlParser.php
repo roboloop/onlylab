@@ -45,6 +45,8 @@ class ForumHtmlParser
 
     protected function forumLineDto(Crawler $line)
     {
+        $line = $line->children();
+
         $trackerId      = $line->getNode(0)->getAttribute('id');
         $title      = $line->getNode(1)->firstChild->nodeValue;
         $size       = $line->getNode(2)->firstChild->nodeValue;
