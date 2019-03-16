@@ -14,7 +14,9 @@ class GenreParser implements ParserInterface
             return [];
         }
 
-        $filtered = preg_grep('~\d{2}~u', $matches[1], PREG_GREP_INVERT);
+        $exploded = explode(',', $matches[1]);
+
+        $filtered = preg_grep('~\d{2}~u', $exploded, PREG_GREP_INVERT);
 
         return array_values(array_map(function ($value) {
             return trim($value);
