@@ -47,3 +47,10 @@ services:
         class: App\Mapping\Strategy\UnderscorePluralStrategy
         arguments:
             - !php/const CASE_LOWER
+
+    # Transaction manager
+    app.util.transaction_manager:
+        class: 'App\Behavior\TransactionManager'
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        public: true

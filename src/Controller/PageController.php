@@ -5,10 +5,9 @@ namespace App\Controller;
 use App\Client\TrackerClient;
 use App\Service\Handler\ForumPageHandler;
 use App\Service\Handler\TopicPageHandler;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PageController extends AbstractController
+class PageController extends BaseController
 {
     /**
      * @Route("/", methods={"GET"})
@@ -28,6 +27,8 @@ class PageController extends AbstractController
         // $content = file_get_contents('../examples/topic_page.html');
 
         $result = $forumPageWorker->handleAuth($content);
+
+        $this->transaction($result);
         // $result = $topicPageWorker->work($content);
 
         return $this->json(['Good']);
