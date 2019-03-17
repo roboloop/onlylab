@@ -6,7 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "backup-manager/symfony": "^2.2",
-        "beberlei/DoctrineExtensions": "^1.2",
+        "beberlei/doctrineextensions": "^1.2",
         "eightpoints/guzzle-bundle": "^7.4",
         "sensio/framework-extra-bundle": "^5.1",
         "stof/doctrine-extensions-bundle": "^1.3",
@@ -17,9 +17,11 @@
         "symfony/framework-bundle": "4.2.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/orm-pack": "^1.0",
+        "symfony/security": "4.2.*",
         "symfony/serializer-pack": "*",
         "symfony/twig-bundle": "4.2.*",
         "symfony/validator": "4.2.*",
+        "symfony/workflow": "4.2.*",
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
