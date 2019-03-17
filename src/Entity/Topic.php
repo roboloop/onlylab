@@ -23,7 +23,7 @@ class Topic
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $title;
 
@@ -74,6 +74,11 @@ class Topic
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="topic", cascade={"persist"})
      */
     private $images;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $rawTitle;
 
     public function __construct()
     {
@@ -250,6 +255,18 @@ class Topic
                 $image->setTopic(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRawTitle(): ?string
+    {
+        return $this->rawTitle;
+    }
+
+    public function setRawTitle(string $rawTitle): self
+    {
+        $this->rawTitle = $rawTitle;
 
         return $this;
     }
