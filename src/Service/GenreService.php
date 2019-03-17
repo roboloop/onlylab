@@ -52,4 +52,9 @@ class GenreService
 
         return $this->genreRepository->existsByTitle($titles);
     }
+
+    public function findAll()
+    {
+        return $this->genreRepository->findAll();
+    }
 }

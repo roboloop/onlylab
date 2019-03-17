@@ -50,4 +50,9 @@ class StudioService
 
         return $this->studioRepository->existsByUrl($studios);
     }
+
+    public function findAll()
+    {
+        return $this->studioRepository->findAll();
+    }
 }
