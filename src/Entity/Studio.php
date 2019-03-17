@@ -41,7 +41,7 @@ class Studio
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isApproved;
+    private $isApproved = false;
 
     public function __construct()
     {
