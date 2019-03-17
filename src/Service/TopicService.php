@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Service;
+
+use App\Contract\Service\TopicServiceInterface;
+use App\Repository\TopicRepository;
+
+class TopicService implements TopicServiceInterface
+{
+    private $topicRepository;
+
+    public function __construct(TopicRepository $topicRepository)
+    {
+        $this->topicRepository = $topicRepository;
+    }
+
+    public function findAll()
+    {
+        return $this->topicRepository->findAll();
+    }
+
+    public function findByTrackerId(array $ids)
+    {
+        return $this->topicRepository->findBy(['trackerId' => $ids]);
+    }
+}

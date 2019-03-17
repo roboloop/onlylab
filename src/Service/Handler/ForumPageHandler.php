@@ -5,9 +5,11 @@ namespace App\Service\Handler;
 use App\Dto\ForumLineDto;
 use App\Service\Assembler\EntireTopicAssembler;
 use App\Service\GenreService;
+use App\Service\TrackerIdCollector;
 use App\Service\Maker\TopicMaker;
 use App\Service\Parser\Html\ForumHtmlParser;
 use App\Service\StudioService;
+use App\Service\TopicService;
 use App\Service\Transformer\ArrayTransformer;
 use App\Service\Transformer\ContentDecoder;
 use App\Service\Transformer\TextCleaner;
@@ -26,6 +28,8 @@ class ForumPageHandler
     private $arrayTransformer;
     private $studioService;
     private $topicMaker;
+    private $topicService;
+    private $trackerIdCollector;
 
     public function __construct(
         ContentDecoder $contentDecoder,
@@ -33,8 +37,10 @@ class ForumPageHandler
         ForumHtmlParser $forumHtmlParser,
         GenreService $genreService,
         StudioService $studioService,
+        TopicService $topicService,
         ArrayTransformer $arrayTransformer,
-        TopicMaker $topicMaker
+        TopicMaker $topicMaker,
+        TrackerIdCollector $trackerIdCollector
     ) {
         $this->contentDecoder       = $contentDecoder;
         $this->textCleaner          = $textCleaner;
@@ -42,7 +48,9 @@ class ForumPageHandler
         $this->genreService         = $genreService;
         $this->studioService        = $studioService;
         $this->arrayTransformer     = $arrayTransformer;
+        $this->topicService         = $topicService;
         $this->topicMaker           = $topicMaker;
+        $this->trackerIdCollector       = $trackerIdCollector;
     }
 
     /**
@@ -77,10 +85,15 @@ class ForumPageHandler
      */
     private function makeManyTopics(array $dtos)
     {
+        $trackerIds         = $this->trackerIdCollector->collect($dtos);
+        $topics         = $this->topicService->findByTrackerId($trackerIds);
         $genres         = $this->genreService->findAll();
         $studios        = $this->studioService->findAll();
         $genresKeyTitle = $this->arrayTransformer->setKeyFromSource($genres, 'title', true);
         $studiosKeyUrl  = $this->arrayTransformer->setKeyFromSource($studios, 'url', true);
+        $topicsKeyTrackerId = $this->arrayTransformer->setKeyFromSource($topics, 'trackerId', true);
+
+        $this->filterDtosFromExists($dtos, $topicsKeyTrackerId);
 
         return $this->makeManyReviews($dtos, $genresKeyTitle, $studiosKeyUrl);
     }
@@ -115,6 +128,15 @@ class ForumPageHandler
     private function makeReview(ForumLineDto $dto, array $allGenres, array $allStudios)
     {
         return $this->topicMaker->makeTopic($dto, $allGenres, $allStudios);
+    }
+
+    private function filterDtosFromExists(array &$dtos, array $topicsKeyTrackerId)
+    {
+        foreach ($dtos as $key => $dto) {
+            if (array_key_exists($dto->getTrackerId(), $topicsKeyTrackerId)) {
+                unset($dtos[$key]);
+            }
+        }
     }
 
     /**
