@@ -2,6 +2,7 @@
 
 namespace App\Service\Handler;
 
+use App\Contract\Service\HandlePageInterface;
 use App\Dto\ForumLineDto;
 use App\Service\GenreService;
 use App\Service\TrackerIdCollector;
@@ -18,7 +19,7 @@ use App\Service\Transformer\TextCleaner;
  *
  * @package App\Service\Handler
  */
-class ForumPageHandler
+class ForumPageHandler implements HandlePageInterface
 {
     private $contentDecoder;
     private $textCleaner;
@@ -53,11 +54,7 @@ class ForumPageHandler
     }
 
     /**
-     * Processing a forum page of the version received with authentication
-     *
-     * @param string $content
-     *
-     * @return array
+     * @inheritdoc
      */
     public function handleAuth(string $content)
     {
@@ -139,11 +136,7 @@ class ForumPageHandler
     }
 
     /**
-     * Processing a forum page of the version received without authentication
-     *
-     * @param string $content
-     *
-     * @return array
+     * @inheritdoc
      */
     public function handleNoAuth(string $content)
     {

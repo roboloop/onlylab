@@ -2,13 +2,14 @@
 
 namespace App\Service\Handler;
 
+use App\Contract\Service\HandlePageInterface;
 use App\Service\Assembler\EntireTopicAssembler;
 use App\Service\Parser\Html\ForumHtmlParser;
 use App\Service\Parser\Html\TopicHtmlParser;
 use App\Service\Transformer\ContentDecoder;
 use App\Service\Transformer\TextCleaner;
 
-class TopicPageHandler
+class TopicPageHandler implements HandlePageInterface
 {
     private $contentDecoder;
     private $textCleaner;
@@ -27,7 +28,10 @@ class TopicPageHandler
         $this->entireTopicAssembler = $entireTopicAssembler;
     }
 
-    public function work(string $content)
+    /**
+     * @inheritdoc
+     */
+    public function handleAuth(string $content)
     {
         $content = $this->textCleaner->clearWhitespaces(
             $this->contentDecoder->decode($content)
@@ -36,5 +40,13 @@ class TopicPageHandler
         $dto = $this->topicHtmlParser->pics($content);
 
         return $this->entireTopicAssembler->makeEntire($dto);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function handleNoAuth(string $content)
+    {
+        return $this->handleAuth($content);
     }
 }
