@@ -6,10 +6,15 @@ use App\Entity\Studio;
 
 class StudioAssembler
 {
-    public function make(array $urls)
+    public function makeMany(array $urls)
     {
         return array_map(function ($url) {
-            return (new Studio())->setUrl($url);
+            return $this->make($url);
         }, $urls);
+    }
+
+    public function make(string $url)
+    {
+        return (new Studio())->setUrl($url);
     }
 }

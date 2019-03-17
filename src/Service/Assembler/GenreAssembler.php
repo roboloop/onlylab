@@ -6,10 +6,15 @@ use App\Entity\Genre;
 
 class GenreAssembler
 {
-    public function make(array $titles)
+    public function makeMany(array $titles)
     {
         return array_map(function ($title) {
-            return (new Genre())->setTitle($title);
+            return $this->make($title);
         }, $titles);
+    }
+
+    public function make(string $title)
+    {
+        return (new Genre())->setTitle($title);
     }
 }
