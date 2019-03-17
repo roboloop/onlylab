@@ -3,7 +3,7 @@
 namespace App\Service\Assembler;
 
 use App\Bag\Bag;
-use App\Dto\ForumLineDto;
+use App\Dto\RawTopicDto;
 use App\Entity\Topic;
 use App\Service\GenreService;
 use App\Service\StudioService;
@@ -30,7 +30,7 @@ class EntireTopicAssembler
         $this->genreService   = $genreService;
     }
 
-    public function makeEntire(ForumLineDto $dto, Bag $imagesBag)
+    public function makeEntire(RawTopicDto $dto, Bag $imagesBag)
     {
         $genres     = $this->genreService->genresFromTitle($dto->getRawTitle());
         $studios    = $this->studioService->studiosFromTitle($dto->getRawTitle());
@@ -44,7 +44,7 @@ class EntireTopicAssembler
         return $topic;
     }
 
-    public function makeReview(ForumLineDto $dto)
+    public function makeReview(RawTopicDto $dto)
     {
         $genres     = $this->genreService->genresFromTitle($dto->getRawTitle());
         $studios    = $this->studioService->studiosFromTitle($dto->getRawTitle());

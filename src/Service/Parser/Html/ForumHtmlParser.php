@@ -2,7 +2,7 @@
 
 namespace App\Service\Parser\Html;
 
-use App\Dto\ForumLineDto;
+use App\Dto\RawTopicDto;
 use App\Service\Parser\Title\GenreParser;
 use App\Service\Parser\Title\QualityParser;
 use App\Service\Parser\Title\SiteParser;
@@ -55,7 +55,7 @@ class ForumHtmlParser
         $authorId   = null;
         $authorName = null;
 
-        return (new ForumLineDto)
+        return (new RawTopicDto)
             ->setTrackerId($trackerId)
             ->setRawTitle($rawTitle)
             ->setSize($size)

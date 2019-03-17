@@ -3,7 +3,7 @@
 namespace App\Service\Handler;
 
 use App\Contract\Service\HandlePageInterface;
-use App\Dto\ForumLineDto;
+use App\Dto\RawTopicDto;
 use App\Service\GenreService;
 use App\Service\TrackerIdCollector;
 use App\Service\Maker\TopicMaker;
@@ -115,13 +115,13 @@ class ForumPageHandler implements HandlePageInterface
     /**
      * Create a topic with a list of existing genres and studios
      *
-     * @param \App\Dto\ForumLineDto $dto
-     * @param array                 $allGenres
-     * @param array                 $allStudios
+     * @param \App\Dto\RawTopicDto $dto
+     * @param array                $allGenres
+     * @param array                $allStudios
      *
      * @return \App\Entity\Topic
      */
-    private function makeReview(ForumLineDto $dto, array $allGenres, array $allStudios)
+    private function makeReview(RawTopicDto $dto, array $allGenres, array $allStudios)
     {
         return $this->topicMaker->makeTopic($dto, $allGenres, $allStudios);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Service\Maker;
 
-use App\Dto\ForumLineDto;
+use App\Dto\RawTopicDto;
 use App\Entity\Topic;
 use App\Service\Assembler\GenreAssembler;
 use App\Service\Assembler\StudioAssembler;
@@ -35,13 +35,13 @@ class TopicMaker
     /**
      * Create a topic from raw values, existing genres and studios are passed on for processing
      *
-     * @param \App\Dto\ForumLineDto $dto
-     * @param array                 $allGenres
-     * @param array                 $allStudios
+     * @param \App\Dto\RawTopicDto $dto
+     * @param array                $allGenres
+     * @param array                $allStudios
      *
      * @return \App\Entity\Topic
      */
-    public function makeTopic(ForumLineDto $dto, array $allGenres, array $allStudios)
+    public function makeTopic(RawTopicDto $dto, array $allGenres, array $allStudios)
     {
         $rawGenres      = $this->titleProcessor->rawGenresFromTitle($dto->getRawTitle());
         $existsGenres   = $this->titleProcessor->existsFromRaw($allGenres, $rawGenres);

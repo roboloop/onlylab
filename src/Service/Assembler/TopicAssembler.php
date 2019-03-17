@@ -2,7 +2,7 @@
 
 namespace App\Service\Assembler;
 
-use App\Dto\ForumLineDto;
+use App\Dto\RawTopicDto;
 use App\Entity\Topic;
 use App\Service\Parser\Title\SizeParser;
 use App\Service\TitleParserService;
@@ -21,11 +21,11 @@ class TopicAssembler
     }
 
     /**
-     * @param \App\Dto\ForumLineDto $dto
+     * @param \App\Dto\RawTopicDto $dto
      *
      * @return \App\Entity\Topic
      */
-    public function make(ForumLineDto $dto)
+    public function make(RawTopicDto $dto)
     {
         $trackerId      = $dto->getTrackerId();
         $quality    = $this->titleParser->getQuality($dto->getRawTitle());

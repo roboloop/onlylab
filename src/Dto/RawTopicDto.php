@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-class ForumLineDto
+class RawTopicDto
 {
     private $trackerId;
     private $rawTitle;
@@ -10,6 +10,9 @@ class ForumLineDto
     private $trackerCreatedAt;
     private $authorId;
     private $authorName;
+    private $previewImages;
+    private $referenceImages;
+    private $originalImages;
 
     public function getTrackerId()
     {
@@ -80,6 +83,42 @@ class ForumLineDto
     {
         $this->authorName = $authorName;
         
+        return $this;
+    }
+
+    public function getPreviewImages()
+    {
+        return $this->previewImages;
+    }
+
+    public function addPreviewImages($previewImages): self
+    {
+        $this->previewImages[] = $previewImages;
+
+        return $this;
+    }
+
+    public function getReferenceImages()
+    {
+        return $this->referenceImages;
+    }
+
+    public function addReferenceImages($referenceImages): self
+    {
+        $this->referenceImages[] = $referenceImages;
+
+        return $this;
+    }
+
+    public function getOriginalImages()
+    {
+        return $this->originalImages;
+    }
+
+    public function addOriginalImages($originalImages): self
+    {
+        $this->originalImages[] = $originalImages;
+
         return $this;
     }
 }
