@@ -28,12 +28,14 @@ class TopicAssembler
     public function make(ForumLineDto $dto)
     {
         $trackerId      = $dto->getTrackerId();
-        $quality    = $this->titleParser->getQuality($dto->getTitle());
-        $year       = $this->titleParser->getYear($dto->getTitle());
+        $quality    = $this->titleParser->getQuality($dto->getRawTitle());
+        $year       = $this->titleParser->getYear($dto->getRawTitle());
         $size       = $this->sizeParser->parse($dto->getSize());
+        $title      = $this->titleParser->getOriginalTitle($dto->getRawTitle());
 
         return ($topic = new Topic())
-            ->setTitle($dto->getTitle())
+            ->setRawTitle($dto->getRawTitle())
+            ->setTitle($title)
             ->setYear($year)
             ->setQuality($quality)
             ->setSize($size)

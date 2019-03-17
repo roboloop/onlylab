@@ -48,7 +48,7 @@ class ForumHtmlParser
         $line = $line->children();
 
         $trackerId      = $line->getNode(0)->getAttribute('id');
-        $title      = $line->getNode(1)->firstChild->nodeValue;
+        $rawTitle   = $line->getNode(1)->firstChild->nodeValue;
         $size       = $line->getNode(2)->firstChild->nodeValue;
 
         // TODO: author parse
@@ -57,7 +57,7 @@ class ForumHtmlParser
 
         return (new ForumLineDto)
             ->setTrackerId($trackerId)
-            ->setTitle($title)
+            ->setRawTitle($rawTitle)
             ->setSize($size)
             ->setAuthorId($authorId)
             ->setAuthorName($authorName);

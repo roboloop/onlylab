@@ -32,8 +32,8 @@ class EntireTopicAssembler
 
     public function makeEntire(ForumLineDto $dto, Bag $imagesBag)
     {
-        $genres     = $this->genreService->genresFromTitle($dto->getTitle());
-        $studios    = $this->studioService->studiosFromTitle($dto->getTitle());
+        $genres     = $this->genreService->genresFromTitle($dto->getRawTitle());
+        $studios    = $this->studioService->studiosFromTitle($dto->getRawTitle());
         $topic      = $this->topicAssembler->make($dto);
         $images     = $this->imageAssembler->make($imagesBag);
 
@@ -46,8 +46,8 @@ class EntireTopicAssembler
 
     public function makeReview(ForumLineDto $dto)
     {
-        $genres     = $this->genreService->genresFromTitle($dto->getTitle());
-        $studios    = $this->studioService->studiosFromTitle($dto->getTitle());
+        $genres     = $this->genreService->genresFromTitle($dto->getRawTitle());
+        $studios    = $this->studioService->studiosFromTitle($dto->getRawTitle());
         $topic      = $this->topicAssembler->make($dto);
 
         $this->addGenres($topic, $genres);

@@ -5,7 +5,7 @@ namespace App\Dto;
 class ForumLineDto
 {
     private $trackerId;
-    private $title;
+    private $rawTitle;
     private $size;
     private $trackerCreatedAt;
     private $authorId;
@@ -23,14 +23,14 @@ class ForumLineDto
         return $this;
     }
 
-    public function getTitle()
+    public function getRawTitle()
     {
-        return $this->title;
+        return $this->rawTitle;
     }
 
-    public function setTitle($title): self
+    public function setRawTitle($rawTitle): self
     {
-        $this->title = $title;
+        $this->rawTitle = $rawTitle;
         
         return $this;
     }

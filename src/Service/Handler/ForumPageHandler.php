@@ -3,7 +3,6 @@
 namespace App\Service\Handler;
 
 use App\Dto\ForumLineDto;
-use App\Service\Assembler\EntireTopicAssembler;
 use App\Service\GenreService;
 use App\Service\TrackerIdCollector;
 use App\Service\Maker\TopicMaker;

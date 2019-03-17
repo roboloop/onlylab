@@ -43,12 +43,12 @@ class TopicMaker
      */
     public function makeTopic(ForumLineDto $dto, array $allGenres, array $allStudios)
     {
-        $rawGenres      = $this->titleProcessor->rawGenresFromTitle($dto->getTitle());
+        $rawGenres      = $this->titleProcessor->rawGenresFromTitle($dto->getRawTitle());
         $existsGenres   = $this->titleProcessor->existsFromRaw($allGenres, $rawGenres);
         $newGenres      = $this->genreAssembler->makeMany($rawGenres);
         $genres         = array_merge($existsGenres, $newGenres);
 
-        $rawStudios     = $this->titleProcessor->rawStudiosFromTitle($dto->getTitle());
+        $rawStudios     = $this->titleProcessor->rawStudiosFromTitle($dto->getRawTitle());
         $existsStudios  = $this->titleProcessor->existsFromRaw($allStudios, $rawStudios);
         $newStudios     = $this->studioAssembler->makeMany($rawStudios);
         $studios        = array_merge($existsStudios, $newStudios);
