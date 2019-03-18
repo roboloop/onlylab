@@ -21,10 +21,10 @@ class ContentDecoder
 
         $encoding = $encoding ?: self::DEFAULT_ENCODING;
 
+        // When debugging, it displays values incorrectly, but reads them correctly.
         return $content;
 
-        return mb_convert_encoding($content, $encoding, self::TO_ENCODING);
-
+        // When debugging, it displays the values normally, but it reads them incorrectly.
         return iconv($encoding, self::TO_ENCODING, $content);
     }
 }
