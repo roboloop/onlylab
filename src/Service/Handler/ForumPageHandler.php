@@ -85,9 +85,9 @@ class ForumPageHandler implements HandlePageInterface
         $topics         = $this->topicService->findByTrackerId($trackerIds);
         $genres         = $this->genreService->findAll();
         $studios        = $this->studioService->findAll();
-        $genresKeyTitle = $this->arrayTransformer->setKeyFromSource($genres, 'title', true);
-        $studiosKeyUrl  = $this->arrayTransformer->setKeyFromSource($studios, 'url', true);
-        $topicsKeyTrackerId = $this->arrayTransformer->setKeyFromSource($topics, 'trackerId', true);
+        $genresKeyTitle = $this->arrayTransformer->setKeyFromSource($genres, 'title');
+        $studiosKeyUrl  = $this->arrayTransformer->setKeyFromSource($studios, 'url');
+        $topicsKeyTrackerId = $this->arrayTransformer->setKeyFromSource($topics, 'trackerId');
 
         $this->filterDtosFromExists($dtos, $topicsKeyTrackerId);
 

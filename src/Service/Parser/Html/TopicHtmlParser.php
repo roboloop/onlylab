@@ -57,7 +57,7 @@ class TopicHtmlParser
             }
         }
 
-        // Getting the posters (All images - (minus) all those under the spoiler)
+        // Getting the posters (All images - (minus) all those under the spoiler). No shit
         foreach ($body->filterXPath('//var[@class="postImg"]') as $image) {
             $images[] = $image->getAttribute('title');
         }
