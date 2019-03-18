@@ -13,6 +13,7 @@ class RawTopicDto
     private $previewImages;
     private $referenceImages;
     private $originalImages;
+    private $otherImages;
 
     public function getTrackerId()
     {
@@ -93,7 +94,11 @@ class RawTopicDto
 
     public function addPreviewImages($previewImages): self
     {
-        $this->previewImages[] = $previewImages;
+        if (is_array($previewImages)) {
+            $this->previewImages = array_merge($this->previewImages, $previewImages);
+        } else {
+            $this->previewImages[] = $previewImages;
+        }
 
         return $this;
     }
@@ -105,7 +110,11 @@ class RawTopicDto
 
     public function addReferenceImages($referenceImages): self
     {
-        $this->referenceImages[] = $referenceImages;
+        if (is_array($referenceImages)) {
+            $this->referenceImages = array_merge($this->referenceImages, $referenceImages);
+        } else {
+            $this->referenceImages[] = $referenceImages;
+        }
 
         return $this;
     }
@@ -117,7 +126,27 @@ class RawTopicDto
 
     public function addOriginalImages($originalImages): self
     {
-        $this->originalImages[] = $originalImages;
+        if (is_array($originalImages)) {
+            $this->originalImages = array_merge($this->originalImages, $originalImages);
+        } else {
+            $this->originalImages[] = $originalImages;
+        }
+
+        return $this;
+    }
+
+    public function getOtherImages()
+    {
+        return $this->otherImages;
+    }
+
+    public function addOtherImages($otherImages): self
+    {
+        if (is_array($otherImages)) {
+            $this->otherImages = array_merge($this->otherImages, $otherImages);
+        } else {
+            $this->otherImages[] = $otherImages;
+        }
 
         return $this;
     }
