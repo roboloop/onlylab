@@ -4,7 +4,9 @@ namespace App\Constant;
 
 class ImageType
 {
-    const PREVIEW       = 1;
+    const POSTER        = 1;
     const SCREENSHOT    = 2;
-    const SCREENLIST    = 3;
+    const SCREENLISTING = 3;
+    const GIF           = 4;
+    const OTHER         = 5;
 }
