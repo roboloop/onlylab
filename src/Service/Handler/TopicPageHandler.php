@@ -37,7 +37,7 @@ class TopicPageHandler implements HandlePageInterface
             $this->contentDecoder->decode($content)
         );
 
-        $dto = $this->topicHtmlParser->pics($content);
+        $dto = $this->topicHtmlParser->rawTopic($content);
 
         return $this->entireTopicAssembler->makeEntire($dto);
     }

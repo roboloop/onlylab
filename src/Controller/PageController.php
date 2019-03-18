@@ -23,13 +23,15 @@ class PageController extends BaseController
         // $response = $client->get('/forum/viewforum.php?f=7133');
         // $content = $response->getBody()->getContents();
 
-        $content = file_get_contents('../examples/forum_page.html');
+        // $content = file_get_contents('../examples/forum_page.html');
         // $content = file_get_contents('../examples/topic_page.html');
+        // $content = file_get_contents('../examples/topic_page.html');
+        $content = file_get_contents('../examples/dum.html');
 
-        $result = $forumPageWorker->handleAuth($content);
+        // $result = $forumPageWorker->handleAuth($content);
 
-        $this->transaction($result);
-        // $result = $topicPageWorker->work($content);
+        // $this->transaction($result);
+        $result = $topicPageWorker->handleAuth($content);
 
         return $this->json(['Good']);
     }
