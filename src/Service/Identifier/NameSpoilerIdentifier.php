@@ -2,6 +2,8 @@
 
 namespace App\Service\Identifier;
 
+use App\Constant\ImageType;
+
 class NameSpoilerIdentifier
 {
     private $screenshotNames = [
@@ -44,5 +46,27 @@ class NameSpoilerIdentifier
         }
 
         return false;
+    }
+
+    /**
+     * Identify type of image relying of spoiler header
+     *
+     * @param string $header
+     *
+     * @return int
+     */
+    public function identifyType(string $header)
+    {
+        if ($this->isScreenshots($header)) {
+            $type = ImageType::SCREENSHOT;
+        } elseif ($this->isScreenListing($header)) {
+            $type = ImageType::SCREENLISTING;
+        } elseif ($this->isGif($header)) {
+            $type = ImageType::GIF;
+        } else {
+            $type = ImageType::OTHER;
+        }
+
+        return $type;
     }
 }
