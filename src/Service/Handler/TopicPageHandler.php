@@ -47,12 +47,12 @@ class TopicPageHandler implements HandlePageInterface
         $dto = $this->topicHtmlParser->rawImagesDto($content);
 
         // Convert raw data to entity containing parsed data (title, year, quality, etc.)
-        $topic = $this->makeTopic($dto);
+        $topic = $this->makeWholeTopic($dto);
 
         return $topic;
     }
 
-    private function makeReview(RawTopicDto $dto, array $allGenres, array $allStudios)
+    private function makeWholeTopic(RawTopicDto $dto, array $allGenres, array $allStudios)
     {
         return $this->topicMaker->makeTopic($dto, $allGenres, $allStudios);
     }
@@ -63,10 +63,5 @@ class TopicPageHandler implements HandlePageInterface
     public function handleNoAuth(string $content)
     {
         return $this->handleAuth($content);
-    }
-
-    private function makeManyImages(array $dtos)
-    {
-
     }
 }

@@ -6,7 +6,6 @@ use App\Constant\ImageType;
 use App\Dto\ImageDto;
 use App\Service\Identifier\NameSpoilerIdentifier;
 use Closure;
-use DOMElement;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TopicHtmlParser

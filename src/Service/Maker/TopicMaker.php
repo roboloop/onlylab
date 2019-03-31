@@ -43,20 +43,29 @@ class TopicMaker
      */
     public function makeTopic(RawTopicDto $dto, array $allGenres, array $allStudios)
     {
+        // Collecting genres
         $rawGenres      = $this->titleProcessor->rawGenresFromTitle($dto->getRawTitle());
         $existsGenres   = $this->titleProcessor->existsFromRaw($allGenres, $rawGenres);
         $newGenres      = $this->genreAssembler->makeMany($rawGenres);
         $genres         = array_merge($existsGenres, $newGenres);
 
+        // Collecting studious
         $rawStudios     = $this->titleProcessor->rawStudiosFromTitle($dto->getRawTitle());
         $existsStudios  = $this->titleProcessor->existsFromRaw($allStudios, $rawStudios);
         $newStudios     = $this->studioAssembler->makeMany($rawStudios);
         $studios        = array_merge($existsStudios, $newStudios);
 
+        // Preparing images
+
+        // Filtering images
+
+        // Building object
         $topic = $this->topicAssembler->make($dto);
 
+        // Adding associations
         $this->addGenres($topic, $genres);
         $this->addStudios($topic, $studios);
+        $this->addImages($topic, $images);
 
         return $topic;
     }
@@ -72,6 +81,13 @@ class TopicMaker
     {
         array_walk($studios, function ($studio) use ($topic) {
             $topic->addStudio($studio);
+        });
+    }
+
+    private function addImages(Topic $topic, array $images)
+    {
+        array_walk($images, function ($image) use ($topic) {
+            $topic->addImage($image);
         });
     }
 }
