@@ -51,6 +51,11 @@ class Image
      */
     private $topic;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isBanner = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,6 +129,18 @@ class Image
     public function setTopic(?Topic $topic): self
     {
         $this->topic = $topic;
+
+        return $this;
+    }
+
+    public function getIsBanner(): ?bool
+    {
+        return $this->isBanner;
+    }
+
+    public function setIsBanner(bool $isBanner): self
+    {
+        $this->isBanner = $isBanner;
 
         return $this;
     }
