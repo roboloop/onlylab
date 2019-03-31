@@ -5,6 +5,8 @@ namespace App\Service\Parser\Html;
 use App\Constant\ImageType;
 use App\Dto\ImageDto;
 use App\Service\Identifier\NameSpoilerIdentifier;
+use Closure;
+use DOMElement;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TopicHtmlParser
@@ -16,7 +18,7 @@ class TopicHtmlParser
         $this->spoilerIdentifier = $spoilerIdentifier;
     }
 
-    public function rawTopic(string $content)
+    public function rawImagesDto(string $content)
     {
         $crawler = new Crawler($content);
         $body = $crawler->filterXPath(
@@ -25,50 +27,112 @@ class TopicHtmlParser
             '//div[@id="page_content"]//table[@class="topic"]//tbody[contains(@id, "post_")][1]//div[@class="post_body"]'
         );
 
-        // Getting spoilers
-        $spoilers = $body->filterXPath('//div[@class="sp-wrap"]');
+        // Images are from under spoilers
+        $imagesDto[] = $this->underSpoiler($body);
 
-        $count = $spoilers->count();
+        // Images are posters
+        $imagesDto[] = $this->posters($body);
+
+        return array_merge(...$imagesDto);
+    }
+
+    protected function underSpoiler(Crawler $body)
+    {
+        // Get all the spoilers
+        $spoilers   = $body->filterXPath('//div[@class="sp-wrap"]');
+        $count      = $spoilers->count();
+
+        // Iterate over all spoilers
         for ($i = 0; $i < $count; $i++) {
             $node = $spoilers->eq($i);
             $header = $node->first()->getNode(0)->nodeValue;
             $vars = $node->filterXPath('//var[@class="postImg"]');
 
-            if ($this->spoilerIdentifier->isScreenshots($header)) {
-                $type = ImageType::SCREENSHOT;
-            } elseif ($this->spoilerIdentifier->isScreenListing($header)) {
-                $type = ImageType::SCREENLISTING;
-            } elseif ($this->spoilerIdentifier->isGif($header)) {
-                $type = ImageType::GIF;
-            } else {
-                $type = ImageType::OTHER;
+            $imagesDto[] = $this->setType(
+                $vars->each(Closure::fromCallable([$this, 'rawImageDto'])),
+                $this->spoilerIdentifier->identifyType($header)
+            );
+        }
+
+        // To plain array
+        return array_merge(...$imagesDto ?? [[]]);
+    }
+
+    protected function posters(Crawler $body)
+    {
+        // Get all images
+        $crawlerImages = $body->filterXPath('//var[@class="postImg"]');
+
+        // Everything that is not under the spoiler is a poster
+        // Banner filtering will be done later
+        $filtered = $crawlerImages->reduce(Closure::fromCallable([$this, 'excludeUnderSpoiler']));
+
+        return $this->setType(
+            $filtered->each(Closure::fromCallable([$this, 'rawImageDto'])),
+            ImageType::POSTER
+        );
+    }
+
+    protected function rawImageDto(Crawler $imageCrawler)
+    {
+        // Getting the closest top parent. Taking a reference to the original.
+        $urlToOriginal = $imageCrawler->parents()->getNode(0)->getAttribute('href');
+        // Getting a direct link to the preview
+        $directUrlToPreview = $imageCrawler->getNode(0)->getAttribute('title');
+
+        // If there is no link to the original, then the preview is the original
+        if ('' === $urlToOriginal) {
+            $directUrlToOriginal = $directUrlToPreview;
+        }
+
+        return (new ImageDto())
+            ->setUrlOriginal($urlToOriginal)
+            ->setDirectUrlOriginal($directUrlToOriginal ?? null)
+            ->setDirectUrlPreview($directUrlToPreview);
+    }
+
+    /**
+     * Add an image type to an image group
+     *
+     * @param ImageDto[] $imagesDto
+     * @param int        $type
+     *
+     * @return \App\Dto\ImageDto[]|array
+     */
+    private function setType(array $imagesDto, int $type)
+    {
+        array_walk($imagesDto, function (&$imageDto) use ($type) {
+            /** @var $imageDto ImageDto */
+            $imageDto->setType($type);
+        });
+
+        return $imagesDto;
+    }
+
+    /**
+     * Exclude all images below the spoiler.
+     *
+     * @param \Symfony\Component\DomCrawler\Crawler $node
+     *
+     * @return bool
+     */
+    private function excludeUnderSpoiler(Crawler $node)
+    {
+        $parents = $node->parents();
+        $count = $parents->count();
+        $include = true;
+        for ($i = 0; $i < $count; $i++) {
+            $class = $parents->getNode($i)->getAttribute('class');
+            if ($class === 'sp-wrap') {
+                $include = false;
+                break;
             }
 
-            foreach ($vars as $var) {
-                $href = $var->parentNode->getAttribute('href');
-                if (empty($href)) {
-                    // TODO: If there is no original, then the preview is most likely the original
-                }
-                $underSpoilers[] = $var->getAttribute('title');
-                $urls[] = (new ImageDto())
-                    ->setUrlOriginal($href)
-                    ->setUrlPreview($var->getAttribute('title'))
-                    ->setType($type);
+            if ($class === 'post_body') {
+                break;
             }
         }
 
-        // Getting the posters (All images - (minus) all those under the spoiler). No shit
-        foreach ($body->filterXPath('//var[@class="postImg"]') as $image) {
-            $images[] = $image->getAttribute('title');
-        }
-
-        $posters = array_diff($images ?? [], $underSpoilers ?? []);
-        foreach ($posters as $poster) {
-            $urls[] = (new ImageDto())
-                ->setUrlPreview($poster)
-                ->setType(ImageType::POSTER);
-        }
-
-        return $urls ?? [];
+        return $include;
     }
 }
