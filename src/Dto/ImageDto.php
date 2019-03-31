@@ -4,6 +4,8 @@ namespace App\Dto;
 
 class ImageDto
 {
+    private $directUrlPreview;
+    private $directUrlOriginal;
     private $urlPreview;
     private $urlOriginal;
     private $type;
@@ -40,6 +42,30 @@ class ImageDto
     public function setType($type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getDirectUrlPreview()
+    {
+        return $this->directUrlPreview;
+    }
+
+    public function setDirectUrlPreview($directUrlPreview): self
+    {
+        $this->directUrlPreview = $directUrlPreview;
+
+        return $this;
+    }
+
+    public function getDirectUrlOriginal()
+    {
+        return $this->directUrlOriginal;
+    }
+
+    public function setDirectUrlOriginal($directUrlOriginal): self
+    {
+        $this->directUrlOriginal = $directUrlOriginal;
 
         return $this;
     }
