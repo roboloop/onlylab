@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     dump_path: '%kernel.project_dir%/dump'
+    base_url: '%env(resolve:DATABASE_URL)%'
 
 services:
     # default configuration for services in *this* file
@@ -54,3 +55,13 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
         public: true
+
+    # Sanitizer
+    app.service.sanitizer.html_sanitizer:
+        class: App\Service\Sanitizer\HtmlSanitizer
+
+    App\Contract\Service\Sanitizer\SanitizerInterface: '@app.service.sanitizer.html_sanitizer'
+
+    app.service.sanitizer.cached_sanitizer:
+        class: App\Service\Sanitizer\CachedSanitizer
+        decorates: app.service.sanitizer.html_sanitizer
