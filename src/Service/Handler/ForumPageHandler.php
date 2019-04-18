@@ -3,16 +3,15 @@
 namespace App\Service\Handler;
 
 use App\Contract\Service\HandlePageInterface;
+use App\Contract\Service\Sanitizer\SanitizerInterface;
 use App\Dto\RawTopicDto;
 use App\Service\GenreService;
-use App\Service\TrackerIdCollector;
+use App\Service\Collector\TrackerIdCollector;
 use App\Service\Maker\TopicMaker;
 use App\Service\Parser\Html\ForumHtmlParser;
 use App\Service\StudioService;
 use App\Service\TopicService;
 use App\Service\Transformer\ArrayTransformer;
-use App\Service\Transformer\ContentDecoder;
-use App\Service\Transformer\TextCleaner;
 
 /**
  * Forum page handler
@@ -21,8 +20,7 @@ use App\Service\Transformer\TextCleaner;
  */
 class ForumPageHandler implements HandlePageInterface
 {
-    private $contentDecoder;
-    private $textCleaner;
+    private $sanitizer;
     private $forumHtmlParser;
     private $genreService;
     private $arrayTransformer;
@@ -32,8 +30,7 @@ class ForumPageHandler implements HandlePageInterface
     private $trackerIdCollector;
 
     public function __construct(
-        ContentDecoder $contentDecoder,
-        TextCleaner $textCleaner,
+        SanitizerInterface $sanitizer,
         ForumHtmlParser $forumHtmlParser,
         GenreService $genreService,
         StudioService $studioService,
@@ -42,8 +39,7 @@ class ForumPageHandler implements HandlePageInterface
         TopicMaker $topicMaker,
         TrackerIdCollector $trackerIdCollector
     ) {
-        $this->contentDecoder       = $contentDecoder;
-        $this->textCleaner          = $textCleaner;
+        $this->sanitizer            = $sanitizer;
         $this->forumHtmlParser      = $forumHtmlParser;
         $this->genreService         = $genreService;
         $this->studioService        = $studioService;
@@ -54,14 +50,12 @@ class ForumPageHandler implements HandlePageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handleAuth(string $content)
     {
         // Prepare input string to processing.
-        $content = $this->textCleaner->clearWhitespaces(
-            $this->contentDecoder->decode($content)
-        );
+        $content = $this->sanitizer->sanitize($content);
 
         // Convert html to array of entities containing raw data (id, whole title, size, etc.)
         $dtos = $this->forumHtmlParser->forumLinesDto($content);
@@ -136,11 +130,39 @@ class ForumPageHandler implements HandlePageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handleNoAuth(string $content)
     {
         // Versions are identical
         return $this->handleAuth($content);
+    }
+
+    /**
+     * This is the last page
+     *
+     * @param string $content
+     *
+     * @return bool
+     */
+    public function isLast(string $content)
+    {
+        list($current, $max) = $this->pageIs($content);
+
+        return $current === $max;
+    }
+
+    /**
+     * Returns the current page number and the maximum
+     *
+     * @param string $content
+     *
+     * @return array
+     */
+    public function pageIs(string $content)
+    {
+        $content = $this->sanitizer->sanitize($content);
+
+        return $this->forumHtmlParser->pages($content);
     }
 }
