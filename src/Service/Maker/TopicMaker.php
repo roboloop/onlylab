@@ -65,7 +65,7 @@ class TopicMaker
         // Adding associations
         $this->addGenres($topic, $genres);
         $this->addStudios($topic, $studios);
-        $this->addImages($topic, $images);
+        // $this->addImages($topic, $images);
 
         return $topic;
     }
