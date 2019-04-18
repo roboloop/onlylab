@@ -62,4 +62,20 @@ class ForumHtmlParser
             ->setAuthorId($authorId)
             ->setAuthorName($authorName);
     }
+
+    public function pages(string $content)
+    {
+        $crawler = new Crawler($content);
+
+        $node = $crawler->filterXPath('//div[@id="pagination"]/p');
+        $value = $node->getNode(0)->nodeValue;
+
+        preg_match('~(\d+)\D+(\d+)~', $value, $matches);
+
+        if (isset($matches[1]) and isset($matches[2])) {
+            return [(int) $matches[1], (int) $matches[2]];
+        }
+
+        return [null, null];
+    }
 }
