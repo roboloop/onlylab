@@ -23,4 +23,11 @@ class TopicService implements TopicServiceInterface
     {
         return $this->topicRepository->findBy(['trackerId' => $ids]);
     }
+
+    public function findExistsTrackerIds(array $ids)
+    {
+        $existsIds = $this->topicRepository->findExistsTrackerIds($ids);
+
+        return array_values(array_column($existsIds, 'id'));
+    }
 }

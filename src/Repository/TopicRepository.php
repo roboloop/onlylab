@@ -18,4 +18,17 @@ class TopicRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Topic::class);
     }
+
+    public function findExistsTrackerIds(array $ids)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('t.trackerId AS id')
+            ->from($this->_entityName, 't')
+            ->where('t.trackerId IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        $query = $qb->getQuery();
+
+        return $query->getScalarResult();
+    }
 }
