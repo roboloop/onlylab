@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Client\TrackerClient;
 use App\Service\Handler\ForumPageHandler;
 use App\Service\Handler\TopicPageHandler;
+use App\Service\Script\CombForum;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends BaseController
@@ -18,20 +19,24 @@ class PageController extends BaseController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function page(TrackerClient $client, ForumPageHandler $forumPageWorker, TopicPageHandler $topicPageWorker)
+    public function page(CombForum $combForum, TrackerClient $client, ForumPageHandler $forumPageWorker, TopicPageHandler $topicPageWorker)
     {
+        $combForum->execute(2007);
+
+
         // $response = $client->get('/forum/viewforum.php?f=7133');
         // $content = $response->getBody()->getContents();
 
         // $content = file_get_contents('../examples/forum_page.html');
         // $content = file_get_contents('../examples/topic_page.html');
         // $content = file_get_contents('../examples/topic_page.html');
-        $content = file_get_contents('../examples/dum.html');
+        // $content = file_get_contents('../examples/dum.html');
 
+        // $result = $forumPageWorker->pageIs($content);
         // $result = $forumPageWorker->handleAuth($content);
 
         // $this->transaction($result);
-        $result = $topicPageWorker->handleAuth($content);
+        // $result = $topicPageWorker->handleAuth($content);
 
         return $this->json(['Good']);
     }
