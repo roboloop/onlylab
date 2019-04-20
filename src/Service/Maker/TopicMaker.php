@@ -7,6 +7,8 @@ use App\Entity\Topic;
 use App\Service\Assembler\GenreAssembler;
 use App\Service\Assembler\StudioAssembler;
 use App\Service\Assembler\TopicAssembler;
+use App\Service\Collection\GenreCollection;
+use App\Service\Collection\StudioCollection;
 use App\Service\Processor\TitleProcessor;
 use App\Service\Transformer\ArrayTransformer;
 
@@ -17,41 +19,45 @@ class TopicMaker
     private $studioAssembler;
     private $topicAssembler;
     private $arrayTransformer;
+    private $genreCollection;
+    private $studioCollection;
 
     public function __construct(
         TitleProcessor $titleProcessor,
         GenreAssembler $genreAssembler,
         StudioAssembler $studioAssembler,
         TopicAssembler $topicAssembler,
-        ArrayTransformer $arrayTransformer
+        ArrayTransformer $arrayTransformer,
+        GenreCollection $genreCollection,
+        StudioCollection $studioCollection
     ) {
         $this->titleProcessor   = $titleProcessor;
         $this->genreAssembler   = $genreAssembler;
         $this->studioAssembler  = $studioAssembler;
         $this->topicAssembler   = $topicAssembler;
         $this->arrayTransformer = $arrayTransformer;
+        $this->genreCollection  = $genreCollection;
+        $this->studioCollection = $studioCollection;
     }
 
     /**
      * Create a topic from raw values, existing genres and studios are passed on for processing
      *
      * @param \App\Dto\RawTopicDto $dto
-     * @param array                $allGenres
-     * @param array                $allStudios
      *
      * @return \App\Entity\Topic
      */
-    public function makeTopic(RawTopicDto $dto, array $allGenres, array $allStudios)
+    public function makeTopic(RawTopicDto $dto)
     {
         // Collecting genres
         $rawGenres      = $this->titleProcessor->rawGenresFromTitle($dto->getRawTitle());
-        $existsGenres   = $this->titleProcessor->existsFromRaw($allGenres, $rawGenres);
+        $existsGenres   = $this->genreCollection->intersectWithRawData($rawGenres);
         $newGenres      = $this->genreAssembler->makeMany($rawGenres);
         $genres         = array_merge($existsGenres, $newGenres);
 
         // Collecting studious
         $rawStudios     = $this->titleProcessor->rawStudiosFromTitle($dto->getRawTitle());
-        $existsStudios  = $this->titleProcessor->existsFromRaw($allStudios, $rawStudios);
+        $existsStudios  = $this->studioCollection->intersectWithRawData($rawStudios);
         $newStudios     = $this->studioAssembler->makeMany($rawStudios);
         $studios        = array_merge($existsStudios, $newStudios);
 
@@ -66,6 +72,9 @@ class TopicMaker
         $this->addGenres($topic, $genres);
         $this->addStudios($topic, $studios);
         // $this->addImages($topic, $images);
+
+        $this->genreCollection->addMany($newGenres);
+        $this->studioCollection->addMany($newStudios);
 
         return $topic;
     }

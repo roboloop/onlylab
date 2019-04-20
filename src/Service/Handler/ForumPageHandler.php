@@ -22,9 +22,7 @@ class ForumPageHandler implements HandlePageInterface
 {
     private $sanitizer;
     private $forumHtmlParser;
-    private $genreService;
     private $arrayTransformer;
-    private $studioService;
     private $topicMaker;
     private $topicService;
     private $trackerIdCollector;
@@ -32,8 +30,6 @@ class ForumPageHandler implements HandlePageInterface
     public function __construct(
         SanitizerInterface $sanitizer,
         ForumHtmlParser $forumHtmlParser,
-        GenreService $genreService,
-        StudioService $studioService,
         TopicService $topicService,
         ArrayTransformer $arrayTransformer,
         TopicMaker $topicMaker,
@@ -41,8 +37,6 @@ class ForumPageHandler implements HandlePageInterface
     ) {
         $this->sanitizer            = $sanitizer;
         $this->forumHtmlParser      = $forumHtmlParser;
-        $this->genreService         = $genreService;
-        $this->studioService        = $studioService;
         $this->arrayTransformer     = $arrayTransformer;
         $this->topicService         = $topicService;
         $this->topicMaker           = $topicMaker;
@@ -77,30 +71,24 @@ class ForumPageHandler implements HandlePageInterface
     {
         $trackerIds         = $this->trackerIdCollector->collect($dtos);
         $topics         = $this->topicService->findByTrackerId($trackerIds);
-        $genres         = $this->genreService->findAll();
-        $studios        = $this->studioService->findAll();
-        $genresKeyTitle = $this->arrayTransformer->setKeyFromSource($genres, 'title');
-        $studiosKeyUrl  = $this->arrayTransformer->setKeyFromSource($studios, 'url');
         $topicsKeyTrackerId = $this->arrayTransformer->setKeyFromSource($topics, 'trackerId');
 
         $this->filterDtosFromExists($dtos, $topicsKeyTrackerId);
 
-        return $this->makeManyReviews($dtos, $genresKeyTitle, $studiosKeyUrl);
+        return $this->makeManyReviews($dtos);
     }
 
     /**
      * Create multiple topics featuring existing genres and studios
      *
      * @param array $dtos
-     * @param array $allGenres
-     * @param array $allStudios
      *
      * @return array
      */
-    private function makeManyReviews(array $dtos, array $allGenres, array $allStudios)
+    private function makeManyReviews(array $dtos)
     {
         foreach ($dtos as $dto) {
-            $topics[] = $this->makeReview($dto, $allGenres, $allStudios);
+            $topics[] = $this->makeReview($dto);
         }
 
         return $topics ?? [];
@@ -110,14 +98,12 @@ class ForumPageHandler implements HandlePageInterface
      * Create a topic with a list of existing genres and studios
      *
      * @param \App\Dto\RawTopicDto $dto
-     * @param array                $allGenres
-     * @param array                $allStudios
      *
      * @return \App\Entity\Topic
      */
-    private function makeReview(RawTopicDto $dto, array $allGenres, array $allStudios)
+    private function makeReview(RawTopicDto $dto)
     {
-        return $this->topicMaker->makeTopic($dto, $allGenres, $allStudios);
+        return $this->topicMaker->makeTopic($dto);
     }
 
     private function filterDtosFromExists(array &$dtos, array $topicsKeyTrackerId)
