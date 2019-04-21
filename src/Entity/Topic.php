@@ -53,7 +53,7 @@ class Topic
     private $trackerId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="topics")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="topics", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $forum;
