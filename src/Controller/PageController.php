@@ -9,6 +9,8 @@ use App\Service\Collection\GenreCollection;
 use App\Service\Handler\ForumPageHandler;
 use App\Service\Handler\TopicPageHandler;
 use App\Service\Script\CombForum;
+use App\Service\Script\CombTopic;
+use App\Service\UrlConverter\ImageUrlConverter;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Query\Expr\Andx;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,9 +26,10 @@ class PageController extends BaseController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function page(CombForum $combForum, TrackerClient $client, ForumPageHandler $forumPageWorker, TopicPageHandler $topicPageWorker, GenreCollection $genreCollection)
+    public function page(CombForum $combForum, CombTopic $combTopic)
     {
         $combForum->execute(2007);
+        $combTopic->execute(2505688);
 
         // $response = $client->get('/forum/viewforum.php?f=7133');
         // $content = $response->getBody()->getContents();
