@@ -52,7 +52,7 @@ class ForumPageHandler implements HandlePageInterface
         $content = $this->sanitizer->sanitize($content);
 
         // Convert html to array of entities containing raw data (id, whole title, size, etc.)
-        $dtos = $this->forumHtmlParser->forumLinesDto($content);
+        $dtos = $this->forumHtmlParser->rawParticleTopicDto($content);
 
         // Convert raw data to array of entities containing parsed data (title, year, quality, etc.)
         $topics = $this->makeManyTopics($dtos);

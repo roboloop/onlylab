@@ -24,6 +24,41 @@ class ForumHtmlParser
         $this->qualityParser    = $qualityParser;
     }
 
+    public function rawParticleTopicDto(string $content)
+    {
+        $entities = $this->forumLinesDto($content);
+
+        $forumId = $this->forumId($content);
+        $forumTitle = $this->forumTitle($content);
+
+        foreach ($entities as $entity) {
+            $entity->setForumId($forumId);
+            $entity->setForumTitle($forumTitle);
+        }
+
+        return $entities;
+    }
+
+    public function forumId(string $content)
+    {
+        $crawler    = new Crawler($content);
+        $body       = $crawler->filterXPath('//table//h1[@class="maintitle"]/a');
+        $href       = $body->attr('href');
+
+        preg_match('~f=(\d+)~', $href, $matches);
+
+        return isset($matches[1]) ? (int) $matches[1] : null;
+    }
+
+    public function forumTitle(string $content)
+    {
+        $crawler    = new Crawler($content);
+        $body       = $crawler->filterXPath('//table//h1[@class="maintitle"]/a');
+        $forumTitle = $body->getNode(0)->nodeValue;
+
+        return $forumTitle;
+    }
+
     public function forumLinesDto(string $content)
     {
         $crawler = new Crawler($content);
