@@ -5,15 +5,14 @@ namespace App\Dto;
 class RawTopicDto
 {
     private $trackerId;
+    private $forumId;
+    private $forumTitle;
     private $rawTitle;
     private $size;
     private $trackerCreatedAt;
     private $authorId;
     private $authorName;
-    private $previewImages;
-    private $referenceImages;
-    private $originalImages;
-    private $otherImages;
+    private $images = [];
 
     public function getTrackerId()
     {
@@ -24,6 +23,30 @@ class RawTopicDto
     {
         $this->trackerId = $trackerId;
         
+        return $this;
+    }
+
+    public function getForumId()
+    {
+        return $this->forumId;
+    }
+
+    public function setForumId($forumId): self
+    {
+        $this->forumId = $forumId;
+
+        return $this;
+    }
+
+    public function getForumTitle()
+    {
+        return $this->forumTitle;
+    }
+
+    public function setForumTitle($forumTitle): self
+    {
+        $this->forumTitle = $forumTitle;
+
         return $this;
     }
 
@@ -87,65 +110,17 @@ class RawTopicDto
         return $this;
     }
 
-    public function getPreviewImages()
+    public function getImages()
     {
-        return $this->previewImages;
+        return $this->images;
     }
 
-    public function addPreviewImages($previewImages): self
+    public function addImages($images): self
     {
-        if (is_array($previewImages)) {
-            $this->previewImages = array_merge($this->previewImages, $previewImages);
+        if (is_array($images)) {
+            $this->images = array_merge($this->images, $images);
         } else {
-            $this->previewImages[] = $previewImages;
-        }
-
-        return $this;
-    }
-
-    public function getReferenceImages()
-    {
-        return $this->referenceImages;
-    }
-
-    public function addReferenceImages($referenceImages): self
-    {
-        if (is_array($referenceImages)) {
-            $this->referenceImages = array_merge($this->referenceImages, $referenceImages);
-        } else {
-            $this->referenceImages[] = $referenceImages;
-        }
-
-        return $this;
-    }
-
-    public function getOriginalImages()
-    {
-        return $this->originalImages;
-    }
-
-    public function addOriginalImages($originalImages): self
-    {
-        if (is_array($originalImages)) {
-            $this->originalImages = array_merge($this->originalImages, $originalImages);
-        } else {
-            $this->originalImages[] = $originalImages;
-        }
-
-        return $this;
-    }
-
-    public function getOtherImages()
-    {
-        return $this->otherImages;
-    }
-
-    public function addOtherImages($otherImages): self
-    {
-        if (is_array($otherImages)) {
-            $this->otherImages = array_merge($this->otherImages, $otherImages);
-        } else {
-            $this->otherImages[] = $otherImages;
+            $this->images[] = $images;
         }
 
         return $this;
