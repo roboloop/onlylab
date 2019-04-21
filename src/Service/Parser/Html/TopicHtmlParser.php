@@ -4,6 +4,7 @@ namespace App\Service\Parser\Html;
 
 use App\Constant\ImageType;
 use App\Dto\ImageDto;
+use App\Dto\RawTopicDto;
 use App\Service\Identifier\NameSpoilerIdentifier;
 use Closure;
 use Symfony\Component\DomCrawler\Crawler;
@@ -15,6 +16,72 @@ class TopicHtmlParser
     public function __construct(NameSpoilerIdentifier $spoilerIdentifier)
     {
         $this->spoilerIdentifier = $spoilerIdentifier;
+    }
+
+    public function rawTopicDto(string $content)
+    {
+        $rawTitle   = $this->rawTitle($content);
+        $trackerId      = $this->trackerId($content);
+        $size       = $this->size($content);
+        $imagesDto  = $this->rawImagesDto($content);
+        $forumId    = $this->forumId($content);
+        $forumTitle = $this->forumTitle($content);
+
+        return (new RawTopicDto)
+            ->setTrackerId($trackerId)
+            ->setRawTitle($rawTitle)
+            ->setSize($size)
+            ->addImages($imagesDto)
+            ->setForumId($forumId)
+            ->setForumTitle($forumTitle);
+    }
+
+    public function forumId(string $content)
+    {
+        $crawler    = new Crawler($content);
+        $body       = $crawler->filterXPath('//div[@id="main_content_wrap"]/table/tr/td/table/tr/td/a');
+        $href       = $body->last()->getNode(0)->getAttribute('href');
+
+        preg_match('~f=(\d+)~', $href, $matches);
+
+        return isset($matches[1]) ? (int) $matches[1] : null;
+    }
+
+    public function forumTitle(string $content)
+    {
+        $crawler    = new Crawler($content);
+        $body       = $crawler->filterXPath('//div[@id="main_content_wrap"]/table/tr/td/table/tr/td/a');
+        $text       = $body->last()->getNode(0)->nodeValue;
+
+        return $text;
+    }
+
+    public function rawTitle(string $content)
+    {
+        $crawler    = new Crawler($content);
+        $body       = $crawler->filterXPath('//table//h1[@class="maintitle"]/a');
+        $rawTitle   = $body->getNode(0)->nodeValue;
+
+        return $rawTitle;
+    }
+
+    public function trackerId(string $content)
+    {
+        $crawler    = new Crawler($content);
+        $body       = $crawler->filterXPath('//table//h1[@class="maintitle"]/a');
+        preg_match('~t=(\d+)~', $body->getNode(0)->getAttribute('href'), $matches);
+        $trackerId      = (int) $matches[1];
+
+        return $trackerId;
+    }
+
+    public function size(string $content)
+    {
+        $crawler    = new Crawler($content);
+        $body       = $crawler->filterXPath('//table[@class="attach bordered med"]/tr');
+        $size       = $body->getNode(4)->lastChild->nodeValue ?? null;
+
+        return $size;
     }
 
     public function rawImagesDto(string $content)
