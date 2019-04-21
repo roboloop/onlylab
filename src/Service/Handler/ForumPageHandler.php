@@ -5,11 +5,9 @@ namespace App\Service\Handler;
 use App\Contract\Service\HandlePageInterface;
 use App\Contract\Service\Sanitizer\SanitizerInterface;
 use App\Dto\RawTopicDto;
-use App\Service\GenreService;
 use App\Service\Collector\TrackerIdCollector;
 use App\Service\Maker\TopicMaker;
 use App\Service\Parser\Html\ForumHtmlParser;
-use App\Service\StudioService;
 use App\Service\TopicService;
 use App\Service\Transformer\ArrayTransformer;
 

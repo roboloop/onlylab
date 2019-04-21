@@ -2,55 +2,15 @@
 
 namespace App\Service;
 
-use App\Service\Assembler\GenreAssembler;
 use App\Repository\GenreRepository;
 
 class GenreService
 {
     private $genreRepository;
-    private $genreAssembler;
-    private $titleParser;
 
-    public function __construct(
-        GenreRepository $genreRepository,
-        GenreAssembler $genreAssembler,
-        TitleParserService $titleParser
-    ) {
+    public function __construct(GenreRepository $genreRepository)
+    {
         $this->genreRepository  = $genreRepository;
-        $this->genreAssembler   = $genreAssembler;
-        $this->titleParser      = $titleParser;
-    }
-
-    public function genresFromTitle(string $title)
-    {
-        $genres = $this->titleParser->getGenres($title);
-
-        return $this->genresFromArray($genres);
-    }
-
-    public function genresFromArray(array $titles)
-    {
-        $existsGenres = $this->existsByTitle($titles);
-        $existsTitles = array_map(function ($genre) {
-            /** @var \App\Entity\Genre $genre */
-            return mb_strtolower($genre->getTitle());
-        }, $existsGenres);
-
-        $toCreate = array_filter($titles, function ($title) use ($existsTitles) {
-            return !in_array(mb_strtolower($title), $existsTitles, true);
-        });
-
-        $newGenres = $this->genreAssembler->make($toCreate);
-
-        return array_merge($existsGenres, $newGenres);
-    }
-
-    public function existsByTitle(array $titles)
-    {
-        if (empty($titles))
-            return [];
-
-        return $this->genreRepository->existsByTitle($titles);
     }
 
     public function findAll()

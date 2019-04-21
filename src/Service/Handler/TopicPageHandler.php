@@ -5,12 +5,8 @@ namespace App\Service\Handler;
 use App\Contract\Service\HandlePageInterface;
 use App\Contract\Service\Sanitizer\SanitizerInterface;
 use App\Dto\RawTopicDto;
-use App\Service\Assembler\EntireTopicAssembler;
 use App\Service\Maker\TopicMaker;
-use App\Service\Parser\Html\ForumHtmlParser;
 use App\Service\Parser\Html\TopicHtmlParser;
-use App\Service\Transformer\ContentDecoder;
-use App\Service\Transformer\TextCleaner;
 
 class TopicPageHandler implements HandlePageInterface
 {
@@ -22,12 +18,10 @@ class TopicPageHandler implements HandlePageInterface
     public function __construct(
         SanitizerInterface $sanitizer,
         TopicHtmlParser $topicHtmlParser,
-        EntireTopicAssembler $entireTopicAssembler,
         TopicMaker $topicMaker
     ) {
         $this->sanitizer            = $sanitizer;
         $this->topicHtmlParser      = $topicHtmlParser;
-        $this->entireTopicAssembler = $entireTopicAssembler;
         $this->topicMaker           = $topicMaker;
     }
 
