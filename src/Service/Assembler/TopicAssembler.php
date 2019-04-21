@@ -30,7 +30,8 @@ class TopicAssembler
         $trackerId      = $dto->getTrackerId();
         $quality    = $this->titleParser->getQuality($dto->getRawTitle());
         $year       = $this->titleParser->getYear($dto->getRawTitle());
-        $size       = $this->sizeParser->parse($dto->getSize());
+        // TODO: What to do if there is no size.
+        $size       = $this->sizeParser->parse($dto->getSize() ?? '');
         $title      = $this->titleParser->getOriginalTitle($dto->getRawTitle());
 
         return ($topic = new Topic())
