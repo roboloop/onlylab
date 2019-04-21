@@ -2,35 +2,33 @@
 
 namespace App\Service\Assembler;
 
-use App\Bag\Bag;
+use App\Dto\ImageDto;
 use App\Entity\Image;
-use App\Validator\ImageBagValidator;
 
 class ImageAssembler
 {
-    /** @var \App\Validator\ImageBagValidator */
-    private $bagValidator;
-
-    public function __construct(ImageBagValidator $bagValidator)
+    public function make(ImageDto $dto)
     {
-        $this->bagValidator = $bagValidator;
+        $directUrlOriginal  = $this->sanitize($dto->getDirectUrlOriginal());
+        $directUrlPreview   = $this->sanitize($dto->getDirectUrlPreview());
+        $urlOriginal        = $this->sanitize($dto->getUrlOriginal());
+
+        return (new Image())
+            ->setType($dto->getType())
+            ->setOriginal($directUrlOriginal)
+            ->setPreview($directUrlPreview)
+            ->setReference($urlOriginal);
     }
 
-    public function make(Bag $bag)
+    protected function sanitize($string)
     {
-        $this->bagValidator->validate($bag);
+        return empty($string) ? null : $string;
+    }
 
-        $images = [];
-
-        foreach ($bag->all() as $imageBag) {
-            $images[] = (new Image())
-                ->setType($imageBag['type'])
-                ->setPreview($imageBag['preview'])
-                ->setReference($imageBag['reference'])
-                ->setOriginal($imageBag['original'])
-                ->setHost($imageBag['host']);
-        }
-
-        return $images;
+    public function makeMany(array $imageDtos)
+    {
+        return array_map(function ($imageDto) {
+            return $this->make($imageDto);
+        }, $imageDtos);
     }
 }
