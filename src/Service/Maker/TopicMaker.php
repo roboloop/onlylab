@@ -4,13 +4,17 @@ namespace App\Service\Maker;
 
 use App\Dto\RawTopicDto;
 use App\Entity\Topic;
+use App\Service\Assembler\ForumAssembler;
 use App\Service\Assembler\GenreAssembler;
+use App\Service\Assembler\ImageAssembler;
 use App\Service\Assembler\StudioAssembler;
 use App\Service\Assembler\TopicAssembler;
+use App\Service\Collection\ForumCollection;
 use App\Service\Collection\GenreCollection;
 use App\Service\Collection\StudioCollection;
 use App\Service\Processor\TitleProcessor;
 use App\Service\Transformer\ArrayTransformer;
+use App\Service\UrlConverter\ImageDtoConverter;
 
 class TopicMaker
 {
@@ -18,26 +22,38 @@ class TopicMaker
     private $genreAssembler;
     private $studioAssembler;
     private $topicAssembler;
+    private $forumAssembler;
     private $arrayTransformer;
     private $genreCollection;
     private $studioCollection;
+    private $imageAssembler;
+    private $imageDtoConverter;
+    private $forumCollection;
 
     public function __construct(
         TitleProcessor $titleProcessor,
         GenreAssembler $genreAssembler,
         StudioAssembler $studioAssembler,
         TopicAssembler $topicAssembler,
+        ImageAssembler $imageAssembler,
+        ForumAssembler $forumAssembler,
         ArrayTransformer $arrayTransformer,
         GenreCollection $genreCollection,
-        StudioCollection $studioCollection
+        StudioCollection $studioCollection,
+        ForumCollection $forumCollection,
+        ImageDtoConverter $imageDtoConverter
     ) {
         $this->titleProcessor   = $titleProcessor;
         $this->genreAssembler   = $genreAssembler;
         $this->studioAssembler  = $studioAssembler;
         $this->topicAssembler   = $topicAssembler;
+        $this->forumAssembler   = $forumAssembler;
         $this->arrayTransformer = $arrayTransformer;
         $this->genreCollection  = $genreCollection;
         $this->studioCollection = $studioCollection;
+        $this->imageAssembler   = $imageAssembler;
+        $this->forumCollection  = $forumCollection;
+        $this->imageDtoConverter = $imageDtoConverter;
     }
 
     /**
@@ -61,9 +77,14 @@ class TopicMaker
         $newStudios     = $this->studioAssembler->makeMany($rawStudios);
         $studios        = array_merge($existsStudios, $newStudios);
 
-        // Preparing images
-
         // Filtering images
+        $this->imageDtoConverter->convertMany($dto->getImages());
+
+        // Building images
+        $images = $this->imageAssembler->makeMany($dto->getImages());
+
+        // Forum
+        $forum = $this->getForum($dto->getForumId(), $dto->getForumTitle());
 
         // Building object
         $topic = $this->topicAssembler->make($dto);
@@ -71,12 +92,25 @@ class TopicMaker
         // Adding associations
         $this->addGenres($topic, $genres);
         $this->addStudios($topic, $studios);
-        // $this->addImages($topic, $images);
+        $this->addImages($topic, $images);
+        $topic->setForum($forum);
 
         $this->genreCollection->addMany($newGenres);
         $this->studioCollection->addMany($newStudios);
+        $this->forumCollection->add($forum);
 
         return $topic;
+    }
+
+    private function getForum($forumId, $forumTitle)
+    {
+        if (null === $forumId) {
+            return null;
+        }
+
+        return $this->forumCollection->isExists($forumId)
+            ? $this->forumCollection->get($forumId)
+            : $this->forumAssembler->make($forumId, $forumTitle);
     }
 
     private function addGenres(Topic $topic, array $genres)
