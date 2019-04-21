@@ -14,6 +14,16 @@ abstract class CollectionImg
         $this->collection[$key] = $value;
     }
 
+    public function get($key)
+    {
+        return $this->collection[$key];
+    }
+
+    public function isExists($key)
+    {
+        return isset($this->collection[$key]);
+    }
+
     public function intersectWithRawData(array &$rawData, bool $keyToLower = true)
     {
         foreach ($rawData as $key => $raw) {
@@ -31,7 +41,7 @@ abstract class CollectionImg
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $value = $propertyAccessor->getValue($entity, $this->field);
-        $lowerKey = $keyToLower ? mb_strtolower($value) : $value;
+        $lowerKey = ($keyToLower and is_string($value)) ? mb_strtolower($value) : $value;
         $this->collection[$lowerKey] = $entity;
     }
 
@@ -41,7 +51,7 @@ abstract class CollectionImg
 
         foreach ($entities as $entity) {
             $value = $propertyAccessor->getValue($entity, $this->field);
-            $lowerKey = $keyToLower ? mb_strtolower($value) : $value;
+            $lowerKey = ($keyToLower and is_string($value)) ? mb_strtolower($value) : $value;
             $this->collection[$lowerKey] = $entity;
         }
     }
