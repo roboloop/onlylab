@@ -18,4 +18,13 @@ class GenreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Genre::class);
     }
+
+    public function genresWithTopics()
+    {
+        return $this->createQueryBuilder('g')
+            ->addSelect('t')
+            ->innerJoin('g.topics', 't')
+            ->getQuery()
+            ->getResult();
+    }
 }

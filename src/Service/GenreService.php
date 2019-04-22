@@ -17,4 +17,9 @@ class GenreService
     {
         return $this->genreRepository->findAll();
     }
+
+    public function genresWithTopics()
+    {
+        return $this->genreRepository->genresWithTopics();
+    }
 }
