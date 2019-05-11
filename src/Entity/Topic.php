@@ -81,6 +81,11 @@ class Topic
      */
     private $rawTitle;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isLoaded = false;
+
     public function __construct()
     {
         $this->studios  = new ArrayCollection();
@@ -199,6 +204,7 @@ class Topic
         if ($this->studios->contains($studio)) {
             $this->studios->removeElement($studio);
         }
+        
 
         return $this;
     }
@@ -268,6 +274,18 @@ class Topic
     public function setRawTitle(string $rawTitle): self
     {
         $this->rawTitle = $rawTitle;
+
+        return $this;
+    }
+
+    public function getIsLoaded(): ?bool
+    {
+        return $this->isLoaded;
+    }
+
+    public function setIsLoaded(bool $isLoaded): self
+    {
+        $this->isLoaded = $isLoaded;
 
         return $this;
     }
