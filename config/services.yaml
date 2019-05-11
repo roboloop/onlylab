@@ -66,3 +66,8 @@ services:
     app.service.sanitizer.cached_sanitizer:
         class: App\Service\Sanitizer\CachedSanitizer
         decorates: app.service.sanitizer.html_sanitizer
+
+    app.service.topic_service:
+        class: App\Service\TopicService
+
+    App\Contract\Service\TopicServiceInterface: '@app.service.topic_service'
