@@ -19,7 +19,9 @@ class ImageDtoConverter
             return;
         }
 
-        $url = $imageDto->getUrlOriginal();
+        // TODO: deal with it
+        // $url = $imageDto->getUrlOriginal();
+        $url = $imageDto->getUrlPreview();
 
         $newUrl = $this->imageUrlConverter->convert($url);
 
