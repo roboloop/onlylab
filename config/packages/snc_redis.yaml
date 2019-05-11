@@ -1,0 +1,33 @@
+snc_redis:
+    clients:
+        default:
+            type: phpredis
+            alias: default
+            dsn: "%env(REDIS_URL)%"
+
+        cache:
+            type: phpredis
+            alias: cache
+            dsn: "%env(REDIS_URL)%"
+            options:
+                profile: 2.2
+                connection_timeout: 10
+                read_write_timeout: 30
+
+    doctrine:
+        metadata_cache:
+            client: cache
+            entity_manager: default          # the name of your entity_manager connection
+            namespace: 'dmc:'
+        result_cache:
+            client: cache
+            entity_manager: default  # you may specify multiple entity_managers
+            namespace: 'drc:'
+        query_cache:
+            client: cache
+            entity_manager: default
+            namespace: 'dqc:'
+        second_level_cache:
+            client: cache
+            entity_manager: default
+            namespace: 'dslc:'
