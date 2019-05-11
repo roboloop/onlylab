@@ -6,6 +6,7 @@
 parameters:
     dump_path: '%kernel.project_dir%/dump'
     base_url: '%env(resolve:DATABASE_URL)%'
+    locale: 'en'
 
 services:
     # default configuration for services in *this* file
