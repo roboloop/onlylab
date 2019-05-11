@@ -146,14 +146,19 @@ class TopicHtmlParser
         // Getting a direct link to the preview
         $directUrlToPreview = $imageCrawler->getNode(0)->getAttribute('title');
 
-        // If there is no link to the original, then the preview is the original
+        // If there is no link to the original, then the preview is the original.
         if ('' === $urlToOriginal) {
             $directUrlToOriginal = $directUrlToPreview;
         }
 
+        // Convert all empty strings to NULL
+        $urlToOriginal          = empty($urlToOriginal) ? null : $urlToOriginal;
+        $directUrlToOriginal    = empty($directUrlToOriginal) ? null : $directUrlToOriginal;
+        $directUrlToPreview     = empty($directUrlToPreview) ? null : $directUrlToPreview;
+
         return (new ImageDto())
             ->setUrlOriginal($urlToOriginal)
-            ->setDirectUrlOriginal($directUrlToOriginal ?? null)
+            ->setDirectUrlOriginal($directUrlToOriginal)
             ->setDirectUrlPreview($directUrlToPreview);
     }
 
