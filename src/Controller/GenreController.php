@@ -56,4 +56,46 @@ class GenreController extends BaseController
             'topics'    => $topics,
         ]);
     }
+
+    /**
+     * Approve the genre
+     *
+     * @Route("/genres/{genre}/approve", methods={"POST"}, name="genres_approve")
+     * @ParamConverter("genre", options={
+     *      "mapping": {"genre":"id"}
+     * })
+     *
+     * @param \App\Entity\Genre $genre
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function approve(Genre $genre)
+    {
+        $genre->setIsApproved(true);
+
+        $this->transaction($genre);
+
+        return $this->redirectToRoute('genres_topics', ['genre' => $genre->getId()]);
+    }
+
+    /**
+     * Reject the genre
+     *
+     * @Route("/genres/{genre}/reject", methods={"POST"}, name="genres_reject")
+     * @ParamConverter("genre", options={
+     *      "mapping": {"genre":"id"}
+     * })
+     *
+     * @param \App\Entity\Genre $genre
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function reject(Genre $genre)
+    {
+        $genre->setIsApproved(false);
+
+        $this->transaction($genre);
+
+        return $this->redirectToRoute('genres_topics', ['genre' => $genre->getId()]);
+    }
 }
