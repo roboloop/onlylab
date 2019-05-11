@@ -19,6 +19,13 @@ class TopicService implements TopicServiceInterface
         return $this->topicRepository->findAll();
     }
 
+    public function removeCompletely($id)
+    {
+        $id = is_array($id) ? $id : array($id);
+
+        return $this->topicRepository->removeCompletely($id);
+    }
+
     public function findByTrackerId(array $ids)
     {
         return $this->topicRepository->findBy(['trackerId' => $ids]);

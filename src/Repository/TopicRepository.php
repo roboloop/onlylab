@@ -31,4 +31,22 @@ class TopicRepository extends ServiceEntityRepository
 
         return $query->getScalarResult();
     }
+
+    public function removeCompletelyQuery(array $ids)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->delete($this->_entityName, 't')
+            ->where('t.id IN (:ids)')
+            ->innerJoin('t.genres', 'g')
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery();
+    }
+
+    public function removeCompletely(array $ids)
+    {
+        $query = $this->removeCompletelyQuery($ids);
+
+        return $query->execute();
+    }
 }
