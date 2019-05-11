@@ -47,7 +47,7 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Topic", inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $topic;
 

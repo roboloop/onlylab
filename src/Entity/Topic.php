@@ -71,7 +71,8 @@ class Topic
     private $genres;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="topic", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="topic", cascade={"persist", "remove"})
+     *
      */
     private $images;
 
