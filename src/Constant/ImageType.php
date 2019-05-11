@@ -9,4 +9,8 @@ class ImageType
     const SCREENLISTING = 3;
     const GIF           = 4;
     const OTHER         = 5;
+
+    final private function __construct()
+    {
+    }
 }
