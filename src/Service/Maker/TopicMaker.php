@@ -15,6 +15,7 @@ use App\Service\Collection\StudioCollection;
 use App\Service\Processor\TitleProcessor;
 use App\Service\Transformer\ArrayTransformer;
 use App\Service\UrlConverter\ImageDtoConverter;
+use App\Service\UrlConverter\ImageUrlConverter;
 
 class TopicMaker
 {
@@ -29,6 +30,7 @@ class TopicMaker
     private $imageAssembler;
     private $imageDtoConverter;
     private $forumCollection;
+    private $imageUrlConverter;
 
     public function __construct(
         TitleProcessor $titleProcessor,
@@ -41,7 +43,8 @@ class TopicMaker
         GenreCollection $genreCollection,
         StudioCollection $studioCollection,
         ForumCollection $forumCollection,
-        ImageDtoConverter $imageDtoConverter
+        ImageDtoConverter $imageDtoConverter,
+        ImageUrlConverter $imageUrlConverter
     ) {
         $this->titleProcessor   = $titleProcessor;
         $this->genreAssembler   = $genreAssembler;
@@ -54,6 +57,7 @@ class TopicMaker
         $this->imageAssembler   = $imageAssembler;
         $this->forumCollection  = $forumCollection;
         $this->imageDtoConverter = $imageDtoConverter;
+        $this->imageUrlConverter = $imageUrlConverter;
     }
 
     /**
@@ -81,7 +85,9 @@ class TopicMaker
         $this->imageDtoConverter->convertMany($dto->getImages());
 
         // Building images
-        $images = $this->imageAssembler->makeMany($dto->getImages());
+        $rawImages = $dto->getImages();
+        $this->postHandleImages($rawImages);
+        $images = $this->imageAssembler->makeMany($rawImages);
 
         // Forum
         $forum = $this->getForum($dto->getForumId(), $dto->getForumTitle());
@@ -131,6 +137,21 @@ class TopicMaker
     {
         array_walk($images, function ($image) use ($topic) {
             $topic->addImage($image);
+        });
+    }
+
+    private function postHandleImages($images)
+    {
+        array_walk($images, function ($imageDto) {
+            /** @var $imageDto \App\Dto\ImageDto */
+            if (null !== $imageDto->getDirectUrlOriginal()) {
+                return;
+            }
+            $urlPreview = $imageDto->getDirectUrlPreview();
+
+            $directUrlOriginal = $this->imageUrlConverter->convert($urlPreview);
+
+            $imageDto->setDirectUrlOriginal($directUrlOriginal);
         });
     }
 }
