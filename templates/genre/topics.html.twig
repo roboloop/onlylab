@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ genre.title }}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h2>{{ genre.title }}</h2>
+
+    {% for topic in topics %}
+        <a href="{{ url('topics_show', {'topic' : topic.id }) }}">{{ topic.rawTitle }}</a>
+        <br>
+    {% endfor %}
+</div>
+
+{% endblock %}
