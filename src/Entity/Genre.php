@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GenreRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class Genre
 {

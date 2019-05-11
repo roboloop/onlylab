@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Genre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,12 +20,28 @@ class GenreRepository extends ServiceEntityRepository
         parent::__construct($registry, Genre::class);
     }
 
-    public function genresWithTopics()
+    // public function genresWithTopics()
+    // {
+    //     return $this->createQueryBuilder('g')
+    //         ->addSelect('t')
+    //         ->innerJoin('g.topics', 't')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+    public function genres(?Criteria $criteria = null, $orderBy = null, $limit = null, $offset = null)
     {
-        return $this->createQueryBuilder('g')
-            ->addSelect('t')
-            ->innerJoin('g.topics', 't')
-            ->getQuery()
-            ->getResult();
+        $qb = $this
+            ->createQueryBuilder('g')
+            // ->orderBy($orderBy)
+            // ->setFirstResult($offset)
+            // ->setMaxResults($limit)
+            ;
+
+
+        $query = $qb->getQuery()->setCacheable(true);
+
+
+        return $query->getResult();
     }
 }
