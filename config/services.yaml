@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     dump_path: '%kernel.project_dir%/dump'
-    base_url: '%env(resolve:DATABASE_URL)%'
+    base_url: '%env(resolve:BASE_URL)%'
     locale: 'en'
 
 services:
