@@ -49,4 +49,21 @@ class TopicRepository extends ServiceEntityRepository
 
         return $query->execute();
     }
+
+    public function related($title, $exceptIds = null)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.title LIKE :title')
+            ->setParameter('title', $title);
+
+        if ($exceptIds) {
+            $qb
+                ->andWhere('t.id NOT IN (:exceptIds)')
+                ->setParameter('exceptIds', $exceptIds);
+        }
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
 }
