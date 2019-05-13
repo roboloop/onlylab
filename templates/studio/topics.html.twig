@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ studio.url }}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h2>{{ studio.url  }}</h2>
+
+    {% for topic in topics %}
+        <a href="{{ url('topics_show', {'topic' : topic.id }) }}">{{ topic.rawTitle }}</a>
+        <br>
+    {% endfor %}
+</div>
+
+{% endblock %}
