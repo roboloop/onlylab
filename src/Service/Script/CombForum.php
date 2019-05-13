@@ -60,6 +60,11 @@ class CombForum
 
             $entities = $this->forumPageHandler->handleAuth($content);
 
+            // If all entities on the page are already present in the database, then drop
+            if (empty($entities)) {
+                break;
+            }
+
             $this->transactionManager->transaction($entities);
 
             if ($this->withPause) {
