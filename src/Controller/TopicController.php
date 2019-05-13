@@ -11,8 +11,10 @@ use App\Service\Reloader\TopicReloader;
 use App\Service\Replacer\TopicReplacer;
 use App\Service\Sorter\GenreSorter;
 use App\Service\Sorter\ImageSorter;
+use App\Service\Topic\RelatedTopic;
 use App\Service\TopicGrabber;
 use App\Service\TopicService;
+use App\Service\Url\TopicUrl;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,6 +44,7 @@ class TopicController extends BaseController
      * @param \App\Service\Reloader\TopicReloader $topicReloader
      * @param \App\Service\Sorter\ImageSorter     $imageSorter
      * @param \App\Service\Sorter\GenreSorter     $genreSorter
+     * @param \App\Service\Topic\RelatedTopic     $relatedTopic
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Doctrine\ORM\Mapping\MappingException
@@ -50,7 +53,9 @@ class TopicController extends BaseController
         Topic $topic,
         TopicReloader $topicReloader,
         ImageSorter $imageSorter,
-        GenreSorter $genreSorter
+        GenreSorter $genreSorter,
+        RelatedTopic $relatedTopic,
+        TopicUrl $topicUrl
     ): Response {
         if ( ! $topic->getIsLoaded()) {
             $func = $topicReloader->reloadQuery($topic);
@@ -59,11 +64,15 @@ class TopicController extends BaseController
 
         $images = $imageSorter->sort($topic->getImages()->toArray());
         $genres = $genreSorter->sort($topic->getGenres()->toArray());
+        $related = $relatedTopic->related($topic);
+        $url = $topicUrl->url($topic->getTrackerId());
 
         return $this->render('topic/show.html.twig', [
             'topic'     => $topic,
             'images'    => $images,
             'genres'    => $genres,
+            'related'   => $related,
+            'url'       => $url,
             'studios'   => $topic->getStudios()->toArray(),
             'forum'     => $topic->getForum(),
         ]);
