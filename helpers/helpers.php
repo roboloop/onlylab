@@ -9,3 +9,26 @@ if (!function_exists('mb_strcasecmp')) {
         return strcmp(mb_strtoupper($str1, $encoding), mb_strtoupper($str2, $encoding));
     }
 }
+
+if (!function_exists('mb_ucfirst')) {
+    function mb_ucfirst($string, $encoding = 'UTF-8')
+    {
+        $strlen = mb_strlen($string, $encoding);
+        $firstChar = mb_substr($string, 0, 1, $encoding);
+        $then = mb_substr($string, 1, $strlen - 1, $encoding);
+        return mb_strtoupper($firstChar, $encoding) . $then;
+    }
+}
+
+if (!function_exists('mb_ucwords')) {
+    function mb_ucwords($string)
+    {
+        return preg_replace_callback(
+            '~(\w+)~u',
+            function($m) {
+                return mb_ucfirst($m[0]);
+            },
+            $string
+        );
+    }
+}
