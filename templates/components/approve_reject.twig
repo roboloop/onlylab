@@ -1,0 +1,9 @@
+{% if not is_approved %}
+    <form action="{{ approve_url }}" method="POST">
+        <button type="submit" class="btn btn-info btn-sm">{{ approve_button }}</button>
+    </form>
+{% else %}
+    <form action="{{ reject_url }}" method="POST">
+        <button type="submit" class="btn btn-danger btn-sm">{{ reject_button }}</button>
+    </form>
+{% endif %}
