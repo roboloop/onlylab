@@ -14,12 +14,44 @@ class GenreParser implements ParserInterface
             return [];
         }
 
-        $exploded = explode(',', $matches[1]);
+        $splitted = preg_split('~\.|,~', $matches[1], null, PREG_SPLIT_NO_EMPTY);
 
-        $filtered = preg_grep('~\d{2}~u', $exploded, PREG_GREP_INVERT);
+        // Except:
+        // 4k, 5k, UltraHD, two number together, months
+        $except = implode('|', array_merge($this->qualities(), $this->months()));
+        $filtered = preg_grep("~$except~iu", $splitted, PREG_GREP_INVERT);
 
-        return array_values(array_map(function ($value) {
-            return trim($value);
-        }, $filtered));
+        return array_values(array_map('trim', $filtered));
+    }
+
+    private function qualities()
+    {
+        return [
+            '\d{2}',
+            '4k',
+            '5k',
+            '6k',
+            '7k',
+            '8k',
+            'UltraHD',
+        ];
+    }
+
+    private function months()
+    {
+        return [
+           'january',
+           'february',
+           'march',
+           'april',
+           'may',
+           'june',
+           'july',
+           'august',
+           'september',
+           'october',
+           'november',
+           'december'
+        ];
     }
 }
