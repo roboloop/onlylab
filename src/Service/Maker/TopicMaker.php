@@ -12,6 +12,7 @@ use App\Service\Assembler\TopicAssembler;
 use App\Service\Collection\ForumCollection;
 use App\Service\Collection\GenreCollection;
 use App\Service\Collection\StudioCollection;
+use App\Service\Preparer\GenreTitlePreparer;
 use App\Service\Processor\TitleProcessor;
 use App\Service\Transformer\ArrayTransformer;
 use App\Service\UrlConverter\ImageDtoConverter;
@@ -31,6 +32,7 @@ class TopicMaker
     private $imageDtoConverter;
     private $forumCollection;
     private $imageUrlConverter;
+    private $genreTitlePreparer;
 
     public function __construct(
         TitleProcessor $titleProcessor,
@@ -44,20 +46,22 @@ class TopicMaker
         StudioCollection $studioCollection,
         ForumCollection $forumCollection,
         ImageDtoConverter $imageDtoConverter,
-        ImageUrlConverter $imageUrlConverter
+        ImageUrlConverter $imageUrlConverter,
+        GenreTitlePreparer $genreTitlePreparer
     ) {
-        $this->titleProcessor   = $titleProcessor;
-        $this->genreAssembler   = $genreAssembler;
-        $this->studioAssembler  = $studioAssembler;
-        $this->topicAssembler   = $topicAssembler;
-        $this->forumAssembler   = $forumAssembler;
-        $this->arrayTransformer = $arrayTransformer;
-        $this->genreCollection  = $genreCollection;
-        $this->studioCollection = $studioCollection;
-        $this->imageAssembler   = $imageAssembler;
-        $this->forumCollection  = $forumCollection;
-        $this->imageDtoConverter = $imageDtoConverter;
-        $this->imageUrlConverter = $imageUrlConverter;
+        $this->titleProcessor       = $titleProcessor;
+        $this->genreAssembler       = $genreAssembler;
+        $this->studioAssembler      = $studioAssembler;
+        $this->topicAssembler       = $topicAssembler;
+        $this->forumAssembler       = $forumAssembler;
+        $this->arrayTransformer     = $arrayTransformer;
+        $this->genreCollection      = $genreCollection;
+        $this->studioCollection     = $studioCollection;
+        $this->imageAssembler       = $imageAssembler;
+        $this->forumCollection      = $forumCollection;
+        $this->imageDtoConverter    = $imageDtoConverter;
+        $this->imageUrlConverter    = $imageUrlConverter;
+        $this->genreTitlePreparer   = $genreTitlePreparer;
     }
 
     /**
@@ -72,7 +76,8 @@ class TopicMaker
         // Collecting genres
         $rawGenres      = $this->titleProcessor->rawGenresFromTitle($dto->getRawTitle());
         $existsGenres   = $this->genreCollection->intersectWithRawData($rawGenres);
-        $newGenres      = $this->genreAssembler->makeMany($rawGenres);
+        $preparedGenres = $this->genreTitlePreparer->prepareMany($rawGenres);
+        $newGenres      = $this->genreAssembler->makeMany($preparedGenres);
         $genres         = array_merge($existsGenres, $newGenres);
 
         // Collecting studious
