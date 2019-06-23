@@ -116,9 +116,6 @@
             "ref": "e5e657ce5a4ebc99f3c76916938aa0a5f8ef7736"
         }
     },
-    "facebook/webdriver": {
-        "version": "1.6.0"
-    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.36"
     },
@@ -352,9 +349,6 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.6"
-    },
-    "symfony/panther": {
-        "version": "v0.2.0"
     },
     "symfony/phpunit-bridge": {
         "version": "4.1",
