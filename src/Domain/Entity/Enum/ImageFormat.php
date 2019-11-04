@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Domain\Enum;
+declare (strict_types = 1);
+
+namespace App\Domain\Entity\Enum;
 
 use App\Shared\Domain\ValueObject\Enum;
 

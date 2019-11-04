@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace App\Domain\Entity;
 
-use App\Domain\Enum\StudioStatus;
+use App\Domain\Entity\Enum\StudioStatus;
 use DateTimeImmutable;
 
 class Studio

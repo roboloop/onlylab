@@ -9,7 +9,7 @@
             <generator strategy="NONE" />
         </id>
         <field name="url" type="string" length="255" />
-        <embedded name="status" class="App\Domain\Enum\StudioStatus" use-column-prefix="false" />
+        <embedded name="status" class="App\Domain\Entity\Enum\StudioStatus" use-column-prefix="false" />
         <field name="createdAt" type="datetime_immutable" />
 
     </entity>

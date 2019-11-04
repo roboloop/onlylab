@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Domain\Embeddable;
+declare (strict_types = 1);
+
+namespace App\Domain\Entity\Embeddable;
 
 class ParsedTitle
 {

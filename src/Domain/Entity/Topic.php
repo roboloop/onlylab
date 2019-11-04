@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entity;
 
-use App\Domain\Embeddable\ParsedTitle;
+use App\Domain\Entity\Embeddable\ParsedTitle;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 

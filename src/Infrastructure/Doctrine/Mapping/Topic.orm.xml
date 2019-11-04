@@ -9,7 +9,7 @@
             <generator strategy="NONE" />
         </id>
         <field name="exId" type="integer" />
-        <embedded name="parsed_title" class="App\Domain\Embeddable\ParsedTitle" use-column-prefix="false" />
+        <embedded name="parsedTitle" class="App\Domain\Entity\Embeddable\ParsedTitle" use-column-prefix="false" />
         <many-to-one field="forum" target-entity="App\Domain\Entity\Forum" />
         <one-to-many field="images" target-entity="App\Domain\Entity\Image" mapped-by="topic" />
 

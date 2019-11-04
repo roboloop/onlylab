@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace App\Domain\Entity;
 
-use App\Domain\Enum\ImageFormat;
+use App\Domain\Entity\Enum\ImageFormat;
 use DateTimeImmutable;
 
 class Image
