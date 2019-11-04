@@ -1,0 +1,44 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Domain\Entity\Topic" table="topics">
+
+        <id name="id" type="string">
+            <generator strategy="NONE" />
+        </id>
+        <field name="exId" type="integer" />
+        <embedded name="parsed_title" class="App\Domain\Embeddable\ParsedTitle" use-column-prefix="false" />
+        <many-to-one field="forum" target-entity="App\Domain\Entity\Forum" />
+        <one-to-many field="images" target-entity="App\Domain\Entity\Image" mapped-by="topic" />
+
+        <many-to-many field="genres" target-entity="App\Domain\Entity\Genre">
+            <join-table name="genre_topic">
+                <join-columns>
+                    <join-column name="topic_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="genre_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        <many-to-many field="studios" target-entity="App\Domain\Entity\Studio">
+            <join-table name="studio_topic">
+                <join-columns>
+                    <join-column name="topic_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="studio_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <field name="size" type="integer" nullable="true" />
+        <field name="exCreatedAt" type="datetime_immutable" nullable="true" />
+        <field name="createdAt" type="datetime_immutable" />
+        <field name="isLoaded" type="boolean" />
+
+    </entity>
+
+</doctrine-mapping>

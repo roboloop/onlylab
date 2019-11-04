@@ -1,0 +1,17 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Domain\Entity\Studio" table="studios">
+
+        <id name="id" type="string">
+            <generator strategy="NONE" />
+        </id>
+        <field name="url" type="string" length="255" />
+        <embedded name="status" class="App\Domain\Enum\StudioStatus" use-column-prefix="false" />
+        <field name="createdAt" type="datetime_immutable" />
+
+    </entity>
+
+</doctrine-mapping>
