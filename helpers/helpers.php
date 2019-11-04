@@ -32,3 +32,10 @@ if (!function_exists('mb_ucwords')) {
         );
     }
 }
+
+if (!function_exists('snake_to_camel')) {
+    function snake_to_camel($word)
+    {
+        return lcfirst(str_replace('_', '', ucwords($word, '_')));
+    }
+}
