@@ -19,7 +19,7 @@ class Image
     private $createdAt;
     private $isBanner;
 
-    public function __construct(string $id, Topic $topic, ImageFormat $format, string $preview, string $reference, string $original, string $host, DateTimeImmutable $createdAt)
+    public function __construct(string $id, Topic $topic, ImageFormat $format, ?string $preview, ?string $reference, ?string $original, ?string $host, DateTimeImmutable $createdAt)
     {
         $this->id           = $id;
         $this->topic        = $topic;
@@ -48,22 +48,22 @@ class Image
         return $this->format;
     }
 
-    public function getPreview(): string
+    public function getPreview(): ?string
     {
         return $this->preview;
     }
 
-    public function getReference(): string
+    public function getReference(): ?string
     {
         return $this->reference;
     }
 
-    public function getOriginal(): string
+    public function getOriginal(): ?string
     {
         return $this->original;
     }
 
-    public function getHost(): string
+    public function getHost(): ?string
     {
         return $this->host;
     }
