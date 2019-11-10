@@ -2,9 +2,15 @@
 
 namespace App\Domain\Repository;
 
+use App\Domain\Shared\RepositoryInterface;
 use App\Domain\Shared\IdGeneratorInterface;
 
-interface TopicRepositoryInterface extends IdGeneratorInterface
+/**
+ * @method \App\Domain\Entity\Topic[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method \App\Domain\Entity\Topic[] findAll()
+ * @method \App\Domain\Entity\Topic[] save($entity)
+ */
+interface TopicRepositoryInterface extends RepositoryInterface, IdGeneratorInterface
 {
 
 }
