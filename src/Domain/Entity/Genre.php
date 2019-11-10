@@ -15,7 +15,7 @@ class Genre implements UniqueIdentityInterface
     private $isApproved;
     private $createdAt;
 
-    public function __construct(string $id, string $title, string $description, bool $isApproved, DateTimeImmutable $createdAt)
+    public function __construct(string $id, string $title, ?string $description, bool $isApproved, DateTimeImmutable $createdAt)
     {
         $this->id           = $id;
         $this->title        = $title;

@@ -17,7 +17,7 @@ class GenreFactory
         $this->dateTimeUtil = $dateTimeUtil;
     }
 
-    public function make(string $title, string $description, bool $isApproved)
+    public function make(string $title, ?string $description, bool $isApproved)
     {
         $id         = $this->repository->nextIdentity();
         $createdAt  = $this->dateTimeUtil->now();
