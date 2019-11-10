@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Service\Parser\Title;
+namespace App\Infrastructure\Util\Parser\Page;
 
-use App\Contract\Parser\ParserInterface;
-
-class SizeParser implements ParserInterface
+class SizeParser
 {
     private static $base = 1024;
 

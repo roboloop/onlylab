@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Service\Parser\Title;
+namespace App\Infrastructure\Util\Parser\Title;
 
-use App\Contract\Parser\ParserInterface;
-
-class StudioParser implements ParserInterface
+class StudioParser
 {
+    /**
+     * @param string $content
+     *
+     * @return string[]
+     */
     public function parse(string $content)
     {
         preg_match('~^\[([a-zA-Z0-9\/\\\.\s_\(\)\-]+)\]~', $content, $matches);

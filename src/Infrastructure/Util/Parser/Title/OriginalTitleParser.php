@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Service\Parser\Title;
+namespace App\Infrastructure\Util\Parser\Title;
 
-use App\Contract\Parser\ParserInterface;
-
-class OriginalTitleParser implements ParserInterface
+class OriginalTitleParser
 {
+    /**
+     * @param string $content
+     *
+     * @return null|string
+     */
     public function parse(string $content)
     {
         preg_match('~\]\s*(.*)\s*\[~', $content, $matches);

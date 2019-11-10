@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Service\Parser\Title;
+namespace App\Infrastructure\Util\Parser\Title;
 
-use App\Contract\Parser\ParserInterface;
-
-class QualityParser implements ParserInterface
+class QualityParser
 {
+    /**
+     * @param string $string
+     *
+     * @return string|null
+     */
     public function parse(string $string)
     {
         preg_match('~(\d{3,4}p|4k|UltraHD)~i', $string, $result);

@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Service\Parser\Title;
+namespace App\Infrastructure\Util\Parser\Title;
 
-use App\Contract\Parser\ParserInterface;
-
-class GenreParser implements ParserInterface
+class GenreParser
 {
+    /**
+     * @param string $content
+     *
+     * @return string[]
+     */
     public function parse(string $content)
     {
         preg_match('~\[(?!.*\[)(.*)\]~i', $content, $matches);
-
         if (!isset($matches[1])) {
             return [];
         }
@@ -20,6 +22,11 @@ class GenreParser implements ParserInterface
         // 4k, 5k, UltraHD, two number together, months
         $except = implode('|', array_merge($this->qualities(), $this->months()));
         $filtered = preg_grep("~$except~iu", $splitted, PREG_GREP_INVERT);
+
+        // Check, if genres separated by space-symbol.
+        if (count($filtered) === 1 && false === mb_strpos(reset($filtered), ',')) {
+            $filtered = preg_split('~\s~', reset($filtered), null, PREG_SPLIT_NO_EMPTY);
+        }
 
         return array_values(array_map('trim', $filtered));
     }
