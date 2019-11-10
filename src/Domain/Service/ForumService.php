@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Domain\Service;
+
+use App\Domain\Factory\ForumFactory;
+use App\Domain\Repository\ForumRepositoryInterface;
+
+class ForumService
+{
+    private $forumRepository;
+    private $forumFactory;
+
+    public function __construct(ForumRepositoryInterface $forumRepository, ForumFactory $forumFactory)
+    {
+        $this->forumRepository  = $forumRepository;
+        $this->forumFactory     = $forumFactory;
+    }
+
+    /**
+     * @param int $forumExId
+     *
+     * @return \App\Domain\Entity\Forum
+     */
+    public function getOrMake(int $forumExId, string $title)
+    {
+        $forums = $this->forumRepository->findBy(['exId' => $forumExId], ['createdAt' => 'DESC']);
+
+        $forum = reset($forums);
+
+        if (false === $forum) {
+            $forum = $this->forumFactory->make($forumExId, $title);
+            $this->forumRepository->save($forum);
+        }
+
+        return $forum;
+    }
+}
