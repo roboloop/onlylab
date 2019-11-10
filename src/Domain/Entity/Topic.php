@@ -3,10 +3,11 @@
 namespace App\Domain\Entity;
 
 use App\Domain\Entity\Embeddable\ParsedTitle;
+use App\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Topic
+class Topic implements UniqueIdentityInterface
 {
     private $id;
     private $exId;

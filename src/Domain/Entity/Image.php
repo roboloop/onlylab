@@ -5,9 +5,10 @@ declare (strict_types = 1);
 namespace App\Domain\Entity;
 
 use App\Domain\Entity\Enum\ImageFormat;
+use App\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
-class Image
+class Image implements UniqueIdentityInterface
 {
     private $id;
     private $topic;

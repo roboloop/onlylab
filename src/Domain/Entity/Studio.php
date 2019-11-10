@@ -5,9 +5,10 @@ declare (strict_types = 1);
 namespace App\Domain\Entity;
 
 use App\Domain\Entity\Enum\StudioStatus;
+use App\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
-class Studio
+class Studio implements UniqueIdentityInterface
 {
     private $id;
     private $url;

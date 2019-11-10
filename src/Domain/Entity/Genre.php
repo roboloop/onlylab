@@ -4,9 +4,10 @@ declare (strict_types = 1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
-class Genre
+class Genre implements UniqueIdentityInterface
 {
     private $id;
     private $title;

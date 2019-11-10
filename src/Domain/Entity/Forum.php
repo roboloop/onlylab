@@ -4,9 +4,10 @@ declare (strict_types = 1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
-class Forum
+class Forum implements UniqueIdentityInterface
 {
     private $id;
     private $exId;
