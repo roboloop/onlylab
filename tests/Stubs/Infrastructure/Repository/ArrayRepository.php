@@ -32,6 +32,34 @@ class ArrayRepository implements RepositoryInterface
             }
         }
 
+        if ($orderBy) {
+            $callbacks = [];
+            foreach ($orderBy as $field => $order) {
+                if ($order === 'ASC') {
+                    $callbacks[] = function ($a, $b) use ($field) {
+                        return $this->propertyAccessor->get($a, $field) <=> $this->propertyAccessor->get($b, $field);
+                    };
+                } else {
+                    $callbacks[] = function ($a, $b) use ($field) {
+                        return $this->propertyAccessor->get($b, $field) <=> $this->propertyAccessor->get($a, $field);
+                    };
+                }
+            }
+
+            $orderCallback = function ($a, $b) use ($callbacks) {
+                foreach ($callbacks as $callback) {
+                    $interResult = $callback($a, $b);
+                    if ($interResult) {
+                        return $interResult;
+                    }
+                }
+
+                return 0;
+            };
+
+            usort($result, $orderCallback);
+        }
+
         return $result;
     }
 
