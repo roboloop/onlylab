@@ -17,17 +17,19 @@ class ForumService
     }
 
     /**
-     * @param int $forumExId
+     * @param int         $forumExId
+     * @param string|null $title
      *
      * @return \App\Domain\Entity\Forum
      */
-    public function getOrMake(int $forumExId, string $title)
+    public function getOrMake(int $forumExId, string $title = null)
     {
         $forums = $this->forumRepository->findBy(['exId' => $forumExId], ['createdAt' => 'DESC']);
 
         $forum = reset($forums);
 
         if (false === $forum) {
+            $title = $title ?: '(no forum name)';
             $forum = $this->forumFactory->make($forumExId, $title);
             $this->forumRepository->save($forum);
         }

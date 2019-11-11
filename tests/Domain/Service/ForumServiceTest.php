@@ -24,8 +24,73 @@ class ForumServiceTest extends TestCase
         $this->service  = new ForumService($this->repo, $this->factory);
     }
 
-    public function testGetOrMake()
+    /**
+     * @dataProvider dataGetCase
+     */
+    public function testGetOrMakeGetCase($repoData, $forumData)
     {
-        // TODO:
+        // prepare
+        foreach ($repoData as $datum) {
+            $this->repo->save($this->factory->make(...$datum));
+        }
+        // do
+        $forum = $this->service->getOrMake(...$forumData);
+
+        // assert
+        $repo = $this->repo->findAll();
+        $this->assertEquals(count($repoData), count($repo));
+        $this->assertEquals($forum->getTitle(), $forumData[1]);
+    }
+
+    /**
+     * @dataProvider dataMakeCase
+     */
+    public function testGetOrMakeMakeCase($repoData, $forumData)
+    {
+        // prepare
+        foreach ($repoData as $datum) {
+            $this->repo->save($this->factory->make(...$datum));
+        }
+        // do
+        $forum = $this->service->getOrMake(...$forumData);
+
+        // assert
+        $repo = $this->repo->findAll();
+        $this->assertEquals(count($repoData) + 1, count($repo));
+        $this->assertEquals($forum->getTitle(), $forumData[1]);
+    }
+
+    public function dataGetCase()
+    {
+        return [
+            [
+                [
+                    [5, '5 title'],
+                    [7, '7 title'],
+                ],
+                [5, '5 title'],
+            ],
+            [
+                [
+                    [5, '5 title'],
+                    [5, '6 title'],
+                    [7, '7 title'],
+                ],
+                [5, '6 title'],
+            ]
+        ];
+    }
+
+    public function dataMakeCase()
+    {
+        return [
+            [
+                [
+                    [5, '5 title'],
+                    [7, '7 title'],
+                ],
+                [6, '6 title'],
+            ]
+        ];
     }
 }
