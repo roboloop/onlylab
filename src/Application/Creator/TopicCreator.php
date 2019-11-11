@@ -2,12 +2,19 @@
 
 namespace App\Application\Creator;
 
+use App\Application\Dto\RawTopicDto;
+use App\Application\Exception\InvalidArgumentWhenCreatingTopicException;
 use App\Domain\Service\ForumService;
 use App\Domain\Service\GenreService;
 use App\Domain\Service\StudioService;
 use App\Domain\Service\TopicService;
-use App\Dto\RawTopicDto;
+use App\Domain\Shared\DateTimeUtilInterface;
+use App\Infrastructure\Assert\Assertion;
 use App\Infrastructure\Util\Parser\Title\TitleParserManager;
+use App\Infrastructure\Util\SizeConverter;
+use Assert\Assert;
+use Assert\AssertionFailedException;
+use DateTime;
 
 class TopicCreator
 {
@@ -16,36 +23,83 @@ class TopicCreator
     private $studioService;
     private $forumService;
     private $topicService;
+    private $dateTimeUtil;
+    private $sizeConverter;
 
     public function __construct(
         TitleParserManager $parserManager,
         GenreService $genreService,
         StudioService $studioService,
         ForumService $forumService,
-        TopicService $topicService
+        TopicService $topicService,
+        DateTimeUtilInterface $dateTimeUtil,
+        SizeConverter $sizeConverter
     ) {
         $this->parserManager    = $parserManager;
         $this->genreService     = $genreService;
         $this->studioService    = $studioService;
         $this->forumService     = $forumService;
         $this->topicService     = $topicService;
+        $this->dateTimeUtil     = $dateTimeUtil;
+        $this->sizeConverter    = $sizeConverter;
     }
 
     public function createFromDto(RawTopicDto $dto)
     {
+        $this->validateRawTopicDto($dto);
+        $this->convertTypesDto($dto);
+
         $rawGenres  = $this->parserManager->genres($dto->getRawTitle());
         $genres     = $this->genreService->getOrMakeOrBoth($rawGenres);
 
         $rawStudios = $this->parserManager->studios($dto->getRawTitle());
         $studios    = $this->studioService->getOrMakeOrBoth($rawStudios);
 
-        $forum      = $this->forumService->getOrMake($dto->getForumId(), $dto->getForumTitle());
+        $forum      = $this->forumService->getOrMake($dto->getForumExId(), $dto->getForumTitle());
 
         // TODO:
         $images     = [];
 
-        $topic      = $this->topicService->makeNotLoaded($dto->getTrackerId(), $dto->getRawTitle(), $forum, $dto->getSize(), $dto->getTrackerCreatedAt());
+        $topic      = $this->topicService->makeNotLoaded($dto->getExId(), $dto->getRawTitle(), $forum, $dto->getSize(), $dto->getExCreatedAt());
 
-        // TODO:
+        foreach ($genres as $genre) {
+            $topic->addGenre($genre);
+        }
+
+        foreach ($studios as $studio) {
+            $topic->addStudio($studio);
+        }
+
+
+        return $topic;
+    }
+
+    private function validateRawTopicDto(RawTopicDto $dto)
+    {
+        try {
+            Assertion::notEmpty($dto->getExId(), 'Ex id must be specified');
+            Assertion::notEmpty($dto->getRawTitle(), 'Raw title must be specified');
+            Assertion::notEmpty($dto->getForumTitle(), 'Forum title must be specified');
+            Assertion::notEmpty($dto->getForumExId(), 'Forum ex id must be specified');
+            Assertion::notEmpty($dto->getSize(), 'Size must be specified');
+            Assertion::notEmpty($dto->getExCreatedAt(), 'Ex created at timestamp must be specified');
+        } catch (AssertionFailedException $e) {
+            throw new InvalidArgumentWhenCreatingTopicException;
+        }
+    }
+
+    private function convertTypesDto(RawTopicDto &$dto)
+    {
+        $images = $dto->getImages();
+
+        $dto = new RawTopicDto(
+            (int) $dto->getExId(),
+            (int) $dto->getForumExId(),
+            (string) $dto->getForumTitle(),
+            (string) $dto->getRawTitle(),
+            $this->sizeConverter->fromStringToInt($dto->getSize()),
+            $this->dateTimeUtil->ymdHi($dto->getExCreatedAt()),
+            $images
+        );
     }
 }
