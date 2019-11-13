@@ -9,15 +9,14 @@ use App\Domain\Service\GenreService;
 use App\Domain\Service\StudioService;
 use App\Domain\Service\TopicService;
 use App\Domain\Shared\DateTimeUtilInterface;
-use App\Infrastructure\Assert\Assertion;
 use App\Infrastructure\Util\Parser\Title\TitleParserManager;
 use App\Infrastructure\Util\SizeConverter;
-use Assert\Assert;
 use Assert\AssertionFailedException;
-use DateTime;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TopicCreator
 {
+    private $validator;
     private $parserManager;
     private $genreService;
     private $studioService;
@@ -27,6 +26,7 @@ class TopicCreator
     private $sizeConverter;
 
     public function __construct(
+        ValidatorInterface $validator,
         TitleParserManager $parserManager,
         GenreService $genreService,
         StudioService $studioService,
@@ -35,6 +35,7 @@ class TopicCreator
         DateTimeUtilInterface $dateTimeUtil,
         SizeConverter $sizeConverter
     ) {
+        $this->validator        = $validator;
         $this->parserManager    = $parserManager;
         $this->genreService     = $genreService;
         $this->studioService    = $studioService;
@@ -59,6 +60,7 @@ class TopicCreator
 
         // TODO:
         $images     = [];
+        $images = $this->image
 
         $topic      = $this->topicService->makeNotLoaded($dto->getExId(), $dto->getRawTitle(), $forum, $dto->getSize(), $dto->getExCreatedAt());
 
@@ -77,12 +79,17 @@ class TopicCreator
     private function validateRawTopicDto(RawTopicDto $dto)
     {
         try {
-            Assertion::notEmpty($dto->getExId(), 'Ex id must be specified');
-            Assertion::notEmpty($dto->getRawTitle(), 'Raw title must be specified');
-            Assertion::notEmpty($dto->getForumTitle(), 'Forum title must be specified');
-            Assertion::notEmpty($dto->getForumExId(), 'Forum ex id must be specified');
-            Assertion::notEmpty($dto->getSize(), 'Size must be specified');
-            Assertion::notEmpty($dto->getExCreatedAt(), 'Ex created at timestamp must be specified');
+            $errors = $this->validator->validate($dto);
+
+            if ($errors->count()) {
+                throw new InvalidArgumentWhenCreatingTopicException;
+            }
+            // Assertion::notEmpty($dto->getExId(), 'Ex id must be specified');
+            // Assertion::notEmpty($dto->getRawTitle(), 'Raw title must be specified');
+            // Assertion::notEmpty($dto->getForumTitle(), 'Forum title must be specified');
+            // Assertion::notEmpty($dto->getForumExId(), 'Forum ex id must be specified');
+            // Assertion::notEmpty($dto->getSize(), 'Size must be specified');
+            // Assertion::notEmpty($dto->getExCreatedAt(), 'Ex created at timestamp must be specified');
         } catch (AssertionFailedException $e) {
             throw new InvalidArgumentWhenCreatingTopicException;
         }
