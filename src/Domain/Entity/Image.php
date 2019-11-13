@@ -13,22 +13,20 @@ class Image implements UniqueIdentityInterface
     private $id;
     private $topic;
     private $format;
-    private $preview;
+    private $frontUrl;
     private $reference;
     private $original;
-    private $host;
     private $createdAt;
     private $isBanner;
 
-    public function __construct(string $id, Topic $topic, ImageFormat $format, ?string $preview, ?string $reference, ?string $original, ?string $host, DateTimeImmutable $createdAt)
+    public function __construct(string $id, Topic $topic, ImageFormat $format, string $frontUrl, ?string $reference, ?string $original, DateTimeImmutable $createdAt)
     {
         $this->id           = $id;
         $this->topic        = $topic;
         $this->format       = $format;
-        $this->preview      = $preview;
+        $this->frontUrl     = $frontUrl;
         $this->reference    = $reference;
         $this->original     = $original;
-        $this->host         = $host;
         $this->createdAt    = $createdAt;
 
         $this->isBanner     = false;
@@ -49,9 +47,9 @@ class Image implements UniqueIdentityInterface
         return $this->format;
     }
 
-    public function getPreview(): ?string
+    public function getFrontUrl(): string
     {
-        return $this->preview;
+        return $this->frontUrl;
     }
 
     public function getReference(): ?string
@@ -62,11 +60,6 @@ class Image implements UniqueIdentityInterface
     public function getOriginal(): ?string
     {
         return $this->original;
-    }
-
-    public function getHost(): ?string
-    {
-        return $this->host;
     }
 
     public function getCreatedAt(): DateTimeImmutable
