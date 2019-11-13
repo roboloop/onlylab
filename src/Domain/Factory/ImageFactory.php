@@ -19,11 +19,11 @@ class ImageFactory
         $this->dateTimeUtil = $dateTimeUtil;
     }
 
-    public function make(Topic $topic, ImageFormat $format, ?string $preview, ?string $reference, ?string $original, ?string $host)
+    public function make(Topic $topic, ImageFormat $format, string $frontUrl, ?string $reference, ?string $original)
     {
         $id         = $this->repository->nextIdentity();
         $createdAt  = $this->dateTimeUtil->now();
 
-        return new Image($id, $topic, $format, $preview, $reference, $original, $host, $createdAt);
+        return new Image($id, $topic, $format, $frontUrl, $reference, $original, $createdAt);
     }
 }
