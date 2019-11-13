@@ -12,10 +12,9 @@
             <join-column nullable="false" />
         </many-to-one>
         <embedded name="format" class="App\Domain\Entity\Enum\ImageFormat" use-column-prefix="false" />
-        <field name="preview" type="string" length="255" nullable="true" />
+        <field name="frontUrl" type="string" length="255" />
         <field name="reference" type="string" length="255" nullable="true" />
         <field name="original" type="string" length="255" nullable="true" />
-        <field name="host" type="string" length="255" nullable="true" />
         <field name="createdAt" type="datetime_immutable" />
         <field name="isBanner" type="boolean" />
 
