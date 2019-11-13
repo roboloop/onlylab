@@ -2,9 +2,15 @@
 
 namespace App\Domain\Repository;
 
+use App\Domain\Shared\RepositoryInterface;
 use App\Domain\Shared\IdGeneratorInterface;
 
-interface ImageRepositoryInterface extends IdGeneratorInterface
+/**
+ * @method \App\Domain\Entity\Image[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method \App\Domain\Entity\Image[] findAll()
+ * @method \App\Domain\Entity\Image save($entity)
+ */
+interface ImageRepositoryInterface extends RepositoryInterface, IdGeneratorInterface
 {
 
 }
