@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Identifier;
+namespace App\Domain\Service;
 
-use App\Constant\ImageType;
+use App\Domain\Entity\Enum\ImageFormat;
 
-class NameSpoilerIdentifier
+class SpoilerIdentifier
 {
     private $screenshotNames = [
         'Скриншот',
@@ -58,13 +58,13 @@ class NameSpoilerIdentifier
     public function identifyType(string $header)
     {
         if ($this->isScreenshots($header)) {
-            $type = ImageType::SCREENSHOT;
+            $type = ImageFormat::SCREENSHOT;
         } elseif ($this->isScreenListing($header)) {
-            $type = ImageType::SCREENLISTING;
+            $type = ImageFormat::SCREENLISTING;
         } elseif ($this->isGif($header)) {
-            $type = ImageType::GIF;
+            $type = ImageFormat::GIF;
         } else {
-            $type = ImageType::OTHER;
+            $type = ImageFormat::OTHER;
         }
 
         return $type;
