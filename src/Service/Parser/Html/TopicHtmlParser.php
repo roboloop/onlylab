@@ -5,7 +5,7 @@ namespace App\Service\Parser\Html;
 use App\Constant\ImageType;
 use App\Dto\ImageDto;
 use App\Dto\RawTopicDto;
-use App\Service\Identifier\NameSpoilerIdentifier;
+use App\Domain\Service\SpoilerIdentifier;
 use Closure;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -13,7 +13,7 @@ class TopicHtmlParser
 {
     private $spoilerIdentifier;
 
-    public function __construct(NameSpoilerIdentifier $spoilerIdentifier)
+    public function __construct(SpoilerIdentifier $spoilerIdentifier)
     {
         $this->spoilerIdentifier = $spoilerIdentifier;
     }
