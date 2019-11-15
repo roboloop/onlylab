@@ -65,7 +65,7 @@ class ArrayRepository implements RepositoryInterface
 
     public function findAll()
     {
-        return $this->repo;
+        return array_values($this->repo);
     }
 
     /**

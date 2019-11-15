@@ -16,7 +16,6 @@ final class ImageFormat extends Enum
 
     private static $screenshotNames = [
         'Скриншот',
-        'Скриншоты',
         'Screenshots',
         'Примеры',
     ];

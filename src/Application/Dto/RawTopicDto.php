@@ -12,7 +12,8 @@ class RawTopicDto
     private $exCreatedAt;
     private $images;
 
-    public function __construct($exId, $forumExId, $forumTitle, $rawTitle, $size, $exCreatedAt, $images) {
+    public function __construct($exId, $forumExId, $forumTitle, $rawTitle, $size, $exCreatedAt, $images)
+    {
         $this->exId         = $exId;
         $this->forumExId    = $forumExId;
         $this->forumTitle   = $forumTitle;
