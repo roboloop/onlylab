@@ -9,7 +9,7 @@ class PicshickDeduction implements OriginalUrlDeductionInterface
         // TODO:
     }
 
-    public function support(string $frontUrl)
+    public function support(string $frontUrl): bool
     {
         // TODO:
     }

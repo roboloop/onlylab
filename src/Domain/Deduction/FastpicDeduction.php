@@ -6,13 +6,13 @@ class FastpicDeduction implements OriginalUrlDeductionInterface
 {
     public function deduct(string $frontUrl, array $context = [])
     {
-        $url = preg_replace('~thumb~', 'big', $frontUrl);
-        $url = preg_replace('~jpeg$~', 'jpg', $frontUrl);
+        $frontUrl = preg_replace('~thumb~', 'big', $frontUrl);
+        $frontUrl = preg_replace('~jpeg$~', 'jpg', $frontUrl);
 
-        return $url . '?noht=1';
+        return $frontUrl . '?noht=1';
     }
 
-    public function support(string $frontUrl)
+    public function support(string $frontUrl): bool
     {
         return preg_match('~fastpic\.ru~', $frontUrl);
 

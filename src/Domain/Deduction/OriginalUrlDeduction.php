@@ -11,7 +11,11 @@ class OriginalUrlDeduction implements OriginalUrlDeductionInterface
 
     public function __construct($deductions)
     {
-        $this->deductions = iterator_to_array($deductions);
+        if ($deductions instanceof iterable) {
+            $deductions = iterator_to_array($deductions);
+        }
+
+        $this->deductions = $deductions;
     }
 
 
