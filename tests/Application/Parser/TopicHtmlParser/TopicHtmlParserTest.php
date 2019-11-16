@@ -13,7 +13,7 @@ class TopicHtmlParserTest extends TestCase
      */
     public function testParse($content, $exId, $forumExId, $forumTitle, $rawTitle, $size, $exCreatedAt, $images)
     {
-        $rawTopic = (new TopicHtmlParser)->parse($content);
+        $rawTopic = (new TopicHtmlParser)->parseTopic($content);
 
         $totalImages    = count($images);
         $totalRawImages = count($rawTopic->getImages());
