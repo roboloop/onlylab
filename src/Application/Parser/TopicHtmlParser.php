@@ -2,6 +2,7 @@
 
 namespace App\Application\Parser;
 
+use App\Application\Dto\RawForumDto;
 use App\Application\Dto\RawImageDto;
 use App\Application\Dto\RawTopicDto;
 use Closure;
@@ -9,15 +10,14 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class TopicHtmlParser
 {
-    public function parse(string $content)
+    public function parseTopic(string $content)
     {
         return new RawTopicDto(
             $this->exId($content),
-            $this->forumExId($content),
-            $this->forumTitle($content),
             $this->rawTitle($content),
             $this->size($content),
             $this->exCreatedAt($content),
+            $this->forum($content),
             $this->images($content)
         );
     }
@@ -31,7 +31,7 @@ class TopicHtmlParser
         return $matches[1];
     }
 
-    private function forumExId($content)
+    private function forum(string $content)
     {
         $crawler    = new Crawler($content);
         $body       = $crawler->filterXPath('//div[@id="main_content_wrap"]//table//table//td[@class="nav"]/a');
@@ -39,16 +39,10 @@ class TopicHtmlParser
 
         preg_match('~f=(\d+)~', $href, $matches);
 
-        return $matches[1] ?? null;
-    }
-
-    private function forumTitle(string $content)
-    {
-        $crawler    = new Crawler($content);
         $body       = $crawler->filterXPath('//div[@id="main_content_wrap"]//table//table//td[@class="nav"]/a');
         $text       = $body->last()->getNode(0)->nodeValue;
 
-        return $text;
+        return new RawForumDto($matches[1] ?? null, $text);
     }
 
     private function rawTitle(string $content)

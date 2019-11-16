@@ -60,7 +60,7 @@ class TopicCreator
         $rawStudios = $this->parserManager->studios($dto->getRawTitle());
         $studios    = $this->studioService->getOrMakeOrBoth($rawStudios);
 
-        $forum      = $this->forumService->getOrMake($dto->getForumExId(), $dto->getForumTitle());
+        $forum      = $this->forumService->getOrMake($dto->getForum()->getExId(), $dto->getForum()->getTitle());
         $topic      = $this->topicService->makeNotLoaded($dto->getExId(), $dto->getRawTitle(), $forum, $dto->getSize(), $dto->getExCreatedAt());
 
         /** @var \App\Application\Dto\RawImageDto $image */
@@ -96,11 +96,10 @@ class TopicCreator
 
         $dto = new RawTopicDto(
             (int) $dto->getExId(),
-            (int) $dto->getForumExId(),
-            (string) $dto->getForumTitle(),
             (string) $dto->getRawTitle(),
             $this->sizeConverter->fromStringToInt($dto->getSize()),
             $this->dateTimeUtil->ymdHi($dto->getExCreatedAt()),
+            $dto->getForum(),
             $images
         );
     }

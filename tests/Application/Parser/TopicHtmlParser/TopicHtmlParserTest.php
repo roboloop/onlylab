@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Application\Parser;
+namespace App\Tests\Application\Parser\TopicHtmlParser;
 
 use App\Application\Dto\RawImageDto;
 use App\Application\Parser\TopicHtmlParser;
@@ -11,15 +11,15 @@ class TopicHtmlParserTest extends TestCase
     /**
      * @dataProvider data
      */
-    public function testParse($content, $exId, $forumExId, $forumTitle, $rawTitle, $size, $exCreatedAt, $images)
+    public function testParseTopic($content, $exId, $forumExId, $forumTitle, $rawTitle, $size, $exCreatedAt, $images)
     {
         $rawTopic = (new TopicHtmlParser)->parseTopic($content);
 
         $totalImages    = count($images);
         $totalRawImages = count($rawTopic->getImages());
         $this->assertEquals($exId, $rawTopic->getExId());
-        $this->assertEquals($forumExId, $rawTopic->getForumExId());
-        $this->assertEquals($forumTitle, $rawTopic->getForumTitle());
+        $this->assertEquals($forumExId, $rawTopic->getForum()->getExId());
+        $this->assertEquals($forumTitle, $rawTopic->getForum()->getTitle());
         $this->assertEquals($rawTitle, $rawTopic->getRawTitle());
         $this->assertEquals($size, $rawTopic->getSize());
         $this->assertEquals($exCreatedAt, $rawTopic->getExCreatedAt());
