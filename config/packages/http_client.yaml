@@ -1,0 +1,8 @@
+framework:
+    http_client:
+        scoped_clients:
+            only_tracker.client:
+                base_uri: '%env(ONLY_TRACKER_URL)%'
+                max_redirects: 0
+                timeout: 10
+                proxy: '%env(SOCK5_PROXY)%'
