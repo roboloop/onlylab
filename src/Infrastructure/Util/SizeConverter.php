@@ -21,7 +21,7 @@ class SizeConverter
      */
     public function fromStringToInt(string $size)
     {
-        preg_match('~(?P<quantity>[\d]+\.?\d+)\s*(?P<unit>.*)$~', trim($size), $matches);
+        preg_match('~(?P<quantity>[\d]+\.?\d+)\s*(?P<unit>.*)$~u', trim($size), $matches);
 
         if (isset($matches['unit']) and isset(self::$suffixes[$matches['unit']]) and isset($matches['quantity']))
             return (int) ($matches['quantity'] * self::$base ** self::$suffixes[$matches['unit']]);
