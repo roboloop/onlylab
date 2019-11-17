@@ -4,6 +4,7 @@ namespace App\Application\Parser;
 
 use App\Application\Dto\RawForumDto;
 use App\Application\Dto\RawTopicDto;
+use Closure;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ForumHtmlParser
@@ -17,32 +18,47 @@ class ForumHtmlParser
     {
         $crawler = new Crawler($content);
 
+        // Layout is broken. Look only "forumline forum"
         $lines = $crawler->filterXPath('//table[@class="forumline forum"]/tr[contains(@id, "tr-")]');
         $forum = $this->forum($content);
 
-        $filterFromNotTopics = function (Crawler $node) {
-            // This is ad, if no torrent size exists.
-            return null !== $node->children()->getNode(2)->firstChild;
-        };
+        $rawData = $lines
+            ->reduce(Closure::fromCallable([$this, 'filterFromNotTopics']))
+            ->each(Closure::fromCallable([$this, 'collectRawTopic']));
 
-        $createTopic = function (Crawler $line) use ($forum) {
-            $line = $line->children();
+        $rawTopics = [];
 
-            $exId           = $line->getNode(0)->getAttribute('id');
-            $rawTitle       = $line->getNode(1)->firstChild->nodeValue;
-            $size           = $line->getNode(2)->firstChild->nodeValue;
-            $exCreatedAt    = $line->getNode(3)->firstChild->nodeValue;
-
-            return new RawTopicDto(
+        foreach ($rawData as [$exId, $rawTitle, $size, $exCreatedAt]) {
+            $rawTopics[] = new RawTopicDto(
                 $this->sanitize($exId),
                 $this->sanitize($rawTitle),
                 $this->sanitize($size),
                 $this->sanitize($exCreatedAt),
-                $this->sanitize($forum)
+                $forum
             );
-        };
+        }
 
-        return $lines->reduce($filterFromNotTopics)->each($createTopic);
+        return $rawTopics;
+    }
+
+    private function filterFromNotTopics(Crawler $tableRow)
+    {
+        // This is ad, if no torrent size exists.
+        $value = $tableRow->children()->getNode(2)->nodeValue;
+
+        return null !== $this->sanitize($value);
+    }
+
+    private function collectRawTopic(Crawler $tableRow)
+    {
+        $tableRow = $tableRow->children();
+
+        $exId           = $tableRow->getNode(0)->getAttribute('id');
+        $rawTitle       = $tableRow->getNode(1)->nodeValue;
+        $size           = $tableRow->getNode(2)->nodeValue;
+        $exCreatedAt    = $tableRow->getNode(4)->nodeValue;
+
+        return [ $exId, $rawTitle, $size, $exCreatedAt ];
     }
 
     private function sanitize($data)
@@ -53,11 +69,6 @@ class ForumHtmlParser
         }
 
         return $data;
-    }
-
-    public function parsePageState(string $content)
-    {
-        // TODO:
     }
 
     private function forum(string $content)
@@ -74,10 +85,13 @@ class ForumHtmlParser
         $body       = $crawler->filterXPath('//table//h1[@class="maintitle"]/a');
         $title      = $body->getNode(0)->nodeValue;
 
-        return new RawForumDto($exId, $title);
+        return new RawForumDto(
+            $this->sanitize($exId),
+            $this->sanitize($title)
+        );
     }
 
-    public function pages(string $content)
+    public function parsePageState(string $content)
     {
         $crawler = new Crawler($content);
 
@@ -87,7 +101,7 @@ class ForumHtmlParser
         preg_match('~(\d+)\D+(\d+)~', $value, $matches);
 
         if (isset($matches[1]) and isset($matches[2])) {
-            return [(int) $matches[1], (int) $matches[2]];
+            return [$matches[1], $matches[2]];
         }
 
         return [null, null];
