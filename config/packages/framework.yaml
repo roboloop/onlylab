@@ -16,7 +16,7 @@ framework:
     php_errors:
         log: true
 
-    validation:
-        mapping:
-            paths:
-                - "%kernel.project_dir%/Infrastructure/Symfony/Validation"
+#    validation:
+#        mapping:
+#            paths:
+#                - "%kernel.project_dir%/Infrastructure/Symfony/Validation"

@@ -10,7 +10,7 @@ class ParameterBag
 
     public function __construct(ContainerInterface $container)
     {
-        $this->baseUrl = $container->getParameter('base_url');
+        // $this->baseUrl = $container->getParameter('base_url');
     }
 
     public function getBaseUrl()

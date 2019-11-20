@@ -14,15 +14,15 @@ class ForumHtmlParser
     private $genreParser;
     private $qualityParser;
 
-    public function __construct(
-        SiteParser $siteParser,
-        GenreParser $genreParser,
-        QualityParser $qualityParser
-    ) {
-        $this->siteParser       = $siteParser;
-        $this->genreParser      = $genreParser;
-        $this->qualityParser    = $qualityParser;
-    }
+    // public function __construct(
+    //     SiteParser $siteParser,
+    //     GenreParser $genreParser,
+    //     QualityParser $qualityParser
+    // ) {
+    //     $this->siteParser       = $siteParser;
+    //     $this->genreParser      = $genreParser;
+    //     $this->qualityParser    = $qualityParser;
+    // }
 
     public function rawParticleTopicDto(string $content)
     {

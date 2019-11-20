@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Genre;
 use App\Service\GenreService;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GenreController extends BaseController
@@ -35,12 +33,10 @@ class GenreController extends BaseController
      * })
      *
      * @param \App\Entity\Genre                         $genre
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Knp\Component\Pager\PaginatorInterface   $paginator
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function topics(Genre $genre, Request $request, PaginatorInterface $paginator)
+    public function topics(Genre $genre)
     {
         // for ($i = 0; $i < 180; $i++) {
         //     $arr[] = rand(1,20);

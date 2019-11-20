@@ -9,16 +9,16 @@ use App\Service\TitleParserService;
 
 class TopicAssembler
 {
-    private $titleParser;
-    private $sizeParser;
-
-    public function __construct(
-        TitleParserService $titleParser,
-        SizeParser $sizeParser
-    ) {
-        $this->titleParser  = $titleParser;
-        $this->sizeParser = $sizeParser;
-    }
+    // private $titleParser;
+    // private $sizeParser;
+    //
+    // public function __construct(
+    //     TitleParserService $titleParser,
+    //     SizeParser $sizeParser
+    // ) {
+    //     $this->titleParser  = $titleParser;
+    //     $this->sizeParser = $sizeParser;
+    // }
 
     /**
      * @param \App\Dto\RawTopicDto $dto

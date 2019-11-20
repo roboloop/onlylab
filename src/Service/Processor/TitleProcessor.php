@@ -6,12 +6,12 @@ use App\Service\TitleParserService;
 
 class TitleProcessor
 {
-    private $titleParser;
-
-    public function __construct(TitleParserService $titleParser)
-    {
-        $this->titleParser = $titleParser;
-    }
+    // private $titleParser;
+    //
+    // public function __construct(TitleParserService $titleParser)
+    // {
+    //     $this->titleParser = $titleParser;
+    // }
 
     public function rawGenresFromTitle(string $title)
     {

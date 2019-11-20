@@ -4,11 +4,6 @@ namespace App\Service\Maker;
 
 use App\Dto\RawTopicDto;
 use App\Entity\Topic;
-use App\Service\Assembler\ForumAssembler;
-use App\Service\Assembler\GenreAssembler;
-use App\Service\Assembler\ImageAssembler;
-use App\Service\Assembler\StudioAssembler;
-use App\Service\Assembler\TopicAssembler;
 use App\Service\Collection\ForumCollection;
 use App\Service\Collection\GenreCollection;
 use App\Service\Collection\StudioCollection;
@@ -36,11 +31,11 @@ class TopicMaker
 
     public function __construct(
         TitleProcessor $titleProcessor,
-        GenreAssembler $genreAssembler,
-        StudioAssembler $studioAssembler,
-        TopicAssembler $topicAssembler,
-        ImageAssembler $imageAssembler,
-        ForumAssembler $forumAssembler,
+        // GenreAssembler $genreAssembler,
+        // StudioAssembler $studioAssembler,
+        // TopicAssembler $topicAssembler,
+        // ImageAssembler $imageAssembler,
+        // ForumAssembler $forumAssembler,
         ArrayTransformer $arrayTransformer,
         GenreCollection $genreCollection,
         StudioCollection $studioCollection,
@@ -50,14 +45,14 @@ class TopicMaker
         GenreTitlePreparer $genreTitlePreparer
     ) {
         $this->titleProcessor       = $titleProcessor;
-        $this->genreAssembler       = $genreAssembler;
-        $this->studioAssembler      = $studioAssembler;
-        $this->topicAssembler       = $topicAssembler;
-        $this->forumAssembler       = $forumAssembler;
+        // $this->genreAssembler       = $genreAssembler;
+        // $this->studioAssembler      = $studioAssembler;
+        // $this->topicAssembler       = $topicAssembler;
+        // $this->forumAssembler       = $forumAssembler;
         $this->arrayTransformer     = $arrayTransformer;
         $this->genreCollection      = $genreCollection;
         $this->studioCollection     = $studioCollection;
-        $this->imageAssembler       = $imageAssembler;
+        // $this->imageAssembler       = $imageAssembler;
         $this->forumCollection      = $forumCollection;
         $this->imageDtoConverter    = $imageDtoConverter;
         $this->imageUrlConverter    = $imageUrlConverter;

@@ -7,12 +7,12 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class RequestSender
 {
-    private $client;
-
-    public function __construct(TrackerClient $client)
-    {
-        $this->client = $client;
-    }
+    // private $client;
+    //
+    // public function __construct(TrackerClient $client)
+    // {
+    //     $this->client = $client;
+    // }
 
     public function send(Request $request)
     {

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Repository;
 
-use App\Domain\Shared\RepositoryInterface;
+use App\Domain\Shared\PersistenceRepositoryInterface;
 use App\Domain\Shared\IdGeneratorInterface;
 
 /**
@@ -10,7 +10,7 @@ use App\Domain\Shared\IdGeneratorInterface;
  * @method \App\Domain\Entity\Image[] findAll()
  * @method \App\Domain\Entity\Image save($entity)
  */
-interface ImageRepositoryInterface extends RepositoryInterface, IdGeneratorInterface
+interface ImagePersistenceRepositoryInterface extends PersistenceRepositoryInterface, IdGeneratorInterface
 {
 
 }
