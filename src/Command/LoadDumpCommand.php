@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\System\DatabaseManager;
+use App\Infrastructure\BackupManager\DatabaseManager;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;

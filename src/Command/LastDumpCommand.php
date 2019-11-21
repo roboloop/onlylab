@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\System\DatabaseManager;
+use App\Infrastructure\BackupManager\DatabaseManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

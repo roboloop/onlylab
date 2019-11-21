@@ -31,7 +31,7 @@ services:
 
     # Database backup
     BackupManager\Manager: '@backup_manager'
-    app.backup_manager.databases.ext_mysql_database: '@App\System\MysqlDatabase'
+    app.backup_manager.databases.ext_mysql_database: '@App\Infrastructure\BackupManager\MysqlDatabase'
     backup_manager.databases:
         class:  BackupManager\Databases\DatabaseProvider
         public: false
@@ -42,7 +42,7 @@ services:
 
     # Naming Strategy
     app.doctrine.orm.naming_strategy.underscore_plural:
-        class: App\Mapping\Strategy\UnderscorePluralStrategy
+        class: App\Infrastructure\Doctrine\Strategy\UnderscorePluralStrategy
         arguments:
             - !php/const CASE_LOWER
 
