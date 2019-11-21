@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Assert;
+namespace OnlyTracker\Infrastructure\Assert;
 
 use Assert\AssertionFailedException as BaseAssertionFailedException;
 

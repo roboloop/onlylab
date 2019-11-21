@@ -2,10 +2,10 @@
 
 declare (strict_types = 1);
 
-namespace App\Domain\Entity;
+namespace OnlyTracker\Domain\Entity;
 
-use App\Domain\Entity\Enum\StudioStatus;
-use App\Domain\Shared\UniqueIdentityInterface;
+use OnlyTracker\Domain\Entity\Enum\StudioStatus;
+use OnlyTracker\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
 class Studio implements UniqueIdentityInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Dto;
+namespace OnlyTracker\Application\Dto;
 
 class RawImageDto
 {

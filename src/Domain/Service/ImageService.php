@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Domain\Service;
+namespace OnlyTracker\Domain\Service;
 
-use App\Domain\Deduction\NoOriginalUrlDeductionSupportsException;
-use App\Domain\Deduction\OriginalUrlDeductionInterface;
-use App\Domain\Entity\Enum\ImageFormat;
-use App\Domain\Entity\Image;
-use App\Domain\Entity\Topic;
-use App\Domain\Factory\ImageFactory;
-use App\Domain\Repository\ImageRepositoryInterface;
+use OnlyTracker\Domain\Deduction\NoOriginalUrlDeductionSupportsException;
+use OnlyTracker\Domain\Deduction\OriginalUrlDeductionInterface;
+use OnlyTracker\Domain\Entity\Enum\ImageFormat;
+use OnlyTracker\Domain\Entity\Image;
+use OnlyTracker\Domain\Entity\Topic;
+use OnlyTracker\Domain\Factory\ImageFactory;
+use OnlyTracker\Domain\Repository\ImageRepositoryInterface;
 
 class ImageService
 {

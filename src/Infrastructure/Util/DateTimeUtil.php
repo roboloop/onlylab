@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Infrastructure\Util;
+namespace OnlyTracker\Infrastructure\Util;
 
-use App\Domain\Shared\DateTimeUtilInterface;
+use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;

@@ -2,7 +2,7 @@
 
 declare (strict_types = 1);
 
-namespace App\Domain\Entity\Embeddable;
+namespace OnlyTracker\Domain\Entity\Embeddable;
 
 class ParsedTitle
 {

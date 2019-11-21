@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Service;
+namespace OnlyTracker\Domain\Service;
 
-use App\Domain\Entity\Enum\StudioStatus;
-use App\Domain\Factory\StudioFactory;
-use App\Domain\Repository\StudioRepositoryInterface;
+use OnlyTracker\Domain\Entity\Enum\StudioStatus;
+use OnlyTracker\Domain\Factory\StudioFactory;
+use OnlyTracker\Domain\Repository\StudioRepositoryInterface;
 
 class StudioService
 {

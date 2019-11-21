@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Assert;
+namespace OnlyTracker\Infrastructure\Assert;
 
 use InvalidArgumentException as BaseInvalidArgumentException;
 use Assert\AssertionFailedException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Deduction;
+namespace OnlyTracker\Domain\Deduction;
 
 class OriginalUrlDeduction implements OriginalUrlDeductionInterface
 {

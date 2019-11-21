@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Infrastructure\Doctrine\Repository;
+namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
-use App\Domain\Entity\Image;
-use App\Domain\Repository\ImageRepositoryInterface;
-use App\Shared\Infrastructure\DoctrineRepository;
+use OnlyTracker\Domain\Entity\Image;
+use OnlyTracker\Domain\Repository\ImageRepositoryInterface;
+use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**

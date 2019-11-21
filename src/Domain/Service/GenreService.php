@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Service;
+namespace OnlyTracker\Domain\Service;
 
-use App\Domain\Factory\GenreFactory;
-use App\Domain\Repository\GenreRepositoryInterface;
+use OnlyTracker\Domain\Factory\GenreFactory;
+use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
 
 class GenreService
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace OnlyTracker\BackEnd\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 

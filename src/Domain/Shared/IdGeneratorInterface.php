@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Shared;
+namespace OnlyTracker\Domain\Shared;
 
 interface IdGeneratorInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\BackupManager;
+namespace OnlyTracker\Infrastructure\BackupManager;
 
 use BackupManager\Databases\MysqlDatabase as BaseMysqlDatabase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Domain\ValueObject;
+namespace OnlyTracker\Shared\Domain\ValueObject;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
 

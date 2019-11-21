@@ -2,7 +2,7 @@
 
 declare (strict_types = 1);
 
-namespace App\Infrastructure\Doctrine\Types;
+namespace OnlyTracker\Infrastructure\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;

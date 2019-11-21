@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Exception;
+namespace OnlyTracker\Application\Exception;
 
 use InvalidArgumentException;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Entity;
+namespace OnlyTracker\Domain\Entity;
 
-use App\Domain\Entity\Embeddable\ParsedTitle;
-use App\Domain\Shared\UniqueIdentityInterface;
+use OnlyTracker\Domain\Entity\Embeddable\ParsedTitle;
+use OnlyTracker\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 

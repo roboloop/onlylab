@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Request;
+namespace OnlyTracker\Infrastructure\Request;
 
 interface RequestSenderInterface
 {

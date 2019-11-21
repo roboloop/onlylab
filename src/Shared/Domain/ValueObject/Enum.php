@@ -2,7 +2,7 @@
 
 declare (strict_types = 1);
 
-namespace App\Shared\Domain\ValueObject;
+namespace OnlyTracker\Shared\Domain\ValueObject;
 
 use InvalidArgumentException;
 use ReflectionClass;

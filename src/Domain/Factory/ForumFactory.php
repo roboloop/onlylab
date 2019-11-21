@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Factory;
+namespace OnlyTracker\Domain\Factory;
 
-use App\Domain\Entity\Forum;
-use App\Domain\Repository\ForumRepositoryInterface;
-use App\Domain\Shared\DateTimeUtilInterface;
+use OnlyTracker\Domain\Entity\Forum;
+use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
+use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 
 class ForumFactory
 {

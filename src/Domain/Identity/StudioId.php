@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Identity;
+namespace OnlyTracker\Domain\Identity;
 
 class StudioId
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Util\Parser\Title;
+namespace OnlyTracker\Infrastructure\Util\Parser\Title;
 
 class StudioParser
 {

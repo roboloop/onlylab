@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Doctrine\Strategy;
+namespace OnlyTracker\Infrastructure\Doctrine\Strategy;
 
 use Doctrine\Common\Inflector\Inflector;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;

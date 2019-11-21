@@ -2,9 +2,9 @@
 
 declare (strict_types = 1);
 
-namespace App\Domain\Entity;
+namespace OnlyTracker\Domain\Entity;
 
-use App\Domain\Shared\UniqueIdentityInterface;
+use OnlyTracker\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
 class Forum implements UniqueIdentityInterface

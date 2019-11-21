@@ -2,9 +2,9 @@
 
 declare (strict_types = 1);
 
-namespace App\Domain\Entity\Enum;
+namespace OnlyTracker\Domain\Entity\Enum;
 
-use App\Shared\Domain\ValueObject\Enum;
+use OnlyTracker\Shared\Domain\ValueObject\Enum;
 
 final class StudioStatus extends Enum
 {

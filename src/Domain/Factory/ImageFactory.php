@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Domain\Factory;
+namespace OnlyTracker\Domain\Factory;
 
-use App\Domain\Entity\Enum\ImageFormat;
-use App\Domain\Entity\Image;
-use App\Domain\Entity\Topic;
-use App\Domain\Repository\ImageRepositoryInterface;
-use App\Domain\Shared\DateTimeUtilInterface;
+use OnlyTracker\Domain\Entity\Enum\ImageFormat;
+use OnlyTracker\Domain\Entity\Image;
+use OnlyTracker\Domain\Entity\Topic;
+use OnlyTracker\Domain\Repository\ImageRepositoryInterface;
+use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 
 class ImageFactory
 {

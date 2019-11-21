@@ -46,10 +46,11 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "OnlyTracker\\BackEnd\\": "applications/onlytracker_backend/src",
+            "OnlyTracker\\": ["src"]
         },
         "files": [
-            "helpers/helpers.php"
+
         ]
     },
     "autoload-dev": {

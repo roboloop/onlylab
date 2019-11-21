@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Service;
+namespace OnlyTracker\Domain\Service;
 
-use App\Domain\Factory\ForumFactory;
-use App\Domain\Repository\ForumRepositoryInterface;
+use OnlyTracker\Domain\Factory\ForumFactory;
+use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
 
 class ForumService
 {

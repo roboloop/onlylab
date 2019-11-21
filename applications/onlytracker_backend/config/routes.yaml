@@ -1,0 +1,3 @@
+#index:
+#    path: /
+#    controller: OnlyTracker\Controller\DefaultController::index

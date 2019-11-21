@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Domain\Factory;
+namespace OnlyTracker\Domain\Factory;
 
-use App\Domain\Entity\Embeddable\ParsedTitle;
-use App\Domain\Entity\Forum;
-use App\Domain\Entity\Topic;
-use App\Domain\Repository\TopicRepositoryInterface;
-use App\Domain\Shared\DateTimeUtilInterface;
+use OnlyTracker\Domain\Entity\Embeddable\ParsedTitle;
+use OnlyTracker\Domain\Entity\Forum;
+use OnlyTracker\Domain\Entity\Topic;
+use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
+use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 use DateTimeImmutable;
 
 class TopicFactory

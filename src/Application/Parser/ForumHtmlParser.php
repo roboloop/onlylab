@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Application\Parser;
+namespace OnlyTracker\Application\Parser;
 
-use App\Application\Dto\RawForumDto;
-use App\Application\Dto\RawTopicDto;
+use OnlyTracker\Application\Dto\RawForumDto;
+use OnlyTracker\Application\Dto\RawTopicDto;
 use Closure;
 use Symfony\Component\DomCrawler\Crawler;
 

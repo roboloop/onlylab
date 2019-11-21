@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Service;
+namespace OnlyTracker\Domain\Service;
 
-use App\Domain\Entity\Forum;
-use App\Domain\Factory\TopicFactory;
-use App\Domain\Repository\TopicRepositoryInterface;
+use OnlyTracker\Domain\Entity\Forum;
+use OnlyTracker\Domain\Factory\TopicFactory;
+use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use DateTimeImmutable;
 
 class TopicService

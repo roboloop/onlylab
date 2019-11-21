@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Identity;
+namespace OnlyTracker\Domain\Identity;
 
-use App\Shared\Domain\ValueObject\Uuid;
+use OnlyTracker\Shared\Domain\ValueObject\Uuid;
 
 class ForumId extends Uuid
 {

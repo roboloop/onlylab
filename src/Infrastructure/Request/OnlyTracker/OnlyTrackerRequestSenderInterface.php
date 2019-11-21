@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Infrastructure\Request\OnlyTracker;
+namespace OnlyTracker\Infrastructure\Request\OnlyTracker;
 
-use App\Infrastructure\Request\RequestInterface;
-use App\Infrastructure\Request\RequestSenderInterface;
+use OnlyTracker\Infrastructure\Request\RequestInterface;
+use OnlyTracker\Infrastructure\Request\RequestSenderInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;

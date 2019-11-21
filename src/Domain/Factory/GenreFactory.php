@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Factory;
+namespace OnlyTracker\Domain\Factory;
 
-use App\Domain\Entity\Genre;
-use App\Domain\Repository\GenreRepositoryInterface;
-use App\Domain\Shared\DateTimeUtilInterface;
+use OnlyTracker\Domain\Entity\Genre;
+use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
+use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 
 class GenreFactory
 {

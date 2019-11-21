@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Infrastructure\Doctrine\Repository;
+namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
-use App\Domain\Entity\Forum;
-use App\Domain\Repository\ForumRepositoryInterface;
-use App\Shared\Infrastructure\DoctrineRepository;
+use OnlyTracker\Domain\Entity\Forum;
+use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
+use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**

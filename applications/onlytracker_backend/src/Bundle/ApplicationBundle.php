@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Bundle;
+namespace OnlyTracker\BackEnd\Bundle;
 
-use App\DependencyInjection\ApplicationExtension;
+use OnlyTracker\BackEnd\DependencyInjection\ApplicationExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

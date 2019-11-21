@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Util\Parser\Page;
+namespace OnlyTracker\Infrastructure\Util\Parser\Page;
 
 class SizeParser
 {

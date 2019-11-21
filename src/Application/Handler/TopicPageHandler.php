@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Application\Handler;
+namespace OnlyTracker\Application\Handler;
 
-use App\Application\Creator\TopicCreator;
-use App\Application\Parser\TopicHtmlParser;
+use OnlyTracker\Application\Creator\TopicCreator;
+use OnlyTracker\Application\Parser\TopicHtmlParser;
 
 class TopicPageHandler
 {

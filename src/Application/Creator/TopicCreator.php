@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Application\Creator;
+namespace OnlyTracker\Application\Creator;
 
-use App\Application\Dto\RawImageDto;
-use App\Application\Dto\RawTopicDto;
-use App\Application\Exception\InvalidArgumentWhenCreatingTopicException;
-use App\Domain\Service\ForumService;
-use App\Domain\Service\GenreService;
-use App\Domain\Service\ImageService;
-use App\Domain\Service\StudioService;
-use App\Domain\Service\TopicService;
-use App\Domain\Shared\DateTimeUtilInterface;
-use App\Infrastructure\Util\Parser\Title\TitleParserManager;
-use App\Infrastructure\Util\SizeConverter;
+use OnlyTracker\Application\Dto\RawImageDto;
+use OnlyTracker\Application\Dto\RawTopicDto;
+use OnlyTracker\Application\Exception\InvalidArgumentWhenCreatingTopicException;
+use OnlyTracker\Domain\Service\ForumService;
+use OnlyTracker\Domain\Service\GenreService;
+use OnlyTracker\Domain\Service\ImageService;
+use OnlyTracker\Domain\Service\StudioService;
+use OnlyTracker\Domain\Service\TopicService;
+use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
+use OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager;
+use OnlyTracker\Infrastructure\Util\SizeConverter;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TopicCreator

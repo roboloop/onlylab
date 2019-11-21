@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Command;
+namespace OnlyTracker\BackEnd\Command;
 
-use App\Infrastructure\BackupManager\DatabaseManager;
+use OnlyTracker\Infrastructure\BackupManager\DatabaseManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

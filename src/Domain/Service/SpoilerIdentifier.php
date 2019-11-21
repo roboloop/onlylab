@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Service;
+namespace OnlyTracker\Domain\Service;
 
-use App\Domain\Entity\Enum\ImageFormat;
+use OnlyTracker\Domain\Entity\Enum\ImageFormat;
 
 class SpoilerIdentifier
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Util;
+namespace OnlyTracker\Infrastructure\Util;
 
 class SizeConverter
 {

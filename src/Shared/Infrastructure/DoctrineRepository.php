@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Shared\Infrastructure;
+namespace OnlyTracker\Shared\Infrastructure;
 
-use App\Domain\Shared\RepositoryInterface;
-use App\Shared\Domain\ValueObject\Uuid;
+use OnlyTracker\Domain\Shared\RepositoryInterface;
+use OnlyTracker\Shared\Domain\ValueObject\Uuid;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use LogicException;
 

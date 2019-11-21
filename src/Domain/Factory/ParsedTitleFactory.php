@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Factory;
+namespace OnlyTracker\Domain\Factory;
 
-use App\Domain\Entity\Embeddable\ParsedTitle;
+use OnlyTracker\Domain\Entity\Embeddable\ParsedTitle;
 
 class ParsedTitleFactory
 {

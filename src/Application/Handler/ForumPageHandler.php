@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Handler;
+namespace OnlyTracker\Application\Handler;
 
 class ForumPageHandler
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Service;
+namespace OnlyTracker\Domain\Service;
 
-use App\Domain\Factory\ParsedTitleFactory;
-use App\Infrastructure\Util\Parser\Title\TitleParserManager;
+use OnlyTracker\Domain\Factory\ParsedTitleFactory;
+use OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager;
 
 class ParsedTitleService
 {

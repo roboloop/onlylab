@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Repository;
+namespace OnlyTracker\Domain\Repository;
 
-use App\Domain\Identity\ForumId;
-use App\Domain\Shared\RepositoryInterface;
-use App\Domain\Shared\IdGeneratorInterface;
+use OnlyTracker\Domain\Identity\ForumId;
+use OnlyTracker\Domain\Shared\RepositoryInterface;
+use OnlyTracker\Domain\Shared\IdGeneratorInterface;
 
 interface ForumRepositoryInterface extends RepositoryInterface, IdGeneratorInterface
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Factory;
+namespace OnlyTracker\Domain\Factory;
 
-use App\Domain\Entity\Enum\StudioStatus;
-use App\Domain\Entity\Studio;
-use App\Domain\Repository\StudioRepositoryInterface;
-use App\Domain\Shared\DateTimeUtilInterface;
+use OnlyTracker\Domain\Entity\Enum\StudioStatus;
+use OnlyTracker\Domain\Entity\Studio;
+use OnlyTracker\Domain\Repository\StudioRepositoryInterface;
+use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 
 class StudioFactory
 {

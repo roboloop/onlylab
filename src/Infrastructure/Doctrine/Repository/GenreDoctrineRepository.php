@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Infrastructure\Doctrine\Repository;
+namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
-use App\Domain\Entity\Genre;
-use App\Domain\Repository\GenreRepositoryInterface;
-use App\Shared\Infrastructure\DoctrineRepository;
+use OnlyTracker\Domain\Entity\Genre;
+use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
+use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**

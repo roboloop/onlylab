@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Infrastructure\Request\OnlyTracker;
+namespace OnlyTracker\Infrastructure\Request\OnlyTracker;
 
-use App\Infrastructure\Request\RequestInterface;
+use OnlyTracker\Infrastructure\Request\RequestInterface;
 
 class ForumPageRequest implements RequestInterface
 {
