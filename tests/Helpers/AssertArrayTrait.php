@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Helpers;
+namespace OnlyTracker\Tests\Helpers;
 
 trait AssertArrayTrait
 {

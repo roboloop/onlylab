@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Stubs\Infrastructure\Fixture;
+namespace OnlyTracker\Tests\Stubs\Infrastructure\Fixture;
 
-use App\Tests\Stubs\Infrastructure\DateTimeImmutableProvider;
+use OnlyTracker\Tests\Stubs\Infrastructure\DateTimeImmutableProvider;
 use Faker\Factory;
 
 final class FixtureLoader

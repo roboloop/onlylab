@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Domain\Entity\Enum;
+namespace OnlyTracker\Tests\Domain\Entity\Enum;
 
-use App\Domain\Entity\Enum\ImageFormat;
+use OnlyTracker\Domain\Entity\Enum\ImageFormat;
 use PHPUnit\Framework\TestCase;
 
 class ImageFormatTest extends TestCase

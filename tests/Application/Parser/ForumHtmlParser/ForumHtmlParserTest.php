@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Application\Parser\ForumHtmlParser;
+namespace OnlyTracker\Tests\Application\Parser\ForumHtmlParser;
 
-use App\Application\Parser\ForumHtmlParser;
+use OnlyTracker\Application\Parser\ForumHtmlParser;
 use PHPUnit\Framework\TestCase;
 
 class ForumHtmlParserTest extends TestCase
@@ -43,17 +43,17 @@ class ForumHtmlParserTest extends TestCase
     {
         return [
             [
-                file_get_contents('mdwaylo2.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo2.ftmf'),
                 '2',
                 '395',
             ],
             [
-                file_get_contents('mdwaylo6.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo6.ftmf'),
                 '2',
                 '229',
             ],
             [
-                file_get_contents('mdwaylo1.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo1.ftmf'),
                 '2',
                 '67',
             ],
@@ -64,7 +64,7 @@ class ForumHtmlParserTest extends TestCase
     {
         return [
             [
-                file_get_contents('mdwaylo2.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo2.ftmf'),
                 '2007',
                 'tgtuuoea 6486 (gf biaaw) / nepjzkh\'h 6486 (gf biaaw)',
                 [
@@ -89,7 +89,7 @@ class ForumHtmlParserTest extends TestCase
                 ],
             ],
             [
-                file_get_contents('mdwaylo6.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo6.ftmf'),
                 '7965',
                 'yjwsrnq x jvfrx / plpnjau & abknh',
                 [
@@ -120,7 +120,7 @@ class ForumHtmlParserTest extends TestCase
                 ]
             ],
             [
-                file_get_contents('mdwaylo1.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo1.ftmf'),
                 '4590',
                 'dmkmnl: ufxhyqgn ozpmnfwwr / mkxuem: fgge kwtixbikjz',
                 [

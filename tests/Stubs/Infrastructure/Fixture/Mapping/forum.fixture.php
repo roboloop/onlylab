@@ -1,7 +1,7 @@
 <?php
 
 return [
-    \App\Domain\Entity\Forum::class => [
+    \OnlyTracker\Domain\Entity\Forum::class => [
         'forum0' => [
             '__construct' => [
                 '<uuid()>',

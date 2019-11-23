@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Tests\Infrastructure\Util\Parser\Title;
+namespace OnlyTracker\Tests\Infrastructure\Util\Parser\Title;
 
-use App\Infrastructure\Util\Parser\Title\GenreParser;
-use App\Infrastructure\Util\Parser\Title\OriginalTitleParser;
-use App\Infrastructure\Util\Parser\Title\QualityParser;
-use App\Infrastructure\Util\Parser\Title\StudioParser;
-use App\Infrastructure\Util\Parser\Title\TitleParserManager;
-use App\Infrastructure\Util\Parser\Title\YearParser;
+use OnlyTracker\Infrastructure\Util\Parser\Title\GenreParser;
+use OnlyTracker\Infrastructure\Util\Parser\Title\OriginalTitleParser;
+use OnlyTracker\Infrastructure\Util\Parser\Title\QualityParser;
+use OnlyTracker\Infrastructure\Util\Parser\Title\StudioParser;
+use OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager;
+use OnlyTracker\Infrastructure\Util\Parser\Title\YearParser;
 use PHPUnit\Framework\TestCase;
 
 class TitleParserManagerTest extends TestCase
 {
-    /** @var \App\Infrastructure\Util\Parser\Title\TitleParserManager */
+    /** @var \OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager */
     private $manager;
 
     protected function setUp()

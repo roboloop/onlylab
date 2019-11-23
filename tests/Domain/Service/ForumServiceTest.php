@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Tests\Domain\Service;
+namespace OnlyTracker\Tests\Domain\Service;
 
-use App\Domain\Factory\ForumFactory;
-use App\Domain\Service\ForumService;
-use App\Infrastructure\Util\DateTimeUtil;
-use App\Tests\Stubs\Infrastructure\Repository\ArrayForumRepository;
+use OnlyTracker\Domain\Factory\ForumFactory;
+use OnlyTracker\Domain\Service\ForumService;
+use OnlyTracker\Infrastructure\Util\DateTimeUtil;
+use OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayForumRepository;
 use PHPUnit\Framework\TestCase;
 
 class ForumServiceTest extends TestCase
 {
-    /** @var \App\Tests\Stubs\Infrastructure\Repository\ArrayForumRepository */
+    /** @var \OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayForumRepository */
     private $repo;
-    /** @var \App\Domain\Factory\ForumFactory */
+    /** @var \OnlyTracker\Domain\Factory\ForumFactory */
     private $factory;
-    /** @var \App\Domain\Service\ForumService */
+    /** @var \OnlyTracker\Domain\Service\ForumService */
     private $service;
 
     protected function setUp()

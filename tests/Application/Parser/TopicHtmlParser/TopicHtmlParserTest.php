@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Application\Parser\TopicHtmlParser;
+namespace OnlyTracker\Tests\Application\Parser\TopicHtmlParser;
 
-use App\Application\Dto\RawImageDto;
-use App\Application\Parser\TopicHtmlParser;
+use OnlyTracker\Application\Dto\RawImageDto;
+use OnlyTracker\Application\Parser\TopicHtmlParser;
 use PHPUnit\Framework\TestCase;
 
 class TopicHtmlParserTest extends TestCase
@@ -25,7 +25,7 @@ class TopicHtmlParserTest extends TestCase
         $this->assertEquals($exCreatedAt, $rawTopic->getExCreatedAt());
         $this->assertEquals($totalImages, $totalRawImages);
 
-        /** @var \App\Application\Dto\RawImageDto[] $rawImages */
+        /** @var \OnlyTracker\Application\Dto\RawImageDto[] $rawImages */
         $rawImages = $rawTopic->getImages();
         for ($i = 0; $i < $totalImages; $i++) {
             list($frontUrl, $reference, $place, $spoilerName) = $images[$i];
@@ -40,7 +40,7 @@ class TopicHtmlParserTest extends TestCase
     {
         return [
             [
-                file_get_contents('mdwaylo2.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo2.ftmf'),
                 '5223361',
                 '2007',
                 'tgtuuoea 6486 (gf biaaw) / nepjzkh\'h 6486 (gf biaaw)',
@@ -93,7 +93,7 @@ class TopicHtmlParserTest extends TestCase
                 ],
             ],
             [
-                file_get_contents('mdwaylo6.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo6.ftmf'),
                 '8129309',
                 '2007',
                 'tgtuuoea 6486 (gf biaaw) / nepjzkh\'h 6486 (gf biaaw)',
@@ -140,7 +140,7 @@ class TopicHtmlParserTest extends TestCase
                 ],
             ],
             [
-                file_get_contents('mdwaylo1.ftmf'),
+                file_get_contents(__DIR__ . '/mdwaylo1.ftmf'),
                 '9689596',
                 '2007',
                 'tgtuuoea 6486 (gf biaaw) / nepjzkh\'h 6486 (gf biaaw)',

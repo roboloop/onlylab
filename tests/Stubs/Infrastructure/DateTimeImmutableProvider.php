@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Stubs\Infrastructure;
+namespace OnlyTracker\Tests\Stubs\Infrastructure;
 
 use DateTimeImmutable;
 use DateTimeZone;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Stubs\Infrastructure\Repository;
+namespace OnlyTracker\Tests\Stubs\Infrastructure\Repository;
 
-use App\Domain\Shared\RepositoryInterface;
-use App\Tests\Helpers\PropertyAccessor;
+use OnlyTracker\Domain\Shared\RepositoryInterface;
+use OnlyTracker\Tests\Helpers\PropertyAccessor;
 use Ramsey\Uuid\Uuid;
 
 class ArrayRepository implements RepositoryInterface
@@ -75,7 +75,7 @@ class ArrayRepository implements RepositoryInterface
     {
         $entities = is_array($entity) ? $entity : [$entity];
 
-        /** @var \App\Domain\Shared\UniqueIdentityInterface $entity */
+        /** @var \OnlyTracker\Domain\Shared\UniqueIdentityInterface $entity */
         foreach ($entities as $entity) {
             $this->repo[$entity->getId()] = $entity;
         }
@@ -84,5 +84,12 @@ class ArrayRepository implements RepositoryInterface
     public function nextIdentity()
     {
         return Uuid::uuid4()->toString();
+    }
+
+    public function saveMultiple(array $entities)
+    {
+        foreach ($entities as $entity) {
+            $this->save($entity);
+        }
     }
 }

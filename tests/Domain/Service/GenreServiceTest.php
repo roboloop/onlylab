@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Tests\Domain\Service;
+namespace OnlyTracker\Tests\Domain\Service;
 
-use App\Domain\Entity\Genre;
-use App\Domain\Factory\GenreFactory;
-use App\Domain\Service\GenreService;
-use App\Infrastructure\Util\DateTimeUtil;
-use App\Tests\Helpers\AssertArrayTrait;
-use App\Tests\Stubs\Infrastructure\Repository\ArrayGenreRepository;
+use OnlyTracker\Domain\Entity\Genre;
+use OnlyTracker\Domain\Factory\GenreFactory;
+use OnlyTracker\Domain\Service\GenreService;
+use OnlyTracker\Infrastructure\Util\DateTimeUtil;
+use OnlyTracker\Tests\Helpers\AssertArrayTrait;
+use OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayGenreRepository;
 use PHPUnit\Framework\TestCase;
 
 class GenreServiceTest extends TestCase
 {
     use AssertArrayTrait;
 
-    /** @var \App\Tests\Stubs\Infrastructure\Repository\ArrayGenreRepository */
+    /** @var \OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayGenreRepository */
     private $repo;
-    /** @var \App\Domain\Factory\GenreFactory */
+    /** @var \OnlyTracker\Domain\Factory\GenreFactory */
     private $factory;
-    /** @var \App\Domain\Service\GenreService */
+    /** @var \OnlyTracker\Domain\Service\GenreService */
     private $service;
 
     protected function setUp()

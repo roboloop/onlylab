@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Tests\Domain\Service;
+namespace OnlyTracker\Tests\Domain\Service;
 
-use App\Domain\Entity\Enum\StudioStatus;
-use App\Domain\Entity\Studio;
-use App\Domain\Factory\StudioFactory;
-use App\Domain\Service\StudioService;
-use App\Infrastructure\Util\DateTimeUtil;
-use App\Tests\Helpers\AssertArrayTrait;
-use App\Tests\Stubs\Infrastructure\Repository\ArrayStudioRepository;
+use OnlyTracker\Domain\Entity\Enum\StudioStatus;
+use OnlyTracker\Domain\Entity\Studio;
+use OnlyTracker\Domain\Factory\StudioFactory;
+use OnlyTracker\Domain\Service\StudioService;
+use OnlyTracker\Infrastructure\Util\DateTimeUtil;
+use OnlyTracker\Tests\Helpers\AssertArrayTrait;
+use OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayStudioRepository;
 use PHPUnit\Framework\TestCase;
 
 class StudioServiceTest extends TestCase
 {
     use AssertArrayTrait;
 
-    /** @var \App\Tests\Stubs\Infrastructure\Repository\ArrayStudioRepository */
+    /** @var \OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayStudioRepository */
     private $repo;
-    /** @var \App\Domain\Factory\StudioFactory */
+    /** @var \OnlyTracker\Domain\Factory\StudioFactory */
     private $factory;
-    /** @var \App\Domain\Service\StudioService */
+    /** @var \OnlyTracker\Domain\Service\StudioService */
     private $service;
 
     protected function setUp()

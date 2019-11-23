@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Tests\Domain\Service;
+namespace OnlyTracker\Tests\Domain\Service;
 
-use App\Domain\Deduction\FastpicDeduction;
-use App\Domain\Deduction\OriginalUrlDeduction;
-use App\Domain\Deduction\PicshickDeduction;
-use App\Domain\Entity\Enum\ImageFormat;
-use App\Domain\Factory\ImageFactory;
-use App\Domain\Service\ImageService;
-use App\Infrastructure\Util\DateTimeUtil;
-use App\Tests\Stubs\Infrastructure\Fixture\FixtureLoader;
-use App\Tests\Stubs\Infrastructure\Repository\ArrayImageRepository;
+use OnlyTracker\Domain\Deduction\FastpicDeduction;
+use OnlyTracker\Domain\Deduction\OriginalUrlDeduction;
+use OnlyTracker\Domain\Deduction\PicshickDeduction;
+use OnlyTracker\Domain\Entity\Enum\ImageFormat;
+use OnlyTracker\Domain\Factory\ImageFactory;
+use OnlyTracker\Domain\Service\ImageService;
+use OnlyTracker\Infrastructure\Util\DateTimeUtil;
+use OnlyTracker\Tests\Stubs\Infrastructure\Fixture\FixtureLoader;
+use OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayImageRepository;
 use PHPUnit\Framework\TestCase;
 
 class ImageServiceTest extends TestCase
 {
-    /** @var \App\Tests\Stubs\Infrastructure\Repository\ArrayImageRepository */
+    /** @var \OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayImageRepository */
     private $repository;
-    /** @var \App\Domain\Factory\ImageFactory */
+    /** @var \OnlyTracker\Domain\Factory\ImageFactory */
     private $factory;
-    /** @var \App\Domain\Deduction\OriginalUrlDeduction */
+    /** @var \OnlyTracker\Domain\Deduction\OriginalUrlDeduction */
     private $urlDeduction;
-    /** @var \App\Domain\Service\ImageService */
+    /** @var \OnlyTracker\Domain\Service\ImageService */
     private $service;
 
     protected function setUp()

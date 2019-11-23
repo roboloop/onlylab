@@ -1,7 +1,7 @@
 <?php
 
 return [
-    \App\Domain\Entity\Embeddable\ParsedTitle::class => [
+    \OnlyTracker\Domain\Entity\Embeddable\ParsedTitle::class => [
         'parsedTitle0' => [
             '__construct' => [
                 'Hello Kitty 2005 1080p',
@@ -12,7 +12,7 @@ return [
         ],
     ],
 
-    \App\Domain\Entity\Topic::class => [
+    \OnlyTracker\Domain\Entity\Topic::class => [
         'topic0' => [
             '__construct' => [
                 '<uuid()>',

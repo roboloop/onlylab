@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Stubs\Infrastructure\Repository;
+namespace OnlyTracker\Tests\Stubs\Infrastructure\Repository;
 
-use App\Domain\Repository\GenreRepositoryInterface;
+use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
 
 /**
- * @method \App\Domain\Entity\Genre[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
- * @method \App\Domain\Entity\Genre[] findAll()
- * @method \App\Domain\Entity\Genre[] save($genre)
+ * @method \OnlyTracker\Domain\Entity\Genre[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method \OnlyTracker\Domain\Entity\Genre[] findAll()
+ * @method \OnlyTracker\Domain\Entity\Genre[] save($genre)
  */
 class ArrayGenreRepository extends ArrayRepository implements GenreRepositoryInterface
 {
