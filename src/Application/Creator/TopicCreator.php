@@ -63,7 +63,7 @@ class TopicCreator
         $forum      = $this->forumService->getOrMake($dto->getForum()->getExId(), $dto->getForum()->getTitle());
         $topic      = $this->topicService->makeNotLoaded($dto->getExId(), $dto->getRawTitle(), $forum, $dto->getSize(), $dto->getExCreatedAt());
 
-        /** @var \App\Application\Dto\RawImageDto $image */
+        /** @var \OnlyTracker\Application\Dto\RawImageDto $image */
         foreach ($dto->getImages() as $image) {
             $image->getPlace() === RawImageDto::PLACE_ON_PAGE
                 ? $this->imageService->makePosterImage($topic, $image->getFrontUrl())

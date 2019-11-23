@@ -8,8 +8,8 @@ use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method \App\Domain\Entity\Image[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
- * @method \App\Domain\Entity\Image save($entity)
+ * @method \OnlyTracker\Domain\Entity\Image[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method \OnlyTracker\Domain\Entity\Image save($entity)
  */
 class ImageDoctrineRepository extends DoctrineRepository implements ImageRepositoryInterface
 {

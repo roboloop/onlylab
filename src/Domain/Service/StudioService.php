@@ -20,7 +20,7 @@ class StudioService
     /**
      * @param string[] $rawStudios
      *
-     * @return \App\Domain\Entity\Studio[]
+     * @return \OnlyTracker\Domain\Entity\Studio[]
      */
     public function getOrMakeOrBoth(array $rawStudios)
     {

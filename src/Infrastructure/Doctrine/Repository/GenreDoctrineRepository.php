@@ -8,8 +8,8 @@ use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method \App\Domain\Entity\Genre[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
- * @method \App\Domain\Entity\Genre[] save($entity)
+ * @method \OnlyTracker\Domain\Entity\Genre[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method \OnlyTracker\Domain\Entity\Genre[] save($entity)
  */
 class GenreDoctrineRepository extends DoctrineRepository implements GenreRepositoryInterface
 {

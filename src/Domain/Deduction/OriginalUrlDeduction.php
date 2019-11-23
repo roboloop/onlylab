@@ -5,7 +5,7 @@ namespace OnlyTracker\Domain\Deduction;
 class OriginalUrlDeduction implements OriginalUrlDeductionInterface
 {
     /**
-     * @var \App\Domain\Deduction\OriginalUrlDeductionInterface[]
+     * @var \OnlyTracker\Domain\Deduction\OriginalUrlDeductionInterface[]
      */
     private $deductions;
 

@@ -20,7 +20,7 @@ class ForumService
      * @param int         $forumExId
      * @param string|null $title
      *
-     * @return \App\Domain\Entity\Forum
+     * @return \OnlyTracker\Domain\Entity\Forum
      */
     public function getOrMake(int $forumExId, string $title = null)
     {

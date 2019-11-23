@@ -12,7 +12,7 @@ class ForumHtmlParser
     /**
      * @param string $content
      *
-     * @return \App\Application\Dto\RawTopicDto[]
+     * @return \OnlyTracker\Application\Dto\RawTopicDto[]
      */
     public function parseTopicsHeaders(string $content)
     {

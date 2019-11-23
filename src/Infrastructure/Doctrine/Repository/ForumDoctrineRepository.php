@@ -8,8 +8,8 @@ use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method \App\Domain\Entity\Forum[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
- * @method \App\Domain\Entity\Forum[] save($entity)
+ * @method \OnlyTracker\Domain\Entity\Forum[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method \OnlyTracker\Domain\Entity\Forum[] save($entity)
  */
 class ForumDoctrineRepository extends DoctrineRepository implements ForumRepositoryInterface
 {

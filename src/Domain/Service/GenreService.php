@@ -19,7 +19,7 @@ class GenreService
     /**
      * @param string[] $titles
      *
-     * @return \App\Domain\Entity\Genre[]
+     * @return \OnlyTracker\Domain\Entity\Genre[]
      */
     public function getOrMakeOrBoth(array $titles)
     {
