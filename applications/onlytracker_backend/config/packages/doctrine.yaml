@@ -26,20 +26,14 @@ doctrine:
         entity_managers:
             default:
                 auto_mapping:           false
-                naming_strategy:        app.doctrine.orm.naming_strategy.underscore_plural
+                naming_strategy:        OnlyTracker\Infrastructure\Doctrine\Strategy\UnderscorePluralStrategy
                 quote_strategy:         doctrine.orm.quote_strategy.default
                 repository_factory:     doctrine.orm.container_repository_factory
                 mappings:
-                    App:
-                        is_bundle:      false
-                        type:           annotation
-                        dir:            '%kernel.project_dir%/src/Entity'
-                        prefix:         OnlyTracker\Entity
-                        alias:          ~
                     DomainEntity:
                         mapping:        true
                         type:           xml
-                        dir:            '%kernel.project_dir%/src/Infrastructure/Doctrine/Mapping'
+                        dir:            '%kernel.project_dir%/../../src/Infrastructure/Doctrine/Mapping'
                         alias:          ~
                         prefix:         OnlyTracker\Domain\Entity
                         is_bundle:      false

@@ -17,12 +17,21 @@ class Kernel extends BaseKernel
 
     public function getCacheDir()
     {
-        return $this->getProjectDir().'/var/cache/'.$this->environment;
+        // return $this->getProjectDir().'/var/cache/'.$this->environment;
+        return parent::getProjectDir().'/var/cache/'.$this->environment;
     }
 
     public function getLogDir()
     {
-        return $this->getProjectDir().'/var/log';
+        // return $this->getProjectDir().'/var/log/'.$this->environment;
+        return parent::getProjectDir().'/var/log';
+    }
+
+    public function getProjectDir()
+    {
+        $projectDir = parent::getProjectDir();
+
+        return $projectDir . '/applications/onlytracker_backend/';
     }
 
     public function registerBundles()

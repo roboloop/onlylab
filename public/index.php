@@ -1,10 +1,10 @@
 <?php
 
-use App\Kernel;
+use OnlyTracker\BackEnd\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
-require dirname(__DIR__).'/config/bootstrap.php';
+require dirname(__DIR__) . '/applications/onlytracker_backend/config/bootstrap.php';
 
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);

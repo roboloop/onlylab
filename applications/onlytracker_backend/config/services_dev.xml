@@ -3,8 +3,23 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
-
+    
+    <parameters >
+        <parameter key="dump_path" type="string">%kernel.project_dir%/dump</parameter>
+    </parameters>
+    
     <services>
         <defaults public="false" autowire="false" autoconfigure="true" />
+
+        <service id="OnlyTracker\Infrastructure\Doctrine\Strategy\UnderscorePluralStrategy">
+            <argument type="constant">CASE_LOWER</argument>
+        </service>
+        <service id="OnlyTracker\Infrastructure\BackupManager\MysqlDatabase" />
+        <service id="backup_manager.databases" class="BackupManager\Databases\DatabaseProvider">
+            <argument type="service" id="backup_manager.config_database" />
+            <call method="add">
+                <argument type="service" id="OnlyTracker\Infrastructure\BackupManager\MysqlDatabase" />
+            </call>
+        </service>
     </services>
 </container>

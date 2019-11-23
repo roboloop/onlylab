@@ -2,9 +2,10 @@
 
 namespace OnlyTracker\BackEnd\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PageController extends BaseController
+class PageController extends AbstractController
 {
     /**
      * @Route("/", methods={"GET"}, name="page_main")
