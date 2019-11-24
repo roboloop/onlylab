@@ -1,6 +1,6 @@
 <?php
 
-namespace OnlyTracker\BackEnd\Command;
+namespace OnlyTracker\BackEnd\Command\Dump;
 
 use OnlyTracker\Infrastructure\BackupManager\DatabaseManager;
 use Doctrine\ORM\EntityManagerInterface;

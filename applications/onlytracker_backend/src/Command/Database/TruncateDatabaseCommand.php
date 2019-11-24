@@ -1,6 +1,6 @@
 <?php
 
-namespace OnlyTracker\BackEnd\Command;
+namespace OnlyTracker\BackEnd\Command\Database;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
