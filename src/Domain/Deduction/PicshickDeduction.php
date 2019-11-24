@@ -12,5 +12,6 @@ class PicshickDeduction implements OriginalUrlDeductionInterface
     public function support(string $frontUrl): bool
     {
         // TODO:
+        return false;
     }
 }

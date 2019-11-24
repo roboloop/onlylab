@@ -16,7 +16,7 @@ class ImageService
     private $imageRepository;
     private $urlDeduction;
 
-    public function __construct(ImageFactory $imageFactory, ImageRepositoryInterface $imageRepository, OriginalUrlDeductionInterface $urlDeduction)
+    public function __construct(ImageRepositoryInterface $imageRepository, ImageFactory $imageFactory, OriginalUrlDeductionInterface $urlDeduction)
     {
         $this->imageFactory     = $imageFactory;
         $this->imageRepository  = $imageRepository;

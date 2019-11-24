@@ -9,15 +9,15 @@ use DateTimeImmutable;
 
 class TopicService
 {
+    private $topicRepository;
     private $topicFactory;
     private $parsedTitleService;
-    private $topicRepository;
 
-    public function __construct(TopicFactory $topicFactory, ParsedTitleService $parsedTitleService, TopicRepositoryInterface $topicRepository)
+    public function __construct(TopicRepositoryInterface $topicRepository, TopicFactory $topicFactory, ParsedTitleService $parsedTitleService)
     {
+        $this->topicRepository      = $topicRepository;
         $this->topicFactory         = $topicFactory;
         $this->parsedTitleService   = $parsedTitleService;
-        $this->topicRepository      = $topicRepository;
     }
 
     public function makeNotLoaded(int $exId, string $rawTitle, Forum $forum, ?int $size, ?DateTimeImmutable $exCreatedAt)
