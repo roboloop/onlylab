@@ -9,7 +9,7 @@
             <generator strategy="NONE" />
         </id>
         <field name="exId" type="integer" />
-        <field name="title" type="string" length="255" />
+        <field name="title" type="string" length="4095" />
         <field name="createdAt" type="datetime_immutable" />
 
     </entity>

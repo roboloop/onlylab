@@ -9,7 +9,7 @@
             <generator strategy="NONE" />
         </id>
         <field name="title" type="string" length="255" />
-        <field name="description" type="text" nullable="true" />
+        <field name="description" type="string" length="4095" nullable="true" />
         <field name="isApproved" type="boolean" />
         <field name="createdAt" type="datetime_immutable" />
 

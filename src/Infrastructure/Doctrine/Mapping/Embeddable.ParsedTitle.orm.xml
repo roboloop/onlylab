@@ -5,8 +5,8 @@
 
     <embeddable name="OnlyTracker\Domain\Entity\Embeddable\ParsedTitle">
 
-        <field name="rawTitle" type="string" length="255" />
-        <field name="title" type="string" length="255" nullable="true" />
+        <field name="rawTitle" type="string" length="4095" />
+        <field name="title" type="string" length="4095" nullable="true" />
         <field name="year" type="string" length="16" nullable="true" />
         <field name="quality" type="string" length="16" nullable="true" />
 

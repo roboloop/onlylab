@@ -8,7 +8,7 @@
         <id name="id" type="string">
             <generator strategy="NONE" />
         </id>
-        <field name="url" type="string" length="255" />
+        <field name="url" type="string" length="4095"  />
         <embedded name="status" class="OnlyTracker\Domain\Entity\Enum\StudioStatus" use-column-prefix="false" />
         <field name="createdAt" type="datetime_immutable" />
 
