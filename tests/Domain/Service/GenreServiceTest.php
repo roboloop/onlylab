@@ -55,6 +55,28 @@ class GenreServiceTest extends TestCase
         $this->assertArrayPopulation($titles, $rawReturned);
     }
 
+    public function testApprove()
+    {
+        $this->repo->save($genre = $this->factory->make('Dummy title', null, false));
+
+        $this->service->approve($genre);
+
+        $genres = $this->repo->findAll();
+        $this->assertEquals(1, count($genres));
+        $this->assertTrue(reset($genres)->isApproved());
+    }
+
+    public function testDisapprove()
+    {
+        $this->repo->save($genre = $this->factory->make('Dummy title', null, true));
+
+        $this->service->disapprove($genre);
+
+        $genres = $this->repo->findAll();
+        $this->assertEquals(1, count($genres));
+        $this->assertFalse(reset($genres)->isApproved());
+    }
+
     public function data()
     {
         return [

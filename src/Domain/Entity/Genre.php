@@ -58,11 +58,14 @@ class Genre implements UniqueIdentityInterface
         return $this->isApproved;
     }
 
-    public function setIsApproved(bool $isApproved): self
+    public function approve(): void
     {
-        $this->isApproved = $isApproved;
+        $this->isApproved = true;
+    }
 
-        return $this;
+    public function disapprove(): void
+    {
+        $this->isApproved = false;
     }
 
     public function getCreatedAt(): DateTimeImmutable

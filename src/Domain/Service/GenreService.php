@@ -2,6 +2,7 @@
 
 namespace OnlyTracker\Domain\Service;
 
+use OnlyTracker\Domain\Entity\Genre;
 use OnlyTracker\Domain\Factory\GenreFactory;
 use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
 
@@ -39,8 +40,37 @@ class GenreService
             $newGenres[] = $this->genreFactory->make($newRawGenre, null, false);
         }
 
-        $this->genreRepository->save($newGenres);
+        $this->genreRepository->saveMultiple($newGenres);
 
         return array_merge($genres, $newGenres);
+    }
+
+    public function approve(Genre $genre)
+    {
+        $genre->approve();
+
+        $this->genreRepository->save($genre);
+    }
+
+    public function disapprove(Genre $genre)
+    {
+        $genre->disapprove();
+
+        $this->genreRepository->save($genre);
+    }
+
+    public function search(?string $title, ?bool $isApproved)
+    {
+        $criteria = [];
+
+        if (null !== $title) {
+            $criteria['title'] = "%$title%";
+        }
+
+        if (null !== $isApproved) {
+            $criteria['isApproved'] = $isApproved;
+        }
+
+        return $this->genreRepository->findBy($criteria, ['title' => 'ASC']);
     }
 }
