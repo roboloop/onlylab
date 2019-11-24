@@ -3,7 +3,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <embeddable name="App\Domain\Entity\Embeddable\ParsedTitle">
+    <embeddable name="OnlyTracker\Domain\Entity\Embeddable\ParsedTitle">
 
         <field name="rawTitle" type="string" length="255" />
         <field name="title" type="string" length="255" nullable="true" />

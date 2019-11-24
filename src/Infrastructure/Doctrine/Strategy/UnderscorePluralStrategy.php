@@ -9,7 +9,7 @@ class UnderscorePluralStrategy extends UnderscoreNamingStrategy
 {
     public function __construct($case = CASE_LOWER)
     {
-        parent::__construct($case);
+        parent::__construct($case, true);
     }
 
     public function classToTableName($className)
