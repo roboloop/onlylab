@@ -5,6 +5,7 @@ namespace OnlyTracker\Application\Creator;
 use OnlyTracker\Application\Dto\RawImageDto;
 use OnlyTracker\Application\Dto\RawTopicDto;
 use OnlyTracker\Application\Exception\InvalidArgumentWhenCreatingTopicException;
+use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Domain\Service\ForumService;
 use OnlyTracker\Domain\Service\GenreService;
 use OnlyTracker\Domain\Service\ImageService;
@@ -26,6 +27,7 @@ class TopicCreator
     private $imageService;
     private $dateTimeUtil;
     private $sizeConverter;
+    private $topicRepository;
 
     public function __construct(
         ValidatorInterface $validator,
@@ -36,7 +38,8 @@ class TopicCreator
         TopicService $topicService,
         ImageService $imageService,
         DateTimeUtilInterface $dateTimeUtil,
-        SizeConverter $sizeConverter
+        SizeConverter $sizeConverter,
+        TopicRepositoryInterface $topicRepository
     ) {
         $this->validator        = $validator;
         $this->parserManager    = $parserManager;
@@ -47,6 +50,7 @@ class TopicCreator
         $this->imageService     = $imageService;
         $this->dateTimeUtil     = $dateTimeUtil;
         $this->sizeConverter    = $sizeConverter;
+        $this->topicRepository  = $topicRepository;
     }
 
     public function createFromDto(RawTopicDto $dto)
@@ -77,6 +81,8 @@ class TopicCreator
         foreach ($studios as $studio) {
             $topic->addStudio($studio);
         }
+
+        $this->topicRepository->save($topic);
 
         return $topic;
     }
