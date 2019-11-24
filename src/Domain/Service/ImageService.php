@@ -47,4 +47,17 @@ class ImageService
 
         return $image;
     }
+
+    public function markAsBanner(Image $image)
+    {
+        $frontUrl = $image->getFrontUrl();
+
+        $images = $this->imageRepository->findBy(['frontUrl' => $frontUrl]);
+
+        foreach ($images as $image) {
+            $image->markAsBanner();
+        }
+
+        $this->imageRepository->saveMultiple($images);
+    }
 }

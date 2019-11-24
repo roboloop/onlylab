@@ -63,6 +63,11 @@ class ImageServiceTest extends TestCase
         $this->assertEquals($formatExpects, $image->getFormat()->value());
     }
 
+    public function testAarkAsBanner()
+    {
+        // TODO:
+    }
+
     public function makePosterData()
     {
         return [
