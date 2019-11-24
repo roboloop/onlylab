@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!--Array repositories-->
+        <service id="OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayForumRepository" />
+        <service id="OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayGenreRepository" />
+        <service id="OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayImageRepository" />
+        <service id="OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayStudioRepository" />
+        <service id="OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayTopicRepository" />
+
+        <!--Domain repositories-->
+        <service id="OnlyTracker\Domain\Repository\ForumRepositoryInterface" alias="OnlyTracker\Infrastructure\Doctrine\Repository\ForumDoctrineRepository" />
+        <service id="OnlyTracker\Domain\Repository\GenreRepositoryInterface" alias="OnlyTracker\Infrastructure\Doctrine\Repository\GenreDoctrineRepository" />
+        <service id="OnlyTracker\Domain\Repository\ImageRepositoryInterface" alias="OnlyTracker\Infrastructure\Doctrine\Repository\ImageDoctrineRepository" />
+        <service id="OnlyTracker\Domain\Repository\StudioRepositoryInterface" alias="OnlyTracker\Infrastructure\Doctrine\Repository\StudioDoctrineRepository" />
+        <service id="OnlyTracker\Domain\Repository\TopicRepositoryInterface" alias="OnlyTracker\Infrastructure\Doctrine\Repository\TopicDoctrineRepository" />
+
+        <service id="OnlyTracker\Application\Parser\ForumHtmlParser" />
+        <service id="OnlyTracker\Application\Parser\TopicHtmlParser" />
+        <service id="OnlyTracker\Application\Creator\TopicCreator" public="true">
+            <argument type="service" id="validator"/>
+            <argument type="service" id="OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager"/>
+            <argument type="service" id="OnlyTracker\Domain\Service\GenreService"/>
+            <argument type="service" id="OnlyTracker\Domain\Service\StudioService"/>
+            <argument type="service" id="OnlyTracker\Domain\Service\ForumService"/>
+            <argument type="service" id="OnlyTracker\Domain\Service\TopicService"/>
+            <argument type="service" id="OnlyTracker\Domain\Service\ImageService"/>
+            <argument type="service" id="OnlyTracker\Infrastructure\Util\DateTimeUtil"/>
+            <argument type="service" id="OnlyTracker\Infrastructure\Util\SizeConverter"/>
+            <argument type="service" id="OnlyTracker\Domain\Repository\TopicRepositoryInterface"/>
+        </service>
+    </services>
+
+</container>
