@@ -38,11 +38,19 @@ class Studio implements UniqueIdentityInterface
         return $this->status;
     }
 
-    public function setStatus(StudioStatus $status): self
+    public function ban()
     {
-        $this->status = $status;
+        $this->status = new StudioStatus(StudioStatus::BANNED);
+    }
 
-        return $this;
+    public function unban()
+    {
+        $this->status = new StudioStatus(StudioStatus::TYPICAL);
+    }
+
+    public function prefer()
+    {
+        $this->status = new StudioStatus(StudioStatus::PREFERABLE);
     }
 
     public function getCreatedAt(): DateTimeImmutable

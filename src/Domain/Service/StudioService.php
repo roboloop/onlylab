@@ -3,6 +3,7 @@
 namespace OnlyTracker\Domain\Service;
 
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
+use OnlyTracker\Domain\Entity\Studio;
 use OnlyTracker\Domain\Factory\StudioFactory;
 use OnlyTracker\Domain\Repository\StudioRepositoryInterface;
 
@@ -40,8 +41,44 @@ class StudioService
             $newStudios[] = $this->studioFactory->make($newRawStudio, new StudioStatus(StudioStatus::TYPICAL));
         }
 
-        $this->studioRepository->save($newStudios);
+        $this->studioRepository->saveMultiple($newStudios);
 
         return array_merge($studios, $newStudios);
+    }
+
+    public function ban(Studio $studio)
+    {
+        $studio->ban();
+
+        $this->studioRepository->save($studio);
+    }
+
+    public function unban(Studio $studio)
+    {
+        $studio->unban();
+
+        $this->studioRepository->save($studio);
+    }
+
+    public function prefer(Studio $studio)
+    {
+        $studio->prefer();
+
+        $this->studioRepository->save($studio);
+    }
+
+    public function search(?string $url, ?StudioStatus $status)
+    {
+        $criteria = [];
+
+        if (null !== $url) {
+            $criteria['url'] = "%$url%";
+        }
+
+        if (null !== $status) {
+            $criteria['status'] = $status;
+        }
+
+        return $this->studioRepository->findBy($criteria, ['url' => 'ASC']);
     }
 }
