@@ -4,46 +4,60 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
         https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="App\Application\Dto\RawTopicDto">
-        <property name="frontUrl">
+    <class name="OnlyTracker\Application\Dto\RawTopicDto">
+        <property name="exId">
             <constraint name="Type">
                 <option name="type">string</option>
             </constraint>
             <constraint name="Length">
                 <option name="min">1</option>
-                <option name="max">255</option>
+                <option name="max">16</option>
             </constraint>
             <constraint name="NotNull" />
         </property>
 
-        <property name="reference">
+        <property name="rawTitle">
             <constraint name="Type">
                 <option name="type">string</option>
             </constraint>
             <constraint name="Length">
                 <option name="min">1</option>
-                <option name="max">255</option>
-            </constraint>
-        </property>
-
-        <property name="place">
-            <constraint name="Type">
-                <option name="type">integer</option>
-            </constraint>
-            <constraint name="Range">
-                <option name="min">1</option>
-                <option name="max">255</option>
+                <option name="max">4095</option>
             </constraint>
             <constraint name="NotNull" />
         </property>
 
-        <property name="spoilerName">
+        <property name="size">
             <constraint name="Type">
                 <option name="type">string</option>
             </constraint>
             <constraint name="Length">
                 <option name="min">1</option>
-                <option name="max">255</option>
+                <option name="max">30</option>
+            </constraint>
+            <constraint name="NotNull" />
+        </property>
+
+        <property name="exCreatedAt">
+            <constraint name="Type">
+                <option name="type">string</option>
+            </constraint>
+            <constraint name="Length">
+                <option name="min">1</option>
+                <option name="max">30</option>
+            </constraint>
+            <constraint name="NotNull" />
+        </property>
+
+        <property name="forum">
+            <constraint name="Valid" />
+        </property>
+
+        <property name="images">
+            <constraint name="All">
+                <option name="constraints">
+                    <constraint name="Valid" />
+                </option>
             </constraint>
         </property>
 
