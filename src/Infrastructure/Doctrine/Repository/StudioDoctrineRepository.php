@@ -7,10 +7,6 @@ use OnlyTracker\Domain\Repository\StudioRepositoryInterface;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-/**
- * @method \OnlyTracker\Domain\Entity\Studio[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
- * @method \OnlyTracker\Domain\Entity\Studio[] save($entity)
- */
 class StudioDoctrineRepository extends DoctrineRepository implements StudioRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)

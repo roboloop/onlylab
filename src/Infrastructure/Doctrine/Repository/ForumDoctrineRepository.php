@@ -7,10 +7,6 @@ use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-/**
- * @method \OnlyTracker\Domain\Entity\Forum[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
- * @method \OnlyTracker\Domain\Entity\Forum[] save($entity)
- */
 class ForumDoctrineRepository extends DoctrineRepository implements ForumRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)

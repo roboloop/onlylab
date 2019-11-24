@@ -7,10 +7,6 @@ use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-/**
- * @method \OnlyTracker\Domain\Entity\Topic[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
- * @method \OnlyTracker\Domain\Entity\Topic[] save($entity)
- */
 class TopicDoctrineRepository extends DoctrineRepository implements TopicRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
