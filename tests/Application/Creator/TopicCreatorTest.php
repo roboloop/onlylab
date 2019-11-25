@@ -25,6 +25,12 @@ class TopicCreatorTest extends KernelTestCase
         $this->service = static::$container->get(TopicCreator::class);
     }
 
+    protected function tearDown()
+    {
+        $em = self::$container->get('doctrine')->getManager();
+        $em->close();
+    }
+
     public function testCreateFromDto()
     {
         $dto = new RawTopicDto(
