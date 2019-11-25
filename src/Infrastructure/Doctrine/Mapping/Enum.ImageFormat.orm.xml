@@ -4,7 +4,7 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <embeddable name="OnlyTracker\Domain\Entity\Enum\ImageFormat">
-        <field name="value" column="format" type="string" length="4095" />
+        <field name="value" column="format" type="string" length="30" />
     </embeddable>
 
 </doctrine-mapping>
