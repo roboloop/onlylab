@@ -19,6 +19,17 @@ doctrine:
                     collate:            utf8mb4_unicode_ci
 
                 url:                    '%env(resolve:DATABASE_URL)%'
+
+            temp:
+                driver:                 pdo_mysql
+                server_version:         '8.0'
+                charset:                utf8mb4
+                default_table_options:
+                    charset:            utf8mb4
+                    collate:            utf8mb4_unicode_ci
+
+                url:                    'mysql://root:1234@127.0.0.1:3306/onlytracker'
+
     orm:
         default_entity_manager:         default
         auto_generate_proxy_classes:    true
@@ -151,14 +162,14 @@ doctrine:
                         uuid_short: DoctrineExtensions\Query\Mysql\UuidShort
 
 
-                second_level_cache:
-                    region_cache_driver:
-                        type: service
-                        id: snc_redis.cache
-        #                namespace:            null
-        #                cache_provider:       null
-                    region_lock_lifetime: 60
-        #            log_enabled:          true
-                    region_lifetime:      86400
-                    enabled:              true
-                    factory:              ~
+#                second_level_cache:
+#                    region_cache_driver:
+#                        type: service
+#                        id: snc_redis.cache
+#        #                namespace:            null
+#        #                cache_provider:       null
+#                    region_lock_lifetime: 60
+#        #            log_enabled:          true
+#                    region_lifetime:      86400
+#                    enabled:              true
+#                    factory:              ~

@@ -12,6 +12,14 @@
     <services>
         <defaults public="false" autowire="false" autoconfigure="true" />
 
+        <!--TODO: REMOVE TO APP CONFIG-->
+        <service id="Symfony\Component\Cache\Adapter\NullAdapter" />
+
+        <!--TODO: REMOVE AUTOWIRE. MOVE TO SEPARATED FILE-->
+        <prototype namespace="OnlyTracker\BackEnd\Controller\" resource="../src/Controller/*" autowire="true">
+            <tag name="controller.service_arguments" />
+        </prototype>
+
         <service id="OnlyTracker\Infrastructure\Doctrine\Strategy\UnderscorePluralStrategy">
             <argument type="constant">CASE_LOWER</argument>
         </service>

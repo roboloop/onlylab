@@ -1,7 +1,8 @@
 <?php
 
-namespace OnlyTracker\BackEnd\Controller;
+namespace OnlyTracker\BackEnd\Controller\Web;
 
+use OnlyTracker\Domain\Entity\Topic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,6 +15,8 @@ class PageController extends AbstractController
      */
     public function page()
     {
+        $this->getDoctrine()->getRepository(Topic::class);
+
         return $this->render('page/main.html.twig');
     }
 }
