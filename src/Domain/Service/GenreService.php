@@ -59,6 +59,12 @@ class GenreService
         $this->genreRepository->save($genre);
     }
 
+    /**
+     * @param null|string $title
+     * @param bool|null   $isApproved
+     *
+     * @return \OnlyTracker\Domain\Entity\Genre[]
+     */
     public function search(?string $title, ?bool $isApproved)
     {
         $criteria = [];
