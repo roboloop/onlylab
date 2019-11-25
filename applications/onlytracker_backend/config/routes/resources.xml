@@ -6,4 +6,5 @@
 
     <import resource="../routes.xml" type="xml" prefix="/api" name-prefix="api_" />
 
+    <import resource="routes.xml" type="xml" />
 </routes>

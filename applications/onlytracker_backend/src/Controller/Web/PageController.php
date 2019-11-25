@@ -13,10 +13,10 @@ class PageController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function page()
+    public function __invoke()
     {
-        $this->getDoctrine()->getRepository(Topic::class);
 
         return $this->render('page/main.html.twig');
+        // return $this->render('base.html.twig');
     }
 }
