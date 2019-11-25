@@ -31,7 +31,7 @@ class Kernel extends BaseKernel
     {
         $projectDir = parent::getProjectDir();
 
-        return $projectDir . '/applications/onlytracker_backend/';
+        return $projectDir . '/applications/onlytracker_backend';
     }
 
     public function registerBundles()
@@ -62,6 +62,6 @@ class Kernel extends BaseKernel
 
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
-        $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
+        // $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
     }
 }
