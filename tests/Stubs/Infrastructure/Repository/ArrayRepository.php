@@ -77,7 +77,7 @@ class ArrayRepository implements RepositoryInterface
 
         /** @var \OnlyTracker\Domain\Shared\UniqueIdentityInterface $entity */
         foreach ($entities as $entity) {
-            $this->repo[$entity->getId()] = $entity;
+            $this->repo[(string) $entity->getId()] = $entity;
         }
     }
 

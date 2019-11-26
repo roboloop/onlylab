@@ -32,7 +32,7 @@ class ImageServiceTest extends TestCase
             new FastpicDeduction,
             new PicshickDeduction,
         ]);
-        $this->service      = new ImageService($this->factory, $this->repository, $this->urlDeduction);
+        $this->service      = new ImageService($this->repository, $this->factory, $this->urlDeduction);
     }
 
     /**
@@ -63,7 +63,7 @@ class ImageServiceTest extends TestCase
         $this->assertEquals($formatExpects, $image->getFormat()->value());
     }
 
-    public function testAarkAsBanner()
+    public function testMarkAsBanner()
     {
         // TODO:
     }

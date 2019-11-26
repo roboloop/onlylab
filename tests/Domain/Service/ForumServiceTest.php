@@ -20,7 +20,7 @@ class ForumServiceTest extends TestCase
     protected function setUp()
     {
         $this->repo     = new ArrayForumRepository;
-        $this->factory  = new ForumFactory($this->repo, new DateTimeUtil);
+        $this->factory  = new ForumFactory(new DateTimeUtil);
         $this->service  = new ForumService($this->repo, $this->factory);
     }
 
@@ -73,7 +73,7 @@ class ForumServiceTest extends TestCase
             [
                 [
                     [5, '5 title'],
-                    [5, '6 title'],
+                    [6, '6 title'],
                     [7, '7 title'],
                 ],
                 [5, '6 title'],

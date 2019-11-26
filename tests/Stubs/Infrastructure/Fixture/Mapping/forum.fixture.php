@@ -4,8 +4,7 @@ return [
     \OnlyTracker\Domain\Entity\Forum::class => [
         'forum0' => [
             '__construct' => [
-                '<uuid()>',
-                '<numberBetween(1, 100)>',
+                '@forumId0',
                 '<words(3, true)>',
                 '<dateTimeImmutable("now", "UTC")>',
             ],
