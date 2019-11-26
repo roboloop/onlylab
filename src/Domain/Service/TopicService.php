@@ -30,4 +30,9 @@ class TopicService
 
         return $topic;
     }
+
+    public function search(?string $title, ?string $year, ?string $quality)
+    {
+        // TODO:
+    }
 }

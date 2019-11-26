@@ -2,6 +2,7 @@
 
 namespace OnlyTracker\Shared\Domain\ValueObject;
 
+use InvalidArgumentException;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class Uuid
