@@ -24,7 +24,7 @@ class ForumService
      */
     public function getOrMake(int $forumExId, string $title = null)
     {
-        $forums = $this->forumRepository->findBy(['exId' => $forumExId], ['createdAt' => 'DESC']);
+        $forums = $this->forumRepository->findBy(['id' => $forumExId], ['createdAt' => 'DESC']);
 
         $forum = reset($forums);
 

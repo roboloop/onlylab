@@ -5,7 +5,10 @@
 
     <entity name="OnlyTracker\Domain\Entity\Image" table="images">
 
-        <id name="id" type="string">
+        <!--<id name="id" type="string">-->
+            <!--<generator strategy="NONE" />-->
+        <!--</id>-->
+        <id name="id" type="image_id">
             <generator strategy="NONE" />
         </id>
         <many-to-one field="topic" target-entity="OnlyTracker\Domain\Entity\Topic" inversed-by="images">

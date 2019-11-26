@@ -3,7 +3,9 @@
 namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
 use OnlyTracker\Domain\Entity\Forum;
+use OnlyTracker\Domain\Identity\ForumId;
 use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
+use OnlyTracker\Shared\Domain\ValueObject\Uuid;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -14,8 +16,12 @@ class ForumDoctrineRepository extends DoctrineRepository implements ForumReposit
         parent::__construct($registry, Forum::class);
     }
 
-    // public function nextIdentity(): ForumId
-    // {
-    //     return new ForumId(Uuid::random());
-    // }
+    /**
+     * @return \OnlyTracker\Domain\Identity\ForumId
+     * @deprecated
+     */
+    public function nextIdentity(): ForumId
+    {
+        return new ForumId(Uuid::random());
+    }
 }

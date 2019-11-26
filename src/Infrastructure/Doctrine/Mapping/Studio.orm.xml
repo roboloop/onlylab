@@ -5,7 +5,10 @@
 
     <entity name="OnlyTracker\Domain\Entity\Studio" table="studios">
 
-        <id name="id" type="string">
+        <!--<id name="id" type="string">-->
+            <!--<generator strategy="NONE" />-->
+        <!--</id>-->
+        <id name="id" type="studio_id">
             <generator strategy="NONE" />
         </id>
         <field name="url" type="string" length="4095"  />

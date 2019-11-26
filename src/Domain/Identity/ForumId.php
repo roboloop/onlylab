@@ -2,9 +2,9 @@
 
 namespace OnlyTracker\Domain\Identity;
 
-use OnlyTracker\Shared\Domain\ValueObject\Uuid;
+use OnlyTracker\Shared\Domain\ValueObject\ExId;
 
-class ForumId extends Uuid
+final class ForumId extends ExId
 {
 
 }

@@ -5,6 +5,7 @@ declare (strict_types = 1);
 namespace OnlyTracker\Domain\Entity;
 
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
+use OnlyTracker\Domain\Identity\StudioId;
 use DateTimeImmutable;
 
 class Studio
@@ -14,7 +15,7 @@ class Studio
     private $status;
     private $createdAt;
 
-    public function __construct(string $id, string $url, StudioStatus $status, DateTimeImmutable $createdAt)
+    public function __construct(StudioId $id, string $url, StudioStatus $status, DateTimeImmutable $createdAt)
     {
         $this->id           = $id;
         $this->url          = $url;
@@ -22,7 +23,7 @@ class Studio
         $this->createdAt    = $createdAt;
     }
 
-    public function getId(): string
+    public function getId(): StudioId
     {
         return $this->id;
     }

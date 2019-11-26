@@ -46,9 +46,4 @@ abstract class DoctrineRepository implements RepositoryInterface
 
         $this->entityManager->flush($entities);
     }
-
-    public function nextIdentity()
-    {
-        return Uuid::random();
-    }
 }

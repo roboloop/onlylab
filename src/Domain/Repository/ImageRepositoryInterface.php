@@ -2,6 +2,7 @@
 
 namespace OnlyTracker\Domain\Repository;
 
+use OnlyTracker\Domain\Identity\ImageId;
 use OnlyTracker\Domain\Shared\RepositoryInterface;
 use OnlyTracker\Domain\Shared\IdGeneratorInterface;
 
@@ -12,5 +13,5 @@ use OnlyTracker\Domain\Shared\IdGeneratorInterface;
  */
 interface ImageRepositoryInterface extends RepositoryInterface, IdGeneratorInterface
 {
-
+    public function nextIdentity(): ImageId;
 }

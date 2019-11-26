@@ -20,6 +20,15 @@
             <tag name="controller.service_arguments" />
         </prototype>
 
+        <!--TODO: REMOVE AUTOWIRE. MOVE TO SEPAATED FILE-->
+        <prototype namespace="OnlyTracker\BackEnd\Command\" resource="../src/Command/*" autowire="true">
+            <tag name="console.command" />
+        </prototype>
+
+        <service id="OnlyTracker\Infrastructure\BackupManager\DatabaseManager">
+            <argument id="backup_manager" type="service"/>
+        </service>
+
         <service id="OnlyTracker\Infrastructure\Doctrine\Strategy\UnderscorePluralStrategy">
             <argument type="constant">CASE_LOWER</argument>
         </service>
@@ -95,7 +104,6 @@
 
         <!--Domain Factories-->
         <service id="OnlyTracker\Domain\Factory\ForumFactory">
-            <argument type="service" id="OnlyTracker\Domain\Repository\ForumRepositoryInterface" />
             <argument type="service" id="OnlyTracker\Infrastructure\Util\DateTimeUtil" />
         </service>
 

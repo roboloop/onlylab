@@ -5,7 +5,10 @@
 
     <entity name="OnlyTracker\Domain\Entity\Genre" table="genres">
 
-        <id name="id" type="string">
+        <!--<id name="id" type="string">-->
+            <!--<generator strategy="NONE" />-->
+        <!--</id>-->
+        <id name="id" type="genre_id">
             <generator strategy="NONE" />
         </id>
         <field name="title" type="string" length="255" />

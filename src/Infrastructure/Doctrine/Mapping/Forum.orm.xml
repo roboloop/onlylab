@@ -5,10 +5,9 @@
 
     <entity name="OnlyTracker\Domain\Entity\Forum" table="forums">
 
-        <id name="id" type="string">
+        <id name="id" type="forum_id">
             <generator strategy="NONE" />
         </id>
-        <field name="exId" type="integer" />
         <field name="title" type="string" length="4095" />
         <field name="createdAt" type="datetime_immutable" />
 
