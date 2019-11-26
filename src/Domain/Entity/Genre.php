@@ -4,10 +4,9 @@ declare (strict_types = 1);
 
 namespace OnlyTracker\Domain\Entity;
 
-use OnlyTracker\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
-class Genre implements UniqueIdentityInterface
+class Genre
 {
     private $id;
     private $title;

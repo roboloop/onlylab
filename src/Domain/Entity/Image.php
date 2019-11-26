@@ -5,10 +5,9 @@ declare (strict_types = 1);
 namespace OnlyTracker\Domain\Entity;
 
 use OnlyTracker\Domain\Entity\Enum\ImageFormat;
-use OnlyTracker\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
-class Image implements UniqueIdentityInterface
+class Image
 {
     private $id;
     private $topic;

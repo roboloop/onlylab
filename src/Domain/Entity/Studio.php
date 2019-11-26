@@ -5,10 +5,9 @@ declare (strict_types = 1);
 namespace OnlyTracker\Domain\Entity;
 
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
-use OnlyTracker\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 
-class Studio implements UniqueIdentityInterface
+class Studio
 {
     private $id;
     private $url;

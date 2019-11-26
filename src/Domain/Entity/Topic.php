@@ -3,11 +3,10 @@
 namespace OnlyTracker\Domain\Entity;
 
 use OnlyTracker\Domain\Entity\Embeddable\ParsedTitle;
-use OnlyTracker\Domain\Shared\UniqueIdentityInterface;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Topic implements UniqueIdentityInterface
+class Topic
 {
     private $id;
     private $exId;
