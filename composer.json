@@ -12,21 +12,21 @@
         "ocramius/generated-hydrator": "^3.0",
         "ramsey/uuid": "^3.8",
         "sensio/framework-extra-bundle": "^5.1",
-        "snc/redis-bundle": "^2.1",
-        "symfony/console": "4.4.*",
-        "symfony/dom-crawler": "4.4.*",
-        "symfony/dotenv": "4.4.*",
+        "snc/redis-bundle": "^3.2",
+        "symfony/console": "5.0.*",
+        "symfony/dom-crawler": "5.0.*",
+        "symfony/dotenv": "5.0.*",
         "symfony/flex": "^1.4",
-        "symfony/form": "4.4.*",
-        "symfony/framework-bundle": "4.4.*",
-        "symfony/http-client": "4.4.*",
+        "symfony/form": "5.0.*",
+        "symfony/framework-bundle": "5.0.*",
+        "symfony/http-client": "5.0.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/orm-pack": "^1.0",
         "symfony/serializer-pack": "^1.0",
-        "symfony/twig-bundle": "4.4.*",
-        "symfony/validator": "4.4.*",
+        "symfony/twig-bundle": "5.0.*",
+        "symfony/validator": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
-        "symfony/yaml": "4.4.*"
+        "symfony/yaml": "5.0.*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",
@@ -36,7 +36,7 @@
         "symfony/debug-pack": "^1.0",
         "symfony/profiler-pack": "^1.0",
         "symfony/test-pack": "^1.0",
-        "theofidry/psysh-bundle": "^3.5"
+        "theofidry/psysh-bundle": "^4.1"
     },
     "config": {
         "preferred-install": {
@@ -84,7 +84,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.4.*"
+            "require": "5.0.*"
         }
     }
 }
