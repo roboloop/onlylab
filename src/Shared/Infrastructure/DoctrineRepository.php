@@ -2,10 +2,10 @@
 
 namespace OnlyTracker\Shared\Infrastructure;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Parameter;
+use Doctrine\ORM\QueryBuilder;
 use OnlyTracker\Domain\Shared\RepositoryInterface;
-use OnlyTracker\Shared\Domain\ValueObject\Uuid;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use LogicException;
 
 abstract class DoctrineRepository implements RepositoryInterface
 {
@@ -15,16 +15,16 @@ abstract class DoctrineRepository implements RepositoryInterface
     protected $entityManager;
     protected $entityClass;
 
-    public function __construct(ManagerRegistry $registry, string $entityClass)
+    public function __construct(EntityManagerInterface $entityManager, string $entityClass)
     {
-        $this->entityClass   = $entityClass;
-        $this->entityManager = $registry->getManagerForClass($entityClass);
+        $this->entityClass      = $entityClass;
+        $this->entityManager    = $entityManager;
+        $this->basicRepository  = $this->entityManager->getRepository($entityClass);
+    }
 
-        if (null === $this->entityManager) {
-            throw new LogicException('No entity manager to class ' . $entityClass);
-        }
-
-        $this->basicRepository = $this->entityManager->getRepository($entityClass);
+    public function find($id)
+    {
+        return $this->basicRepository->find($id);
     }
 
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
@@ -45,5 +45,44 @@ abstract class DoctrineRepository implements RepositoryInterface
         }
 
         $this->entityManager->flush($entities);
+    }
+
+    public function delete($entity)
+    {
+        $this->entityManager->remove($entity);
+        $this->entityManager->flush($entity);
+    }
+
+    public function deleteMultiple(array $entities)
+    {
+        foreach ($entities as $entity) {
+            $this->entityManager->remove($entity);
+        }
+
+        $this->entityManager->flush($entities);
+    }
+
+    protected function orLikeExpr(array $values, string $field, $type = null)
+    {
+        $prefix = str_replace('.', '_', $field);
+
+        $params = $args = $orLike = [];
+        for ($i = 0; $i < count($values); $i++) {
+            $params[]   = $param = $prefix . $i;
+            $orLike[]   = "$field LIKE :$param";
+            $args[]     = new Parameter($param, '%' . $values[$i] . '%', $type);
+        }
+
+        $orLike = implode(' OR ', $orLike);
+
+        return [$orLike, $params, $args];
+    }
+
+    protected function andWhere(QueryBuilder $qb, string $predicate, array $params, array $args)
+    {
+        $qb->andWhere($predicate);
+        for ($i = 0; $i < count($params); $i++) {
+            $qb->setParameter($params[$i], $args[$i]);
+        }
     }
 }

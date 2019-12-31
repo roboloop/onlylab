@@ -83,23 +83,23 @@
 
         <!--Infrastructure repositories-->
         <service id="OnlyTracker\Infrastructure\Doctrine\Repository\ForumDoctrineRepository">
-            <argument type="service" id="doctrine" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
         <service id="OnlyTracker\Infrastructure\Doctrine\Repository\GenreDoctrineRepository">
-            <argument type="service" id="doctrine" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
         <service id="OnlyTracker\Infrastructure\Doctrine\Repository\ImageDoctrineRepository">
-            <argument type="service" id="doctrine" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
         <service id="OnlyTracker\Infrastructure\Doctrine\Repository\StudioDoctrineRepository">
-            <argument type="service" id="doctrine" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
         <service id="OnlyTracker\Infrastructure\Doctrine\Repository\TopicDoctrineRepository">
-            <argument type="service" id="doctrine" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
         <!--Domain Factories-->
@@ -125,7 +125,6 @@
         </service>
 
         <service id="OnlyTracker\Domain\Factory\TopicFactory">
-            <argument type="service" id="OnlyTracker\Domain\Repository\TopicRepositoryInterface" />
             <argument type="service" id="OnlyTracker\Infrastructure\Util\DateTimeUtil" />
         </service>
 
@@ -162,6 +161,11 @@
             <argument type="service" id="OnlyTracker\Infrastructure\Doctrine\Repository\TopicDoctrineRepository" />
             <argument type="service" id="OnlyTracker\Domain\Factory\TopicFactory" />
             <argument type="service" id="OnlyTracker\Domain\Service\ParsedTitleService" />
+        </service>
+
+        <service id="OnlyTracker\Domain\Service\TopicDeletion">
+            <argument type="service" id="OnlyTracker\Infrastructure\Doctrine\Repository\TopicDoctrineRepository"/>
+            <argument type="service" id="OnlyTracker\Infrastructure\Doctrine\Repository\ImageDoctrineRepository"/>
         </service>
 
 

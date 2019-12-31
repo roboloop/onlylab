@@ -2,18 +2,18 @@
 
 namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
+use Doctrine\ORM\EntityManagerInterface;
 use OnlyTracker\Domain\Entity\Forum;
 use OnlyTracker\Domain\Identity\ForumId;
 use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
 use OnlyTracker\Shared\Domain\ValueObject\Uuid;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
-class ForumDoctrineRepository extends DoctrineRepository implements ForumRepositoryInterface
+final class ForumDoctrineRepository extends DoctrineRepository implements ForumRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        parent::__construct($registry, Forum::class);
+        parent::__construct($entityManager, Forum::class);
     }
 
     /**
@@ -22,6 +22,6 @@ class ForumDoctrineRepository extends DoctrineRepository implements ForumReposit
      */
     public function nextIdentity(): ForumId
     {
-        return new ForumId(Uuid::random());
+        return ForumId::random();
     }
 }

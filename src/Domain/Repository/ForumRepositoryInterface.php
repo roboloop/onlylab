@@ -7,6 +7,7 @@ use OnlyTracker\Domain\Shared\RepositoryInterface;
 use OnlyTracker\Domain\Shared\IdGeneratorInterface;
 
 /**
+ * @method \OnlyTracker\Domain\Entity\Forum   find($id)
  * @method \OnlyTracker\Domain\Entity\Forum[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
  * @method \OnlyTracker\Domain\Entity\Forum[] save($entity)
  * @method \OnlyTracker\Domain\Entity\Forum[] saveMultiple(array $entities)

@@ -1,7 +1,8 @@
 <?php
 
-namespace OnlyTracker\Application\Creator;
+namespace OnlyTracker\Application\CRUD;
 
+use OnlyTracker\Application\Dto\RawForumDto;
 use OnlyTracker\Application\Dto\RawImageDto;
 use OnlyTracker\Application\Dto\RawTopicDto;
 use OnlyTracker\Application\Exception\InvalidArgumentWhenCreatingTopicException;
@@ -16,7 +17,7 @@ use OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager;
 use OnlyTracker\Infrastructure\Util\SizeConverter;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TopicCreator
+class TopicCreation
 {
     private $validator;
     private $parserManager;
@@ -57,6 +58,10 @@ class TopicCreator
     {
         $this->validateRawTopicDto($dto);
         $this->convertTypesDto($dto);
+
+        if ($topic = $this->topicRepository->find($dto->getExId())) {
+            $this->topicRepository->delete($topic);
+        }
 
         $rawGenres  = $this->parserManager->genres($dto->getRawTitle());
         $genres     = $this->genreService->getOrMakeOrBoth($rawGenres);
@@ -99,13 +104,14 @@ class TopicCreator
     private function convertTypesDto(RawTopicDto &$dto)
     {
         $images = $dto->getImages();
+        $forum = $dto->getForum();
 
         $dto = new RawTopicDto(
             (int) $dto->getExId(),
             (string) $dto->getRawTitle(),
             $this->sizeConverter->fromStringToInt($dto->getSize()),
             $this->dateTimeUtil->ymdHi($dto->getExCreatedAt()),
-            $dto->getForum(),
+            new RawForumDto($forum->getId(), $forum->getTitle()),
             $images
         );
     }

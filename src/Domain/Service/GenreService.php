@@ -24,6 +24,8 @@ class GenreService
      */
     public function getOrMakeOrBoth(array $titles)
     {
+        $titles = $this->filterTitles($titles);
+
         $repositoryGenres = $newGenres = [];
 
         $genres = $this->genreRepository->findBy(['title' => $titles]);
@@ -42,7 +44,7 @@ class GenreService
 
         $this->genreRepository->saveMultiple($newGenres);
 
-        return array_merge($genres, $newGenres);
+        return array_values(array_merge($genres, $newGenres));
     }
 
     public function approve(Genre $genre)
@@ -78,5 +80,17 @@ class GenreService
         }
 
         return $this->genreRepository->findBy($criteria, ['title' => 'ASC']);
+    }
+
+    private function filterTitles(array $titles)
+    {
+        return array_values(
+            array_intersect_key(
+                $titles,
+                array_unique(
+                    array_map('mb_strtolower', $titles)
+                )
+            )
+        );
     }
 }

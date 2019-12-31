@@ -7,15 +7,16 @@ use OnlyTracker\Domain\Deduction\OriginalUrlDeduction;
 use OnlyTracker\Domain\Deduction\PicshickDeduction;
 use OnlyTracker\Domain\Entity\Enum\ImageFormat;
 use OnlyTracker\Domain\Factory\ImageFactory;
+use OnlyTracker\Domain\Identity\ImageId;
+use OnlyTracker\Domain\Repository\ImageRepositoryInterface;
 use OnlyTracker\Domain\Service\ImageService;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
 use OnlyTracker\Tests\Stubs\Infrastructure\Fixture\FixtureLoader;
-use OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayImageRepository;
 use PHPUnit\Framework\TestCase;
 
 class ImageServiceTest extends TestCase
 {
-    /** @var \OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayImageRepository */
+    /** @var \OnlyTracker\Domain\Repository\ImageRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $repository;
     /** @var \OnlyTracker\Domain\Factory\ImageFactory */
     private $factory;
@@ -26,7 +27,7 @@ class ImageServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->repository   = new ArrayImageRepository;
+        $this->repository   = $this->createMock(ImageRepositoryInterface::class);
         $this->factory      = new ImageFactory($this->repository, new DateTimeUtil);
         $this->urlDeduction = new OriginalUrlDeduction([
             new FastpicDeduction,
@@ -40,9 +41,14 @@ class ImageServiceTest extends TestCase
      */
     public function testMakePosterImage($frontUrl)
     {
+        // Prepare
         $topic = FixtureLoader::topic();
+        $this->repository->method('nextIdentity')->willReturn(ImageId::random());
+
+        // Do
         $image = $this->service->makePosterImage($topic, $frontUrl);
 
+        // Assert
         $this->assertEquals($frontUrl, $image->getFrontUrl());
         $this->assertNull($image->getReference());
         $this->assertNull($image->getOriginal());
@@ -53,10 +59,14 @@ class ImageServiceTest extends TestCase
      */
     public function testMakeUnderSpoilerImage($frontUrl, $reference, $spoilerName, $originalExpects, $formatExpects)
     {
+        // Prepare
         $topic = FixtureLoader::topic();
+        $this->repository->method('nextIdentity')->willReturn(ImageId::random());
 
+        // Do
         $image = $this->service->makeUnderSpoilerImage($topic, $frontUrl, $reference, $spoilerName);
 
+        // Assert
         $this->assertEquals($frontUrl, $image->getFrontUrl());
         $this->assertEquals($reference, $image->getReference());
         $this->assertEquals($originalExpects, $image->getOriginal());

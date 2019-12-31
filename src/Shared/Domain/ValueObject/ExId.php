@@ -16,6 +16,11 @@ abstract class ExId
         return $this->value;
     }
 
+    public static function random()
+    {
+        return new static(rand(1, INF));
+    }
+
     public function __toString()
     {
         return (string) $this->value();

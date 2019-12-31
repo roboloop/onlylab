@@ -11,4 +11,19 @@ final class StudioStatus extends Enum
     const TYPICAL       = 'typical';
     const BANNED        = 'banned';
     const PREFERABLE    = 'preferable';
+
+    public static function typical()
+    {
+        return new static(static::TYPICAL);
+    }
+
+    public static function banned()
+    {
+        return new static(static::BANNED);
+    }
+
+    public static function preferable()
+    {
+        return new static(static::PREFERABLE);
+    }
 }

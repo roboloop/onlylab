@@ -19,6 +19,7 @@ final class FixtureLoader
 
         $loader = new \Nelmio\Alice\Loader\NativeLoader($generator);
         $objectSet = $loader->loadFiles([
+            __DIR__ . '/Mapping/topic_id.fixture.php',
             __DIR__ . '/Mapping/forum_id.fixture.php',
             __DIR__ . '/Mapping/forum.fixture.php',
             __DIR__ . '/Mapping/topic.fixture.php',

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="OnlyTracker\Backend\Dto\SearchDto" exclusion-policy="ALL" exclude="true">
+        <property name="forumIds" expose="true" skip-when-empty="false" type="string" inline="true">
+            <!--<type><![CDATA[]]></type>-->
+            <!--<type>OnlyTracker\Domain\Identity\ForumId</type>-->
+        </property>
+
+    </class>
+</serializer>

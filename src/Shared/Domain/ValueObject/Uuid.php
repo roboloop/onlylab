@@ -18,7 +18,7 @@ class Uuid
 
     public static function random()
     {
-        return RamseyUuid::uuid4()->toString();
+        return new static(RamseyUuid::uuid4()->toString());
     }
 
     public function value(): string

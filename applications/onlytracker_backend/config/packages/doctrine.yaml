@@ -13,6 +13,7 @@ doctrine:
             genre_id:     OnlyTracker\Infrastructure\Doctrine\Types\GenreIdType
             image_id:     OnlyTracker\Infrastructure\Doctrine\Types\ImageIdType
             studio_id:    OnlyTracker\Infrastructure\Doctrine\Types\StudioIdType
+            topic_id:     OnlyTracker\Infrastructure\Doctrine\Types\TopicIdType
 
         connections:
             default:

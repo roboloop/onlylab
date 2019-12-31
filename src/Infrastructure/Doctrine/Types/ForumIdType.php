@@ -3,10 +3,10 @@
 namespace OnlyTracker\Infrastructure\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
+use Doctrine\DBAL\Types\IntegerType;
 use OnlyTracker\Domain\Identity\ForumId;
 
-final class ForumIdType extends StringType
+final class ForumIdType extends IntegerType
 {
     const NAME = 'forum_id';
 
@@ -22,6 +22,6 @@ final class ForumIdType extends StringType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return (string) $value;
+        return $value->value();
     }
 }

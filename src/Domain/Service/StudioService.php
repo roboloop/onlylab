@@ -19,26 +19,28 @@ class StudioService
     }
 
     /**
-     * @param string[] $rawStudios
+     * @param string[] $urls
      *
      * @return \OnlyTracker\Domain\Entity\Studio[]
      */
-    public function getOrMakeOrBoth(array $rawStudios)
+    public function getOrMakeOrBoth(array $urls)
     {
+        $urls = $this->filterUrls($urls);
+
         $repositoryStudios = $newStudios = [];
 
-        $studios = $this->studioRepository->findBy(['url' => $rawStudios]);
+        $studios = $this->studioRepository->findBy(['url' => $urls]);
 
         foreach ($studios as $studio) {
             $repositoryStudios[] = $studio->getUrl();
         }
 
-        $newRawStudios = array_udiff($rawStudios, $repositoryStudios, function ($url1, $url2) {
+        $newRawStudios = array_udiff($urls, $repositoryStudios, function ($url1, $url2) {
             return mb_strtolower($url1) <=> mb_strtolower($url2);
         });
 
         foreach ($newRawStudios as $newRawStudio) {
-            $newStudios[] = $this->studioFactory->make($newRawStudio, new StudioStatus(StudioStatus::TYPICAL));
+            $newStudios[] = $this->studioFactory->make($newRawStudio, StudioStatus::typical());
         }
 
         $this->studioRepository->saveMultiple($newStudios);
@@ -80,5 +82,17 @@ class StudioService
         }
 
         return $this->studioRepository->findBy($criteria, ['url' => 'ASC']);
+    }
+
+    private function filterUrls(array $urls)
+    {
+        return array_values(
+            array_intersect_key(
+                $urls,
+                array_unique(
+                    array_map('mb_strtolower', $urls)
+                )
+            )
+        );
     }
 }

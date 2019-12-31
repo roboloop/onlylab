@@ -3,6 +3,7 @@
 namespace OnlyTracker\Domain\Service;
 
 use OnlyTracker\Domain\Factory\ForumFactory;
+use OnlyTracker\Domain\Identity\ForumId;
 use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
 
 class ForumService
@@ -17,20 +18,18 @@ class ForumService
     }
 
     /**
-     * @param int         $forumExId
-     * @param string|null $title
+     * @param \OnlyTracker\Domain\Identity\ForumId $id
+     * @param string|null                      $title
      *
      * @return \OnlyTracker\Domain\Entity\Forum
      */
-    public function getOrMake(int $forumExId, string $title = null)
+    public function getOrMake(ForumId $id, string $title = null)
     {
-        $forums = $this->forumRepository->findBy(['id' => $forumExId], ['createdAt' => 'DESC']);
+        $forum = $this->forumRepository->find($id);
 
-        $forum = reset($forums);
-
-        if (false === $forum) {
+        if (null !== $forum) {
             $title = $title ?: '(no forum name)';
-            $forum = $this->forumFactory->make($forumExId, $title);
+            $forum = $this->forumFactory->make($id, $title);
             $this->forumRepository->save($forum);
         }
 

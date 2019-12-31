@@ -15,10 +15,9 @@ class ForumFactory
         $this->dateTimeUtil = $dateTimeUtil;
     }
 
-    public function make(int $exId, string $title)
+    public function make(ForumId $exId, string $title)
     {
-        $exId       = new ForumId($exId);
-        $createdAt  = $this->dateTimeUtil->now();
+        $createdAt = $this->dateTimeUtil->now();
 
         return new Forum($exId, $title, $createdAt);
     }

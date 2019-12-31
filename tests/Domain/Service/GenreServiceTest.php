@@ -4,17 +4,18 @@ namespace OnlyTracker\Tests\Domain\Service;
 
 use OnlyTracker\Domain\Entity\Genre;
 use OnlyTracker\Domain\Factory\GenreFactory;
+use OnlyTracker\Domain\Identity\GenreId;
+use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
 use OnlyTracker\Domain\Service\GenreService;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
 use OnlyTracker\Tests\Helpers\AssertArrayTrait;
-use OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayGenreRepository;
 use PHPUnit\Framework\TestCase;
 
 class GenreServiceTest extends TestCase
 {
     use AssertArrayTrait;
 
-    /** @var \OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayGenreRepository */
+    /** @var \OnlyTracker\Domain\Repository\GenreRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $repo;
     /** @var \OnlyTracker\Domain\Factory\GenreFactory */
     private $factory;
@@ -23,7 +24,7 @@ class GenreServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->repo     = new ArrayGenreRepository;
+        $this->repo     = $this->createMock(GenreRepositoryInterface::class);
         $this->factory  = new GenreFactory($this->repo, new DateTimeUtil);
         $this->service  = new GenreService($this->repo, $this->factory);
     }
@@ -31,60 +32,74 @@ class GenreServiceTest extends TestCase
     /**
      * @dataProvider data
      */
-    public function testGetOrMakeOrBoth($repoData, $titles, $expectedRepoData)
+    public function testGetOrMakeOrBoth($findByData, $rawTitles)
     {
         // Prepare
-        foreach ($repoData as $datum) {
-            $this->repo->save($this->factory->make($datum, null, false));
+        $this->repo->method('nextIdentity')->willReturnOnConsecutiveCalls(...$this->generateIds(10));
+        foreach ($findByData as $datum) {
+            $findBy[] = $this->factory->make($datum, null, false);
         }
+        $this->repo->method('findBy')->willReturn($findBy);
 
         // Do
-        $result = $this->service->getOrMakeOrBoth($titles);
+        $genres = $this->service->getOrMakeOrBoth($rawTitles);
 
         // Assert
         $titleCallback = function (Genre $genre) {
             return $genre->getTitle();
         };
 
-        $repo        = array_map($titleCallback, $this->repo->findAll());
-        $rawReturned = array_map($titleCallback, $result);
+        $compare = function (string $a, string $b) {
+            return mb_strtolower($a) <=> mb_strtolower($b);
+        };
 
-        $this->assertEquals(count($titles), count($result));
-        $this->assertEquals(count($expectedRepoData), count($repo));
-        $this->assertArrayPopulation($expectedRepoData, $repo);
-        $this->assertArrayPopulation($titles, $rawReturned);
+        $genreTitles = array_map($titleCallback, $genres);
+        $this->assertArrayPopulation($rawTitles, $genreTitles, $compare);
+        $this->assertArrayPopulation($findByData, $genreTitles, $compare);
     }
 
     public function testApprove()
     {
-        $this->repo->save($genre = $this->factory->make('Dummy title', null, false));
+        // Prepare
+        $this->repo->method('nextIdentity')->willReturnOnConsecutiveCalls(...$this->generateIds(10));
+        $genre = $this->factory->make('Dummy title', null, false);
 
+        // Do
         $this->service->approve($genre);
 
-        $genres = $this->repo->findAll();
-        $this->assertEquals(1, count($genres));
-        $this->assertTrue(reset($genres)->isApproved());
+        // Assert
+        $this->assertTrue($genre->isApproved());
     }
 
     public function testDisapprove()
     {
-        $this->repo->save($genre = $this->factory->make('Dummy title', null, true));
+        // Prepare
+        $this->repo->method('nextIdentity')->willReturnOnConsecutiveCalls(...$this->generateIds(10));
+        $genre = $this->factory->make('Dummy title', null, true);
 
+        // Do
         $this->service->disapprove($genre);
 
-        $genres = $this->repo->findAll();
-        $this->assertEquals(1, count($genres));
-        $this->assertFalse(reset($genres)->isApproved());
+        // Assert
+        $this->assertFalse($genre->isApproved());
     }
 
     public function data()
     {
         return [
             [
-                ['diff', 'same', 'module'],
-                ['ddd', 'diff', 'module'],
-                ['diff', 'same', 'module', 'ddd'],
+                ['diff', 'module'],
+                ['ddd', 'DIFF', 'DiFf', 'module'],
             ],
         ];
+    }
+
+    private function generateIds($amount)
+    {
+        for ($i = 0; $i < $amount; $i++) {
+            $ids[] = GenreId::random();
+        }
+
+        return $ids ?? [];
     }
 }

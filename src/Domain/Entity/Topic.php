@@ -5,6 +5,8 @@ namespace OnlyTracker\Domain\Entity;
 use OnlyTracker\Domain\Entity\Embeddable\ParsedTitle;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use OnlyTracker\Domain\Entity\ObjectValue\Size;
+use OnlyTracker\Domain\Identity\TopicId;
 
 class Topic
 {
@@ -20,13 +22,12 @@ class Topic
     private $studios;
     private $isLoaded;
 
-    public function __construct(string $id, int $exId, ParsedTitle $parsedTitle, Forum $forum, ?int $size, ?DateTimeImmutable $exCreatedAt, DateTimeImmutable $createdAt, bool $isLoaded)
+    public function __construct(TopicId $id, ParsedTitle $parsedTitle, Forum $forum, ?Size $size, ?DateTimeImmutable $exCreatedAt, DateTimeImmutable $createdAt, bool $isLoaded)
     {
         $this->id           = $id;
-        $this->exId         = $exId;
         $this->parsedTitle  = $parsedTitle;
         $this->forum        = $forum;
-        $this->size         = $size;
+        $this->size         = null !== $size ? $size->value() : null;
         $this->exCreatedAt  = $exCreatedAt;
         $this->createdAt    = $createdAt;
         $this->isLoaded     = $isLoaded;
@@ -36,7 +37,7 @@ class Topic
         $this->studios  = new ArrayCollection;
     }
 
-    public function getId(): string
+    public function getId(): TopicId
     {
         return $this->id;
     }
@@ -63,9 +64,9 @@ class Topic
         return $this;
     }
 
-    public function getSize(): ?int
+    public function getSize(): ?Size
     {
-        return $this->size;
+        return null !== $this->size ? new Size($this->size) : null;
     }
 
     public function getExCreatedAt(): ?DateTimeImmutable
@@ -100,6 +101,11 @@ class Topic
         }
 
         return $this;
+    }
+
+    public function clearImages(): void
+    {
+        $this->images->clear();
     }
 
     public function getGenres(): array

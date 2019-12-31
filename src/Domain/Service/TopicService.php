@@ -3,7 +3,9 @@
 namespace OnlyTracker\Domain\Service;
 
 use OnlyTracker\Domain\Entity\Forum;
+use OnlyTracker\Domain\Entity\ObjectValue\Size;
 use OnlyTracker\Domain\Factory\TopicFactory;
+use OnlyTracker\Domain\Identity\TopicId;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use DateTimeImmutable;
 
@@ -20,13 +22,11 @@ class TopicService
         $this->parsedTitleService   = $parsedTitleService;
     }
 
-    public function makeNotLoaded(int $exId, string $rawTitle, Forum $forum, ?int $size, ?DateTimeImmutable $exCreatedAt)
+    public function makeNotLoaded(TopicId $id, string $rawTitle, Forum $forum, ?Size $size, ?DateTimeImmutable $exCreatedAt)
     {
         $parsedTitle = $this->parsedTitleService->make($rawTitle);
 
-        $topic = $this->topicFactory->make($exId, $parsedTitle, $forum, $size, $exCreatedAt, false);
-
-        $this->topicRepository->save($topic);
+        $topic = $this->topicFactory->make($id, $parsedTitle, $forum, $size, $exCreatedAt, false);
 
         return $topic;
     }

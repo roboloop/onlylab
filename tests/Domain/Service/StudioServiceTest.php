@@ -5,17 +5,18 @@ namespace OnlyTracker\Tests\Domain\Service;
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
 use OnlyTracker\Domain\Entity\Studio;
 use OnlyTracker\Domain\Factory\StudioFactory;
+use OnlyTracker\Domain\Identity\StudioId;
+use OnlyTracker\Domain\Repository\StudioRepositoryInterface;
 use OnlyTracker\Domain\Service\StudioService;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
 use OnlyTracker\Tests\Helpers\AssertArrayTrait;
-use OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayStudioRepository;
 use PHPUnit\Framework\TestCase;
 
 class StudioServiceTest extends TestCase
 {
     use AssertArrayTrait;
 
-    /** @var \OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayStudioRepository */
+    /** @var \OnlyTracker\Domain\Repository\StudioRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $repo;
     /** @var \OnlyTracker\Domain\Factory\StudioFactory */
     private $factory;
@@ -24,7 +25,7 @@ class StudioServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->repo     = new ArrayStudioRepository;
+        $this->repo     = $this->createMock(StudioRepositoryInterface::class);
         $this->factory  = new StudioFactory($this->repo, new DateTimeUtil);
         $this->service  = new StudioService($this->repo, $this->factory);
     }
@@ -32,38 +33,48 @@ class StudioServiceTest extends TestCase
     /**
      * @dataProvider data
      */
-    public function testGetOrMakeOrBoth($repoData, $urls, $expectedRepoData)
+    public function testGetOrMakeOrBoth($findByData, $rawUrls)
     {
         // Prepare
-        foreach ($repoData as $datum) {
-            $this->repo->save($this->factory->make($datum, new StudioStatus(StudioStatus::TYPICAL)));
+        $this->repo->method('nextIdentity')->willReturnOnConsecutiveCalls(...$this->generateIds(10));
+        foreach ($findByData as $datum) {
+            $findBy[] = $this->factory->make($datum, StudioStatus::typical());
         }
+        $this->repo->method('findBy')->willReturn($findBy);
 
         // Do
-        $result = $this->service->getOrMakeOrBoth($urls);
+        $studios = $this->service->getOrMakeOrBoth($rawUrls);
 
         // Assert
         $urlCallback = function (Studio $genre) {
             return $genre->getUrl();
         };
 
-        $repo        = array_map($urlCallback, $this->repo->findAll());
-        $rawReturned = array_map($urlCallback, $result);
+        $compare = function (string $a, string $b) {
+            return mb_strtolower($a) <=> mb_strtolower($b);
+        };
 
-        $this->assertEquals(count($urls), count($result));
-        $this->assertEquals(count($expectedRepoData), count($repo));
-        $this->assertArrayPopulation($expectedRepoData, $repo);
-        $this->assertArrayPopulation($urls, $rawReturned);
+        $studioUrls = array_map($urlCallback, $studios);
+        $this->assertArrayPopulation($rawUrls, $studioUrls, $compare);
+        $this->assertArrayPopulation($findByData, $studioUrls, $compare);
     }
 
     public function data()
     {
         return [
             [
-                ['https://translate.google.com/', 'https://translate.yandex.ru/', 'https://translate.bing.com/'],
-                ['https://translate.google.com/', 'https://translate.ru/', 'https://translate.yandex.ru/'],
-                ['https://translate.google.com/', 'https://translate.ru/', 'https://translate.yandex.ru/', 'https://translate.bing.com/'],
+                ['https://translate.google.com/', 'https://translate.ru/'],
+                ['https://translate.google.com/', 'https://translate.ru/', 'https://TRANSLATE.ru/', 'https://translate.yandex.ru/'],
             ],
         ];
+    }
+
+    private function generateIds($amount)
+    {
+        for ($i = 0; $i < $amount; $i++) {
+            $ids[] = StudioId::random();
+        }
+
+        return $ids ?? [];
     }
 }

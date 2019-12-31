@@ -3,14 +3,15 @@
 namespace OnlyTracker\Tests\Domain\Service;
 
 use OnlyTracker\Domain\Factory\ForumFactory;
+use OnlyTracker\Domain\Identity\ForumId;
+use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
 use OnlyTracker\Domain\Service\ForumService;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
-use OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayForumRepository;
 use PHPUnit\Framework\TestCase;
 
 class ForumServiceTest extends TestCase
 {
-    /** @var \OnlyTracker\Tests\Stubs\Infrastructure\Repository\ArrayForumRepository */
+    /** @var \OnlyTracker\Domain\Repository\ForumRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $repo;
     /** @var \OnlyTracker\Domain\Factory\ForumFactory */
     private $factory;
@@ -19,7 +20,7 @@ class ForumServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->repo     = new ArrayForumRepository;
+        $this->repo     = $this->createMock(ForumRepositoryInterface::class);
         $this->factory  = new ForumFactory(new DateTimeUtil);
         $this->service  = new ForumService($this->repo, $this->factory);
     }
@@ -27,57 +28,44 @@ class ForumServiceTest extends TestCase
     /**
      * @dataProvider dataGetCase
      */
-    public function testGetOrMakeGetCase($repoData, $forumData)
+    public function testGetOrMakeGetCase($id, $title)
     {
         // prepare
-        foreach ($repoData as $datum) {
-            $this->repo->save($this->factory->make(...$datum));
-        }
+        $preparedForum = $this->factory->make($id, $title);
+        $this->repo->method('findBy')->willReturn([$preparedForum]);
+
         // do
-        $forum = $this->service->getOrMake(...$forumData);
+        $forum = $this->service->getOrMake($id, $title);
 
         // assert
-        $repo = $this->repo->findAll();
-        $this->assertEquals(count($repoData), count($repo));
-        $this->assertEquals($forum->getTitle(), $forumData[1]);
+        $this->assertSame($preparedForum, $forum);
     }
 
     /**
      * @dataProvider dataMakeCase
      */
-    public function testGetOrMakeMakeCase($repoData, $forumData)
+    public function testGetOrMakeMakeCase($id, $title)
     {
         // prepare
-        foreach ($repoData as $datum) {
-            $this->repo->save($this->factory->make(...$datum));
-        }
+        $this->repo->method('findBy')->willReturn([]);
+
         // do
-        $forum = $this->service->getOrMake(...$forumData);
+        $forum = $this->service->getOrMake($id, $title);
 
         // assert
-        $repo = $this->repo->findAll();
-        $this->assertEquals(count($repoData) + 1, count($repo));
-        $this->assertEquals($forum->getTitle(), $forumData[1]);
+        $this->assertEquals($id->value(), $forum->getId()->value());
+        $this->assertEquals($title, $forum->getTitle());
     }
 
     public function dataGetCase()
     {
         return [
             [
-                [
-                    [5, '5 title'],
-                    [7, '7 title'],
-                ],
-                [5, '5 title'],
+                new ForumId(5), '5 title',
             ],
             [
-                [
-                    [5, '5 title'],
-                    [6, '6 title'],
-                    [7, '7 title'],
-                ],
-                [5, '6 title'],
-            ]
+                new ForumId(7), '7 title',
+            ],
         ];
     }
 
@@ -85,12 +73,11 @@ class ForumServiceTest extends TestCase
     {
         return [
             [
-                [
-                    [5, '5 title'],
-                    [7, '7 title'],
-                ],
-                [6, '6 title'],
-            ]
+                new ForumId(5), '5 title',
+            ],
+            [
+                new ForumId(7), '7 title',
+            ],
         ];
     }
 }

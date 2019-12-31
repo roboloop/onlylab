@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://symfony.com/schema/routing
         https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <import resource="../routes.xml" type="xml" prefix="/api" name-prefix="api_" />
+    <import resource="api.xml" type="xml" prefix="/api" name-prefix="api_" />
 
-    <import resource="routes.xml" type="xml" />
+    <import resource="web.xml" type="xml" />
 </routes>

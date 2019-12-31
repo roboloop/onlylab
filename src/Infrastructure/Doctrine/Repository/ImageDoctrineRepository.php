@@ -2,18 +2,18 @@
 
 namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
+use Doctrine\ORM\EntityManagerInterface;
 use OnlyTracker\Domain\Entity\Image;
 use OnlyTracker\Domain\Identity\ImageId;
 use OnlyTracker\Domain\Repository\ImageRepositoryInterface;
 use OnlyTracker\Shared\Domain\ValueObject\Uuid;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
-class ImageDoctrineRepository extends DoctrineRepository implements ImageRepositoryInterface
+final class ImageDoctrineRepository extends DoctrineRepository implements ImageRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        parent::__construct($registry, Image::class);
+        parent::__construct($entityManager, Image::class);
     }
 
     public function nextIdentity(): ImageId

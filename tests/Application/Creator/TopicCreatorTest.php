@@ -3,7 +3,7 @@
 namespace OnlyTracker\Tests\Application\Creator;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use OnlyTracker\Application\Creator\TopicCreator;
+use OnlyTracker\Application\CRUD\TopicCreation;
 use OnlyTracker\Application\Dto\RawForumDto;
 use OnlyTracker\Application\Dto\RawImageDto;
 use OnlyTracker\Application\Dto\RawTopicDto;
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TopicCreatorTest extends KernelTestCase
 {
-    /** @var \OnlyTracker\Application\Creator\TopicCreator */
+    /** @var \OnlyTracker\Application\CRUD\TopicCreation */
     private $service;
 
     protected function setUp()
@@ -22,7 +22,7 @@ class TopicCreatorTest extends KernelTestCase
         $schemaTool = new SchemaTool($em);
         $schemaTool->updateSchema($metadata);
 
-        $this->service = static::$container->get(TopicCreator::class);
+        $this->service = static::$container->get(TopicCreation::class);
     }
 
     protected function tearDown()

@@ -2,7 +2,7 @@
 
 namespace OnlyTracker\Application\Handler;
 
-use OnlyTracker\Application\Creator\TopicCreator;
+use OnlyTracker\Application\CRUD\TopicCreation;
 use OnlyTracker\Application\Parser\TopicHtmlParser;
 
 class TopicPageHandler
@@ -10,7 +10,7 @@ class TopicPageHandler
     private $topicCreator;
     private $htmlParser;
 
-    public function __construct(TopicCreator $topicCreator, TopicHtmlParser $htmlParser)
+    public function __construct(TopicCreation $topicCreator, TopicHtmlParser $htmlParser)
     {
         $this->topicCreator = $topicCreator;
         $this->htmlParser = $htmlParser;
