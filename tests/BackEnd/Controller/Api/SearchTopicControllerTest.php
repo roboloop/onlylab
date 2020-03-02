@@ -14,7 +14,8 @@ class SearchTopicControllerTest extends WebTestCase
     public function testRequest()
     {
         $client = $this->createClient();
-        $client->request('POST', '/api/search');
+        $data = json_encode(['forumIds' => [42, 43], 'rawTitles' => ['AAA', 'BBB']]);
+        $client->request('POST', '/api/search', [], [], ['CONTENT_TYPE' => 'application/json'], $data);
         $resp = $client->getResponse();
     }
 }
