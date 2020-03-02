@@ -11,7 +11,6 @@ use OnlyTracker\Domain\Identity\TopicId;
 class Topic
 {
     private $id;
-    private $exId;
     private $forum;
     private $parsedTitle;
     private $size;
@@ -40,11 +39,6 @@ class Topic
     public function getId(): TopicId
     {
         return $this->id;
-    }
-
-    public function getExId(): int
-    {
-        return $this->exId;
     }
 
     public function getForum(): Forum
