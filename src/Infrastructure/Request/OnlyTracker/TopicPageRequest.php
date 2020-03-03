@@ -15,7 +15,7 @@ class TopicPageRequest implements RequestInterface
 
     public function url(): string
     {
-        return '/forum/viewforum.php';
+        return '/forum/viewtopic.php';
     }
 
     public function method(): string

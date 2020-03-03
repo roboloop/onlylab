@@ -11,7 +11,7 @@ use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class OnlyTrackerRequestSenderInterface implements RequestSenderInterface, LoggerAwareInterface
+class OnlyTrackerRequestSender implements RequestSenderInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
