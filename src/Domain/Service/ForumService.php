@@ -3,7 +3,6 @@
 namespace OnlyTracker\Domain\Service;
 
 use OnlyTracker\Domain\Factory\ForumFactory;
-use OnlyTracker\Domain\Identity\ForumId;
 use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
 
 class ForumService
@@ -18,12 +17,12 @@ class ForumService
     }
 
     /**
-     * @param \OnlyTracker\Domain\Identity\ForumId $id
-     * @param string|null                      $title
+     * @param string      $id
+     * @param string|null $title
      *
      * @return \OnlyTracker\Domain\Entity\Forum
      */
-    public function getOrMake(ForumId $id, string $title = null)
+    public function getOrMake(string $id, string $title = null)
     {
         $forum = $this->forumRepository->find($id);
 

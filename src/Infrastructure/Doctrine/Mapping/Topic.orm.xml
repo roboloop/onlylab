@@ -5,7 +5,7 @@
 
     <entity name="OnlyTracker\Domain\Entity\Topic" table="topics">
 
-        <id name="id" type="topic_id">
+        <id name="id" type="string">
             <generator strategy="NONE" />
         </id>
         <embedded name="parsedTitle" class="OnlyTracker\Domain\Entity\Embeddable\ParsedTitle" use-column-prefix="false" />

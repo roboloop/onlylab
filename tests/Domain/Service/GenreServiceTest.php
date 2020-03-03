@@ -4,12 +4,12 @@ namespace OnlyTracker\Tests\Domain\Service;
 
 use OnlyTracker\Domain\Entity\Genre;
 use OnlyTracker\Domain\Factory\GenreFactory;
-use OnlyTracker\Domain\Identity\GenreId;
 use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
 use OnlyTracker\Domain\Service\GenreService;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
 use OnlyTracker\Tests\Helpers\AssertArrayTrait;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 class GenreServiceTest extends TestCase
 {
@@ -97,7 +97,7 @@ class GenreServiceTest extends TestCase
     private function generateIds($amount)
     {
         for ($i = 0; $i < $amount; $i++) {
-            $ids[] = GenreId::random();
+            $ids[] = Uuid::uuid4()->toString();
         }
 
         return $ids ?? [];

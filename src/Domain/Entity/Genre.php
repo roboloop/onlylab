@@ -4,7 +4,6 @@ declare (strict_types = 1);
 
 namespace OnlyTracker\Domain\Entity;
 
-use OnlyTracker\Domain\Identity\GenreId;
 use DateTimeImmutable;
 
 class Genre
@@ -15,7 +14,7 @@ class Genre
     private $isApproved;
     private $createdAt;
 
-    public function __construct(GenreId $id, string $title, ?string $description, bool $isApproved, DateTimeImmutable $createdAt)
+    public function __construct(string $id, string $title, ?string $description, bool $isApproved, DateTimeImmutable $createdAt)
     {
         $this->id           = $id;
         $this->title        = $title;
@@ -24,7 +23,7 @@ class Genre
         $this->createdAt    = $createdAt;
     }
 
-    public function getId(): GenreId
+    public function getId(): string
     {
         return $this->id;
     }

@@ -3,7 +3,6 @@
 namespace OnlyTracker\Domain\Factory;
 
 use OnlyTracker\Domain\Entity\Forum;
-use OnlyTracker\Domain\Identity\ForumId;
 use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 
 class ForumFactory
@@ -15,7 +14,7 @@ class ForumFactory
         $this->dateTimeUtil = $dateTimeUtil;
     }
 
-    public function make(ForumId $exId, string $title)
+    public function make(string $exId, string $title)
     {
         $createdAt = $this->dateTimeUtil->now();
 

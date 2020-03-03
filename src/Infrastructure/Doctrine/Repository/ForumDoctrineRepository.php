@@ -4,7 +4,6 @@ namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use OnlyTracker\Domain\Entity\Forum;
-use OnlyTracker\Domain\Identity\ForumId;
 use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
 use OnlyTracker\Shared\Domain\ValueObject\Uuid;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
@@ -17,11 +16,11 @@ final class ForumDoctrineRepository extends DoctrineRepository implements ForumR
     }
 
     /**
-     * @return \OnlyTracker\Domain\Identity\ForumId
+     * @return string
      * @deprecated
      */
-    public function nextIdentity(): ForumId
+    public function nextIdentity(): string
     {
-        return ForumId::random();
+        return Uuid::random();
     }
 }

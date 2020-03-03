@@ -4,7 +4,6 @@ namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use OnlyTracker\Domain\Entity\Genre;
-use OnlyTracker\Domain\Identity\GenreId;
 use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
 use OnlyTracker\Shared\Domain\ValueObject\Uuid;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
@@ -16,8 +15,8 @@ final class GenreDoctrineRepository extends DoctrineRepository implements GenreR
         parent::__construct($entityManager, Genre::class);
     }
 
-    public function nextIdentity(): GenreId
+    public function nextIdentity(): string
     {
-        return new GenreId(Uuid::random());
+        return Uuid::random();
     }
 }

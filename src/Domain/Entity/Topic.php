@@ -6,7 +6,6 @@ use OnlyTracker\Domain\Entity\Embeddable\ParsedTitle;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use OnlyTracker\Domain\Entity\ObjectValue\Size;
-use OnlyTracker\Domain\Identity\TopicId;
 
 class Topic
 {
@@ -21,7 +20,7 @@ class Topic
     private $studios;
     private $isLoaded;
 
-    public function __construct(TopicId $id, ParsedTitle $parsedTitle, Forum $forum, ?Size $size, ?DateTimeImmutable $exCreatedAt, DateTimeImmutable $createdAt, bool $isLoaded)
+    public function __construct(string $id, ParsedTitle $parsedTitle, Forum $forum, ?Size $size, ?DateTimeImmutable $exCreatedAt, DateTimeImmutable $createdAt, bool $isLoaded)
     {
         $this->id           = $id;
         $this->parsedTitle  = $parsedTitle;
@@ -36,7 +35,7 @@ class Topic
         $this->studios  = new ArrayCollection;
     }
 
-    public function getId(): TopicId
+    public function getId(): string
     {
         return $this->id;
     }

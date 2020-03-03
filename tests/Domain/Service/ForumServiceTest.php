@@ -3,7 +3,6 @@
 namespace OnlyTracker\Tests\Domain\Service;
 
 use OnlyTracker\Domain\Factory\ForumFactory;
-use OnlyTracker\Domain\Identity\ForumId;
 use OnlyTracker\Domain\Repository\ForumRepositoryInterface;
 use OnlyTracker\Domain\Service\ForumService;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
@@ -53,7 +52,7 @@ class ForumServiceTest extends TestCase
         $forum = $this->service->getOrMake($id, $title);
 
         // assert
-        $this->assertEquals($id->value(), $forum->getId()->value());
+        $this->assertEquals($id, $forum->getId());
         $this->assertEquals($title, $forum->getTitle());
     }
 
@@ -61,10 +60,10 @@ class ForumServiceTest extends TestCase
     {
         return [
             [
-                new ForumId(5), '5 title',
+                '5', '5 title',
             ],
             [
-                new ForumId(7), '7 title',
+                '7', '7 title',
             ],
         ];
     }
@@ -73,10 +72,10 @@ class ForumServiceTest extends TestCase
     {
         return [
             [
-                new ForumId(5), '5 title',
+                '5', '5 title',
             ],
             [
-                new ForumId(7), '7 title',
+                '7', '7 title',
             ],
         ];
     }

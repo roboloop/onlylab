@@ -4,7 +4,6 @@ declare (strict_types = 1);
 
 namespace OnlyTracker\Domain\Entity;
 
-use OnlyTracker\Domain\Identity\ForumId;
 use DateTimeImmutable;
 
 class Forum
@@ -13,14 +12,14 @@ class Forum
     private $title;
     private $createdAt;
 
-    public function __construct(ForumId $id, string $title, DateTimeImmutable $createdAt)
+    public function __construct(string $id, string $title, DateTimeImmutable $createdAt)
     {
         $this->id           = $id;
         $this->title        = $title;
         $this->createdAt    = $createdAt;
     }
 
-    public function getId(): ForumId
+    public function getId(): string
     {
         return $this->id;
     }

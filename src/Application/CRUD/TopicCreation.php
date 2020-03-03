@@ -107,11 +107,11 @@ class TopicCreation
         $forum = $dto->getForum();
 
         $dto = new RawTopicDto(
-            (int) $dto->getExId(),
+            $dto->getExId(),
             (string) $dto->getRawTitle(),
-            $this->sizeConverter->fromStringToInt($dto->getSize()),
-            $this->dateTimeUtil->ymdHi($dto->getExCreatedAt()),
-            new RawForumDto($forum->getId(), $forum->getTitle()),
+            $dto->getSize() ? $this->sizeConverter->fromStringToInt($dto->getSize()) : null,
+            $dto->getExCreatedAt() ? $this->dateTimeUtil->ymdHi($dto->getExCreatedAt()) : null,
+            new RawForumDto($forum->getExId(), $forum->getTitle()),
             $images
         );
     }

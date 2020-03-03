@@ -5,7 +5,7 @@
 
     <entity name="OnlyTracker\Domain\Entity\Forum" table="forums">
 
-        <id name="id" type="forum_id">
+        <id name="id" type="string">
             <generator strategy="NONE" />
         </id>
         <field name="title" type="string" length="4095" />

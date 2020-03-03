@@ -6,9 +6,6 @@ namespace OnlyTracker\Domain\Search;
 
 use Assert\Assert;
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
-use OnlyTracker\Domain\Identity\ForumId;
-use OnlyTracker\Domain\Identity\GenreId;
-use OnlyTracker\Domain\Identity\StudioId;
 
 class TopicSearchCriteria
 {
@@ -28,13 +25,13 @@ class TopicSearchCriteria
     }
 
     /**
-     * @param \OnlyTracker\Domain\Identity\ForumId[]|null $forumIds
+     * @param string[]|null $forumIds
      *
      * @return \OnlyTracker\Domain\Search\TopicSearchCriteria
      */
     public function setForumIds(?array $forumIds): self
     {
-        Assert::thatAll($forumIds)->nullOr()->isInstanceOf(ForumId::class);
+        Assert::thatAll($forumIds)->nullOr()->string();
 
         $this->forumIds = $forumIds;
 
@@ -56,13 +53,13 @@ class TopicSearchCriteria
     }
 
     /**
-     * @param \OnlyTracker\Domain\Identity\StudioId[]|null $ids
+     * @param string[]|null $ids
      *
      * @return \OnlyTracker\Domain\Search\TopicSearchCriteria
      */
     public function setStudioIds(?array $ids): self
     {
-        Assert::thatAll($ids)->nullOr()->isInstanceOf(StudioId::class);
+        Assert::thatAll($ids)->nullOr()->string();
 
         $this->studioIds = $ids;
 
@@ -98,13 +95,13 @@ class TopicSearchCriteria
     }
 
     /**
-     * @param \OnlyTracker\Domain\Identity\GenreId[]|null $ids
+     * @param string[]|null $ids
      *
      * @return \OnlyTracker\Domain\Search\TopicSearchCriteria
      */
     public function setGenreIds(?array $ids): self
     {
-        Assert::thatAll($ids)->nullOr()->isInstanceOf(GenreId::class);
+        Assert::thatAll($ids)->nullOr()->string();
 
         $this->genreIds = $ids;
 
@@ -144,7 +141,7 @@ class TopicSearchCriteria
     }
 
     /**
-     * @return \OnlyTracker\Domain\Identity\ForumId[]|null
+     * @return string[]|null
      */
     public function getForumIds(): ?array
     {
@@ -160,7 +157,7 @@ class TopicSearchCriteria
     }
 
     /**
-     * @return StudioId[]|null
+     * @return string[]|null
      */
     public function getStudioIds(): ?array
     {
@@ -184,7 +181,7 @@ class TopicSearchCriteria
     }
 
     /**
-     * @return GenreId[]|null
+     * @return string[]|null
      */
     public function getGenreIds(): ?array
     {

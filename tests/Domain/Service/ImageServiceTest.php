@@ -7,12 +7,12 @@ use OnlyTracker\Domain\Deduction\OriginalUrlDeduction;
 use OnlyTracker\Domain\Deduction\PicshickDeduction;
 use OnlyTracker\Domain\Entity\Enum\ImageFormat;
 use OnlyTracker\Domain\Factory\ImageFactory;
-use OnlyTracker\Domain\Identity\ImageId;
 use OnlyTracker\Domain\Repository\ImageRepositoryInterface;
 use OnlyTracker\Domain\Service\ImageService;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
 use OnlyTracker\Tests\Stubs\Infrastructure\Fixture\FixtureLoader;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 class ImageServiceTest extends TestCase
 {
@@ -43,7 +43,7 @@ class ImageServiceTest extends TestCase
     {
         // Prepare
         $topic = FixtureLoader::topic();
-        $this->repository->method('nextIdentity')->willReturn(ImageId::random());
+        $this->repository->method('nextIdentity')->willReturn(Uuid::uuid4()->toString());
 
         // Do
         $image = $this->service->makePosterImage($topic, $frontUrl);
@@ -61,7 +61,7 @@ class ImageServiceTest extends TestCase
     {
         // Prepare
         $topic = FixtureLoader::topic();
-        $this->repository->method('nextIdentity')->willReturn(ImageId::random());
+        $this->repository->method('nextIdentity')->willReturn(Uuid::uuid4()->toString());
 
         // Do
         $image = $this->service->makeUnderSpoilerImage($topic, $frontUrl, $reference, $spoilerName);

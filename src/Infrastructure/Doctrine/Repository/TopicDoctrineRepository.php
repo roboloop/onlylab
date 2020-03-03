@@ -4,14 +4,10 @@ namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use OnlyTracker\Domain\Entity\Topic;
-use OnlyTracker\Domain\Identity\GenreId;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Domain\Search\TopicSearchCriteria;
-use OnlyTracker\Infrastructure\Doctrine\Types\ForumIdType;
-use OnlyTracker\Infrastructure\Doctrine\Types\GenreIdType;
-use OnlyTracker\Infrastructure\Doctrine\Types\StudioIdType;
+use OnlyTracker\Shared\Domain\ValueObject\Uuid;
 use OnlyTracker\Shared\Infrastructure\DoctrineRepository;
-use Ramsey\Uuid\Uuid as RamseyUuid;
 
 final class TopicDoctrineRepository extends DoctrineRepository implements TopicRepositoryInterface
 {
@@ -22,7 +18,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
     public function nextIdentity(): string
     {
-        return RamseyUuid::uuid4()->toString();
+        return Uuid::random();
     }
 
     public function search(TopicSearchCriteria $criteria)
@@ -39,7 +35,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
         if (null !== $criteria->getForumIds()) {
             $qb->andWhere('t.forum IN (:forumIds)');
-            $qb->setParameter('forumIds', $criteria->getForumIds(), ForumIdType::NAME);
+            $qb->setParameter('forumIds', $criteria->getForumIds());
         }
 
         if (null !== $criteria->getRawTitles()) {
@@ -49,7 +45,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
         if (null !== $criteria->getStudioIds()) {
             $qb->andWhere('t.studios IN (:studioIds)');
-            $qb->setParameter('studioIds', $criteria->getStudioIds(), StudioIdType::NAME);
+            $qb->setParameter('studioIds', $criteria->getStudioIds());
         }
 
         if (null !== $criteria->getStudioUrls()) {
@@ -64,7 +60,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
         if (null !== $criteria->getGenreIds()) {
             $qb->andWhere('t.genres IN (:genreIds)');
-            $qb->setParameter('genreIds', $criteria->getGenreIds(), GenreIdType::NAME);
+            $qb->setParameter('genreIds', $criteria->getGenreIds());
         }
 
         if (null !== $criteria->getGenreTitles()) {

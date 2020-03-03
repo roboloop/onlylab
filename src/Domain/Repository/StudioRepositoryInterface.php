@@ -2,7 +2,6 @@
 
 namespace OnlyTracker\Domain\Repository;
 
-use OnlyTracker\Domain\Identity\StudioId;
 use OnlyTracker\Domain\Shared\RepositoryInterface;
 use OnlyTracker\Domain\Shared\IdGeneratorInterface;
 
@@ -14,5 +13,5 @@ use OnlyTracker\Domain\Shared\IdGeneratorInterface;
  */
 interface StudioRepositoryInterface extends RepositoryInterface, IdGeneratorInterface
 {
-    public function nextIdentity(): StudioId;
+    public function nextIdentity(): string;
 }

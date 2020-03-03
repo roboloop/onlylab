@@ -5,7 +5,6 @@ declare (strict_types = 1);
 namespace OnlyTracker\Domain\Entity;
 
 use OnlyTracker\Domain\Entity\Enum\ImageFormat;
-use OnlyTracker\Domain\Identity\ImageId;
 use DateTimeImmutable;
 
 class Image
@@ -19,7 +18,7 @@ class Image
     private $createdAt;
     private $isBanner;
 
-    public function __construct(ImageId $id, Topic $topic, ImageFormat $format, string $frontUrl, ?string $reference, ?string $original, DateTimeImmutable $createdAt)
+    public function __construct(string $id, Topic $topic, ImageFormat $format, string $frontUrl, ?string $reference, ?string $original, DateTimeImmutable $createdAt)
     {
         $this->id           = $id;
         $this->topic        = $topic;
@@ -32,7 +31,7 @@ class Image
         $this->isBanner     = false;
     }
 
-    public function getId(): ImageId
+    public function getId(): string
     {
         return $this->id;
     }

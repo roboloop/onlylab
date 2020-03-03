@@ -5,12 +5,12 @@ namespace OnlyTracker\Tests\Domain\Service;
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
 use OnlyTracker\Domain\Entity\Studio;
 use OnlyTracker\Domain\Factory\StudioFactory;
-use OnlyTracker\Domain\Identity\StudioId;
 use OnlyTracker\Domain\Repository\StudioRepositoryInterface;
 use OnlyTracker\Domain\Service\StudioService;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
 use OnlyTracker\Tests\Helpers\AssertArrayTrait;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 class StudioServiceTest extends TestCase
 {
@@ -72,7 +72,7 @@ class StudioServiceTest extends TestCase
     private function generateIds($amount)
     {
         for ($i = 0; $i < $amount; $i++) {
-            $ids[] = StudioId::random();
+            $ids[] = Uuid::uuid4()->toString();
         }
 
         return $ids ?? [];

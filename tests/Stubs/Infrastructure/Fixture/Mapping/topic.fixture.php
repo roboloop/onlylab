@@ -15,7 +15,7 @@ return [
     \OnlyTracker\Domain\Entity\Topic::class => [
         'topic0' => [
             '__construct' => [
-                '@topicId0',
+                '<words(1, true)>',
                 '@parsedTitle0',
                 '@forum0',
                 '<numberBetween(1, 1000000)>',

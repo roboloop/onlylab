@@ -8,12 +8,6 @@ parameters:
 doctrine:
     dbal:
         default_connection: default
-        types:
-            forum_id:     OnlyTracker\Infrastructure\Doctrine\Types\ForumIdType
-            genre_id:     OnlyTracker\Infrastructure\Doctrine\Types\GenreIdType
-            image_id:     OnlyTracker\Infrastructure\Doctrine\Types\ImageIdType
-            studio_id:    OnlyTracker\Infrastructure\Doctrine\Types\StudioIdType
-            topic_id:     OnlyTracker\Infrastructure\Doctrine\Types\TopicIdType
 
         connections:
             default:
