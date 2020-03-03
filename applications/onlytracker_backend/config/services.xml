@@ -21,7 +21,7 @@
         </prototype>
 
         <!--TODO: REMOVE AUTOWIRE. MOVE TO SEPAATED FILE-->
-        <prototype namespace="OnlyTracker\BackEnd\Command\" resource="../src/Command/*" autowire="true">
+        <prototype namespace="OnlyTracker\BackEnd\Command\" resource="../src/Command/*" exclude="..src/Command/App/*" autowire="true">
             <tag name="console.command" />
         </prototype>
 
@@ -58,6 +58,20 @@
             <argument type="service" id="OnlyTracker\Infrastructure\Util\Parser\Title\StudioParser" />
             <argument type="service" id="OnlyTracker\Infrastructure\Util\Parser\Title\YearParser" />
         </service>
+
+        <!--Hydrator-->
+        <service id="OnlyTracker\Shared\Infrastructure\Util\Hydrator\HydratorInterface" alias="OnlyTracker\Shared\Infrastructure\Util\Hydrator\Hydrator" />
+        <service id="OnlyTracker\Shared\Infrastructure\Util\Hydrator\Hydrator" />
+
+        <!--ArgumentResolver-->
+        <service id="OnlyTracker\Shared\Infrastructure\Symfony\ArgumentResolver\ArgumentValueDtoResolver">
+            <argument type="service" id="OnlyTracker\Shared\Infrastructure\Util\Hydrator\HydratorInterface" />
+            <argument type="service" id="validator" />
+        </service>
+
+        <!--Http Kernel Listeners -->
+        <service id="OnlyTracker\Shared\Infrastructure\Symfony\JsonRequestListener" />
+        <service id="OnlyTracker\Shared\Infrastructure\Symfony\ErrorResponseListener" />
 
         <!--Original deduction -->
         <service id="OnlyTracker\Domain\Deduction\FastpicDeduction">
@@ -184,6 +198,8 @@
             <argument type="service" id="OnlyTracker\Infrastructure\Util\SizeConverter"/>
             <argument type="service" id="OnlyTracker\Domain\Repository\TopicRepositoryInterface"/>
         </service>
+
+        <service id="OnlyTracker\Shared\Application\Search\QuerySearchHandler"/>
 
 
     </services>

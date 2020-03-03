@@ -25,7 +25,7 @@ class TopicCreatorTest extends KernelTestCase
         $this->service = static::$container->get(TopicCreation::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $em = self::$container->get('doctrine')->getManager();
         $em->close();
