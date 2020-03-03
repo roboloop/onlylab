@@ -4,5 +4,11 @@ namespace OnlyTracker\Infrastructure\Request;
 
 interface RequestSenderInterface
 {
-    public function send(RequestInterface $request);
+    /**
+     * @param \OnlyTracker\Infrastructure\Request\RequestInterface $request
+     *
+     * @return string
+     * @throws \Symfony\Contracts\HttpClient\Exception\ExceptionInterface
+     */
+    public function send(RequestInterface $request): string;
 }

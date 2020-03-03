@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
 class LoadTopicCommand extends Command
 {
@@ -50,9 +51,12 @@ class LoadTopicCommand extends Command
         }
 
         $request = new TopicPageRequest((int) $id);
-        $content = $this->requestSender->send($request);
-        $this->topicPageHandler->handle($content);
-
-        $io->success('Success!');
+        try {
+            $content = $this->requestSender->send($request);
+            $this->topicPageHandler->handle($content);
+            $io->success('Success!');
+        } catch (ExceptionInterface $e) {
+            $io->error('Cannot perform request: ' . $e->getMessage());
+        }
     }
 }
