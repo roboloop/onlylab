@@ -77,6 +77,11 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             $qb->setParameter('isApproved', $criteria->getIsApproved());
         }
 
+        if (null !== $criteria->getTitles()) {
+            list($orLike, $params, $args) = $this->orLikeExpr($criteria->getTitles(), 't.title');
+            $this->andWhere($qb, $orLike, $params, $args);
+        }
+
         return $qb->getQuery()->getResult();
     }
 }

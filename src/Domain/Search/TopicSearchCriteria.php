@@ -20,6 +20,7 @@ class TopicSearchCriteria
     private $genreIds;
     private $genreTitles;
     private $isApproved;
+    private $titles;
 
     public static function make()
     {
@@ -133,6 +134,15 @@ class TopicSearchCriteria
         return $this;
     }
 
+    public function setTitles(?array $titles): self
+    {
+        Assert::thatAll($titles)->nullOr()->string();
+
+        $this->titles = $titles;
+
+        return $this;
+    }
+
     /**
      * @return \OnlyTracker\Domain\Identity\ForumId[]|null
      */
@@ -195,5 +205,13 @@ class TopicSearchCriteria
     public function getIsApproved(): ?bool
     {
         return $this->isApproved;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getTitles(): ?array
+    {
+        return $this->titles;
     }
 }

@@ -2,39 +2,43 @@
 
 namespace OnlyTracker\BackEnd\Controller\Api;
 
-use OnlyTracker\Domain\Identity\ForumId;
+use OnlyTracker\BackEnd\Dto\SearchDto;
+use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Domain\Search\TopicSearchCriteria;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use OnlyTracker\Shared\Application\Search\QuerySearchHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class SearchTopicController
 {
-    private $container;
+    private $querySearchHandler;
+    private $topicRepository;
+    private $normalizer;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(QuerySearchHandler $querySearchHandler, TopicRepositoryInterface $topicRepository, NormalizerInterface $normalizer)
     {
-        $this->container = $container;
+        $this->querySearchHandler   = $querySearchHandler;
+        $this->topicRepository      = $topicRepository;
+        $this->normalizer           = $normalizer;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(SearchDto $dto)
     {
-        // $res = $transformer->fromArray(['forumIds' => [14, 15], 'rawTitles' => ['asd', 111, 'zxc']], SearchDto::class);
-        // $res = $transformer->fromArray(['forum_ids' => [14, 15], 'raw_titles' => ['asd', 'zxc']], SearchDto::class);
+        // TODO:
 
-        $forumIds   = $request->query->get('forumIds');
-        $rawTitles  = $request->query->get('rawTitles');
+        $genreTitles    = $this->querySearchHandler->explodeIntoWords($dto->genreTitles());
+        $studioUrls     = $this->querySearchHandler->explodeIntoWords($dto->studioUrls());
+        $title          = $dto->title();
 
-        $forumIds = $forumIds ? array_map(function (int $forumId) {
-            return new ForumId($forumId);
-        }, $forumIds) : null;
+        $criteria = TopicSearchCriteria::make()
+            ->setTitles($title ? [$title] : [])
+            ->setGenreTitles($genreTitles)
+            ->setStudioUrls($studioUrls);
 
-        TopicSearchCriteria::make()
-            ->setForumIds($forumIds)
-            ->setRawTitles($rawTitles);
+        $topics = $this->topicRepository->search($criteria);
 
-        return '';
+        $normalized = $this->normalizer->normalize($topics);
 
-        return new JsonResponse([]);
+        return new JsonResponse($normalized);
     }
 }

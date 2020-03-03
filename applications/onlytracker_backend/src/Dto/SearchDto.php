@@ -4,41 +4,39 @@ declare (strict_types = 1);
 
 namespace OnlyTracker\BackEnd\Dto;
 
-use OnlyTracker\Infrastructure\Symfony\ArgumentResolver\IncomingDataInterface;
+use OnlyTracker\Shared\Infrastructure\Symfony\ArgumentResolver\IncomingDataInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Serializer\ExclusionPolicy("all")
- */
 class SearchDto implements IncomingDataInterface
 {
-//    /**
-//     * @var string[]
-//     * @Assert\String
-//     * @ConvertArray("OnlyTracker\Domain\Identity\ForumId")
-//     */
-
+    /**
+     * @Assert\NotBlank()
+     */
     private $forumIds;
+    private $title;
     private $rawTitles;
-    private $studioIds;
     private $studioUrls;
     private $studioStatuses;
-    private $genreIds;
     private $genreTitles;
     private $isApproved;
+
+    public function __construct()
+    {
+    }
 
     public function forumIds()
     {
         return $this->forumIds;
     }
 
+    public function title()
+    {
+        return $this->title;
+    }
+
     public function rawTitles()
     {
         return $this->rawTitles;
-    }
-
-    public function studioIds()
-    {
-        return $this->studioIds;
     }
 
     public function studioUrls()
@@ -49,11 +47,6 @@ class SearchDto implements IncomingDataInterface
     public function studioStatuses()
     {
         return $this->studioStatuses;
-    }
-
-    public function genreIds()
-    {
-        return $this->genreIds;
     }
 
     public function genreTitles()
