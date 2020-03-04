@@ -8,9 +8,9 @@ use InvalidArgumentException;
 
 final class Size
 {
-    private static $base = 1024;
+    private static int $base = 1024;
 
-    private static $suffixes = [
+    private static array $suffixes = [
         'TB'    => 4,
         'GB'    => 3,
         'MB'    => 2,
@@ -18,7 +18,7 @@ final class Size
         'B'     => 0,
     ];
 
-    private $value;
+    private int $value;
 
     public function __construct(int $value)
     {
@@ -34,14 +34,14 @@ final class Size
         return $this->value;
     }
 
-    public static function createFromString(string $size)
+    public static function createFromString(string $size): self
     {
-        preg_match('~(?P<quantity>[\d]+\.?\d+)\s*(?P<unit>.*)$~u', trim($size), $matches);
-
-        if (isset($matches['unit']) and isset(self::$suffixes[$matches['unit']]) and isset($matches['quantity'])) {
-            return new self((int) ($matches['quantity'] * self::$base ** self::$suffixes[$matches['unit']]));
+        if (preg_match('#^\s*(?P<quantity>\d+(?:\.\d+)?)\s*(?P<unit>TB|GB|MB|KB|B)\s*$#i', $size, $matches)) {
+            $quantity   = $matches['quantity'];
+            $unit       = strtoupper($matches['unit']);
+            return new self((int) ($quantity * self::$base ** self::$suffixes[$unit]));
         }
 
-        throw new InvalidArgumentException('Size cannot be created');
+        throw new InvalidArgumentException(sprintf('Size cannot be created from: "%s"', $size));
     }
 }
