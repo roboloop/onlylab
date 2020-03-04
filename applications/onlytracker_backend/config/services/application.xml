@@ -13,7 +13,6 @@
             <argument type="service" id="OnlyTracker\Domain\Service\TopicService"/>
             <argument type="service" id="OnlyTracker\Domain\Service\ImageService"/>
             <argument type="service" id="OnlyTracker\Domain\Shared\DateTimeUtilInterface"/>
-            <argument type="service" id="OnlyTracker\Infrastructure\Util\SizeConverter"/>
             <argument type="service" id="OnlyTracker\Domain\Repository\TopicRepositoryInterface"/>
         </service>
 

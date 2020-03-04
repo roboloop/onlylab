@@ -42,7 +42,6 @@
 
         <!--Infrastructure utils-->
         <service id="OnlyTracker\Infrastructure\Util\DateTimeUtil" />
-        <service id="OnlyTracker\Infrastructure\Util\SizeConverter" />
         <service id="OnlyTracker\Domain\Shared\DateTimeUtilInterface" alias="OnlyTracker\Infrastructure\Util\DateTimeUtil" />
 
         <!--Infrastructure utils parsers-->
@@ -195,7 +194,6 @@
             <argument type="service" id="OnlyTracker\Domain\Service\TopicService"/>
             <argument type="service" id="OnlyTracker\Domain\Service\ImageService"/>
             <argument type="service" id="OnlyTracker\Infrastructure\Util\DateTimeUtil"/>
-            <argument type="service" id="OnlyTracker\Infrastructure\Util\SizeConverter"/>
             <argument type="service" id="OnlyTracker\Domain\Repository\TopicRepositoryInterface"/>
         </service>
 
