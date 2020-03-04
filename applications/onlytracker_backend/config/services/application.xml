@@ -16,8 +16,14 @@
             <argument type="service" id="OnlyTracker\Domain\Repository\TopicRepositoryInterface"/>
         </service>
 
-        <service id="OnlyTracker\Application\Handler\TopicPageHandler">
+        <service id="OnlyTracker\Application\CRUD\TopicCreationInterface" alias="OnlyTracker\Application\CRUD\TransactionTopicCreation" />
+        <service id="OnlyTracker\Application\CRUD\TransactionTopicCreation">
             <argument type="service" id="OnlyTracker\Application\CRUD\TopicCreation"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+        </service>
+
+        <service id="OnlyTracker\Application\Handler\TopicPageHandler">
+            <argument type="service" id="OnlyTracker\Application\CRUD\TopicCreationInterface"/>
             <argument type="service" id="OnlyTracker\Application\Parser\TopicHtmlParser"/>
         </service>
 
