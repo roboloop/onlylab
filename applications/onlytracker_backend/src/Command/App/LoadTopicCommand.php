@@ -47,7 +47,7 @@ class LoadTopicCommand extends Command
             $id = $matches[1];
         } else {
             $io->error('Cannot detect "id" of topic');
-            return;
+            return -1;
         }
 
         $request = new TopicPageRequest((int) $id);
@@ -55,8 +55,12 @@ class LoadTopicCommand extends Command
             $content = $this->requestSender->send($request);
             $this->topicPageHandler->handle($content);
             $io->success('Success!');
+
+            return 0;
         } catch (ExceptionInterface $e) {
             $io->error('Cannot perform request: ' . $e->getMessage());
+
+            return -1;
         }
     }
 }
