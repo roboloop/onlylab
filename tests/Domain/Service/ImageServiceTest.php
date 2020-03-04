@@ -73,11 +73,6 @@ class ImageServiceTest extends TestCase
         $this->assertEquals($formatExpects, $image->getFormat()->value());
     }
 
-    public function testMarkAsBanner()
-    {
-        // TODO:
-    }
-
     public function makePosterData()
     {
         return [

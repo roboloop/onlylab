@@ -20,5 +20,7 @@ class LoadTopicCommandTest extends KernelTestCase
         $tester->execute([
             'topic' => '1235215',
         ]);
+
+        $this->assertTrue(true);
     }
 }
