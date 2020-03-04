@@ -10,7 +10,7 @@ class ForumPageRequest implements RequestInterface
     private $page;
     private $offset;
 
-    public function __construct(int $id, int $page = 1)
+    public function __construct($id, int $page = 1)
     {
         $this->id       = $id;
         $this->page     = $page;

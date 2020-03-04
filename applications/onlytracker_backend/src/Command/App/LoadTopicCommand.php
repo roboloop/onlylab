@@ -16,8 +16,8 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
 class LoadTopicCommand extends Command
 {
-    private $requestSender;
-    private $topicPageHandler;
+    private RequestSenderInterface $requestSender;
+    private TopicPageHandler $topicPageHandler;
 
     public function __construct(RequestSenderInterface $requestSender, TopicPageHandler $topicPageHandler)
     {
@@ -31,7 +31,8 @@ class LoadTopicCommand extends Command
         $this
             ->setName('app:load:topic')
             ->setDescription('Download topic with full accessible information')
-            ->addArgument('topic', InputArgument::REQUIRED, '"Url" or "id" of the topic');
+            ->addArgument('topic', InputArgument::REQUIRED, '"Url" or "id" of the topic')
+        ;
 
     }
 
@@ -50,7 +51,7 @@ class LoadTopicCommand extends Command
             return -1;
         }
 
-        $request = new TopicPageRequest((int) $id);
+        $request = new TopicPageRequest($id);
         try {
             $content = $this->requestSender->send($request);
             $this->topicPageHandler->handle($content);

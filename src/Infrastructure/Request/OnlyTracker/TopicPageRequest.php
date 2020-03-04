@@ -8,7 +8,7 @@ class TopicPageRequest implements RequestInterface
 {
     private $id;
 
-    public function __construct(int $id)
+    public function __construct($id)
     {
         $this->id = $id;
     }
