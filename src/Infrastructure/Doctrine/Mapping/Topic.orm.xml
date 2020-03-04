@@ -39,7 +39,7 @@
             </join-table>
         </many-to-many>
 
-        <field name="size" type="integer" nullable="true" />
+        <field name="size" type="big_int" nullable="true" />
         <field name="exCreatedAt" type="datetime_immutable" nullable="true" />
         <field name="createdAt" type="datetime_immutable" />
         <field name="isLoaded" type="boolean" />
