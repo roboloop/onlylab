@@ -2,6 +2,7 @@
 
 namespace OnlyTracker\Domain\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use OnlyTracker\Domain\Entity\Embeddable\ParsedTitle;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,12 +13,12 @@ class Topic
     private string $id;
     private Forum $forum;
     private ParsedTitle $parsedTitle;
-    private ?Size $size;
+    private ?int $size;
     private ?DateTimeImmutable $exCreatedAt;
     private DateTimeImmutable $createdAt;
-    private ArrayCollection $images;
-    private ArrayCollection $genres;
-    private ArrayCollection $studios;
+    private Collection $images;
+    private Collection $genres;
+    private Collection $studios;
     private bool $isLoaded;
 
     public function __construct(string $id, ParsedTitle $parsedTitle, Forum $forum, ?Size $size, ?DateTimeImmutable $exCreatedAt, DateTimeImmutable $createdAt, bool $isLoaded)
