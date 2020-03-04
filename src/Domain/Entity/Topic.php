@@ -82,6 +82,9 @@ class Topic
         $this->isLoaded = true;
     }
 
+    /**
+     * @return \OnlyTracker\Domain\Entity\Image[]
+     */
     public function getImages(): array
     {
         return $this->images->toArray();
