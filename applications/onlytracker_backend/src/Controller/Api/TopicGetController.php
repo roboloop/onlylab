@@ -6,6 +6,7 @@ namespace OnlyTracker\BackEnd\Controller\Api;
 
 use OnlyTracker\Domain\Service\TopicService;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TopicGetController
@@ -22,7 +23,14 @@ class TopicGetController
     public function __invoke()
     {
         $topics = $this->topicService->search(null, null, null);
-        $normalized = $this->normalizer->normalize($topics, null, ['groups' => 'sample']);
+
+        $context = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                return $object->getId();
+            },
+        ];
+
+        $normalized = $this->normalizer->normalize($topics, null, $context);
 
         return new JsonResponse($normalized);
     }
