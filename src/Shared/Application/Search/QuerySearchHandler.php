@@ -17,9 +17,7 @@ class QuerySearchHandler
 
         preg_match_all('#([^\s"\']+|"(?:[^"]*)"|\'(?:[^\']*)\')#u', $query, $matches);
 
-        $trimmed = array_map(function ($word) {
-            return trim($word, '"\'');
-        }, $matches[1]);
+        $trimmed = array_map(fn($word) => trim($word, '"\''), $matches[1]);
 
         return array_unique($trimmed, SORT_STRING);
     }
