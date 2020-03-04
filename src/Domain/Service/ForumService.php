@@ -26,7 +26,7 @@ class ForumService
     {
         $forum = $this->forumRepository->find($id);
 
-        if (null !== $forum) {
+        if (null === $forum) {
             $title = $title ?: '(no forum name)';
             $forum = $this->forumFactory->make($id, $title);
             $this->forumRepository->save($forum);

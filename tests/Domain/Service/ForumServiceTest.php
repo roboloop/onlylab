@@ -31,7 +31,7 @@ class ForumServiceTest extends TestCase
     {
         // prepare
         $preparedForum = $this->factory->make($id, $title);
-        $this->repo->method('findBy')->willReturn([$preparedForum]);
+        $this->repo->method('find')->willReturn($preparedForum);
 
         // do
         $forum = $this->service->getOrMake($id, $title);
@@ -46,7 +46,7 @@ class ForumServiceTest extends TestCase
     public function testGetOrMakeMakeCase($id, $title)
     {
         // prepare
-        $this->repo->method('findBy')->willReturn([]);
+        $this->repo->method('find')->willReturn(null);
 
         // do
         $forum = $this->service->getOrMake($id, $title);
