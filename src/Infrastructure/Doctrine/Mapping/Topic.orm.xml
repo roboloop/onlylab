@@ -12,7 +12,11 @@
         <many-to-one field="forum" target-entity="OnlyTracker\Domain\Entity\Forum">
             <join-column nullable="false" />
         </many-to-one>
-        <one-to-many field="images" target-entity="OnlyTracker\Domain\Entity\Image" mapped-by="topic" />
+        <one-to-many field="images" target-entity="OnlyTracker\Domain\Entity\Image" mapped-by="topic">
+            <cascade>
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
 
         <many-to-many field="genres" target-entity="OnlyTracker\Domain\Entity\Genre">
             <join-table name="genre_topic">
