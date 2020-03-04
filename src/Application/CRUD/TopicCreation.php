@@ -74,8 +74,6 @@ class TopicCreation implements TopicCreationInterface
         $forum      = $this->forumService->getOrMake($dto->getForum()->getExId(), $dto->getForum()->getTitle());
         $topic      = $this->topicService->makeNotLoaded($dto->getExId(), $dto->getRawTitle(), $forum, $dto->getSize(), $dto->getExCreatedAt());
 
-        $topic->makeAsLoaded();
-
         $this->topicRepository->save($topic);
 
         /** @var \OnlyTracker\Application\Dto\RawImageDto $rawImageDto */
