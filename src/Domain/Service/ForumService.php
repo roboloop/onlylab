@@ -34,4 +34,14 @@ class ForumService
 
         return $forum;
     }
+
+    /**
+     * @return \OnlyTracker\Domain\Entity\Forum[]
+     */
+    public function search()
+    {
+        // TODO:
+
+        return $this->forumRepository->findBy([], ['title' => 'ASC']);
+    }
 }
