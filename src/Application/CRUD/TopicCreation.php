@@ -6,6 +6,8 @@ use OnlyTracker\Application\Dto\RawForumDto;
 use OnlyTracker\Application\Dto\RawImageDto;
 use OnlyTracker\Application\Dto\RawTopicDto;
 use OnlyTracker\Application\Exception\InvalidArgumentWhenCreatingTopicException;
+use OnlyTracker\Domain\Entity\ObjectValue\Size;
+use OnlyTracker\Domain\Entity\Topic;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Domain\Service\ForumService;
 use OnlyTracker\Domain\Service\GenreService;
@@ -14,10 +16,9 @@ use OnlyTracker\Domain\Service\StudioService;
 use OnlyTracker\Domain\Service\TopicService;
 use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 use OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager;
-use OnlyTracker\Infrastructure\Util\SizeConverter;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TopicCreation
+class TopicCreation implements TopicCreationInterface
 {
     private $validator;
     private $parserManager;
@@ -27,7 +28,6 @@ class TopicCreation
     private $topicService;
     private $imageService;
     private $dateTimeUtil;
-    private $sizeConverter;
     private $topicRepository;
 
     public function __construct(
@@ -39,7 +39,6 @@ class TopicCreation
         TopicService $topicService,
         ImageService $imageService,
         DateTimeUtilInterface $dateTimeUtil,
-        SizeConverter $sizeConverter,
         TopicRepositoryInterface $topicRepository
     ) {
         $this->validator        = $validator;
@@ -50,16 +49,19 @@ class TopicCreation
         $this->topicService     = $topicService;
         $this->imageService     = $imageService;
         $this->dateTimeUtil     = $dateTimeUtil;
-        $this->sizeConverter    = $sizeConverter;
         $this->topicRepository  = $topicRepository;
     }
 
-    public function createFromDto(RawTopicDto $dto)
+    /**
+     * {@inheritDoc}
+     */
+    public function createFromDto(RawTopicDto $dto): Topic
     {
         $this->validateRawTopicDto($dto);
         $this->convertTypesDto($dto);
 
         if ($topic = $this->topicRepository->find($dto->getExId())) {
+            $topic->getImages();
             $this->topicRepository->delete($topic);
         }
 
@@ -72,11 +74,16 @@ class TopicCreation
         $forum      = $this->forumService->getOrMake($dto->getForum()->getExId(), $dto->getForum()->getTitle());
         $topic      = $this->topicService->makeNotLoaded($dto->getExId(), $dto->getRawTitle(), $forum, $dto->getSize(), $dto->getExCreatedAt());
 
-        /** @var \OnlyTracker\Application\Dto\RawImageDto $image */
-        foreach ($dto->getImages() as $image) {
-            $image->getPlace() === RawImageDto::PLACE_ON_PAGE
-                ? $this->imageService->makePosterImage($topic, $image->getFrontUrl())
-                : $this->imageService->makeUnderSpoilerImage($topic, $image->getFrontUrl(), $image->getReference(), $image->getSpoilerName());
+        $topic->makeAsLoaded();
+
+        $this->topicRepository->save($topic);
+
+        /** @var \OnlyTracker\Application\Dto\RawImageDto $rawImageDto */
+        foreach ($dto->getImages() as $rawImageDto) {
+            $image = $rawImageDto->getPlace() === RawImageDto::PLACE_ON_PAGE
+                ? $this->imageService->makePosterImage($topic, $rawImageDto->getFrontUrl())
+                : $this->imageService->makeUnderSpoilerImage($topic, $rawImageDto->getFrontUrl(), $rawImageDto->getReference(), $rawImageDto->getSpoilerName());
+            $topic->addImage($image);
         }
 
         foreach ($genres as $genre) {
@@ -86,8 +93,6 @@ class TopicCreation
         foreach ($studios as $studio) {
             $topic->addStudio($studio);
         }
-
-        $this->topicRepository->save($topic);
 
         return $topic;
     }
@@ -109,7 +114,7 @@ class TopicCreation
         $dto = new RawTopicDto(
             $dto->getExId(),
             (string) $dto->getRawTitle(),
-            $dto->getSize() ? $this->sizeConverter->fromStringToInt($dto->getSize()) : null,
+            $dto->getSize() ? Size::createFromString($dto->getSize()) : null,
             $dto->getExCreatedAt() ? $this->dateTimeUtil->ymdHi($dto->getExCreatedAt()) : null,
             new RawForumDto($forum->getExId(), $forum->getTitle()),
             $images
