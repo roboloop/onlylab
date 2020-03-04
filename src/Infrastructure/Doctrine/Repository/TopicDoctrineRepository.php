@@ -26,12 +26,13 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
         $qb = $this->entityManager->createQueryBuilder();
 
         $qb
-            ->select('t', 'f')
+            ->select('t', 'f', 's', 'g', 'i')
             ->from($this->entityClass, 't')
             ->innerJoin('t.forum', 'f')
             ->leftJoin('t.studios', 's')
             ->leftJoin('t.genres', 'g')
-            ->orderBy('t.rawTitle', 'ASC');
+            ->leftJoin('t.images', 'i')
+            ->orderBy('t.parsedTitle.title', 'ASC');
 
         if (null !== $criteria->getForumIds()) {
             $qb->andWhere('t.forum IN (:forumIds)');

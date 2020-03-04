@@ -7,6 +7,7 @@ use OnlyTracker\Domain\Entity\ObjectValue\Size;
 use OnlyTracker\Domain\Factory\TopicFactory;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use DateTimeImmutable;
+use OnlyTracker\Domain\Search\TopicSearchCriteria;
 
 class TopicService
 {
@@ -33,5 +34,6 @@ class TopicService
     public function search(?string $title, ?string $year, ?string $quality)
     {
         // TODO:
+        return $this->topicRepository->search(new TopicSearchCriteria);
     }
 }
