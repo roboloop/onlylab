@@ -61,6 +61,7 @@ class TopicCreation
         $this->convertTypesDto($dto);
 
         if ($topic = $this->topicRepository->find($dto->getExId())) {
+            // TODO: copy old values, replace empty attributes on new entity by old values
             $topic->getImages();
             $this->topicRepository->delete($topic);
         }
