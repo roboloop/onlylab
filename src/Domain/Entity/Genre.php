@@ -8,11 +8,11 @@ use DateTimeImmutable;
 
 class Genre
 {
-    private $id;
-    private $title;
-    private $description;
-    private $isApproved;
-    private $createdAt;
+    private string $id;
+    private string $title;
+    private ?string $description;
+    private bool $isApproved;
+    private DateTimeImmutable $createdAt;
 
     public function __construct(string $id, string $title, ?string $description, bool $isApproved, DateTimeImmutable $createdAt)
     {
@@ -40,7 +40,7 @@ class Genre
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

@@ -8,9 +8,9 @@ use DateTimeImmutable;
 
 class Forum
 {
-    private $id;
-    private $title;
-    private $createdAt;
+    private string $id;
+    private string $title;
+    private DateTimeImmutable $createdAt;
 
     public function __construct(string $id, string $title, DateTimeImmutable $createdAt)
     {

@@ -9,16 +9,16 @@ use OnlyTracker\Domain\Entity\ObjectValue\Size;
 
 class Topic
 {
-    private $id;
-    private $forum;
-    private $parsedTitle;
-    private $size;
-    private $exCreatedAt;
-    private $createdAt;
-    private $images;
-    private $genres;
-    private $studios;
-    private $isLoaded;
+    private string $id;
+    private Forum $forum;
+    private ParsedTitle $parsedTitle;
+    private ?Size $size;
+    private ?DateTimeImmutable $exCreatedAt;
+    private DateTimeImmutable $createdAt;
+    private ArrayCollection $images;
+    private ArrayCollection $genres;
+    private ArrayCollection $studios;
+    private bool $isLoaded;
 
     public function __construct(string $id, ParsedTitle $parsedTitle, Forum $forum, ?Size $size, ?DateTimeImmutable $exCreatedAt, DateTimeImmutable $createdAt, bool $isLoaded)
     {

@@ -9,14 +9,14 @@ use DateTimeImmutable;
 
 class Image
 {
-    private $id;
-    private $topic;
-    private $format;
-    private $frontUrl;
-    private $reference;
-    private $original;
-    private $createdAt;
-    private $isBanner;
+    private string $id;
+    private Topic $topic;
+    private ImageFormat $format;
+    private string $frontUrl;
+    private ?string $reference;
+    private ?string $original;
+    private DateTimeImmutable $createdAt;
+    private bool $isBanner;
 
     public function __construct(string $id, Topic $topic, ImageFormat $format, string $frontUrl, ?string $reference, ?string $original, DateTimeImmutable $createdAt)
     {

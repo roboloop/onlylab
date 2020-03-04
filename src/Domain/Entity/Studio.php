@@ -9,10 +9,10 @@ use DateTimeImmutable;
 
 class Studio
 {
-    private $id;
-    private $url;
-    private $status;
-    private $createdAt;
+    private string $id;
+    private string $url;
+    private StudioStatus $status;
+    private DateTimeImmutable $createdAt;
 
     public function __construct(string $id, string $url, StudioStatus $status, DateTimeImmutable $createdAt)
     {
