@@ -36,7 +36,7 @@ final class Size
 
     public static function createFromString(string $size): self
     {
-        if (preg_match('#^\s*(?P<quantity>\d+(?:\.\d+)?)\s*(?P<unit>TB|GB|MB|KB|B)\s*$#i', $size, $matches)) {
+        if (preg_match('#^\s*(?P<quantity>\d+(?:\.\d+)?)\s*(?P<unit>TB|GB|MB|KB|B)\s*$#iu', $size, $matches)) {
             $quantity   = $matches['quantity'];
             $unit       = strtoupper($matches['unit']);
             return new self((int) ($quantity * self::$base ** self::$suffixes[$unit]));
