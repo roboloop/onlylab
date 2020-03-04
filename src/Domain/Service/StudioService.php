@@ -69,6 +69,12 @@ class StudioService
         $this->studioRepository->save($studio);
     }
 
+    /**
+     * @param string|null                                   $url
+     * @param \OnlyTracker\Domain\Entity\Enum\StudioStatus|null $status
+     *
+     * @return \OnlyTracker\Domain\Entity\Studio[]
+     */
     public function search(?string $url, ?StudioStatus $status)
     {
         $criteria = [];

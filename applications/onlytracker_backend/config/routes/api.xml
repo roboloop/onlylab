@@ -5,6 +5,7 @@
         https://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="genre_get" path="/genres" controller="OnlyTracker\BackEnd\Controller\Api\GenreGetController" methods="GET|POST" />
+    <route id="studio_get" path="/studios" controller="OnlyTracker\BackEnd\Controller\Api\StudioGetController" methods="GET|POST" />
 
     <route id="search" path="/search" controller="OnlyTracker\BackEnd\Controller\Api\SearchTopicController" methods="POST" />
 
