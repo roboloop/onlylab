@@ -11,7 +11,7 @@ class YearParser
      */
     public function parse(string $content)
     {
-        preg_match('~\D+(20\d{2})\D+~', $content, $matches);
+        preg_match('~\D+(20\d{2}|19\d{2})\D+~', $content, $matches);
 
         return $matches[1] ?? null;
     }
