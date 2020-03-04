@@ -8,6 +8,8 @@ parameters:
 doctrine:
     dbal:
         default_connection: default
+        types:
+            big_int: OnlyTracker\Shared\Infrastructure\Doctrine\Types\BigIntType
 
         connections:
             default:
