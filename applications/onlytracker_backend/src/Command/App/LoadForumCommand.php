@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace OnlyTracker\BackEnd\Command\App;
 
-use OnlyTracker\Application\Handler\ForumPageHandler;
+use OnlyTracker\Application\Handler\ForumPageHandlerInterface;
 use OnlyTracker\Infrastructure\Request\OnlyTracker\ForumPageRequest;
 use OnlyTracker\Infrastructure\Request\RequestSenderInterface;
 use Symfony\Component\Console\Command\Command;
@@ -17,9 +17,9 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 class LoadForumCommand extends Command
 {
     private RequestSenderInterface $requestSender;
-    private ForumPageHandler $forumPageHandler;
+    private ForumPageHandlerInterface $forumPageHandler;
 
-    public function __construct(RequestSenderInterface $requestSender, ForumPageHandler $forumPageHandler)
+    public function __construct(RequestSenderInterface $requestSender, ForumPageHandlerInterface $forumPageHandler)
     {
         parent::__construct();
         $this->requestSender = $requestSender;

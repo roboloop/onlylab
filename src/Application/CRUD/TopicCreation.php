@@ -18,7 +18,7 @@ use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 use OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TopicCreation implements TopicCreationInterface
+class TopicCreation
 {
     private $validator;
     private $parserManager;

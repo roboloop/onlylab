@@ -2,17 +2,17 @@
 
 namespace OnlyTracker\Application\Handler;
 
-use OnlyTracker\Application\CRUD\TopicCreationInterface;
+use OnlyTracker\Application\CRUD\TopicCreation;
 use OnlyTracker\Application\Parser\TopicHtmlParser;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 
-class TopicPageHandler
+class TopicPageHandler implements TopicPageHandlerInterface
 {
-    private TopicCreationInterface $topicCreator;
+    private TopicCreation $topicCreator;
     private TopicHtmlParser $htmlParser;
     private TopicRepositoryInterface $topicRepository;
 
-    public function __construct(TopicCreationInterface $topicCreator, TopicHtmlParser $htmlParser, TopicRepositoryInterface $topicRepository)
+    public function __construct(TopicCreation $topicCreator, TopicHtmlParser $htmlParser, TopicRepositoryInterface $topicRepository)
     {
         $this->topicCreator     = $topicCreator;
         $this->htmlParser       = $htmlParser;

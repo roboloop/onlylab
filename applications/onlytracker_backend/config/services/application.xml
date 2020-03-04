@@ -16,24 +16,29 @@
             <argument type="service" id="OnlyTracker\Domain\Repository\TopicRepositoryInterface"/>
         </service>
 
-        <service id="OnlyTracker\Application\CRUD\TopicCreationInterface" alias="OnlyTracker\Application\CRUD\TransactionTopicCreation" />
-        <service id="OnlyTracker\Application\CRUD\TransactionTopicCreation">
-            <argument type="service" id="OnlyTracker\Application\CRUD\TopicCreation"/>
-            <argument type="service" id="doctrine.orm.default_entity_manager"/>
-        </service>
-
+        <!-- Topic page handler -->
         <service id="OnlyTracker\Application\Handler\TopicPageHandler">
-            <argument type="service" id="OnlyTracker\Application\CRUD\TopicCreationInterface" />
+            <argument type="service" id="OnlyTracker\Application\CRUD\TopicCreation" />
             <argument type="service" id="OnlyTracker\Application\Parser\TopicHtmlParser" />
             <argument type="service" id="OnlyTracker\Infrastructure\Doctrine\Repository\TopicDoctrineRepository" />
         </service>
+        <service id="OnlyTracker\Application\Handler\TransactionalTopicPageHandler">
+            <argument type="service" id="OnlyTracker\Application\Handler\TopicPageHandler" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+        </service>
+        <service id="OnlyTracker\Application\Handler\TopicPageHandlerInterface" alias="OnlyTracker\Application\Handler\TransactionalTopicPageHandler" />
 
+        <!-- Forum page handler -->
         <service id="OnlyTracker\Application\Handler\ForumPageHandler">
-            <argument type="service" id="OnlyTracker\Application\CRUD\TopicCreationInterface" />
+            <argument type="service" id="OnlyTracker\Application\CRUD\TopicCreation" />
             <argument type="service" id="OnlyTracker\Application\Parser\ForumHtmlParser" />
             <argument type="service" id="OnlyTracker\Infrastructure\Doctrine\Repository\TopicDoctrineRepository" />
         </service>
-
+        <service id="OnlyTracker\Application\Handler\TransactionalForumPageHandler">
+            <argument type="service" id="OnlyTracker\Application\Handler\ForumPageHandler" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+        </service>
+        <service id="OnlyTracker\Application\Handler\ForumPageHandlerInterface" alias="OnlyTracker\Application\Handler\TransactionalForumPageHandler" />
 
     </services>
 </container>

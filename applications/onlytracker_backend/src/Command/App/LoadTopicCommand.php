@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace OnlyTracker\BackEnd\Command\App;
 
-use OnlyTracker\Application\Handler\TopicPageHandler;
+use OnlyTracker\Application\Handler\TopicPageHandlerInterface;
 use OnlyTracker\Infrastructure\Request\OnlyTracker\TopicPageRequest;
 use OnlyTracker\Infrastructure\Request\RequestSenderInterface;
 use Symfony\Component\Console\Command\Command;
@@ -17,9 +17,9 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 class LoadTopicCommand extends Command
 {
     private RequestSenderInterface $requestSender;
-    private TopicPageHandler $topicPageHandler;
+    private TopicPageHandlerInterface $topicPageHandler;
 
-    public function __construct(RequestSenderInterface $requestSender, TopicPageHandler $topicPageHandler)
+    public function __construct(RequestSenderInterface $requestSender, TopicPageHandlerInterface $topicPageHandler)
     {
         parent::__construct();
         $this->requestSender = $requestSender;
@@ -33,7 +33,6 @@ class LoadTopicCommand extends Command
             ->setDescription('Download topic with full accessible information')
             ->addArgument('topic', InputArgument::REQUIRED, '"Url" or "id" of the topic')
         ;
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

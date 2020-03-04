@@ -21,7 +21,7 @@
         </prototype>
 
         <!--TODO: REMOVE AUTOWIRE. MOVE TO SEPAATED FILE-->
-        <prototype namespace="OnlyTracker\BackEnd\Command\" resource="../src/Command/*" exclude="..src/Command/App/*" autowire="true">
+        <prototype namespace="OnlyTracker\BackEnd\Command\" resource="../src/Command/{Database,Dump}" autowire="true">
             <tag name="console.command" />
         </prototype>
 
