@@ -54,6 +54,9 @@ Encore
     })
 
     // .enableVueLoader()
+    .enableHandlebarsLoader(options => {
+        // options.debug = true;
+    })
 
     // enables Sass/SCSS support
     //.enableSassLoader()
