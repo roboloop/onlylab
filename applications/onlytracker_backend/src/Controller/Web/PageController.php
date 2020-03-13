@@ -8,6 +8,6 @@ class PageController extends AbstractController
 {
     public function __invoke()
     {
-        return $this->render('page/main.html.twig');
+        return $this->render('js.html.twig');
     }
 }

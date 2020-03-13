@@ -4,6 +4,12 @@
         xsi:schemaLocation="http://symfony.com/schema/routing
         https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="main_page" path="/" controller="OnlyTracker\BackEnd\Controller\Web\PageController" methods="GET|POST" />
+    <route id="main_page"
+           path="/{page}"
+           controller="OnlyTracker\BackEnd\Controller\Web\PageController"
+           methods="GET|POST"
+    >
+        <requirement key="page">^(?!_wdt|_profiler|api).*</requirement>
+    </route>
 
 </routes>
