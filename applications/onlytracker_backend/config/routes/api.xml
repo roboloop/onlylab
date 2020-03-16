@@ -12,4 +12,6 @@
 
     <route id="search" path="/search" controller="OnlyTracker\BackEnd\Controller\Api\SearchTopicController" methods="POST" />
 
+
+    <route id="topic_feature_reload" path="/topics/{topic}/reload" controller="OnlyTracker\BackEnd\Controller\Api\TopicFeatureController::reload" methods="POST" />
 </routes>
