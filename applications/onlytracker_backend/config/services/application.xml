@@ -40,5 +40,10 @@
         </service>
         <service id="OnlyTracker\Application\Handler\ForumPageHandlerInterface" alias="OnlyTracker\Application\Handler\TransactionalForumPageHandler" />
 
+        <!-- Normalizers -->
+        <service id="OnlyTracker\Application\Normalizers\ForumNormalizer">
+            <tag name="serializer.normalizer"/>
+        </service>
+
     </services>
 </container>
