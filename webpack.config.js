@@ -55,7 +55,12 @@ Encore
 
     // .enableVueLoader()
     .enableHandlebarsLoader(options => {
-        // options.debug = true;
+        options.helperDirs = [
+            __dirname + '/assets/js/handlebars/helpers',
+        ];
+        options.partialDirs = [
+            __dirname + '/assets/templates/partials',
+        ];
     })
 
     // enables Sass/SCSS support
