@@ -81,7 +81,8 @@ class TopicCreation
         foreach ($dto->getImages() as $rawImageDto) {
             $image = $rawImageDto->getPlace() === RawImageDto::PLACE_ON_PAGE
                 ? $this->imageService->makePosterImage($topic, $rawImageDto->getFrontUrl())
-                : $this->imageService->makeUnderSpoilerImage($topic, $rawImageDto->getFrontUrl(), $rawImageDto->getReference(), $rawImageDto->getSpoilerName());
+                // TODO: what to do, when no spoiler name?
+                : $this->imageService->makeUnderSpoilerImage($topic, $rawImageDto->getFrontUrl(), $rawImageDto->getReference(), $rawImageDto->getSpoilerName() ?? '');
             $topic->addImage($image);
         }
 
