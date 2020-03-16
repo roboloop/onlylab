@@ -5,9 +5,11 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
-// any CSS you require will output into a single css file (app.css in this case)
 require('../css/app.css');
 require('bootstrap/dist/css/bootstrap.css');
+require('@fortawesome/fontawesome-free/css/all.css');
+require('@fortawesome/fontawesome-free/js/all');
+require('material-design-icons/iconfont/material-icons.css');
 
 const $ = require('jquery');
 require('popper.js');
@@ -33,9 +35,6 @@ switch(routeTo.name) {
             method: 'GET',
             dataType: 'JSON',
         }).then((data, textStatus, jqXHR) => {
-            console.log(data);
-            console.log(textStatus);
-            console.log(jqXHR);
             const genreTemplate = require('../templates/genres.hbs');
             $('#App').append(genreTemplate({genres: data}));
         });
@@ -46,18 +45,38 @@ switch(routeTo.name) {
             method: 'GET',
             dataType: 'JSON',
         }).then((data, textStatus, jqXHR) => {
-            console.log(data);
-            console.log(textStatus);
-            console.log(jqXHR);
             const studioTemplate = require('../templates/studios.hbs');
             $('#App').append(studioTemplate({studios: data}));
         });
 
+        break;
+    case 'topics':
+        $.ajax({
+            url: '/api/topics',
+            method: 'GET',
+            dataType: 'JSON',
+        }).then((data, textStatus, jqXHR) => {
+            const topicsTemplate = require('../templates/topics.hbs');
+            $('#App').append(topicsTemplate(data));
+
+            // $('[data-toggle="tooltip"]').tooltip();
+        });
+        break;
+    case 'topic':
+        $.ajax({
+            url: '/api/topics/0613000',
+            method: 'GET',
+            dataType: 'JSON',
+        }).then((data, textStatus, jqXHR) => {
+            const topicTemplate = require('../templates/partials/_topic.hbs');
+            $('#App').append(topicTemplate(data));
+        });
 
         break;
     default:
         const defaultTemplate = require('../templates/base.hbs');
         $('#App').append(defaultTemplate);
+
 }
 
 // console.log(window.location);
@@ -67,3 +86,7 @@ switch(routeTo.name) {
 // console.log(router.match('/studios'));
 // console.log(router.match('/studios/qwe'));
 // console.log(router.match('/studiosinvalud'));
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
