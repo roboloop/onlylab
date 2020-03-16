@@ -9,6 +9,7 @@ use OnlyTracker\Domain\Entity\Enum\StudioStatus;
 
 class TopicSearchCriteria
 {
+    private $topicsIds;
     private $forumIds;
     private $rawTitles;
     private $studioIds;
@@ -22,6 +23,28 @@ class TopicSearchCriteria
     public static function make()
     {
         return new self;
+    }
+
+    /**
+     * @param string[]|null $topicIds
+     *
+     * @return \OnlyTracker\Domain\Search\TopicSearchCriteria
+     */
+    public function setTopicIds(?array $topicIds): self
+    {
+        Assert::thatAll($topicIds)->nullOr()->string();
+
+        $this->topicsIds = $topicIds;
+
+        return $this;
+    }
+
+    /**
+     * @return string[]|null
+     */
+    public function getTopicsIds(): ?array
+    {
+        return $this->topicsIds;
     }
 
     /**

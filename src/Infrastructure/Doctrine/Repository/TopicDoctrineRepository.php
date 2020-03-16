@@ -38,6 +38,11 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->addOrderBy('s.url', 'ASC')
         ;
 
+        if (null !== $criteria->getTopicsIds()) {
+            $qb->andWhere('t.id IN (:topicIds)');
+            $qb->setParameter('topicIds', $criteria->getTopicsIds());
+        }
+
         if (null !== $criteria->getForumIds()) {
             $qb->andWhere('t.forum IN (:forumIds)');
             $qb->setParameter('forumIds', $criteria->getForumIds());
@@ -79,7 +84,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
         }
 
         if (null !== $criteria->getTitles()) {
-            list($orLike, $params, $args) = $this->orLikeExpr($criteria->getTitles(), 't.title');
+            list($orLike, $params, $args) = $this->orLikeExpr($criteria->getTitles(), 't.parsedTitle.title');
             $this->andWhere($qb, $orLike, $params, $args);
         }
 
