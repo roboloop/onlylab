@@ -82,7 +82,7 @@ abstract class DoctrineRepository implements RepositoryInterface
     {
         $qb->andWhere($predicate);
         for ($i = 0; $i < count($params); $i++) {
-            $qb->setParameter($params[$i], $args[$i]);
+            $qb->setParameter($params[$i], $args[$i]->getValue());
         }
     }
 }
