@@ -1,10 +1,12 @@
 <div class="row" data-id="{{ id }}">
     <div class="col-7">
-        {{#if parsedTitle.title }}
-            {{ parsedTitle.title }}
-        {{ else }}
-            {{ parsedTitle.rawTitle }}
-        {{/if}}
+        <a href="/topics/{{ id }}" target="_blank">
+            {{#if parsedTitle.title }}
+                {{ parsedTitle.title }}
+            {{ else }}
+                {{ parsedTitle.rawTitle }}
+            {{/if}}
+        </a>
     </div>
     <div class="col-1">
         {{ parsedTitle.quality }}

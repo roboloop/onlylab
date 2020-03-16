@@ -15,3 +15,13 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
+
+header.topic-header {
+    margin: 0;
+    padding: 0;
+};
+
+header.topic-header > h2 {
+    margin: 0;
+    padding: 0;
+}

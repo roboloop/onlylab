@@ -4,14 +4,15 @@
 
         </div>
         <div class="col-sm-8">
-            {{#if parsedTitle.title }}
-                <h2>{{ parsedTitle.title }}</h2>
-                <span class="subheading">
-                    {{ parsedTitle.rawTitle }}
-                </span>
-            {{ else }}
-                <h2>{{ parsedTitle.rawTitle }}</h2>
-            {{/if}}
+
+            <header class="topic-header">
+                {{#if parsedTitle.title }}
+                    <h2>{{ parsedTitle.title }}</h2>
+                    <p>{{ parsedTitle.rawTitle }}</p>
+                {{ else }}
+                    <h2>{{ parsedTitle.rawTitle }}</h2>
+                {{/if}}
+            </header>
 
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
                 <ol class="carousel-indicators">
