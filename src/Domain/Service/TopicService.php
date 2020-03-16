@@ -51,6 +51,18 @@ class TopicService
         return array_filter($found, fn(Topic $related) => $related->getId() !== $topic->getId());
     }
 
+    public function getFullTopicById($topicId): Topic
+    {
+        $criteria = (new TopicSearchCriteria)
+            ->setTopicIds([
+                $topicId
+            ]);
+
+        $found = $this->topicRepository->search($criteria);
+
+        return array_shift($found);
+    }
+
     public function search(?string $title, ?string $year, ?string $quality)
     {
         // TODO:

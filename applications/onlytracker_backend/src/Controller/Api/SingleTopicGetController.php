@@ -22,18 +22,21 @@ class SingleTopicGetController
     private NormalizerInterface $normalizer;
     private RequestSenderInterface $requestSender;
     private TopicPageHandlerInterface $topicPageHandler;
+    private TopicService $topicService;
 
-    public function __construct(TopicRepositoryInterface $topicRepository, NormalizerInterface $normalizer, RequestSenderInterface $requestSender, TopicPageHandlerInterface $topicPageHandler)
+    public function __construct(TopicRepositoryInterface $topicRepository, NormalizerInterface $normalizer, RequestSenderInterface $requestSender, TopicPageHandlerInterface $topicPageHandler, TopicService $topicService)
     {
         $this->topicRepository = $topicRepository;
         $this->normalizer = $normalizer;
         $this->requestSender = $requestSender;
         $this->topicPageHandler = $topicPageHandler;
+        $this->topicService = $topicService;
     }
 
     public function __invoke(Request $request)
     {
-        $topic = $this->topicRepository->find($request->attributes->get('topic'));
+        // $topic = $this->topicRepository->find($request->attributes->get('topic'));
+        $topic = $this->topicService->getFullTopicById($request->attributes->get('topic'));
 
         if (null === $topic) {
             return new JsonResponse(null, 404);
@@ -44,7 +47,7 @@ class SingleTopicGetController
             try {
                 $content = $this->requestSender->send($request);
                 $this->topicPageHandler->handle($content);
-                $topic = $this->topicRepository->find($topic->getId());
+                $topic = $this->topicService->getFullTopicById($topic->getId());
             } catch (ExceptionInterface $e) {
                 return new JsonResponse(null, 500);
             }
@@ -62,6 +65,13 @@ class SingleTopicGetController
             [ 'original' => '/storage/2.jpeg',],
             [ 'original' => '/storage/3.jpeg',],
         ];
+
+        foreach ($this->topicService->related($topic) as $related) {
+            $normalized['related'][] = [
+                'id' => $related->getId(),
+                'quality' => $related->getParsedTitle()->getQuality(),
+            ];
+        }
 
         return new JsonResponse($normalized);
     }

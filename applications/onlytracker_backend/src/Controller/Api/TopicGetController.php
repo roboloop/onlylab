@@ -7,6 +7,7 @@ namespace OnlyTracker\BackEnd\Controller\Api;
 use OnlyTracker\Domain\Service\TopicService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TopicGetController
@@ -25,9 +26,8 @@ class TopicGetController
         $topics = $this->topicService->search(null, null, null);
 
         $context = [
-            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-                return $object->getId();
-            },
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => fn($object, $format, $context) => $object->getId(),
+            DateTimeNormalizer::FORMAT_KEY => 'd.m.Y H:i',
         ];
 
         $normalized = $this->normalizer->normalize($topics, null, $context);
