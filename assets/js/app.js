@@ -1,22 +1,15 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
+// Style
+import '../css/app.scss';
 
-require('../css/app.css');
-require('bootstrap/dist/css/bootstrap.css');
-require('@fortawesome/fontawesome-free/css/all.css');
-require('@fortawesome/fontawesome-free/js/all');
-require('material-design-icons/iconfont/material-icons.css');
-
-const $ = require('jquery');
-require('popper.js');
-require('bootstrap');
+// Scripts
+import '@fortawesome/fontawesome-free/js/all';
+import $ from 'jquery';
+import 'popper.js';
+import 'bootstrap';
 import VueRouter from 'vue-router'
 import routes from './routes';
 
+// Logic
 let router = new VueRouter({
     mode: 'history',
     routes,
@@ -78,14 +71,3 @@ switch(routeTo.name) {
 
 }
 
-// console.log(window.location);
-//
-// console.log(router.getMatchedComponents(window.location.pathname));
-// console.log(router.match('/genres'));
-// console.log(router.match('/studios'));
-// console.log(router.match('/studios/qwe'));
-// console.log(router.match('/studiosinvalud'));
-
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});

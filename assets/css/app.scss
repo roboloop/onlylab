@@ -1,3 +1,9 @@
+@import 'helpers/variables';
+
+@import '~bootstrap';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~material-design-icons/iconfont/material-icons.css';
+
 body {
     background-color: lightgray;
 }
