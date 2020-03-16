@@ -63,11 +63,12 @@ switch(routeTo.name) {
         }).then((data, textStatus, jqXHR) => {
             const topicTemplate = require('../templates/topic.hbs');
             $('#App').append(topicTemplate(data));
+            $('.carousel-item').on('click', (e) => {
+                $('.carousel').carousel('next');
+            });
         });
         break;
     default:
         const defaultTemplate = require('../templates/base.hbs');
         $('#App').append(defaultTemplate);
-
 }
-
