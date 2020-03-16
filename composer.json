@@ -51,7 +51,7 @@
             "OnlyTracker\\": ["src"]
         },
         "files": [
-
+            "./src/Shared/helpers/helpers.php"
         ]
     },
     "autoload-dev": {
