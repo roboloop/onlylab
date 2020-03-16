@@ -4,6 +4,7 @@ namespace OnlyTracker\Domain\Service;
 
 use OnlyTracker\Domain\Entity\Forum;
 use OnlyTracker\Domain\Entity\ObjectValue\Size;
+use OnlyTracker\Domain\Entity\Topic;
 use OnlyTracker\Domain\Factory\TopicFactory;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use DateTimeImmutable;
@@ -29,6 +30,25 @@ class TopicService
         $topic = $this->topicFactory->make($id, $parsedTitle, $forum, $size, $exCreatedAt, false);
 
         return $topic;
+    }
+
+    public function related(Topic $topic)
+    {
+        $parsedTitle = $topic->getParsedTitle();
+        $title = $parsedTitle->getTitle();
+
+        if (null === $title) {
+            return [];
+        }
+
+        $criteria = (new TopicSearchCriteria())
+            ->setTitles([
+                $title,
+            ]);
+
+        $found = $this->topicRepository->search($criteria);
+
+        return array_filter($found, fn(Topic $related) => $related->getId() !== $topic->getId());
     }
 
     public function search(?string $title, ?string $year, ?string $quality)
