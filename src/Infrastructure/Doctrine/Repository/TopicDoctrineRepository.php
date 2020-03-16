@@ -32,7 +32,11 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->leftJoin('t.studios', 's')
             ->leftJoin('t.genres', 'g')
             ->leftJoin('t.images', 'i')
-            ->orderBy('t.parsedTitle.title', 'ASC');
+            ->addOrderBy('t.parsedTitle.title', 'ASC')
+            ->addOrderBy('t.parsedTitle.rawTitle', 'ASC')
+            ->addOrderBy('g.title', 'ASC')
+            ->addOrderBy('s.url', 'ASC')
+        ;
 
         if (null !== $criteria->getForumIds()) {
             $qb->andWhere('t.forum IN (:forumIds)');
