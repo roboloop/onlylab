@@ -45,13 +45,9 @@ class GenreServiceTest extends TestCase
         $genres = $this->service->getOrMakeOrBoth($rawTitles);
 
         // Assert
-        $titleCallback = function (Genre $genre) {
-            return $genre->getTitle();
-        };
+        $titleCallback = fn(Genre $genre) => $genre->getTitle();
 
-        $compare = function (string $a, string $b) {
-            return mb_strtolower($a) <=> mb_strtolower($b);
-        };
+        $compare = fn($a, $b) => mb_strtolower($a) <=> mb_strtolower($b);
 
         $genreTitles = array_map($titleCallback, $genres);
         $this->assertArrayPopulation($rawTitles, $genreTitles, $compare);

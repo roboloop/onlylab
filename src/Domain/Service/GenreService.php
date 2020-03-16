@@ -39,6 +39,7 @@ class GenreService
         });
 
         foreach ($newRawGenres as $newRawGenre) {
+            $newRawGenre = mb_ucfirst($newRawGenre);
             $newGenres[] = $this->genreFactory->make($newRawGenre, null, false);
         }
 
