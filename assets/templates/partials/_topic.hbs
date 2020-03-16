@@ -1,0 +1,37 @@
+<div class="row" data-id="{{ id }}">
+    <div class="col-7">
+        {{#if parsedTitle.title }}
+            {{ parsedTitle.title }}
+        {{ else }}
+            {{ parsedTitle.rawTitle }}
+        {{/if}}
+    </div>
+    <div class="col-1">
+        {{ parsedTitle.quality }}
+    </div>
+    <div class="col-1">
+        {{ parsedTitle.year }}
+    </div>
+    <div class="col-2">
+        {{ exCreatedAt }}
+    </div>
+    <div class="col-1">
+        <div class="row">
+            <div class="col-4">
+                <div>
+                    {{#if isLoaded }}
+                        <i class="material-icons">check</i>
+                    {{ else }}
+                        <i class="fas fa-download"></i>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="col-4 noselect">
+                {{> _genre_dropdown.hbs }}
+            </div>
+            <div class="col-4 noselect">
+                {{> _studio_dropdown.hbs }}
+            </div>
+        </div>
+    </div>
+</div>

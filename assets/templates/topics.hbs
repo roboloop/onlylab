@@ -1,0 +1,8 @@
+<div class="container-xl">
+    <div class="pb-2 mt-4 mb-2 border-bottom">
+        Page header
+    </div>
+    {{#each this as |topic|}}
+        {{> _topic.hbs topic }}
+    {{/each}}
+</div>
