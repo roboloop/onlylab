@@ -22,6 +22,10 @@ class TransactionalTopicPageHandler implements TopicPageHandlerInterface
      */
     public function handle(string $content)
     {
-        return $this->entityManager->transactional(fn() => $this->pageHandler->handle($content));
+        try {
+            return $this->entityManager->transactional(fn() => $this->pageHandler->handle($content));
+        } finally {
+            $this->entityManager->clear();
+        }
     }
 }
