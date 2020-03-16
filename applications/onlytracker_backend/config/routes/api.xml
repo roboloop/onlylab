@@ -7,6 +7,7 @@
     <route id="genre_get" path="/genres" controller="OnlyTracker\BackEnd\Controller\Api\GenreGetController" methods="GET|POST" />
     <route id="studio_get" path="/studios" controller="OnlyTracker\BackEnd\Controller\Api\StudioGetController" methods="GET|POST" />
     <route id="topic_get" path="/topics" controller="OnlyTracker\BackEnd\Controller\Api\TopicGetController" methods="GET|POST" />
+    <route id="single_topic_get" path="/topics/{topic}" controller="OnlyTracker\BackEnd\Controller\Api\SingleTopicGetController" methods="GET|POST" />
     <route id="forum_get" path="/forums" controller="OnlyTracker\BackEnd\Controller\Api\ForumGetController" methods="GET|POST" />
 
     <route id="search" path="/search" controller="OnlyTracker\BackEnd\Controller\Api\SearchTopicController" methods="POST" />
