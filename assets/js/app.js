@@ -64,14 +64,13 @@ switch(routeTo.name) {
         break;
     case 'topic':
         $.ajax({
-            url: '/api/topics/0613000',
+            url: '/api/topics/' + routeTo.params.id,
             method: 'GET',
             dataType: 'JSON',
         }).then((data, textStatus, jqXHR) => {
-            const topicTemplate = require('../templates/partials/_topic.hbs');
+            const topicTemplate = require('../templates/topic.hbs');
             $('#App').append(topicTemplate(data));
         });
-
         break;
     default:
         const defaultTemplate = require('../templates/base.hbs');
