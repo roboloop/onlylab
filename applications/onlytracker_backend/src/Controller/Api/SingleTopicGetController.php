@@ -5,6 +5,7 @@ declare (strict_types = 1);
 namespace OnlyTracker\BackEnd\Controller\Api;
 
 use OnlyTracker\Application\Handler\TopicPageHandlerInterface;
+use OnlyTracker\Domain\Entity\Image;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Domain\Service\TopicService;
 use OnlyTracker\Infrastructure\Request\OnlyTracker\TopicPageRequest;
@@ -60,12 +61,18 @@ class SingleTopicGetController
 
         $normalized = $this->normalizer->normalize($topic, null, $context);
 
-        $normalized['images'] = [
-            [ 'original' => '/storage/1.jpeg',],
-            [ 'original' => '/storage/2.jpeg',],
-            [ 'original' => '/storage/3.jpeg',],
-        ];
+        // Reorder images
+        $images = $topic->getImages();
+        usort($images, fn(Image $a, Image $b) => $b->getFormat()->value() <=> $a->getFormat()->value());
+        $normalized['images'] = $this->normalizer->normalize($images, null, $context);
 
+        // $normalized['images'] = [
+        //     [ 'original' => '/storage/1.jpeg',],
+        //     [ 'original' => '/storage/2.jpeg',],
+        //     [ 'original' => '/storage/3.jpeg',],
+        // ];
+
+        // Related
         foreach ($this->topicService->related($topic) as $related) {
             $normalized['related'][] = [
                 'id' => $related->getId(),

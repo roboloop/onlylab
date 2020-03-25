@@ -74,10 +74,16 @@
 
         <!--Original deduction -->
         <service id="OnlyTracker\Domain\Deduction\FastpicDeduction">
+            <argument type="service" id="OnlyTracker\Infrastructure\Request\OnlyTracker\OnlyTrackerRequestSender" />
             <tag name="only_tracker.domain.deduction.original_url_deduction.tag" />
         </service>
 
         <service id="OnlyTracker\Domain\Deduction\PicshickDeduction">
+            <tag name="only_tracker.domain.deduction.original_url_deduction.tag" />
+        </service>
+
+        <service id="OnlyTracker\Domain\Deduction\TurboimagehostDeduction">
+            <argument type="service" id="OnlyTracker\Infrastructure\Request\OnlyTracker\OnlyTrackerRequestSender" />
             <tag name="only_tracker.domain.deduction.original_url_deduction.tag" />
         </service>
 

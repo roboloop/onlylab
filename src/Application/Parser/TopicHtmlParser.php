@@ -72,6 +72,7 @@ class TopicHtmlParser
     private function images(string $content)
     {
         $crawler    = new Crawler($content);
+        // TODO: Only images from the first post!!
         $body       = $crawler->filterXPath('//table[@class="topic"]//div[@class="post_body"]');
         $images[]   = $this->posters($body);
         $images[]   = $this->underSpoiler($body);
@@ -91,6 +92,15 @@ class TopicHtmlParser
             $node   = $spoilers->eq($i);
             $header = $node->first()->getNode(0)->nodeValue;
             $vars   = $node->filterXPath('//var[@class="postImg"]');
+
+            if (!$vars->count()) {
+                continue;
+            }
+            $closet = $vars->closest('div.sp-body');
+            if ($closet->count() && !$closet->getNode(0)->isSameNode($node->getNode(0))) {
+                continue;
+            }
+
             $data   = $vars->each(Closure::fromCallable([$this, 'getFromUrlAndReference']));
 
             foreach ($data as [$frontUrl, $reference]) {
@@ -117,7 +127,8 @@ class TopicHtmlParser
     private function posters(Crawler $body)
     {
         // Get all images
-        $crawlerImages = $body->filterXPath('//var[@class="postImg"]');
+        // $crawlerImages = $body->filterXPath('//var[@class="postImg"]');
+        $crawlerImages = $body->filterXPath('//var[contains(@class, "postImg")]');
 
         // Everything that is not under the spoiler is a poster
         // Banner filtering will be done later

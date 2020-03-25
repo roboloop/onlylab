@@ -14,6 +14,7 @@
             <argument type="service" id="OnlyTracker\Domain\Service\ImageService"/>
             <argument type="service" id="OnlyTracker\Domain\Shared\DateTimeUtilInterface"/>
             <argument type="service" id="OnlyTracker\Domain\Repository\TopicRepositoryInterface"/>
+            <argument type="service" id="OnlyTracker\Domain\Service\TopicDeletion" />
         </service>
 
         <!-- Topic page handler -->

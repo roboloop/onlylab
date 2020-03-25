@@ -13,6 +13,7 @@ use OnlyTracker\Domain\Service\ForumService;
 use OnlyTracker\Domain\Service\GenreService;
 use OnlyTracker\Domain\Service\ImageService;
 use OnlyTracker\Domain\Service\StudioService;
+use OnlyTracker\Domain\Service\TopicDeletion;
 use OnlyTracker\Domain\Service\TopicService;
 use OnlyTracker\Domain\Shared\DateTimeUtilInterface;
 use OnlyTracker\Infrastructure\Util\Parser\Title\TitleParserManager;
@@ -29,6 +30,7 @@ class TopicCreation
     private $imageService;
     private $dateTimeUtil;
     private $topicRepository;
+    private $topicDeletion;
 
     public function __construct(
         ValidatorInterface $validator,
@@ -39,7 +41,8 @@ class TopicCreation
         TopicService $topicService,
         ImageService $imageService,
         DateTimeUtilInterface $dateTimeUtil,
-        TopicRepositoryInterface $topicRepository
+        TopicRepositoryInterface $topicRepository,
+        TopicDeletion $topicDeletion
     ) {
         $this->validator        = $validator;
         $this->parserManager    = $parserManager;
@@ -50,6 +53,7 @@ class TopicCreation
         $this->imageService     = $imageService;
         $this->dateTimeUtil     = $dateTimeUtil;
         $this->topicRepository  = $topicRepository;
+        $this->topicDeletion    = $topicDeletion;
     }
 
     /**
@@ -60,11 +64,7 @@ class TopicCreation
         $this->validateRawTopicDto($dto);
         $this->convertTypesDto($dto);
 
-        if ($topic = $this->topicRepository->find($dto->getExId())) {
-            // TODO: copy old values, replace empty attributes on new entity by old values
-            $topic->getImages();
-            $this->topicRepository->delete($topic);
-        }
+        $this->topicDeletion->delete($dto->getExId());
 
         $rawGenres  = $this->parserManager->genres($dto->getRawTitle());
         $genres     = $this->genreService->getOrMakeOrBoth($rawGenres);

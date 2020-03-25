@@ -8,8 +8,8 @@ use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 
 class TopicDeletion
 {
-    private $topicRepository;
-    private $imageRepository;
+    private TopicRepositoryInterface $topicRepository;
+    private ImageRepositoryInterface $imageRepository;
 
     public function __construct(TopicRepositoryInterface $topicRepository, ImageRepositoryInterface $imageRepository)
     {
@@ -17,12 +17,14 @@ class TopicDeletion
         $this->imageRepository = $imageRepository;
     }
 
-    public function delete(Topic $topic): void
+    public function delete(string $topicId): void
     {
-        $images = $topic->getImages();
+        if ($topic = $this->topicRepository->find($topicId)) {
+            $images = $topic->getImages();
 
-        $topic->clearImages();
-        $this->imageRepository->deleteMultiple($images);
-        $this->topicRepository->delete($topic);
+            $topic->clearImages();
+            $this->imageRepository->deleteMultiple($images);
+            $this->topicRepository->delete($topic);
+        }
     }
 }

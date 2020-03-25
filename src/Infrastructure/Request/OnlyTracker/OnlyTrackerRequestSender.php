@@ -32,4 +32,15 @@ class OnlyTrackerRequestSender implements RequestSenderInterface, LoggerAwareInt
 
         return $content;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function sendRaw(string $url): string
+    {
+        $response   = $this->client->request('GET', $url);
+        $content    = $response->getContent();
+
+        return $content;
+    }
 }

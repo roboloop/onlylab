@@ -18,5 +18,5 @@ interface OriginalUrlDeductionInterface
      *
      * @return bool
      */
-    public function support(string $frontUrl): bool;
+    public function support(string $frontUrl, array $context = []): bool;
 }
