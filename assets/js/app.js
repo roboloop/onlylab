@@ -45,7 +45,7 @@ switch(routeTo.name) {
         break;
     case 'topics':
         $.ajax({
-            url: '/api/topics',
+            url: '/api/topics' + window.location.search,
             method: 'GET',
             dataType: 'JSON',
         }).then((data, textStatus, jqXHR) => {
@@ -63,6 +63,8 @@ switch(routeTo.name) {
         }).then((data, textStatus, jqXHR) => {
             const topicTemplate = require('../templates/topic.hbs');
             $('#App').append(topicTemplate(data));
+
+            document.title = data.parsedTitle.title ? data.parsedTitle.title : data.parsedTitle.rawTitle;
             $('.carousel-item').on('click', (e) => {
                 $('.carousel').carousel('next');
             });

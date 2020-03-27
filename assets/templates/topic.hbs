@@ -69,8 +69,15 @@
 
             <ul class="nav flex-column">
                 {{! TODO: Direct link }}
-                <li class="nav-item"><a href="{{ id }}">Link</a></li>
+<!--                <li class="nav-item"><a href="/forum/viewtopic.php?t={{ id }}">Link</a></li>-->
+                <li class="nav-item">
+                    <a href="{{ only_tracker_url }}forum/viewtopic.php?t={{ id }}">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ only_tracker_url }}forum/viewtopic.php?t={{ id }}">Link</a>
+                </li>
             </ul>
+
             <br>
 
             <h5>Info</h5>
@@ -108,7 +115,14 @@
             <h5>Studios</h5>
             <ul class="nav flex-column">
                 {{#each studios as |studio|}}
-                    <li class="nav-item"><a href="/studios/{{ studio.id }}">{{ studio.url }}</a></li>
+                    <li class="nav-item">
+                        <a href="/studios/{{ studio.id }}">{{ studio.url }}</a>
+                        <a href="/api/studios/{{ studio.id }}/ban">
+                            <div class="js-ban-studio" title="Ban the studio" style="display: inline-block;">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                        </a>
+                    </li>
                 {{/each}}
             </ul>
         </div>

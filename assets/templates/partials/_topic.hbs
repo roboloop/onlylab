@@ -1,6 +1,6 @@
 <div class="row" data-id="{{ id }}">
     <div class="col-7">
-        <a href="/topics/{{ id }}" target="_blank">
+        <a href="/topics/{{ id }}" target="_blank" title="{{ parsedTitle.rawTitle }}">
             {{#if parsedTitle.title }}
                 {{ parsedTitle.title }}
             {{ else }}
@@ -15,7 +15,7 @@
         {{ parsedTitle.year }}
     </div>
     <div class="col-2">
-        {{ exCreatedAt }}
+        {{ createdAt }}
     </div>
     <div class="col-1">
         <div class="row">
