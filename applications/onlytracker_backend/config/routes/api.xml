@@ -14,4 +14,6 @@
 
 
     <route id="topic_feature_reload" path="/topics/{topic}/reload" controller="OnlyTracker\BackEnd\Controller\Api\TopicFeatureController::reload" methods="POST" />
+
+    <route id="studio_feature_ban" path="/studios/{studio}/ban" controller="OnlyTracker\BackEnd\Controller\Api\StudioFeatureController::ban" methods="GET|POST" />
 </routes>

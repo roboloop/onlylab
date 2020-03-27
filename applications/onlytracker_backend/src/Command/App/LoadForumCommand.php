@@ -33,6 +33,7 @@ class LoadForumCommand extends Command
             ->setDescription('Download topics with brief information')
             ->addArgument('forum', InputArgument::REQUIRED, '"Url" or "id" of the forum')
             ->addArgument('page', InputArgument::OPTIONAL, 'Page of forum', '1')
+            ->addArgument('page-end', InputArgument::OPTIONAL, 'End page of forum', '1')
         ;
     }
 
@@ -56,18 +57,23 @@ class LoadForumCommand extends Command
             return -1;
         }
 
-        $request = new ForumPageRequest($id, (int) $page);
+        $endPage = $input->getArgument('page-end');
 
-        try {
-            $content = $this->requestSender->send($request);
-            $this->forumPageHandler->handle($content);
-            $io->success('Success!');
+        for ($i = (int) $page; $i <= (int) $endPage; $i++) {
+            sleep(3);
+            $request = new ForumPageRequest($id, $i);
 
-            return 0;
-        } catch (ExceptionInterface $e) {
-            $io->error('Cannot perform request: ' . $e->getMessage());
+            try {
+                $content = $this->requestSender->send($request);
+                $this->forumPageHandler->handle($content);
+                $io->success($i . ' Success!');
+            } catch (ExceptionInterface $e) {
+                $io->error($i . ' Cannot perform request: ' . $e->getMessage());
 
-            return -1;
+                return -1;
+            }
         }
+
+        return 0;
     }
 }

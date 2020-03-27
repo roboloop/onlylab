@@ -75,6 +75,7 @@
         <!--Original deduction -->
         <service id="OnlyTracker\Domain\Deduction\FastpicDeduction">
             <argument type="service" id="OnlyTracker\Infrastructure\Request\OnlyTracker\OnlyTrackerRequestSender" />
+            <argument type="service" id="only_tracker.client" />
             <tag name="only_tracker.domain.deduction.original_url_deduction.tag" />
         </service>
 

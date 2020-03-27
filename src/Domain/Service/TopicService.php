@@ -68,4 +68,9 @@ class TopicService
         // TODO:
         return $this->topicRepository->search(new TopicSearchCriteria);
     }
+
+    public function searchByCriteria(TopicSearchCriteria $criteria)
+    {
+        return $this->topicRepository->search($criteria);
+    }
 }

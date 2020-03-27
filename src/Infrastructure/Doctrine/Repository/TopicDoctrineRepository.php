@@ -3,6 +3,7 @@
 namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
+use OnlyTracker\Domain\Entity\Enum\StudioStatus;
 use OnlyTracker\Domain\Entity\Topic;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Domain\Search\TopicSearchCriteria;
@@ -32,10 +33,13 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->leftJoin('t.studios', 's')
             ->leftJoin('t.genres', 'g')
             ->leftJoin('t.images', 'i')
-            ->addOrderBy('t.parsedTitle.title', 'ASC')
-            ->addOrderBy('t.parsedTitle.rawTitle', 'ASC')
-            ->addOrderBy('g.title', 'ASC')
-            ->addOrderBy('s.url', 'ASC')
+            ->addOrderBy('t.createdAt', 'DESC')
+            ->andWhere('s.status.value != :s_status')
+            ->setParameter('s_status', StudioStatus::BANNED)
+            // ->addOrderBy('t.parsedTitle.title', 'ASC')
+            // ->addOrderBy('t.parsedTitle.rawTitle', 'ASC')
+            // ->addOrderBy('g.title', 'ASC')
+            // ->addOrderBy('s.url', 'ASC')
         ;
 
         if (null !== $criteria->getTopicsIds()) {

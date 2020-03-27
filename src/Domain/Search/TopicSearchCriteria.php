@@ -19,6 +19,7 @@ class TopicSearchCriteria
     private $genreTitles;
     private $isApproved;
     private $titles;
+    private $orders;
 
     public static function make()
     {
@@ -233,5 +234,24 @@ class TopicSearchCriteria
     public function getTitles(): ?array
     {
         return $this->titles;
+    }
+
+    public function addOrderByCreated()
+    {
+        // $this->orders[] = 'created'
+
+        return $this;
+    }
+
+    public function addOrderByTitle()
+    {
+
+
+        return $this;
+    }
+
+    public function getOrders(): ?array
+    {
+
     }
 }
