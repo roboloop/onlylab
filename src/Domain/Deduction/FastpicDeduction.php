@@ -4,14 +4,17 @@ namespace OnlyTracker\Domain\Deduction;
 
 use OnlyTracker\Infrastructure\Request\RequestSenderInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class FastpicDeduction implements OriginalUrlDeductionInterface
 {
     private RequestSenderInterface $requestSender;
+    private HttpClientInterface $onlyTrackerClient;
 
-    public function __construct(RequestSenderInterface $requestSender)
+    public function __construct(RequestSenderInterface $requestSender, HttpClientInterface $onlyTrackerClient)
     {
         $this->requestSender = $requestSender;
+        $this->onlyTrackerClient = $onlyTrackerClient;
     }
 
     public function deduct(string $frontUrl, array $context = [])
@@ -19,6 +22,15 @@ class FastpicDeduction implements OriginalUrlDeductionInterface
         try {
             if (!empty($context['reference'])) {
                 $url = $context['reference'];
+                if (preg_match('#\.(?:jpeg|jpg|png)$#', $url)) {
+                    $response = $this->onlyTrackerClient->request('GET', $url, [
+                        'max_redirects' => 0,
+                        'headers' => ['accept' => 'text/html'],
+                    ]);
+                    if ($response->getStatusCode() === 302) {
+                        $url = $response->getHeaders(false)['location'][0];
+                    }
+                }
 
                 $content = $this->requestSender->sendRaw($url);
 
