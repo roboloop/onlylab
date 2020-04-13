@@ -34,6 +34,22 @@ final class Size
         return $this->value;
     }
 
+    public function getValue(): string
+    {
+        return $this->toString();
+    }
+
+    private function toString(): string
+    {
+        $exp = (int) floor(log($this->value, 1024));
+
+        if (in_array($exp, static::$suffixes, true)) {
+            return number_format($this->value / pow(1024, $exp), 2) . array_search($exp, static::$suffixes, true);
+        }
+
+        return (string) $this->value . 'B';
+    }
+
     public static function createFromString(string $size): self
     {
         if (preg_match('#^\s*(?P<quantity>\d+(?:\.\d+)?)\s*(?P<unit>TB|GB|MB|KB|B)\s*$#iu', $size, $matches)) {
@@ -43,5 +59,10 @@ final class Size
         }
 
         throw new InvalidArgumentException(sprintf('Size cannot be created from: "%s"', $size));
+    }
+
+    public function __toString()
+    {
+        return $this->toString();
     }
 }

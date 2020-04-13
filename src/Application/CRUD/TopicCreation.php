@@ -64,7 +64,12 @@ class TopicCreation
         $this->validateRawTopicDto($dto);
         $this->convertTypesDto($dto);
 
-        $this->topicDeletion->delete($dto->getExId());
+        $oldTopic = $this->topicRepository->find($dto->getExId());
+        if (null !== $oldTopic) {
+            $this->topicDeletion->delete($dto->getExId());
+            $size = $oldTopic->getSize();
+            $exCreatedAt = $oldTopic->getExCreatedAt();
+        }
 
         $rawGenres  = $this->parserManager->genres($dto->getRawTitle());
         $genres     = $this->genreService->getOrMakeOrBoth($rawGenres);
@@ -73,7 +78,7 @@ class TopicCreation
         $studios    = $this->studioService->getOrMakeOrBoth($rawStudios);
 
         $forum      = $this->forumService->getOrMake($dto->getForum()->getExId(), $dto->getForum()->getTitle());
-        $topic      = $this->topicService->makeNotLoaded($dto->getExId(), $dto->getRawTitle(), $forum, $dto->getSize(), $dto->getExCreatedAt());
+        $topic      = $this->topicService->makeNotLoaded($dto->getExId(), $dto->getRawTitle(), $forum, $size ?? $dto->getSize(), $exCreatedAt ?? $dto->getExCreatedAt());
 
         $this->topicRepository->save($topic);
 

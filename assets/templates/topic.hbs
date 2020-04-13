@@ -84,7 +84,21 @@
                     <li class="nav-item">{{ parsedTitle.quality }}</li>
                 </ul>
             {{ else }}
-                <i>no info</i>
+                <i>no quality</i>
+            {{/if}}
+            {{#if exCreatedAt }}
+                <ul class="nav flex-column">
+                    <li class="nav-item">{{ exCreatedAt }}</li>
+                </ul>
+            {{ else }}
+                <i>no ex created at</i>
+            {{/if}}
+            {{#if size.value }}
+                <ul class="nav flex-column">
+                    <li class="nav-item">{{ size.value }}</li>
+                </ul>
+            {{ else }}
+                <i>no size</i>
             {{/if}}
             <br>
 
