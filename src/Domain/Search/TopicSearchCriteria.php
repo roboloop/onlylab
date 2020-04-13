@@ -20,6 +20,7 @@ class TopicSearchCriteria
     private $isApproved;
     private $titles;
     private $orders;
+    private $qualities;
 
     public static function make()
     {
@@ -235,6 +236,22 @@ class TopicSearchCriteria
     {
         return $this->titles;
     }
+
+    public function getQualities(): ?array
+    {
+        return $this->qualities;
+    }
+
+    public function setQualities(?array $qualities): self
+    {
+        Assert::thatAll($qualities)->nullOr()->string();
+
+        $this->qualities = $qualities;
+
+        return $this;
+    }
+
+
 
     public function addOrderByCreated()
     {
