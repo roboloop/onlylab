@@ -3,6 +3,7 @@ import '../css/app.scss';
 
 // Scripts
 import '@fortawesome/fontawesome-free/js/all';
+import copy from 'copy-to-clipboard';
 import $ from 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -70,6 +71,22 @@ switch(routeTo.name) {
             document.title = data.parsedTitle.title ? data.parsedTitle.title : data.parsedTitle.rawTitle;
             $('.carousel-item').on('click', (e) => {
                 $('.carousel').carousel('next');
+            });
+
+            $(document).keydown(function(e) {
+                switch(e.which) {
+                    case 37: // left
+                        $('.carousel').carousel('prev');
+                        return false;
+                    case 39: // right
+                        $('.carousel').carousel('next');
+                        return false;
+                }
+            });
+
+            $('.copy-btn').on('click', () => {
+                let link = $('#link').attr('href');
+                copy(link);
             });
         });
         break;

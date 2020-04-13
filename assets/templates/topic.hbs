@@ -68,13 +68,11 @@
             <a href="/proxy/topics/{{ id }}" methods="GET" target="_blank">Proxy</a>
 
             <ul class="nav flex-column">
-                {{! TODO: Direct link }}
-<!--                <li class="nav-item"><a href="/forum/viewtopic.php?t={{ id }}">Link</a></li>-->
                 <li class="nav-item">
-                    <a href="{{ only_tracker_url }}forum/viewtopic.php?t={{ id }}">Link</a>
+                    <a id="link" href="{{ only_tracker_url }}forum/viewtopic.php?t={{ id }}">Link</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ only_tracker_url }}forum/viewtopic.php?t={{ id }}">Link</a>
+                    <a class="copy-btn" href="#">Copy</a>
                 </li>
             </ul>
 
