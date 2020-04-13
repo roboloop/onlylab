@@ -32,9 +32,4 @@ class RepositoryUtil
             $qb->setParameter($params[$i], $args[$i]->getValue());
         }
     }
-
-    public function asSub(QueryBuilder $qb): QueryBuilder
-    {
-         // TODO:
-    }
 }

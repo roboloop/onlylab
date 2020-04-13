@@ -4,7 +4,10 @@ namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Parameter;
+use Doctrine\ORM\QueryBuilder;
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
+use OnlyTracker\Domain\Entity\Genre;
 use OnlyTracker\Domain\Entity\Topic;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Domain\Search\TopicSearchCriteria;
@@ -77,8 +80,9 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
         }
 
         if (null !== $criteria->getGenreTitles()) {
-            list($orLike, $params, $args) = $this->util->orLikeExpr($criteria->getGenreTitles(), 'g.title');
-            $this->util->andWhere($qb, $orLike, $params, $args);
+            // list($orLike, $params, $args) = $this->util->andGenreLikeExpr($criteria->getGenreTitles(), 'g.title');
+            $this->andGenreLikeExpr($qb, $criteria->getGenreTitles());
+            // $this->util->andWhere($qb, $orLike, $params, $args);
         }
 
         if (null !== $criteria->getIsApproved()) {
@@ -112,12 +116,25 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
         $qbParameters = $qb->getParameters();
         $mainQbParameters = $mainQb->getParameters();
-        // dd($mainQb->getDQL());
 
         $mainQb->setParameters(
             new ArrayCollection([...$qbParameters, ...$mainQbParameters])
         );
 
         return $mainQb->getQuery()->getResult();
+    }
+
+    private function andGenreLikeExpr(QueryBuilder $qb, array $values)
+    {
+        $i = 0;
+        $dql = $params = [];
+        foreach ($values as $value) {
+            $params[] = $param = "sub_g$i.title";
+            $dql[]  = "0 != (SELECT COUNT(sub_t$i) FROM " . Topic::class . " sub_t$i INNER JOIN sub_t$i.genres sub_g$i WHERE sub_t$i = t AND $param LIKE :g_value$i)";
+            $qb->setParameter("g_value$i", '%' . $value . '%');
+            $i++;
+        }
+
+        $qb->andWhere(implode(' AND ', $dql));
     }
 }
