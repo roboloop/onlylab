@@ -19,6 +19,7 @@ class SearchDto implements IncomingDataInterface
     private $studioStatuses;
     private $genreTitles;
     private $isApproved;
+    private $qualities;
 
     public function __construct()
     {
@@ -57,5 +58,10 @@ class SearchDto implements IncomingDataInterface
     public function isApproved()
     {
         return $this->isApproved;
+    }
+
+    public function qualities()
+    {
+        return $this->qualities;
     }
 }

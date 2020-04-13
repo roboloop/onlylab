@@ -60,7 +60,7 @@ class LoadForumCommand extends Command
         $endPage = $input->getArgument('page-end');
 
         for ($i = (int) $page; $i <= (int) $endPage; $i++) {
-            sleep(3);
+            sleep(2);
             $request = new ForumPageRequest($id, $i);
 
             try {

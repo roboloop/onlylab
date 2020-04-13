@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use OnlyTracker\Domain\Shared\RepositoryInterface;
+use OnlyTracker\Shared\Infrastructure\Doctrine\RepositoryUtil;
 
 abstract class DoctrineRepository implements RepositoryInterface
 {
@@ -14,12 +15,14 @@ abstract class DoctrineRepository implements RepositoryInterface
     /** @var \Doctrine\ORM\EntityManager */
     protected $entityManager;
     protected $entityClass;
+    protected $util;
 
     public function __construct(EntityManagerInterface $entityManager, string $entityClass)
     {
         $this->entityClass      = $entityClass;
         $this->entityManager    = $entityManager;
         $this->basicRepository  = $this->entityManager->getRepository($entityClass);
+        $this->util             = new RepositoryUtil();
     }
 
     public function find($id)
@@ -62,27 +65,32 @@ abstract class DoctrineRepository implements RepositoryInterface
         $this->entityManager->flush($entities);
     }
 
-    protected function orLikeExpr(array $values, string $field, $type = null)
-    {
-        $prefix = str_replace('.', '_', $field);
-
-        $params = $args = $orLike = [];
-        for ($i = 0; $i < count($values); $i++) {
-            $params[]   = $param = $prefix . $i;
-            $orLike[]   = "$field LIKE :$param";
-            $args[]     = new Parameter($param, '%' . $values[$i] . '%', $type);
-        }
-
-        $orLike = implode(' OR ', $orLike);
-
-        return [$orLike, $params, $args];
-    }
-
-    protected function andWhere(QueryBuilder $qb, string $predicate, array $params, array $args)
-    {
-        $qb->andWhere($predicate);
-        for ($i = 0; $i < count($params); $i++) {
-            $qb->setParameter($params[$i], $args[$i]->getValue());
-        }
-    }
+    // protected function orLikeExpr(array $values, string $field, $type = null)
+    // {
+    //     $prefix = str_replace('.', '_', $field);
+    //
+    //     $params = $args = $orLike = [];
+    //     for ($i = 0; $i < count($values); $i++) {
+    //         $params[]   = $param = $prefix . $i;
+    //         $orLike[]   = "$field LIKE :$param";
+    //         $args[]     = new Parameter($param, '%' . $values[$i] . '%', $type);
+    //     }
+    //
+    //     $orLike = implode(' OR ', $orLike);
+    //
+    //     return [$orLike, $params, $args];
+    // }
+    //
+    // protected function andWhere(QueryBuilder $qb, string $predicate, array $params, array $args)
+    // {
+    //     $qb->andWhere($predicate);
+    //     for ($i = 0; $i < count($params); $i++) {
+    //         $qb->setParameter($params[$i], $args[$i]->getValue());
+    //     }
+    // }
+    //
+    // protected function asSub(QueryBuilder $qb): QueryBuilder
+    // {
+    //
+    // }
 }

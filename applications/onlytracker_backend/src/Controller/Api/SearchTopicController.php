@@ -28,12 +28,15 @@ final class SearchTopicController
 
         $genreTitles    = $this->querySearchHandler->explodeIntoWords($dto->genreTitles());
         $studioUrls     = $this->querySearchHandler->explodeIntoWords($dto->studioUrls());
+        $qualities      = $this->querySearchHandler->explodeIntoWords($dto->qualities());
         $title          = $dto->title();
 
         $criteria = TopicSearchCriteria::make()
             ->setTitles($title ? [$title] : [])
             ->setGenreTitles($genreTitles)
-            ->setStudioUrls($studioUrls);
+            ->setStudioUrls($studioUrls)
+            ->setQualities($qualities)
+        ;
 
         $topics = $this->topicRepository->search($criteria);
 

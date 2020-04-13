@@ -28,12 +28,16 @@ class TopicGetController
         // $topics = $this->topicService->search(null, null, null);
         $rawGenres = $request->query->get('genres');
         $rawStudios = $request->query->get('studios');
+        $rawQualities = $request->query->get('qualities');
         $criteria = TopicSearchCriteria::make();
         if (null !== $rawGenres) {
             $criteria->setGenreTitles(explode(',', $rawGenres));
         }
         if (null !== $rawStudios) {
             $criteria->setStudioUrls(explode(',', $rawStudios));
+        }
+        if (null !== $rawQualities) {
+            $criteria->setQualities(explode(',', $rawQualities));
         }
 
         $topics = $this->topicService->searchByCriteria($criteria);
