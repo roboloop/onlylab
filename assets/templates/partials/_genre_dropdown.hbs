@@ -1,19 +1,7 @@
-<div id="dropdownGenreList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<!--Not used-->
+<div class="dropdown-toggle" id="dropdownGenreList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <i class="material-icons">clear_all</i>
 </div>
 <div class="dropdown-menu" aria-labelledby="dropdownGenreList">
-    {{#each genres }}
-        <span class="dropdown-item-text">
-            {{ this.title }}
-            {{#if this.isApproved }}
-                <i class="fas fa-check"></i>
-            {{ else }}
-                <i class="far fa-thumbs-down"></i>
-            {{/if}}
-        </span>
-    {{ else }}
-        <span class="dropdown-item-text">
-            <i>no genres</i>
-        </span>
-    {{/each}}
+    {{> _genre_dropdown_list.hbs }}
 </div>

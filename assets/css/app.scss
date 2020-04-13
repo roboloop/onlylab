@@ -4,8 +4,10 @@
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~material-design-icons/iconfont/material-icons.css';
 
+@import 'components/hr_text';
+
 body {
-    background-color: lightgray;
+    background-color: $default-background-color;
 }
 
 .noselect {

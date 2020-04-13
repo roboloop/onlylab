@@ -1,0 +1,20 @@
+{{#each studios }}
+    <span class="dropdown-item-text">
+        {{ this.url }}
+        {{#switch this.status }}
+            {{#case 'typical' }}
+                <i class="fab fa-accessible-icon"></i>
+            {{/case}}
+            {{#case 'banned' }}
+                <i class="fas fa-ban"></i>
+            {{/case}}
+            {{#case 'preferable' }}
+                <i class="far fa-heart"></i>
+            {{/case}}
+        {{/switch}}
+    </span>
+{{ else }}
+    <span class="dropdown-item-text">
+        <i>no studios</i>
+    </span>
+{{/each}}

@@ -51,8 +51,11 @@ switch(routeTo.name) {
         }).then((data, textStatus, jqXHR) => {
             const topicsTemplate = require('../templates/topics.hbs');
             $('#App').append(topicsTemplate(data));
-
-            // $('[data-toggle="tooltip"]').tooltip();
+            $('.topic-row').hover((e) => {
+                $(e.currentTarget).find('.dropdown-toggle').dropdown('show');
+            }, (e) => {
+                $(e.currentTarget).find('.dropdown-toggle').dropdown('hide');
+            });
         });
         break;
     case 'topic':

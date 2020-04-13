@@ -1,25 +1,7 @@
-<div id="dropdownStudioList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<!--Not used-->
+<div class="dropdown-toggle" id="dropdownStudioList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <i class="material-icons">movie</i>
 </div>
 <div class="dropdown-menu dropdown-menu-xl-left" aria-labelledby="dropdownStudioList">
-    {{#each studios }}
-        <span class="dropdown-item-text">
-            {{ this.url }}
-            {{#switch this.status }}
-                {{#case 'typical' }}
-                    <i class="fab fa-accessible-icon"></i>
-                {{/case}}
-                {{#case 'banned' }}
-                    <i class="fas fa-ban"></i>
-                {{/case}}
-                {{#case 'preferable' }}
-                    <i class="far fa-heart"></i>
-                {{/case}}
-            {{/switch}}
-        </span>
-    {{ else }}
-        <span class="dropdown-item-text">
-            <i>no studios</i>
-        </span>
-    {{/each}}
+    {{> _studio_dropdown_list.hbs }}
 </div>

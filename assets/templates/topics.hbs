@@ -3,6 +3,17 @@
         Page header
     </div>
     {{#each this as |topic|}}
+        {{! mod.js
+            If called without arguments, then the first argument in mod.js will be options
+            If called with one argument, then the first argument in mod.js will be that argument, and the second will be options
+            If called with two arguments, then the first and second arguments in mod.js will be the first and second respectively, and the third will be options
+        }}
+        {{#unless @first }}
+            {{#mod @index 50 }}
+                <div class="hr-text">{{ @index }}</div>
+            {{/mod}}
+        {{/unless}}
+
         {{> _topic.hbs topic }}
     {{/each}}
 </div>
