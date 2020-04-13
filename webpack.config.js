@@ -72,7 +72,7 @@ Encore
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+    // .enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
@@ -82,8 +82,7 @@ Encore
     //.addEntry('admin', './assets/js/admin.js')
 
     .addPlugin(new Dotenv({
-        path: './.env', // Path to .env file (this is the default)
-        safe: true // load .env.example (defaults to "false" which does not use dotenv-safe)
+        path: './.env'
     }))
 ;
 
