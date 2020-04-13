@@ -66,11 +66,11 @@ class SingleTopicGetController
         usort($images, fn(Image $a, Image $b) => $b->getFormat()->value() <=> $a->getFormat()->value());
         $normalized['images'] = $this->normalizer->normalize($images, null, $context);
 
-        $normalized['images'] = [
-            [ 'original' => '/storage/1.jpeg',],
-            [ 'original' => '/storage/2.jpeg',],
-            [ 'original' => '/storage/3.jpeg',],
-        ];
+        // $normalized['images'] = [
+        //     [ 'original' => '/storage/1.jpeg',],
+        //     [ 'original' => '/storage/2.jpeg',],
+        //     [ 'original' => '/storage/3.jpeg',],
+        // ];
 
         // Related
         foreach ($this->topicService->related($topic) as $related) {
