@@ -13,7 +13,7 @@ class QualityParser
     {
         preg_match('~(\d{3,4}p|4k|UltraHD)~i', $string, $result);
 
-        if (isset($result[1]) && ('4k' === $result[1] || 'UltraHD' === $result[1])) {
+        if (isset($result[1]) && (0 === mb_strcasecmp($result[1], '4k') || 0 === mb_strcasecmp($result[1], 'UltraHD'))) {
             $result[1] = '2160p';
         }
 

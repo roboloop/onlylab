@@ -38,13 +38,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->andWhere(
                 '0 = (SELECT COUNT(sub_t) FROM '. Topic::class . ' sub_t INNER JOIN sub_t.studios sub_s WHERE sub_t = t AND sub_s.status.value = :s_status)'
             )
-            // ->andWhere('0 = 1')
-            // ->andWhere('s.status.value != :s_status')
             ->setParameter('s_status', StudioStatus::BANNED)
-            // ->addOrderBy('t.parsedTitle.title', 'ASC')
-            // ->addOrderBy('t.parsedTitle.rawTitle', 'ASC')
-            // ->addOrderBy('g.title', 'ASC')
-            // ->addOrderBy('s.url', 'ASC')
         ;
 
         if (null !== $criteria->getTopicsIds()) {

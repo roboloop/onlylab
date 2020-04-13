@@ -25,10 +25,10 @@ class TopicGetController
 
     public function __invoke(Request $request)
     {
-        // $topics = $this->topicService->search(null, null, null);
-        $rawGenres = $request->query->get('genres');
-        $rawStudios = $request->query->get('studios');
-        $rawQualities = $request->query->get('qualities');
+        $rawGenres      = $request->query->get('genres');
+        $rawStudios     = $request->query->get('studios');
+        $rawQualities   = $request->query->get('qualities');
+        $forums         = $request->query->get('forums');
         $criteria = TopicSearchCriteria::make();
         if (null !== $rawGenres) {
             $criteria->setGenreTitles(explode(',', $rawGenres));
@@ -38,6 +38,9 @@ class TopicGetController
         }
         if (null !== $rawQualities) {
             $criteria->setQualities(explode(',', $rawQualities));
+        }
+        if (null !== $forums) {
+            $criteria->setForumIds(explode(',', $forums));
         }
 
         $topics = $this->topicService->searchByCriteria($criteria);
