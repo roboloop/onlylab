@@ -90,4 +90,22 @@ return [
             'lobn' => '6486',
         ],
     ],
+    // svbnkok rtdqyu
+    [
+        '[zuqluub.zzs / sblcnlxerhtk.zzs] kaskc nwcip - kaskc jtds dy j pctsqd (65.72.3889 l., asmy, lcd feh, ohjjvqc, 0614g]',
+        [
+            'oekldz' => [
+                'asmy',
+                'lcd feh',
+                'ohjjvqc',
+            ],
+            'mlybzqsqmlxhm' => 'kaskc nwcip - kaskc jtds dy j pctsqd',
+            'thkyxai' => '0614g',
+            'sdxbldv' => [
+                'zuqluub.zzs',
+                'sblcnlxerhtk.zzs',
+            ],
+            'lobn' => '3889',
+        ],
+    ],
 ];

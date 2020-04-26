@@ -14,6 +14,11 @@ class OriginalTitleParser
         preg_match('~\]\s*(.*)\s*\[~', $content, $matches);
 
         if (!isset($matches[1])) {
+            preg_match('~\]\s*(.*)\s*\(~', $content, $matches);
+            if (isset($matches[1])) {
+                return trim($matches[1]);
+            }
+
             return null;
         }
 
