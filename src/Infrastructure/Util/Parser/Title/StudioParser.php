@@ -11,7 +11,7 @@ class StudioParser
      */
     public function parse(string $content)
     {
-        preg_match('~^\[([a-zA-Z0-9\/\\\.\s_\(\)\-]+)\]~', $content, $matches);
+        preg_match('~^\s*\[([a-zA-Z0-9\/\\\.\s_\(\)\-!]+?)\]~', $content, $matches);
 
         if (!isset($matches[1])) {
             return [];
