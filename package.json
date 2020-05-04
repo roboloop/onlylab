@@ -3,15 +3,15 @@
     "version": "1.0.0",
     "description": "",
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.28.0",
-        "core-js": "^3.0.0",
-        "handlebars-loader": "^1.7.0",
-        "node-sass": "^4.13.1",
-        "regenerator-runtime": "^0.13.2",
-        "sass-loader": "^7.0.1",
+        "@symfony/webpack-encore": "^0.28.3",
+        "core-js": "^3.6.5",
+        "handlebars-loader": "^1.7.1",
+        "node-sass": "^4.14.0",
+        "regenerator-runtime": "^0.13.5",
+        "sass-loader": "^7.3.1",
         "webpack-notifier": "^1.6.0"
     },
-    "license": "UNLICENSED",
+    "license": "ISC",
     "private": true,
     "scripts": {
         "dev-server": "encore dev-server",
@@ -20,16 +20,15 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.12.1",
+        "@fortawesome/fontawesome-free": "^5.13.0",
         "bootstrap": "^4.4.1",
         "copy-to-clipboard": "^3.3.1",
         "dotenv-webpack": "^1.7.0",
         "handlebars": "^4.7.6",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "material-design-icons": "^3.0.1",
         "popper.js": "^1.16.1",
         "vue-router": "^3.1.6"
     },
-    "author": "",
-    "license": "ISC"
+    "author": ""
 }
