@@ -92,23 +92,8 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
-    "easycorp/easy-log-handler": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
-        }
-    },
     "fzaninotto/faker": {
         "version": "v1.9.0"
-    },
-    "jakub-onderka/php-console-color": {
-        "version": "v0.2"
-    },
-    "jakub-onderka/php-console-highlighter": {
-        "version": "v0.4"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
