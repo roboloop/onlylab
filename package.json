@@ -1,7 +1,6 @@
 {
     "name": "onlytracker",
     "version": "1.0.0",
-    "description": "",
     "devDependencies": {
         "@symfony/webpack-encore": "^0.28.3",
         "core-js": "^3.6.5",
@@ -11,7 +10,7 @@
         "sass-loader": "^7.3.1",
         "webpack-notifier": "^1.6.0"
     },
-    "license": "ISC",
+    "license": "UNLICENSED",
     "private": true,
     "scripts": {
         "dev-server": "encore dev-server",
@@ -29,6 +28,5 @@
         "material-design-icons": "^3.0.1",
         "popper.js": "^1.16.1",
         "vue-router": "^3.1.6"
-    },
-    "author": ""
+    }
 }
