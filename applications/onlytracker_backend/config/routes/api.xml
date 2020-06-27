@@ -8,12 +8,16 @@
     <route id="studio_get" path="/studios" controller="OnlyTracker\BackEnd\Controller\Api\StudioGetController" methods="GET|POST" />
     <route id="topic_get" path="/topics" controller="OnlyTracker\BackEnd\Controller\Api\TopicGetController" methods="GET|POST" />
     <route id="single_topic_get" path="/topics/{topic}" controller="OnlyTracker\BackEnd\Controller\Api\SingleTopicGetController" methods="GET|POST" />
-    <route id="forum_get" path="/forums" controller="OnlyTracker\BackEnd\Controller\Api\ForumGetController" methods="GET|POST" />
+    <route id="forum_get" path="/forums" controller="OnlyTracker\BackEnd\Controller\Api\ForumGetController" methods="GET" />
 
     <route id="search" path="/search" controller="OnlyTracker\BackEnd\Controller\Api\SearchTopicController" methods="POST" />
+
+    <route id="search_data" path="/search-data" controller="OnlyTracker\BackEnd\Controller\Api\SearchDataController" methods="GET" />
 
 
     <route id="topic_feature_reload" path="/topics/{topic}/reload" controller="OnlyTracker\BackEnd\Controller\Api\TopicFeatureController::reload" methods="POST" />
 
-    <route id="studio_feature_ban" path="/studios/{studio}/ban" controller="OnlyTracker\BackEnd\Controller\Api\StudioFeatureController::ban" methods="GET|POST" />
+    <route id="studio_ban" path="/studios/{studio}/ban" controller="OnlyTracker\BackEnd\Controller\Api\StudioFeatureController::ban" methods="POST" />
+    <route id="studio_prefer" path="/studios/{studio}/prefer" controller="OnlyTracker\BackEnd\Controller\Api\StudioFeatureController::prefer" methods="POST" />
+    <route id="studio_typical" path="/studios/{studio}/typical" controller="OnlyTracker\BackEnd\Controller\Api\StudioFeatureController::typical" methods="POST" />
 </routes>

@@ -22,6 +22,7 @@ final class StudioGetController
     public function __invoke()
     {
         $studios = $this->studioService->search(null, null);
+        $studios = $this->studioService->groupByFirstLetter($studios);
         $normalized = $this->normalizer->normalize($studios);
 
         return new JsonResponse($normalized);
