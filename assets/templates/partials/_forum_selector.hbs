@@ -1,0 +1,8 @@
+<div class="form-group">
+    <label>Forums</label>
+    <select multiple class="form-control" size="10">
+        {{#each this as | forum |}}
+            <option value="{{ forum.id }}">{{ forum.title }}</option>
+        {{/each}}
+    </select>
+</div>

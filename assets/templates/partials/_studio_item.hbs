@@ -1,0 +1,20 @@
+<li class="studio-list-item" data-id="{{ this.id }}" data-type="{{ this.status }}">
+    <span class="icon-box js-change-studio-status">
+        {{#switch this.status }}
+            {{#case 'typical' }}
+                —
+            {{/case}}
+            {{#case 'banned' }}
+                <i class="fas fa-ban"></i>
+            {{/case}}
+            {{#case 'preferable' }}
+                <i class="far fa-heart"></i>
+            {{/case}}
+        {{/switch}}
+    </span>
+    <span>
+        <a href="/topics?studios={{ this.url }}">
+            {{ this.url }}
+        </a>
+    </span>
+</li>

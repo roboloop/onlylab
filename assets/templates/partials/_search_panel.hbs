@@ -1,0 +1,56 @@
+<div class="container">
+    <form>
+        {{> _forum_selector.hbs forums }}
+        <div class="form-group">
+            <label>Genres &#38;</label>
+            <input type="text" class="form-control" placeholder="Anal &#34;Sex Toys&#34;">
+        </div>
+        <div class="form-group">
+            <label>Studios &#38;</label>
+            <input type="text" class="form-control" placeholder="Holed.com">
+        </div>
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control" placeholder="Tweetney">
+        </div>
+        <div class="form-group">
+            <label>Raw title</label>
+            <input type="text" class="form-control" placeholder="[ManyVids.com] Tweetney">
+        </div>
+        <div class="form-group">
+            <label>Year |</label>
+            <input type="text" class="form-control" placeholder="2020">
+        </div>
+        <div class="form-group">
+            <label>Quality |</label>
+            <input type="text" class="form-control" placeholder="720p 1080p">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+    <hr>
+    <form>
+        {{> _forum_selector.hbs forums }}
+        <div class="form-group">
+            <label>Start page</label>
+            <input type="number" class="form-control" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label>End page</label>
+            <input type="number" class="form-control" placeholder="10">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Load</button>
+    </form>
+    <hr>
+    <form>
+        {{> _forum_selector.hbs forums }}
+        <div class="form-group">
+            <label>Start date</label>
+            <input type="date" class="form-control" placeholder="some">
+        </div>
+        <div class="form-group">
+            <label>End date</label>
+            <input type="date" class="form-control" placeholder="do">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Remove</button>
+    </form>
+</div>

@@ -21,9 +21,17 @@ let routeTo = router.match(window.location.pathname);
 
 // console.log(routeTo);
 switch(routeTo.name) {
+    case 'forums':
+        $.ajax({
+            url: '/api/forums',
+            method: 'GET',
+            dataType: 'JSON',
+        }).then((data, textStatus, jqXHR) => {
+            const forumTemplate = require('../templates/forums.hbs');
+            $('#App').append(forumTemplate({forums: data}));
+        });
+        break;
     case 'genres':
-        // const genreTemplate = require('../templates/genres.hbs');
-
         $.ajax({
             url: '/api/genres',
             method: 'GET',
@@ -40,7 +48,47 @@ switch(routeTo.name) {
             dataType: 'JSON',
         }).then((data, textStatus, jqXHR) => {
             const studioTemplate = require('../templates/studios.hbs');
-            $('#App').append(studioTemplate({studios: data}));
+            $('#App').append(studioTemplate({groups: data}));
+            $('.js-studio-list').on('click', '.js-change-studio-status', e => {
+                const $li = $(e.currentTarget).closest('li');
+                const id = $li.attr('data-id');
+                const type = $li.attr('data-type');
+                switch (type) {
+                    case 'typical':
+                        $.ajax({
+                            url: '/api/studios/' + id + '/prefer',
+                            method: 'POST',
+                            dataType: 'JSON',
+                            context: $li,
+                        }).then((data, textStatus, jqXHR) => {
+                            const studioItem = require('../templates/partials/_studio_item.hbs');
+                            $li.replaceWith(studioItem(data));
+
+                        });
+                        break;
+                    case 'preferable':
+                        $.ajax({
+                            url: '/api/studios/' + id + '/ban',
+                            method: 'POST',
+                            dataType: 'JSON',
+                        }).then((data, textStatus, jqXHR) => {
+                            const studioItem = require('../templates/partials/_studio_item.hbs');
+                            $li.replaceWith(studioItem(data));
+
+                        });
+                        break;
+                    default:
+                        $.ajax({
+                            url: '/api/studios/' + id + '/typical',
+                            method: 'POST',
+                            dataType: 'JSON',
+                        }).then((data, textStatus, jqXHR) => {
+                            const studioItem = require('../templates/partials/_studio_item.hbs');
+                            $li.replaceWith(studioItem(data));
+                        });
+                        break;
+                }
+            });
         });
 
         break;
@@ -88,6 +136,17 @@ switch(routeTo.name) {
                 let link = $('#link').attr('href');
                 copy(link);
             });
+        });
+        break;
+
+    case 'search-data':
+        $.ajax({
+            url: '/api/search-data',
+            method: 'GET',
+            dataType: 'JSON',
+        }).then((data, textStatus, jqXHR) => {
+            const searchTemplate = require('../templates/partials/_search_panel.hbs');
+            $('#App').append(searchTemplate(data));
         });
         break;
     default:

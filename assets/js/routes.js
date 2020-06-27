@@ -30,6 +30,16 @@ export default [
         component: () => '',
     },
     {
+        path: '/forums',
+        name: 'forums',
+        component: () => '<div>Forums page</div>',
+    },
+    {
+        path: '/search-data',
+        name: 'search-data',
+        component: () => '<div>Search data page</div>',
+    },
+    {
         path: '*',
         redirect: '/',
     }

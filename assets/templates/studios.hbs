@@ -1,6 +1,11 @@
-<ul class="list-group">
-    {{#each studios}}
-        <li class="list-group-item">{{ this.url }}</li>
+<ul class="non-styled-list js-studio-list" style="column-count: 5;">
+    {{#each groups as | group |}}
+        <li class="studio-first-letter">
+            {{@key}}
+        </li>
+        {{#each group }}
+            {{> _studio_item.hbs this }}
+        {{/each}}
     {{ else }}
         <p>No studios</p>
     {{/each}}
