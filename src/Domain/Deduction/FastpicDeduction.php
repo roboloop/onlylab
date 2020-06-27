@@ -56,7 +56,7 @@ class FastpicDeduction implements OriginalUrlDeductionInterface
 
         }
 
-        return preg_replace('#^http(?!s)#', 'https', $url);
+        return preg_replace('#^http(?!s)#', 'https', $url ?? $frontUrl);
     }
 
     public function support(string $frontUrl, array $context = []): bool
