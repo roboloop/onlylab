@@ -12,5 +12,7 @@
             <argument type="service" id="only_tracker.client"/>
         </service>
 
+        <service id="OnlyTracker\Infrastructure\Symfony\Normalizer\EnumNormalizer" />
+
     </services>
 </container>
