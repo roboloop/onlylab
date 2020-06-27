@@ -9,10 +9,12 @@ use OnlyTracker\Domain\Entity\Enum\ImageFormat;
 use OnlyTracker\Domain\Factory\ImageFactory;
 use OnlyTracker\Domain\Repository\ImageRepositoryInterface;
 use OnlyTracker\Domain\Service\ImageService;
+use OnlyTracker\Infrastructure\Request\RequestSenderInterface;
 use OnlyTracker\Infrastructure\Util\DateTimeUtil;
 use OnlyTracker\Tests\Stubs\Infrastructure\Fixture\FixtureLoader;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ImageServiceTest extends TestCase
 {
@@ -30,7 +32,10 @@ class ImageServiceTest extends TestCase
         $this->repository   = $this->createMock(ImageRepositoryInterface::class);
         $this->factory      = new ImageFactory($this->repository, new DateTimeUtil);
         $this->urlDeduction = new OriginalUrlDeduction([
-            new FastpicDeduction,
+            new FastpicDeduction(
+                $this->createMock(RequestSenderInterface::class),
+                $this->createMock(HttpClientInterface::class),
+            ),
             new PicshickDeduction,
         ]);
         $this->service      = new ImageService($this->repository, $this->factory, $this->urlDeduction);

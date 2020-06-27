@@ -5,7 +5,9 @@ declare (strict_types=1);
 namespace OnlyTracker\Tests\Domain\Deduction;
 
 use OnlyTracker\Domain\Deduction\FastpicDeduction;
+use OnlyTracker\Infrastructure\Request\RequestSenderInterface;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class FastpicDeductionTest extends TestCase
 {
@@ -13,7 +15,10 @@ class FastpicDeductionTest extends TestCase
 
     protected function setUp()
     {
-        $this->fastpicDeduction = new FastpicDeduction;
+        $this->fastpicDeduction = new FastpicDeduction(
+            $this->createMock(RequestSenderInterface::class),
+            $this->createMock(HttpClientInterface::class),
+        );
     }
 
     /**

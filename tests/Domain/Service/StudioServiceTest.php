@@ -77,4 +77,18 @@ class StudioServiceTest extends TestCase
 
         return $ids ?? [];
     }
+
+    private function makeStudio(string $url, ?StudioStatus $status = null): Studio
+    {
+        if (null === $status) {
+            $status = StudioStatus::typical();
+        }
+
+        return new Studio(
+            Uuid::uuid4()->toString(),
+            $url,
+            $status,
+            new \DateTimeImmutable(),
+        );
+    }
 }
