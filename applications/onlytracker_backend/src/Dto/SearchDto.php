@@ -20,6 +20,7 @@ class SearchDto implements IncomingDataInterface
     private $genreTitles;
     private $isApproved;
     private $qualities;
+    private $years;
 
     public function __construct()
     {
@@ -63,5 +64,10 @@ class SearchDto implements IncomingDataInterface
     public function qualities()
     {
         return $this->qualities;
+    }
+
+    public function years()
+    {
+        return $this->years;
     }
 }
