@@ -6,6 +6,7 @@ use OnlyTracker\Domain\Entity\Enum\StudioStatus;
 use OnlyTracker\Domain\Entity\Studio;
 use OnlyTracker\Domain\Factory\StudioFactory;
 use OnlyTracker\Domain\Repository\StudioRepositoryInterface;
+use OnlyTracker\Infrastructure\Util\ObjectArrayModifier;
 
 class StudioService
 {
@@ -55,7 +56,7 @@ class StudioService
         $this->studioRepository->save($studio);
     }
 
-    public function unban(Studio $studio)
+    public function typical(Studio $studio)
     {
         $studio->unban();
 
@@ -88,6 +89,20 @@ class StudioService
         }
 
         return $this->studioRepository->findBy($criteria, ['url' => 'ASC']);
+    }
+
+    /**
+     * @param \OnlyTracker\Domain\Entity\Studio[] $studios
+     *
+     * @return \OnlyTracker\Domain\Entity\Studio[]
+     */
+    public function groupByFirstLetter(array $studios): array
+    {
+        $closure = function (Studio $studio) {
+            return $studio->getUrl();
+        };
+
+        return ObjectArrayModifier::groupByFirstLetter($studios, $closure);
     }
 
     private function filterUrls(array $urls)
