@@ -11,20 +11,46 @@ class RepositoryUtil
 {
     public function orLikeExpr(array $values, string $field, $type = null)
     {
-        $prefix = str_replace('.', '_', $field);
+        return $this->likeExpr($values, $field, $type, ' OR ', false);
+    }
 
-        $params = $args = $orLike = [];
+    public function orNotLikeExpr(array $values, string $field, $type = null)
+    {
+        return $this->likeExpr($values, $field, $type, ' OR ', true);
+    }
+
+    public function andLikeExpr(array $values, string $field, $type = null)
+    {
+        return $this->likeExpr($values, $field, $type, ' AND ', false);
+    }
+
+    public function andNotLikeExpr(array $values, string $field, $type = null)
+    {
+        return $this->likeExpr($values, $field, $type, ' AND ', true);
+    }
+
+    private function likeExpr(array $values, string $field, $type, string $glue, bool $isNot)
+    {
+        $prefix = str_replace('.', '_', $field);
+        $not = $isNot ? 'NOT' : '';
+        $params = $args = $like = [];
         for ($i = 0; $i < count($values); $i++) {
             $params[]   = $param = $prefix . $i;
-            $orLike[]   = "$field LIKE :$param";
+            $like[]     = "$field $not LIKE :$param";
             $args[]     = new Parameter($param, '%' . $values[$i] . '%', $type);
         }
 
-        $orLike = implode(' OR ', $orLike);
+        $glued = implode($glue, $like);
 
-        return [$orLike, $params, $args];
+        return [$glued, $params, $args];
     }
 
+    /**
+     * @param \Doctrine\ORM\QueryBuilder      $qb
+     * @param string                          $predicate
+     * @param string[]                        $params
+     * @param \Doctrine\ORM\Query\Parameter[] $args
+     */
     public function andWhere(QueryBuilder $qb, string $predicate, array $params, array $args)
     {
         $qb->andWhere($predicate);

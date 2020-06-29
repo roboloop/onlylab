@@ -20,4 +20,6 @@ interface TopicRepositoryInterface extends RepositoryInterface, IdGeneratorInter
      * @return \OnlyTracker\Domain\Entity\Topic[]
      */
     public function search(TopicSearchCriteria $criteria);
+
+    public function totalTopics(): int;
 }

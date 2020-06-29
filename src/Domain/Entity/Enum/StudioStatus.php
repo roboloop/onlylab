@@ -26,4 +26,13 @@ final class StudioStatus extends Enum
     {
         return new static(static::PREFERABLE);
     }
+
+    public static function all(): array
+    {
+        return [
+            self::TYPICAL,
+            self::PREFERABLE,
+            self::BANNED,
+        ];
+    }
 }

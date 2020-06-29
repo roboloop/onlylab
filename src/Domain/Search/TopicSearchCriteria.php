@@ -7,20 +7,21 @@ namespace OnlyTracker\Domain\Search;
 use Assert\Assert;
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
 
-class TopicSearchCriteria
+final class TopicSearchCriteria
 {
-    private $topicsIds;
-    private $forumIds;
-    private $rawTitles;
-    private $studioIds;
-    private $studioUrls;
-    private $studioStatuses;
-    private $genreIds;
-    private $genreTitles;
-    private $isApproved;
-    private $titles;
-    private $orders;
-    private $qualities;
+    private ?array $topicsIds       = null;
+    private ?array $forumIds        = null;
+    private ?array $rawTitles       = null;
+    private ?array $studioIds       = null;
+    private ?array $studioUrls      = null;
+    private ?array $studioStatuses  = null;
+    private ?array $genreIds        = null;
+    private ?array $genreTitles     = null;
+    private ?bool $isApproved       = null;
+    private ?array $titles          = null;
+    private ?array $orders          = null;
+    private ?array $qualities       = null;
+    private ?array $years           = null;
 
     public static function make()
     {
@@ -247,6 +248,20 @@ class TopicSearchCriteria
         Assert::thatAll($qualities)->nullOr()->string();
 
         $this->qualities = $qualities;
+
+        return $this;
+    }
+
+    public function getYears(): ?array
+    {
+        return $this->years;
+    }
+
+    public function setYears(?array $years): self
+    {
+        Assert::thatAll($years)->nullOr()->string();
+
+        $this->years = $years;
 
         return $this;
     }

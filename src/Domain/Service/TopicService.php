@@ -63,12 +63,6 @@ class TopicService
         return array_shift($found);
     }
 
-    public function search(?string $title, ?string $year, ?string $quality)
-    {
-        // TODO:
-        return $this->topicRepository->search(new TopicSearchCriteria);
-    }
-
     public function searchByCriteria(TopicSearchCriteria $criteria)
     {
         return $this->topicRepository->search($criteria);
