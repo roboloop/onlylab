@@ -4,31 +4,77 @@ declare (strict_types = 1);
 
 namespace OnlyTracker\BackEnd\Dto;
 
+use OnlyTracker\Infrastructure\Symfony\Constraints as AppConstraints;
 use OnlyTracker\Shared\Infrastructure\Symfony\ArgumentResolver\IncomingDataInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class SearchDto implements IncomingDataInterface
 {
     /**
-     * @Assert\NotBlank()
+     * @Assert\Type("array")
+     * @Assert\All({
+     *     @Assert\NotBlank,
+     *     @Assert\Type("string")
+     * })
      */
-    private $forumIds;
+    private $forums;
+
+    /**
+     * @AppConstraints\QueryString()
+     */
+    private $genres;
+
+    /**
+     * @AppConstraints\QueryString()
+     */
+    private $studios;
+
+    /**
+     * @AppConstraints\QueryString()
+     */
     private $title;
-    private $rawTitles;
-    private $studioUrls;
-    private $studioStatuses;
-    private $genreTitles;
-    private $isApproved;
-    private $qualities;
+
+    /**
+     * @AppConstraints\QueryString()
+     */
+    private $rawTitle;
+
+    /**
+     * @AppConstraints\QueryString()
+     */
     private $years;
 
-    public function __construct()
+    /**
+     * @AppConstraints\QueryString()
+     */
+    private $qualities;
+
+    /**
+     * @Assert\Type("array")
+     * @Assert\All({
+     *     @Assert\NotBlank,
+     *     @Assert\Choice({
+     *         \OnlyTracker\Domain\Entity\Enum\StudioStatus::TYPICAL,
+     *         \OnlyTracker\Domain\Entity\Enum\StudioStatus::BANNED,
+     *         \OnlyTracker\Domain\Entity\Enum\StudioStatus::PREFERABLE
+     *     })
+     * })
+     */
+    private $studioStatuses;
+
+    public function forums()
     {
+        return $this->forums;
     }
 
-    public function forumIds()
+    public function genres()
     {
-        return $this->forumIds;
+        return $this->genres;
+    }
+
+    public function studios()
+    {
+        return $this->studios;
     }
 
     public function title()
@@ -36,29 +82,14 @@ class SearchDto implements IncomingDataInterface
         return $this->title;
     }
 
-    public function rawTitles()
+    public function rawTitle()
     {
-        return $this->rawTitles;
+        return $this->rawTitle;
     }
 
-    public function studioUrls()
+    public function years()
     {
-        return $this->studioUrls;
-    }
-
-    public function studioStatuses()
-    {
-        return $this->studioStatuses;
-    }
-
-    public function genreTitles()
-    {
-        return $this->genreTitles;
-    }
-
-    public function isApproved()
-    {
-        return $this->isApproved;
+        return $this->years;
     }
 
     public function qualities()
@@ -66,8 +97,8 @@ class SearchDto implements IncomingDataInterface
         return $this->qualities;
     }
 
-    public function years()
+    public function studioStatuses()
     {
-        return $this->years;
+        return $this->studioStatuses;
     }
 }
