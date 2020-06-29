@@ -90,6 +90,26 @@ return [
             'lobn' => '6486',
         ],
     ],
+    [
+        '[tptqgf\'h cmj euxgdq jfoh / komvipfvrfcc.zzs / zycyi6hvdb.zzs] pdcbd bjqgqnf (phdribxh nv aukoeajt hfkemq ekczlm pzktj feh tnbqrq olausgxdjs) [3889, pha pfin, qekhzyl, byk, vwvbq, bsse, 0614g]',
+        [
+            'oekldz' => [
+                'pha pfin',
+                'qekhzyl',
+                'byk',
+                'vwvbq',
+                'bsse',
+            ],
+            'mlybzqsqmlxhm' => 'pdcbd bjqgqnf (phdribxh nv aukoeajt hfkemq ekczlm pzktj feh tnbqrq olausgxdjs)',
+            'thkyxai' => '0614g',
+            'sdxbldv' => [
+                'tptqgf\'h cmj euxgdq jfoh',
+                'komvipfvrfcc.zzs',
+                'zycyi6hvdb.zzs'
+            ],
+            'lobn' => '3889',
+        ],
+    ],
     // svbnkok rtdqyu
     [
         '[zuqluub.zzs / sblcnlxerhtk.zzs] kaskc nwcip - kaskc jtds dy j pctsqd (65.72.3889 l., asmy, lcd feh, ohjjvqc, 0614g]',

@@ -31,6 +31,10 @@ class QuerySearchHandlerTest extends TestCase
     {
         return [
             [
+                '',
+                [ ]
+            ],
+            [
                 '   ',
                 [ ],
             ],
@@ -65,7 +69,7 @@ class QuerySearchHandlerTest extends TestCase
                 ],
             ],
             [
-                'lets "go"  "see awesome" movie',
+                ' "lets" "go  "  "see awesome" movie',
                 [
                     'lets',
                     'go',

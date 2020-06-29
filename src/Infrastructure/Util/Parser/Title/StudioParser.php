@@ -11,7 +11,7 @@ class StudioParser
      */
     public function parse(string $content)
     {
-        preg_match('~^\s*\[([a-zA-Z0-9\/\\\.\s_\(\)\-!]+?)\]~', $content, $matches);
+        preg_match('~^\s*\[([a-zA-Z0-9\/\\\.\s_\(\)\-!\']+?)\]~', $content, $matches);
 
         if (!isset($matches[1])) {
             return [];
@@ -24,8 +24,12 @@ class StudioParser
             return !empty($value);
         }));
 
+        // $notUrls = array_filter($withAliases, function (string $value) {
+        //     return (bool) preg_match('#\.#', $value);
+        // });
+
         $notFlatten = array_map(function ($value) {
-            preg_match('~([a-zA-Z0-9_\-\.]*)\s*(?:\(([a-zA-Z0-9_\-\.]*)\))*~', $value, $res);
+            preg_match('~([a-zA-Z0-9_\-\.\'\s]*)\s*(?:\(([a-zA-Z0-9_\-\.\'\s]*)\))*~', $value, $res);
             array_shift($res);
             return $res;
         }, $withAliases);

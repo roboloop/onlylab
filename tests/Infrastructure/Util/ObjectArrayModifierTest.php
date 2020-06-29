@@ -19,14 +19,6 @@ class ObjectArrayModifierTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
-    // public function testNotStringData()
-    // {
-    //     $this->expectException(LogicException::class);
-    //     $this->expectExceptionMessage('Only strings can be grouped');
-    //
-    //     ObjectArrayModifier::groupByFirstLetter(['value1', 'value2', 3]);
-    // }
-
     public function dataGroupByFirstLetter()
     {
         return [
