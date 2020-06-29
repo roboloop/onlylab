@@ -10,6 +10,9 @@ import 'bootstrap';
 import VueRouter from 'vue-router'
 import routes from './routes';
 
+// Custom scripts
+import Search from './search';
+
 // Logic
 let router = new VueRouter({
     mode: 'history',
@@ -146,7 +149,11 @@ switch(routeTo.name) {
             dataType: 'JSON',
         }).then((data, textStatus, jqXHR) => {
             const searchTemplate = require('../templates/partials/_search_panel.hbs');
-            $('#App').append(searchTemplate(data));
+            let $app = $('#App').append(searchTemplate(data));
+            $app.find('#studio-status-typical').prop('checked', true);
+            $app.find('#studio-status-preferable').prop('checked', true);
+
+            let $searchModule = new Search($app.find('#search-block'));
         });
         break;
     default:
