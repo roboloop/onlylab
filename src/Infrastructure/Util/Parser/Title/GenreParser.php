@@ -25,7 +25,11 @@ class GenreParser
 
         // Except:
         // 4k, 5k, UltraHD, two number together, months
-        $except = implode('|', array_merge($this->qualities(), $this->months()));
+        $except = implode('|', array_merge(
+            $this->qualities(),
+            $this->months(),
+            $this->reservedWords(),
+        ));
         $filtered = preg_grep("~$except~iu", $splitted, PREG_GREP_INVERT);
 
         // Check, if genres separated by space-symbol.
@@ -64,6 +68,13 @@ class GenreParser
            'october',
            'november',
            'december'
+        ];
+    }
+
+    private function reservedWords()
+    {
+        return [
+            'SiteRip',
         ];
     }
 }
