@@ -5,6 +5,7 @@ declare (strict_types = 1);
 namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
@@ -28,11 +29,12 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
         return Uuid::random();
     }
 
-    public function totalTopics(): int
+    public function totalTopics(Criteria $criteria): int
     {
         return (int) $this->entityManager->createQueryBuilder()
             ->select('COUNT(t.id)')
             ->from($this->entityClass, 't')
+            ->addCriteria($criteria)
             ->getQuery()
             ->getSingleScalarResult();
     }

@@ -2,6 +2,7 @@
 
 namespace OnlyTracker\Domain\Repository;
 
+use Doctrine\Common\Collections\Criteria;
 use OnlyTracker\Domain\Search\TopicSearchCriteria;
 use OnlyTracker\Domain\Shared\RepositoryInterface;
 use OnlyTracker\Domain\Shared\IdGeneratorInterface;
@@ -21,5 +22,5 @@ interface TopicRepositoryInterface extends RepositoryInterface, IdGeneratorInter
      */
     public function search(TopicSearchCriteria $criteria);
 
-    public function totalTopics(): int;
+    public function totalTopics(Criteria $criteria): int;
 }

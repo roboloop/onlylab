@@ -2,6 +2,7 @@
 
 namespace OnlyTracker\Domain\Service;
 
+use Doctrine\Common\Collections\Criteria;
 use OnlyTracker\Domain\Entity\Forum;
 use OnlyTracker\Domain\Entity\ObjectValue\Size;
 use OnlyTracker\Domain\Entity\Topic;
@@ -51,7 +52,7 @@ class TopicService
         return array_filter($found, fn(Topic $related) => $related->getId() !== $topic->getId());
     }
 
-    public function getFullTopicById($topicId): Topic
+    public function getFullTopicById($topicId): ?Topic
     {
         $criteria = (new TopicSearchCriteria)
             ->setTopicIds([
@@ -66,5 +67,17 @@ class TopicService
     public function searchByCriteria(TopicSearchCriteria $criteria)
     {
         return $this->topicRepository->search($criteria);
+    }
+
+    public function totalTopics(): int
+    {
+        return $this->topicRepository->totalTopics(new Criteria());
+    }
+
+    public function totalLoadedTopics(): int
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('isLoaded', true));
+
+        return $this->topicRepository->totalTopics($criteria);
     }
 }
