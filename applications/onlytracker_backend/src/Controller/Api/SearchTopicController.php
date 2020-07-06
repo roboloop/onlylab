@@ -36,8 +36,6 @@ final class SearchTopicController
 
     public function __invoke(SearchDto $dto)
     {
-        // TODO:
-
         $criteria = $this->makeCriteriaFromDto($dto);
         $topics = $this->topicService->searchByCriteria($criteria);
 
