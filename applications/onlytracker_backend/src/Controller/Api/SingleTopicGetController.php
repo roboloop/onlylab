@@ -63,7 +63,7 @@ class SingleTopicGetController
 
         // Reorder images
         $images = $topic->getImages();
-        usort($images, fn(Image $a, Image $b) => $b->getFormat()->value() <=> $a->getFormat()->value());
+        usort($images, fn(Image $a, Image $b) => (string) $a->getFormat() <=> (string) $b->getFormat());
         $normalized['images'] = $this->normalizer->normalize($images, null, $context);
 
         // $normalized['images'] = [
