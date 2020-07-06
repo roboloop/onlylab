@@ -23,7 +23,7 @@ class FastpicDeduction implements OriginalUrlDeductionInterface
             if (!empty($context['reference'])) {
                 $url = $context['reference'];
                 $response = $this->httpClient->request('GET', $url, [
-                    'max_redirects' => 0,
+                    'max_redirects' => 3,
                     'headers' => ['accept' => 'text/html'],
                 ]);
 
