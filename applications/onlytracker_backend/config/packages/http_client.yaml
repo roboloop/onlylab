@@ -1,5 +1,9 @@
 framework:
     http_client:
+        default_options:
+            max_redirects: 0
+            proxy: '%env(SOCK5_PROXY)%'
+
         scoped_clients:
             only_tracker.client:
                 base_uri: '%env(ONLY_TRACKER_URL)%'
