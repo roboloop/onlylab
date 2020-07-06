@@ -24,8 +24,8 @@ export default class Search {
         const studios = this.$wrapper.find('#search-studios').val();
         const title = this.$wrapper.find('#search-title').val();
         const rawTitle =  this.$wrapper.find('#search-raw-title').val();
-        const year = this.$wrapper.find('#search-year').val();
-        const quality = this.$wrapper.find('#search-quality').val();
+        const years = this.$wrapper.find('#search-years').val();
+        const qualities = this.$wrapper.find('#search-qualities').val();
 
         let studioStatuses = [];
         this.$wrapper.find('.js-studio-status-checkbox:checked').each((index, el) => {
@@ -41,8 +41,8 @@ export default class Search {
             studios,
             title,
             rawTitle,
-            year,
-            quality,
+            years,
+            qualities,
             studioStatuses
         };
 
