@@ -35,8 +35,8 @@ export default [
         component: () => '<div>Forums page</div>',
     },
     {
-        path: '/search-data',
-        name: 'search-data',
+        path: '/search',
+        name: 'search',
         component: () => '<div>Search data page</div>',
     },
     {

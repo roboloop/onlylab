@@ -142,13 +142,13 @@ switch(routeTo.name) {
         });
         break;
 
-    case 'search-data':
+    case 'search':
         $.ajax({
             url: '/api/search-data',
             method: 'GET',
             dataType: 'JSON',
         }).then((data, textStatus, jqXHR) => {
-            const searchTemplate = require('../templates/partials/_search_panel.hbs');
+            const searchTemplate = require('../templates/search.hbs');
             let $app = $('#App').append(searchTemplate(data));
             $app.find('#studio-status-typical').prop('checked', true);
             $app.find('#studio-status-preferable').prop('checked', true);
