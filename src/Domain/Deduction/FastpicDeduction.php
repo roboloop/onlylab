@@ -9,12 +9,12 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class FastpicDeduction implements OriginalUrlDeductionInterface
 {
     private RequestSenderInterface $requestSender;
-    private HttpClientInterface $onlyTrackerClient;
+    private HttpClientInterface $httpClient;
 
-    public function __construct(RequestSenderInterface $requestSender, HttpClientInterface $onlyTrackerClient)
+    public function __construct(RequestSenderInterface $requestSender, HttpClientInterface $httpClient)
     {
         $this->requestSender = $requestSender;
-        $this->onlyTrackerClient = $onlyTrackerClient;
+        $this->httpClient = $httpClient;
     }
 
     public function deduct(string $frontUrl, array $context = [])
@@ -22,37 +22,21 @@ class FastpicDeduction implements OriginalUrlDeductionInterface
         try {
             if (!empty($context['reference'])) {
                 $url = $context['reference'];
-                if (preg_match('#\.(?:jpeg|jpg|png)$#', $url)) {
-                    $response = $this->onlyTrackerClient->request('GET', $url, [
-                        'max_redirects' => 0,
-                        'headers' => ['accept' => 'text/html'],
-                    ]);
-                    if ($response->getStatusCode() === 302) {
-                        $url = $response->getHeaders(false)['location'][0];
-                    }
-                }
+                $response = $this->httpClient->request('GET', $url, [
+                    'max_redirects' => 0,
+                    'headers' => ['accept' => 'text/html'],
+                ]);
 
-                $content = $this->requestSender->sendRaw($url);
+                $content = $response->getContent();
 
-                $script = (new Crawler($content))->filterXPath('//body/script[contains(text(), "loading_img")]');
+                $imgUrl = (new Crawler($content))->filterXPath('//body//img[contains(@src, "/big/")]');
+                if ($imgUrl->count()) {
+                    $value = $imgUrl->getNode(0)->attributes->getNamedItem('src')->nodeValue;
 
-                if ($script->count()) {
-                    $value = $script->getNode(0)->nodeValue;
-                    preg_match('#http[^\']+#', $value, $matched);
-                    if ($matched[0]) {
-                        return $matched[0];
-                    }
-                }
-
-                if (preg_match('#\.html$#', $url)) {
-                    $frontUrl = preg_replace('~thumb~', 'big', $frontUrl);
-                    $frontUrl = preg_replace('~jpeg$~', 'jpg', $frontUrl);
-                    // $url = preg_replace('~\.html$~', '', $frontUrl);
-
-                    return $frontUrl . '?noht=1';
+                    return $value;
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
 
         }
 
