@@ -32,3 +32,7 @@ header.topic-header > h2 {
 a:visited {
     color: #636;
 }
+
+.form-control::-webkit-input-placeholder {
+    opacity: 0.5;
+}
