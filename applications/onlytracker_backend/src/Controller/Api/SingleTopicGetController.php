@@ -34,21 +34,16 @@ class SingleTopicGetController
         $this->topicService = $topicService;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(string $id)
     {
-        // $topic = $this->topicRepository->find($request->attributes->get('topic'));
-        $topic = $this->topicService->getFullTopicById($request->attributes->get('topic'));
+        $topic = $this->topicService->getFullTopicById($id);
 
-        if (null === $topic) {
-            return new JsonResponse(null, 404);
-        }
-
-        if (!$topic->isLoaded()) {
-            $request = new TopicPageRequest($topic->getId());
+        if (null === $topic || !$topic->isLoaded()) {
+            $request = new TopicPageRequest($id);
             try {
                 $content = $this->requestSender->send($request);
                 $this->topicPageHandler->handle($content);
-                $topic = $this->topicService->getFullTopicById($topic->getId());
+                $topic = $this->topicService->getFullTopicById($id);
             } catch (ExceptionInterface $e) {
                 return new JsonResponse(null, 500);
             }
