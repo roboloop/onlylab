@@ -23,7 +23,7 @@ final class TopicSearchCriteria
     private ?array $qualities       = null;
     private ?array $years           = null;
     private int $page               = 1;
-    private int $perPage            = 500;
+    private int $perPage            = 250;
 
     public static function make()
     {
