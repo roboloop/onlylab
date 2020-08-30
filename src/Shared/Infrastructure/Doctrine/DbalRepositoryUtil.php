@@ -8,9 +8,9 @@ use Doctrine\DBAL\Query\QueryBuilder;
 
 final class DbalRepositoryUtil
 {
-    public function orLikeExpr(array $values, string $field, $type = null)
+    public function orLikeExpr(array $values, string $field, string $pr = '', $type = null)
     {
-        $prefix = str_replace('.', '_', $field);
+        $prefix = $pr . str_replace('.', '_', $field);
         $args = $like = [];
         for ($i = 0; $i < count($values); $i++) {
             $param  = ':' . $prefix . $i;

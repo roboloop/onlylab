@@ -427,18 +427,44 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
     private function addRawStudioStatusesLikeExpr(NativeQueryBuilder $qb, array $values)
     {
-        $subQb = $this->createNativeQueryBuilder();
-        $subQb
+        // Only checked
+        $markedQb = $this->createNativeQueryBuilder();
+        $markedQb
             ->select('st.topic_id')
             ->from('studios', 's')
             ->innerJoin('s', 'studio_topic', 'st', 's.id = st.studio_id')
         ;
 
-        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 's.status');
-        $this->dbalUtil->andWhere($subQb, $sqlPart, $args);
+        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 's.status', 'mark');
+        $this->dbalUtil->andWhere($markedQb, $sqlPart, $args);
+        $markedSql = $markedQb->getSQL();
 
-        $sql = $subQb->getSQL();
-        $qb->andWhere("t.id IN ($sql)");
-        $this->dbalUtil->mergeParameters($qb, $subQb);
+        $qb->andWhere("t.id IN ($markedSql)");
+        $this->dbalUtil->mergeParameters($qb, $markedQb);
+        
+
+        // Only non checked
+        $noMarkedQb = $this->createNativeQueryBuilder();
+        $noMarkedQb
+            ->select('st.topic_id')
+            ->from('studios', 's')
+            ->innerJoin('s', 'studio_topic', 'st', 's.id = st.studio_id')
+        ;
+        
+        $invert = array_values(array_diff(
+            StudioStatus::ALL_STATUSES,
+            array_map(fn (StudioStatus $status) => (string) $status, $values)
+        ));
+        
+        if (empty($invert)) {
+            return;
+        }
+        
+        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($invert, 's.status', 'nomark');
+        $this->dbalUtil->andWhere($noMarkedQb, $sqlPart, $args);
+        $noMarkedSql = $noMarkedQb->getSQL();
+        
+        $qb->andWhere("t.id NOT IN ($noMarkedSql)");
+        $this->dbalUtil->mergeParameters($qb, $noMarkedQb);
     }
 }
