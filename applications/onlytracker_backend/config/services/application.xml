@@ -34,6 +34,7 @@
             <argument type="service" id="OnlyTracker\Application\CRUD\TopicCreation" />
             <argument type="service" id="OnlyTracker\Application\Parser\ForumHtmlParser" />
             <argument type="service" id="OnlyTracker\Infrastructure\Doctrine\Repository\TopicDoctrineRepository" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
         <service id="OnlyTracker\Application\Handler\TransactionalForumPageHandler">
             <argument type="service" id="OnlyTracker\Application\Handler\ForumPageHandler" />
