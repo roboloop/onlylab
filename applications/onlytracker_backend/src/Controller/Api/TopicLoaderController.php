@@ -25,6 +25,8 @@ final class TopicLoaderController
     
     public function __invoke(LoadDto $dto)
     {
+        dd($this->forumPageHandler);
+        
         if (empty($dto->forums())) {
             return new Response('No forums');
         }
@@ -48,7 +50,7 @@ final class TopicLoaderController
                     } catch (\Throwable $throwable) {
                         
                     }
-                    sleep(2);
+                    sleep(3);
                 }
             }
         });
