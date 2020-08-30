@@ -442,7 +442,6 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
         $qb->andWhere("t.id IN ($markedSql)");
         $this->dbalUtil->mergeParameters($qb, $markedQb);
         
-
         // Only non checked
         $noMarkedQb = $this->createNativeQueryBuilder();
         $noMarkedQb
