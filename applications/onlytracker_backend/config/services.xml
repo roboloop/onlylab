@@ -78,6 +78,9 @@
             <argument type="service" id="http_client" />
             <tag name="only_tracker.domain.deduction.original_url_deduction.tag" />
         </service>
+        <service id="OnlyTracker\Domain\Deduction\ImgboxDeduction">
+            <tag name="only_tracker.domain.deduction.original_url_deduction.tag" />
+        </service>
 
         <service id="OnlyTracker\Domain\Deduction\PicshickDeduction">
             <tag name="only_tracker.domain.deduction.original_url_deduction.tag" />
