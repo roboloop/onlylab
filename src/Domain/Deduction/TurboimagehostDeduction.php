@@ -23,7 +23,7 @@ class TurboimagehostDeduction implements OriginalUrlDeductionInterface
             return $frontUrl;
         }
 
-        $request = new class($context['reference']) implements RequestInterface{
+        $request = new class($context['reference']) implements RequestInterface {
             private string $reference;
             public function __construct(string $reference) {
                 $this->reference = $reference;
