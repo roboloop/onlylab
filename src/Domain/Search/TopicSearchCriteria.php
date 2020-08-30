@@ -22,6 +22,8 @@ final class TopicSearchCriteria
     private ?array $orders          = null;
     private ?array $qualities       = null;
     private ?array $years           = null;
+    private int $page               = 1;
+    private int $perPage            = 500;
 
     public static function make()
     {
@@ -285,5 +287,45 @@ final class TopicSearchCriteria
     public function getOrders(): ?array
     {
 
+    }
+
+    public function setPage(?int $page): self
+    {
+        if (null === $page) {
+            return $this;
+        }
+        
+        if ($page < 1) {
+            throw new \InvalidArgumentException('Page cannot be less than 1');
+        }
+        
+        $this->page = $page;
+        
+        return $this;
+    }
+
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    public function setPerPage(?int $perPage): self
+    {
+        if (null === $perPage) {
+            return $this;
+        }
+        
+        if ($perPage < 1) {
+            throw new \InvalidArgumentException('Per page cannot be less than 1');
+        }
+        
+        $this->perPage = $perPage;
+        
+        return $this;
+    }
+
+    public function getPerPage(): int
+    {
+        return $this->perPage;
     }
 }

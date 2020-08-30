@@ -6,11 +6,13 @@ namespace OnlyTracker\Infrastructure\Doctrine\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Parameter;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\DBAL\Query\QueryBuilder as NativeQueryBuilder;
+use Doctrine\ORM\Tools\Pagination\CountWalker;
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
-use OnlyTracker\Domain\Entity\Genre;
 use OnlyTracker\Domain\Entity\Topic;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
 use OnlyTracker\Domain\Search\TopicSearchCriteria;
@@ -26,7 +28,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
     public function nextIdentity(): string
     {
-        return Uuid::random();
+        return (string) Uuid::random();
     }
 
     public function totalTopics(Criteria $criteria): int
@@ -39,7 +41,148 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->getSingleScalarResult();
     }
 
-    public function search(TopicSearchCriteria $criteria)
+    public function searchTotal(TopicSearchCriteria $criteria): int
+    {
+         return (int) $this->searchQueryBuilder($criteria)
+             ->getQuery()
+             ->setFirstResult(null)
+             ->setMaxResults(null)
+             ->setHint(Query::HINT_CUSTOM_TREE_WALKERS, [CountWalker::class])
+             ->getSingleScalarResult()
+            ;
+    }
+
+    public function search(TopicSearchCriteria $criteria): array
+    {
+        return $this->searchQueryBuilder($criteria)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchQueryBuilder(TopicSearchCriteria $criteria): QueryBuilder
+    {
+        $offset = ($criteria->getPage() - 1) * $criteria->getPerPage();
+        $limit = $criteria->getPerPage();
+        
+        $qb = $this->createNativeQueryBuilder();
+        
+        $qb
+            // ->select('t.*', 'f.*', 'st.*', 's.*', 'gt.*', 'g.*', 'i.*')
+            ->distinct()
+            ->select('t.id')
+            ->from('topics', 't')
+            ->leftJoin('t', 'forums', 'f', 'f.id = t.forum_id')
+            ->leftJoin('t', 'studio_topic', 'st', 't.id = st.topic_id')
+            ->leftJoin('st', 'studios', 's', 's.id = st.studio_id')
+            ->leftJoin('t', 'genre_topic', 'gt', 't.id = gt.topic_id')
+            ->leftJoin('gt', 'genres', 'g', 'g.id = gt.genre_id')
+            ->leftJoin('t', 'images', 'i', 't.id = i.topic_id')
+            ->addOrderBy('t.created_at', 'DESC')
+            ->addOrderBy('g.title', 'ASC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+        ;
+
+        // Identifiers
+        if (null !== $criteria->getTopicsIds()) {
+            $qb->andWhere('t.id IN (:topicIds)');
+            $qb->setParameter(':topicIds', $criteria->getTopicsIds(), Connection::PARAM_INT_ARRAY);
+        }
+        
+        if (null !== $criteria->getForumIds()) {
+            $qb->andWhere('t.forum_id IN (:forumIds)');
+            $qb->setParameter(':forumIds', $criteria->getForumIds(), Connection::PARAM_INT_ARRAY);
+        }
+        // End of Identifiers
+        
+        // Parsed title
+        if (null !== $criteria->getTitles()) {
+            [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($criteria->getTitles(), 't.title');
+            $this->dbalUtil->andWhere($qb, $sqlPart, $args);
+        }
+        
+        if (null !== $criteria->getRawTitles()) {
+            [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($criteria->getRawTitles(), 't.raw_title');
+            $this->dbalUtil->andWhere($qb, $sqlPart, $args);
+        }
+        
+        if (null !== $criteria->getYears()) {
+            [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($criteria->getYears(), 't.year');
+            $this->dbalUtil->andWhere($qb, $sqlPart, $args);
+        }
+        
+        if (null !== $criteria->getQualities()) {
+            [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($criteria->getQualities(), 't.quality');
+            $this->dbalUtil->andWhere($qb, $sqlPart, $args);
+        }
+        // End of Parsed title
+        
+        // Genres
+        if (null !== $criteria->getGenreTitles()) {
+            $this->addRawGenreLikeExpr($qb, $criteria->getGenreTitles());
+        }
+        
+        // Studios
+        if (null !== $criteria->getStudioUrls()) {
+            $this->addRawStudioLikeExpr($qb, $criteria->getStudioUrls());
+        }
+        
+        if (null !== ($values = $criteria->getStudioStatuses()) && count($values)) {
+            $this->addRawStudioStatusesLikeExpr($qb, $values);
+        }
+
+        // $rsm = new ResultSetMappingBuilder($this->entityManager, ResultSetMappingBuilder::COLUMN_RENAMING_INCREMENT);
+        // $rsm->addRootEntityFromClassMetadata(Topic::class, 't');
+        // $rsm->addJoinedEntityFromClassMetadata(Image::class, 'i', 't', 'images');
+        // $rsm->addJoinedEntityFromClassMetadata(Forum::class, 'f', 't', 'forum');
+        // $rsm->addJoinedEntityFromClassMetadata(Studio::class, 's', 't', 'studios');
+        // $rsm->addJoinedEntityFromClassMetadata(Genre::class, 'g', 't', 'genres');
+        //
+        // $subSql = $qb->getSQL();
+        // $sql = $this
+        //     ->createNativeQueryBuilder()
+        //     ->select((string) $rsm)
+        //     ->from('topics', 't')
+        //     ->leftJoin('t', 'forums', 'f', 'f.id = t.forum_id')
+        //     ->leftJoin('t', 'studio_topic', 'st', 't.id = st.topic_id')
+        //     ->leftJoin('st', 'studios', 's', 's.id = st.studio_id')
+        //     ->leftJoin('t', 'genre_topic', 'gt', 't.id = gt.topic_id')
+        //     ->leftJoin('gt', 'genres', 'g', 'g.id = gt.genre_id')
+        //     ->leftJoin('t', 'images', 'i', 't.id = i.topic_id')
+        //     ->where("t.id IN ($subSql)")
+        //     ->setParameters($qb->getParameters(), $qb->getParameterTypes())
+        //     ->setFirstResult($offset)
+        //     ->setMaxResults($limit)
+        //     ->getSQL();
+        //
+        // return $this->entityManager->createNativeQuery($sql, $rsm)
+        //     ->setParameters($qb->getParameters())
+        //     ->getResult();
+
+        $ids = array_column($qb->execute()->fetchAll(), 'id');
+        
+        return $this->entityManager
+            ->createQueryBuilder()
+            ->select('t', 'f', 's', 'g', 'i')
+            ->from($this->entityClass, 't')
+            ->leftJoin('t.forum', 'f')
+            ->leftJoin('t.studios', 's')
+            ->leftJoin('t.genres', 'g')
+            ->leftJoin('t.images', 'i')
+            ->andWhere('t.id IN (:ids)')
+            ->addOrderBy('t.createdAt', 'DESC')
+            ->addOrderBy('g.title', 'ASC')
+            ->setParameter('ids', $ids)
+            ;
+    }
+
+    /**
+     * @param \OnlyTracker\Domain\Search\TopicSearchCriteria $criteria
+     *
+     * @return \OnlyTracker\Domain\Entity\Topic[]|mixed
+     * @deprecated 
+     */
+    public function searchDeprecated(TopicSearchCriteria $criteria)
     {
         $qb = $this->entityManager->createQueryBuilder();
 
@@ -100,7 +243,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
         if (null !== $criteria->getStudioStatuses()) {
             $values = array_diff(
-                StudioStatus::all(),
+                StudioStatus::ALL_STATUSES,
                 array_map(fn (StudioStatus $status) => (string) $status, $criteria->getStudioStatuses())
             );
 
@@ -139,6 +282,8 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->andWhere('m_t.id IN (' . $qb->getDQL() . ')')
             ->addOrderBy('m_t.createdAt', 'DESC')
             ->addOrderBy('m_g.title', 'ASC')
+            ->setFirstResult(($criteria->getPage() - 1) * $criteria->getPerPage())
+            ->setMaxResults($criteria->getPerPage())
         ;
 
         $qbParameters = $qb->getParameters();
@@ -244,5 +389,56 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
         }
 
         $qb->andWhere(implode(' AND ', $dql));
+    }
+
+    private function addRawGenreLikeExpr(NativeQueryBuilder $qb, array $values)
+    {
+        $subQb = $this->createNativeQueryBuilder();
+        $subQb
+            ->select('gt.topic_id')
+            ->from('genres', 'g')
+            ->innerJoin('g', 'genre_topic', 'gt', 'g.id = gt.genre_id')
+            ;
+
+        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 'g.title');
+        $this->dbalUtil->andWhere($subQb, $sqlPart, $args);
+
+        $sql = $subQb->getSQL();
+        $qb->andWhere("t.id IN ($sql)");
+        $this->dbalUtil->mergeParameters($qb, $subQb);
+    }
+
+    private function addRawStudioLikeExpr(NativeQueryBuilder $qb, array $values)
+    {
+        $subQb = $this->createNativeQueryBuilder();
+        $subQb
+            ->select('st.topic_id')
+            ->from('studios', 's')
+            ->innerJoin('s', 'studio_topic', 'st', 's.id = st.studio_id')
+        ;
+
+        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 's.url');
+        $this->dbalUtil->andWhere($subQb, $sqlPart, $args);
+
+        $sql = $subQb->getSQL();
+        $qb->andWhere("t.id IN ($sql)");
+        $this->dbalUtil->mergeParameters($qb, $subQb);
+    }
+
+    private function addRawStudioStatusesLikeExpr(NativeQueryBuilder $qb, array $values)
+    {
+        $subQb = $this->createNativeQueryBuilder();
+        $subQb
+            ->select('st.topic_id')
+            ->from('studios', 's')
+            ->innerJoin('s', 'studio_topic', 'st', 's.id = st.studio_id')
+        ;
+
+        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 's.status');
+        $this->dbalUtil->andWhere($subQb, $sqlPart, $args);
+
+        $sql = $subQb->getSQL();
+        $qb->andWhere("t.id IN ($sql)");
+        $this->dbalUtil->mergeParameters($qb, $subQb);
     }
 }

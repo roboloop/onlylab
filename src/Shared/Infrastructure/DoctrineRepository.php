@@ -3,9 +3,12 @@
 namespace OnlyTracker\Shared\Infrastructure;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\DBAL\Query\QueryBuilder as NativeQueryBuilder;
 use OnlyTracker\Domain\Shared\RepositoryInterface;
+use OnlyTracker\Shared\Infrastructure\Doctrine\DbalRepositoryUtil;
 use OnlyTracker\Shared\Infrastructure\Doctrine\RepositoryUtil;
 
 abstract class DoctrineRepository implements RepositoryInterface
@@ -16,13 +19,17 @@ abstract class DoctrineRepository implements RepositoryInterface
     protected $entityManager;
     protected $entityClass;
     protected $util;
+    protected ClassMetadata $metadata;
+    protected DbalRepositoryUtil $dbalUtil;
 
     public function __construct(EntityManagerInterface $entityManager, string $entityClass)
     {
         $this->entityClass      = $entityClass;
         $this->entityManager    = $entityManager;
         $this->basicRepository  = $this->entityManager->getRepository($entityClass);
+        $this->metadata         = $this->entityManager->getClassMetadata($entityClass);
         $this->util             = new RepositoryUtil();
+        $this->dbalUtil         = new DbalRepositoryUtil();
     }
 
     public function find($id)
@@ -63,6 +70,11 @@ abstract class DoctrineRepository implements RepositoryInterface
         }
 
         $this->entityManager->flush($entities);
+    }
+
+    public function createNativeQueryBuilder(): NativeQueryBuilder
+    {
+        return $this->entityManager->getConnection()->createQueryBuilder();
     }
 
     // protected function orLikeExpr(array $values, string $field, $type = null)

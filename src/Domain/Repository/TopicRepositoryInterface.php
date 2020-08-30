@@ -23,4 +23,6 @@ interface TopicRepositoryInterface extends RepositoryInterface, IdGeneratorInter
     public function search(TopicSearchCriteria $criteria);
 
     public function totalTopics(Criteria $criteria): int;
+
+    public function searchTotal(TopicSearchCriteria $criteria): int;
 }

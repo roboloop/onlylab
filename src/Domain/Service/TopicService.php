@@ -69,6 +69,11 @@ class TopicService
         return $this->topicRepository->search($criteria);
     }
 
+    public function searchTotalByCriteria(TopicSearchCriteria $criteria)
+    {
+        return $this->topicRepository->searchTotal($criteria);
+    }
+    
     public function totalTopics(): int
     {
         return $this->topicRepository->totalTopics(new Criteria());
