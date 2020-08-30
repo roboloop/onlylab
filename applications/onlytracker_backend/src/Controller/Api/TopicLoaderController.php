@@ -25,8 +25,6 @@ final class TopicLoaderController
     
     public function __invoke(LoadDto $dto)
     {
-        dd($this->forumPageHandler);
-        
         if (empty($dto->forums())) {
             return new Response('No forums');
         }
