@@ -1,11 +1,8 @@
 <div class="container-xl">
     <div class="pb-2 mt-4 mb-2 border-bottom">
-        Page header
+        Total: {{ this.pagination.total }}
     </div>
-    <div class="pb-2 mt-4 mb-2 border-bottom">
-
-    </div>
-    {{#each this as |topic|}}
+    {{#each this.topics as |topic|}}
         {{! mod.js
             If called without arguments, then the first argument in mod.js will be options
             If called with one argument, then the first argument in mod.js will be that argument, and the second will be options
@@ -19,4 +16,10 @@
 
         {{> _topic.hbs topic }}
     {{/each}}
+    
+    {{> _paginator.hbs this.pagination }}
+    
+    <div style="height: 300px;">
+        
+    </div>
 </div>

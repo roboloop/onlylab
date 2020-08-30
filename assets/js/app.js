@@ -12,6 +12,7 @@ import routes from './routes';
 
 // Custom scripts
 import Search from './search';
+import Loader from './loader';
 
 // Logic
 let router = new VueRouter({
@@ -154,6 +155,7 @@ switch(routeTo.name) {
             $app.find('#studio-status-preferable').prop('checked', true);
 
             let $searchModule = new Search($app.find('#search-block'));
+            let $loaderModule = new Loader($app.find('#loader-block'));
         });
         break;
     default:

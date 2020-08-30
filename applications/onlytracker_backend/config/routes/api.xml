@@ -11,6 +11,7 @@
     <route id="forum_get" path="/forums" controller="OnlyTracker\BackEnd\Controller\Api\ForumGetController" methods="GET" />
 
     <route id="search" path="/topics" controller="OnlyTracker\BackEnd\Controller\Api\SearchTopicController" methods="GET|POST" />
+    <route id="loader" path="/loader" controller="OnlyTracker\BackEnd\Controller\Api\TopicLoaderController" methods="GET|POST" />
 
     <route id="search_data" path="/search-data" controller="OnlyTracker\BackEnd\Controller\Api\SearchDataController" methods="GET" />
 

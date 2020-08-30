@@ -40,11 +40,11 @@
         <button type="submit" class="btn btn-primary mb-2">Search</button>
     </form>
     <hr>
-    <form>
+    <form id="loader-block">
         {{> _forum_selector.hbs forums=forums parameter='forum-group-2' }}
         <div class="form-group">
             <label for="loader-start-page">Start page</label>
-            <input id="loader-start-page" type="number" class="form-control" placeholder="1">
+            <input id="loader-start-page" type="number" class="form-control" placeholder="1" value="1">
         </div>
         <div class="form-group">
             <label for="loader-end-page">End page</label>
