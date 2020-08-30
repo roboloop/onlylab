@@ -62,6 +62,20 @@ class SearchDto implements IncomingDataInterface
      */
     private $studioStatuses;
 
+    /**
+     * @Assert\Type("integer")
+     * @Assert\GreaterThanOrEqual(1)
+     * @Assert\NotBlank(allowNull=true)
+     */
+    private $page;
+
+    /**
+     * @Assert\Type("integer")
+     * @Assert\GreaterThanOrEqual(10)
+     * @Assert\NotBlank(allowNull=true)
+     */
+    private $perPage;
+
     public function forums()
     {
         return $this->forums;
@@ -100,5 +114,15 @@ class SearchDto implements IncomingDataInterface
     public function studioStatuses()
     {
         return $this->studioStatuses;
+    }
+
+    public function page()
+    {
+        return $this->page;
+    }
+
+    public function perPage()
+    {
+        return $this->perPage;
     }
 }

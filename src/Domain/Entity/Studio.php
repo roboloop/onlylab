@@ -52,6 +52,11 @@ class Studio
         $this->status = new StudioStatus(StudioStatus::PREFERABLE);
     }
 
+    public function setStatus(StudioStatus $status)
+    {
+        $this->status = $status;
+    }
+
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;

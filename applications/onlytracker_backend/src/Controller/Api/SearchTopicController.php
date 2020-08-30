@@ -46,7 +46,14 @@ final class SearchTopicController
 
         $normalized = $this->normalizer->normalize($topics, null, $context);
 
-        return new JsonResponse($normalized);
+        return new JsonResponse([
+            'topics' => $normalized,
+            'pagination' => [
+                'total' => $this->topicService->searchTotalByCriteria($criteria),
+                'page' => $criteria->getPage(),
+                'perPage' => $criteria->getPerPage(),
+            ],
+        ]);
     }
 
     private function makeCriteriaFromDto(SearchDto $dto): TopicSearchCriteria
@@ -73,6 +80,7 @@ final class SearchTopicController
             ->setTitles($titles)
             ->setRawTitles($rawTitles)
             ->setStudioStatuses($studioStatuses)
+            ->setPage($dto->page())
         ;
 
         return $criteria;
