@@ -16,5 +16,15 @@
             <argument type="service" id="OnlyTracker\Application\Handler\ForumPageHandlerInterface"/>
         </service>
 
+        <service id="OnlyTracker\BackEnd\Command\ImportExport\ExportStudiosCommand">
+            <argument type="service" id="OnlyTracker\Domain\Repository\StudioRepositoryInterface"/>
+            <argument type="string">%kernel.project_dir%/../../var/studios.serialzied</argument>
+        </service>
+
+        <service id="OnlyTracker\BackEnd\Command\ImportExport\ImportStudiosCommand">
+            <argument type="service" id="OnlyTracker\Domain\Repository\StudioRepositoryInterface"/>
+            <argument type="string">%kernel.project_dir%/../../var/studios.serialzied</argument>
+        </service>
+        
     </services>
 </container>
