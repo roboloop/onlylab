@@ -13,24 +13,18 @@ doctrine:
 
         connections:
             default:
-                driver:                 pdo_mysql
-                server_version:         '8.0'
-                charset:                utf8mb4
-                default_table_options:
-                    charset:            utf8mb4
-                    collate:            utf8mb4_unicode_ci
-
-                url:                    '%env(resolve:DATABASE_URL)%'
-
-            temp:
-                driver:                 pdo_mysql
-                server_version:         '8.0'
-                charset:                utf8mb4
-                default_table_options:
-                    charset:            utf8mb4
-                    collate:            utf8mb4_unicode_ci
-
-                url:                    'mysql://root:1234@127.0.0.1:3306/onlytracker'
+                path:                   '%kernel.project_dir%/../../var/data.db'
+                memory:                 false
+                driver:                 pdo_sqlite
+                
+#                driver:                 pdo_mysql
+#                server_version:         '8.0'
+#                charset:                utf8mb4
+#                default_table_options:
+#                    charset:            utf8mb4
+#                    collate:            utf8mb4_unicode_ci
+#
+#                url:                    '%env(resolve:DATABASE_URL)%'
 
     orm:
         default_entity_manager:         default
