@@ -5,10 +5,26 @@
 
     <embeddable name="OnlyTracker\Domain\Entity\Embeddable\ParsedTitle">
 
-        <field name="rawTitle" type="string" length="4095" />
-        <field name="title" type="string" length="4095" nullable="true" />
-        <field name="year" type="string" length="16" nullable="true" />
-        <field name="quality" type="string" length="16" nullable="true" />
+        <field name="rawTitle" type="string" length="4095">
+            <options>
+                <option name="collation">NOCASE</option>
+            </options>
+        </field>
+        <field name="title" type="string" length="4095" nullable="true">
+            <options>
+                <option name="collation">NOCASE</option>
+            </options>
+        </field>
+        <field name="year" type="string" length="16" nullable="true">
+            <options>
+                <option name="collation">NOCASE</option>
+            </options>
+        </field>
+        <field name="quality" type="string" length="16" nullable="true">
+            <options>
+                <option name="collation">NOCASE</option>
+            </options>
+        </field>
 
     </embeddable>
 </doctrine-mapping>

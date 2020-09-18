@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200830184731 extends AbstractMigration
+final class Version20200918201101 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,18 +22,18 @@ final class Version20200830184731 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE ex_users (id VARCHAR(255) NOT NULL, ex_id INTEGER NOT NULL, name VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
         , PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE forums (id VARCHAR(255) NOT NULL, title CLOB NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
+        $this->addSql('CREATE TABLE forums (id VARCHAR(255) NOT NULL, title CLOB NOT NULL COLLATE NOCASE, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
         , PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE genres (id VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, description CLOB DEFAULT NULL, is_approved BOOLEAN NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
+        $this->addSql('CREATE TABLE genres (id VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL COLLATE NOCASE, description CLOB DEFAULT NULL, is_approved BOOLEAN NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
         , PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE images (id VARCHAR(255) NOT NULL, topic_id VARCHAR(255) NOT NULL, front_url CLOB NOT NULL, reference CLOB DEFAULT NULL, original CLOB DEFAULT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
         , is_banner BOOLEAN NOT NULL, format VARCHAR(30) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E01FBE6A1F55203D ON images (topic_id)');
-        $this->addSql('CREATE TABLE studios (id VARCHAR(255) NOT NULL, url CLOB NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
+        $this->addSql('CREATE TABLE studios (id VARCHAR(255) NOT NULL, url CLOB NOT NULL COLLATE NOCASE, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
         , status CLOB NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE topics (id VARCHAR(255) NOT NULL, forum_id VARCHAR(255) NOT NULL, size BIGINT DEFAULT NULL, ex_created_at DATETIME DEFAULT NULL --(DC2Type:datetime_immutable)
         , created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
-        , is_loaded BOOLEAN NOT NULL, raw_title CLOB NOT NULL, title CLOB DEFAULT NULL, year VARCHAR(16) DEFAULT NULL, quality VARCHAR(16) DEFAULT NULL, PRIMARY KEY(id))');
+        , is_loaded BOOLEAN NOT NULL, raw_title CLOB NOT NULL COLLATE NOCASE, title CLOB DEFAULT NULL COLLATE NOCASE, year VARCHAR(16) DEFAULT NULL COLLATE NOCASE, quality VARCHAR(16) DEFAULT NULL COLLATE NOCASE, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_91F6463929CCBAD0 ON topics (forum_id)');
         $this->addSql('CREATE TABLE genre_topic (topic_id VARCHAR(255) NOT NULL, genre_id VARCHAR(255) NOT NULL, PRIMARY KEY(topic_id, genre_id))');
         $this->addSql('CREATE INDEX IDX_2046C1DE1F55203D ON genre_topic (topic_id)');
