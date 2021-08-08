@@ -45,6 +45,6 @@ class FastpicDeduction implements OriginalUrlDeductionInterface
 
     public function support(string $frontUrl, array $context = []): bool
     {
-        return preg_match('#[/.]fastpic\.ru[/.]#', $frontUrl);
+        return preg_match('#[/.]fastpic\.org[/.]#', $frontUrl);
     }
 }
