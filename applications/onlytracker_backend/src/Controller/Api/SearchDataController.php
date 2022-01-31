@@ -26,7 +26,7 @@ final class SearchDataController
 
     public function __invoke()
     {
-        $forums = $this->forumRepository->findBy([]);
+        $forums = $this->forumRepository->findBy([], ['title' => 'ASC']);
         $forumsNormalized = $this->normalizer->normalize($forums);
         $totalTopics = $this->topicService->totalTopics();
         $totalLoadedTopics = $this->topicService->totalLoadedTopics();
