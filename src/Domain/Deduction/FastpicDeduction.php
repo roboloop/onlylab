@@ -30,7 +30,7 @@ class FastpicDeduction implements OriginalUrlDeductionInterface
                 $content = $response->getContent();
                 preg_match('#src="(.+?fastpic\.org/big/.+?)"#', $content, $match);
                 if (isset($match[1])) {
-                    return isset($match[1]);
+                    return $match[1];
                 }
 /*
                 $imgUrl = (new Crawler($content))->filterXPath('//body//img[contains(@src, "/big/")]');
