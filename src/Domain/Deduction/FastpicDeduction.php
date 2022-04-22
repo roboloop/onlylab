@@ -28,13 +28,18 @@ class FastpicDeduction implements OriginalUrlDeductionInterface
                 ]);
 
                 $content = $response->getContent();
-
+                preg_match('#src="(.+?fastpic\.org/big/.+?)"#', $content, $match);
+                if (isset($match[1])) {
+                    return isset($match[1]);
+                }
+/*
                 $imgUrl = (new Crawler($content))->filterXPath('//body//img[contains(@src, "/big/")]');
                 if ($imgUrl->count()) {
                     $value = $imgUrl->getNode(0)->attributes->getNamedItem('src')->nodeValue;
 
                     return $value;
                 }
+*/
             }
         } catch (\Throwable $e) {
 
