@@ -73,7 +73,7 @@ class TopicHtmlParser
     {
         $crawler    = new Crawler($content);
         // TODO: Only images from the first post!!
-        $body       = $crawler->filterXPath('//table[@class="topic"]//div[@class="post_body"]');
+        $body       = $crawler->filterXPath('//table[@class="topic"]//div[@class="post_body"][1]');
         $images[]   = $this->posters($body);
         $images[]   = $this->underSpoiler($body);
 
