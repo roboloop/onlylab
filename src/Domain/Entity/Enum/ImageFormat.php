@@ -13,6 +13,7 @@ final class ImageFormat extends Enum
     const SCREENLISTING = 'screenlisting';
     const GIF           = 'gif';
     const OTHER         = 'other';
+    const PHOTOSET      = 'photoset';
 
     private static $screenshotNames = [
         'Скриншот',
@@ -27,6 +28,10 @@ final class ImageFormat extends Enum
 
     private static $gifNames = [
         'GIF',
+    ];
+
+    private static $photosetNames = [
+        'Фотосет',
     ];
 
     private static function isScreenshots(string $header): bool
@@ -44,6 +49,11 @@ final class ImageFormat extends Enum
         return self::search($header, self::$gifNames);
     }
 
+    public static function isPhotoset(string $header): bool
+    {
+        return self::search($header, self::$photosetNames);
+    }
+
     private static function search(string $header, array $names)
     {
         foreach ($names as $name) {
@@ -57,7 +67,9 @@ final class ImageFormat extends Enum
 
     public static function createFromSpoilerName(string $header)
     {
-        if (self::isScreenshots($header)) {
+        if (self::isPhotoset($header)) {
+            $format = self::PHOTOSET;
+        } elseif (self::isScreenshots($header)) {
             $format = self::SCREENSHOT;
         } elseif (self::isScreenListing($header)) {
             $format = self::SCREENLISTING;

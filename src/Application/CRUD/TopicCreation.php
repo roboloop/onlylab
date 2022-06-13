@@ -6,6 +6,7 @@ use OnlyTracker\Application\Dto\RawForumDto;
 use OnlyTracker\Application\Dto\RawImageDto;
 use OnlyTracker\Application\Dto\RawTopicDto;
 use OnlyTracker\Application\Exception\InvalidArgumentWhenCreatingTopicException;
+use OnlyTracker\Domain\Entity\Enum\ImageFormat;
 use OnlyTracker\Domain\Entity\ObjectValue\Size;
 use OnlyTracker\Domain\Entity\Topic;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
@@ -84,6 +85,11 @@ class TopicCreation
 
         /** @var \OnlyTracker\Application\Dto\RawImageDto $rawImageDto */
         foreach ($dto->getImages() as $rawImageDto) {
+            // Ignore the upload of photosets
+            if (ImageFormat::isPhotoset($rawImageDto->getSpoilerName() ?? '')) {
+                continue;
+            }
+
             $image = $rawImageDto->getPlace() === RawImageDto::PLACE_ON_PAGE
                 ? $this->imageService->makePosterImage($topic, $rawImageDto->getFrontUrl())
                 // TODO: what to do, when no spoiler name?
