@@ -11,7 +11,7 @@ class OriginalTitleParser
      */
     public function parse(string $content)
     {
-        preg_match('~\]\s*(.*)\s*\[~', $content, $matches);
+        preg_match('~\]\s*([^\[]+)\s*\[~', $content, $matches);
 
         if (!isset($matches[1])) {
             preg_match('~\]\s*(.*)\s*\(~', $content, $matches);

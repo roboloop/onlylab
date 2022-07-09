@@ -15,7 +15,7 @@ class GenreParser
         if (mb_substr_count($content, '[') !== mb_substr_count($content, ']')) {
             preg_match('~[\[(]([^\[\]()]*)[\])]\s*$~i', $content, $matches);            
         } else {
-            preg_match('~\[(?!.*\[)(.*)\]~i', $content, $matches);
+            preg_match('#\[[^\]]+\][^\[]+\[([^\]]+)\]#i', $content, $matches);
         }
         if (!isset($matches[1])) {
             return [];
