@@ -75,6 +75,15 @@ class SingleTopicGetController
             ];
         }
 
+        // Babe links
+        preg_match('#^(\w+\s+\w+)\b#', $topic->getParsedTitle()->getTitle(), $name);
+        if (isset($name[1])) {
+            $normalized['babe_url'] = 'https://www.babepedia.com/babe/' . $name[1];
+            $normalized['babe_url_search'] = 'https://www.babepedia.com/search/' . $name[1];
+        } else {
+            $normalized['babe_url'] = $normalized['babe_url_search'] = '';
+        }
+
         return new JsonResponse($normalized);
     }
 }

@@ -65,15 +65,23 @@
                 <button type="submit" class="btn btn-info btn-sm btn-outline-primary">Reload</button>
             </form>
 
-            <a href="/proxy/topics/{{ id }}" methods="GET" target="_blank">Proxy</a>
-
             <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="/proxy/topics/{{ id }}" methods="GET" target="_blank">Proxy</a>
+                </li>
                 <li class="nav-item">
                     <a id="link" href="{{ only_tracker_url }}forum/viewtopic.php?t={{ id }}" target="_blank">Link</a>
                 </li>
+                {{#if babe_url }}
                 <li class="nav-item">
-                    <a class="copy-btn" href="#">Copy</a>
+                    <a href="{{ babe_url }}" methods="GET" target="_blank">Profile</a>
                 </li>
+                {{/if}}
+                {{#if babe_url_search }}
+                <li class="nav-item">
+                    <a href="{{ babe_url_search }}" methods="GET" target="_blank">Profile (search)</a>
+                </li>
+                {{/if}}
             </ul>
 
             <br>
