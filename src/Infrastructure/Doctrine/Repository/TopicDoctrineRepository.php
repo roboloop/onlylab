@@ -164,7 +164,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
         $ids = array_column($qb->execute()->fetchAll(), 'id');
         
-        return dd($this->entityManager
+        return $this->entityManager
             ->createQueryBuilder()
             ->select('t', 'f', 's', 'g', 'i')
             ->from($this->entityClass, 't')
@@ -176,8 +176,6 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->addOrderBy('t.createdAt', 'DESC')
             ->addOrderBy('g.title', 'ASC')
             ->setParameter('ids', $ids)
-            ->getQuery()->getSQL()
-        )
             ;
     }
 
