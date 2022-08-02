@@ -15,6 +15,7 @@
         </field>
         <field name="description" type="string" length="4095" nullable="true" />
         <field name="isApproved" type="boolean" />
+        <embedded name="status" class="OnlyTracker\Domain\Entity\Enum\GenreStatus" use-column-prefix="false" />
         <field name="createdAt" type="datetime_immutable" />
 
     </entity>
