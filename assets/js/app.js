@@ -45,7 +45,7 @@ switch(routeTo.name) {
             dataType: 'JSON',
         }).then((data, textStatus, jqXHR) => {
             const genreTemplate = require('../templates/genres.hbs');
-            $('#App').append(genreTemplate({genres: data}));
+            $('#App').append(genreTemplate({groups: data}));
             $('.js-genre-list').on('click', '.js-change-genre-status', e => {
                 const $li = $(e.currentTarget).closest('li');
                 const id = $li.attr('data-id');
