@@ -1,0 +1,17 @@
+<li class="genre-list-item" data-id="{{ this.id }}" data-type="{{ this.status }}">
+    <span class="icon-box js-change-genre-status">
+        {{#switch this.status }}
+            {{#case 'unbanned' }}
+                —
+            {{/case}}
+            {{#case 'banned' }}
+                <i class="fas fa-ban"></i>
+            {{/case}}
+        {{/switch}}
+    </span>
+    <span>
+        <a href="/topics?genres={{ this.url }}">
+            {{ this.url }}
+        </a>
+    </span>
+</li>

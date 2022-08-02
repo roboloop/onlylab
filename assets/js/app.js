@@ -13,6 +13,9 @@ import routes from './routes';
 // Custom scripts
 import Search from './search';
 import Loader from './loader';
+import studioTemplate from "../templates/studios.hbs";
+import studioItem from "../templates/partials/_studio_item.hbs";
+import genreTemplate from "../templates/genres.hbs";
 
 // Logic
 let router = new VueRouter({
@@ -43,6 +46,38 @@ switch(routeTo.name) {
         }).then((data, textStatus, jqXHR) => {
             const genreTemplate = require('../templates/genres.hbs');
             $('#App').append(genreTemplate({genres: data}));
+            $('.js-genre-list').on('click', '.js-change-genre-status', e => {
+                const $li = $(e.currentTarget).closest('li');
+                const id = $li.attr('data-id');
+                const type = $li.attr('data-type');
+                switch (type) {
+                    case 'banned':
+                        $.ajax({
+                            url: '/api/genres/' + id + '/unban',
+                            method: 'POST',
+                            dataType: 'JSON',
+                            context: $li,
+                        }).then((data, textStatus, jqXHR) => {
+                            const genreItem = require('../templates/partials/_genre_item.hbs');
+                            $li.replaceWith(genreItem(data));
+
+                        });
+                        break;
+                    case 'unbanned':
+                        $.ajax({
+                            url: '/api/genres/' + id + '/ban',
+                            method: 'POST',
+                            dataType: 'JSON',
+                        }).then((data, textStatus, jqXHR) => {
+                            const genreItem = require('../templates/partials/_genre_item.hbs');
+                            $li.replaceWith(genreItem(data));
+                        });
+                        break;
+                    default:
+                        console.error('Unknown genre type')
+                        break;
+                }
+            });
         });
         break;
     case 'studios':

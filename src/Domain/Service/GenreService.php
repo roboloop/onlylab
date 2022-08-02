@@ -62,6 +62,20 @@ class GenreService
         $this->genreRepository->save($genre);
     }
 
+    public function ban(Genre $genre)
+    {
+        $genre->ban();
+
+        $this->genreRepository->save($genre);
+    }
+
+    public function unban(Genre $genre)
+    {
+        $genre->unban();
+
+        $this->genreRepository->save($genre);
+    }
+
     /**
      * @param null|string $title
      * @param bool|null   $isApproved

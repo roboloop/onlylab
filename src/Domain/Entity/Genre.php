@@ -5,6 +5,7 @@ declare (strict_types = 1);
 namespace OnlyTracker\Domain\Entity;
 
 use DateTimeImmutable;
+use OnlyTracker\Domain\Entity\Enum\GenreStatus;
 
 class Genre
 {
@@ -12,6 +13,7 @@ class Genre
     private string $title;
     private ?string $description;
     private bool $isApproved;
+    private GenreStatus $status;
     private DateTimeImmutable $createdAt;
 
     public function __construct(string $id, string $title, ?string $description, bool $isApproved, DateTimeImmutable $createdAt)
@@ -20,6 +22,7 @@ class Genre
         $this->title        = $title;
         $this->description  = $description;
         $this->isApproved   = $isApproved;
+        $this->status       = new GenreStatus(GenreStatus::UNBANNED);
         $this->createdAt    = $createdAt;
     }
 
@@ -65,6 +68,21 @@ class Genre
     public function disapprove(): void
     {
         $this->isApproved = false;
+    }
+
+    public function ban()
+    {
+        $this->status = new GenreStatus(GenreStatus::BANNED);
+    }
+
+    public function unban()
+    {
+        $this->status = new GenreStatus(GenreStatus::UNBANNED);
+    }
+
+    public function getStatus(): GenreStatus
+    {
+        return $this->status;
     }
 
     public function getCreatedAt(): DateTimeImmutable

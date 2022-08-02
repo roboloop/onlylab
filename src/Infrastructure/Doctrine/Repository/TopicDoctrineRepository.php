@@ -12,6 +12,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\DBAL\Query\QueryBuilder as NativeQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\CountWalker;
+use OnlyTracker\Domain\Entity\Enum\GenreStatus;
 use OnlyTracker\Domain\Entity\Enum\StudioStatus;
 use OnlyTracker\Domain\Entity\Topic;
 use OnlyTracker\Domain\Repository\TopicRepositoryInterface;
@@ -121,7 +122,9 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
         if (null !== $criteria->getGenreTitles()) {
             $this->addRawGenreLikeExpr($qb, $criteria->getGenreTitles());
         }
-        
+
+        $this->addRawGenreUnbannedExpr($qb);
+
         // Studios
         if (null !== $criteria->getStudioUrls()) {
             $this->addRawStudioLikeExpr($qb, $criteria->getStudioUrls());
@@ -402,6 +405,21 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
         [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 'g.title');
         $this->dbalUtil->andWhere($subQb, $sqlPart, $args);
+
+        $sql = $subQb->getSQL();
+        $qb->andWhere("t.id IN ($sql)");
+        $this->dbalUtil->mergeParameters($qb, $subQb);
+    }
+
+    private function addRawGenreUnbannedExpr(NativeQueryBuilder $qb)
+    {
+        $subQb = $this->createNativeQueryBuilder();
+        $subQb
+            ->select('gt.topic_id')
+            ->from('genres', 'g')
+            ->innerJoin('g', 'genre_topic', 'gt', 'g.id = gt.genre_id')
+            ->andWhere("g.status = '" . GenreStatus::UNBANNED . "'")
+        ;
 
         $sql = $subQb->getSQL();
         $qb->andWhere("t.id IN ($sql)");

@@ -21,4 +21,7 @@
     <route id="studio_ban" path="/studios/{studio}/ban" controller="OnlyTracker\BackEnd\Controller\Api\StudioFeatureController::ban" methods="POST|GET" />
     <route id="studio_prefer" path="/studios/{studio}/prefer" controller="OnlyTracker\BackEnd\Controller\Api\StudioFeatureController::prefer" methods="POST" />
     <route id="studio_typical" path="/studios/{studio}/typical" controller="OnlyTracker\BackEnd\Controller\Api\StudioFeatureController::typical" methods="POST" />
+
+    <route id="genre_ban" path="/genres/{genre}/ban" controller="OnlyTracker\BackEnd\Controller\Api\GenreFeatureController::ban" methods="POST" />
+    <route id="genre_unban" path="/genres/{genre}/unban" controller="OnlyTracker\BackEnd\Controller\Api\GenreFeatureController::unban" methods="POST" />
 </routes>
