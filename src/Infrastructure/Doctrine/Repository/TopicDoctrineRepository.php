@@ -164,7 +164,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
         $ids = array_column($qb->execute()->fetchAll(), 'id');
         
-        return $this->entityManager
+        return dd($this->entityManager
             ->createQueryBuilder()
             ->select('t', 'f', 's', 'g', 'i')
             ->from($this->entityClass, 't')
@@ -176,6 +176,8 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->addOrderBy('t.createdAt', 'DESC')
             ->addOrderBy('g.title', 'ASC')
             ->setParameter('ids', $ids)
+            ->getQuery()->getSQL()
+        )
             ;
     }
 
@@ -413,17 +415,45 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
 
     private function addRawGenreUnbannedExpr(NativeQueryBuilder $qb)
     {
-        $subQb = $this->createNativeQueryBuilder();
-        $subQb
+        // Only checked
+        $markedQb = $this->createNativeQueryBuilder();
+        $markedQb
             ->select('gt.topic_id')
             ->from('genres', 'g')
             ->innerJoin('g', 'genre_topic', 'gt', 'g.id = gt.genre_id')
-            ->andWhere("g.status = '" . GenreStatus::UNBANNED . "'")
         ;
 
-        $sql = $subQb->getSQL();
-        $qb->andWhere("t.id IN ($sql)");
-        $this->dbalUtil->mergeParameters($qb, $subQb);
+        $values = [GenreStatus::UNBANNED];
+        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 'g.status', 'mark');
+        $this->dbalUtil->andWhere($markedQb, $sqlPart, $args);
+        $markedSql = $markedQb->getSQL();
+
+        $qb->andWhere("t.id IN ($markedSql)");
+        $this->dbalUtil->mergeParameters($qb, $markedQb);
+
+        // Only non checked
+        $noMarkedQb = $this->createNativeQueryBuilder();
+        $noMarkedQb
+            ->select('gt.topic_id')
+            ->from('genres', 'g')
+            ->innerJoin('g', 'genre_topic', 'gt', 'g.id = gt.genre_id')
+        ;
+
+        $invert = array_values(array_diff(
+            GenreStatus::ALL_STATUSES,
+            array_map(fn (GenreStatus $status) => (string) $status, $values)
+        ));
+
+        if (empty($invert)) {
+            return;
+        }
+
+        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($invert, 'g.status', 'nomark');
+        $this->dbalUtil->andWhere($noMarkedQb, $sqlPart, $args);
+        $noMarkedSql = $noMarkedQb->getSQL();
+
+        $qb->andWhere("t.id NOT IN ($noMarkedSql)");
+        $this->dbalUtil->mergeParameters($qb, $noMarkedQb);
     }
 
     private function addRawStudioLikeExpr(NativeQueryBuilder $qb, array $values)
