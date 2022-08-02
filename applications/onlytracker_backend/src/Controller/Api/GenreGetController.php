@@ -4,27 +4,25 @@ namespace OnlyTracker\BackEnd\Controller\Api;
 
 use OnlyTracker\Domain\Service\GenreService;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class GenreGetController
 {
-    private $genreService;
+    private GenreService $genreService;
+    private NormalizerInterface $normalizer;
 
-    public function __construct(GenreService $genreService)
+    public function __construct(GenreService $genreService, NormalizerInterface $normalizer)
     {
         $this->genreService = $genreService;
+        $this->normalizer = $normalizer;
     }
 
     public function __invoke()
     {
         $genres = $this->genreService->search(null, null);
+        $genres = $this->genreService->groupByFirstLetter($genres);
+        $normalized = $this->normalizer->normalize($genres);
 
-        foreach ($genres as $genre) {
-            $res[$genre->getId()] = [
-                $genre->getTitle(),
-                $genre->getDescription(),
-            ];
-        }
-
-        return new JsonResponse($res ?? []);
+        return new JsonResponse($normalized);
     }
 }

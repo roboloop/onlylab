@@ -5,6 +5,7 @@ namespace OnlyTracker\Domain\Service;
 use OnlyTracker\Domain\Entity\Genre;
 use OnlyTracker\Domain\Factory\GenreFactory;
 use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
+use OnlyTracker\Infrastructure\Util\ObjectArrayModifier;
 
 class GenreService
 {
@@ -95,6 +96,20 @@ class GenreService
         }
 
         return $this->genreRepository->findBy($criteria, ['title' => 'ASC']);
+    }
+
+    /**
+     * @param \OnlyTracker\Domain\Entity\Genre[] $genres
+     *
+     * @return \OnlyTracker\Domain\Entity\Genre[]
+     */
+    public function groupByFirstLetter(array $studios): array
+    {
+        $closure = function (Genre $genre) {
+            return $genre->getTitle();
+        };
+
+        return ObjectArrayModifier::groupByFirstLetter($studios, $closure);
     }
 
     private function filterTitles(array $titles)
