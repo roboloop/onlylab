@@ -436,7 +436,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->where('g.status = :banned')
         ;
 
-        $markedQb->setParameter('banned', GenreStatus::BANNED);
+        $noMarkedQb->setParameter('banned', GenreStatus::BANNED);
         $noMarkedSql = $noMarkedQb->getSQL();
 
         $qb->andWhere("t.id NOT IN ($noMarkedSql)");
