@@ -419,11 +419,9 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->select('gt.topic_id')
             ->from('genres', 'g')
             ->innerJoin('g', 'genre_topic', 'gt', 'g.id = gt.genre_id')
+            ->where('g.status = :unbanned')
         ;
-
-        $values = [GenreStatus::unbanned()];
-        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 'g.status', 'mark');
-        $this->dbalUtil->andWhere($markedQb, $sqlPart, $args);
+        $markedQb->setParameter('unbanned', GenreStatus::UNBANNED);
         $markedSql = $markedQb->getSQL();
 
         $qb->andWhere("t.id IN ($markedSql)");
@@ -435,19 +433,10 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->select('gt.topic_id')
             ->from('genres', 'g')
             ->innerJoin('g', 'genre_topic', 'gt', 'g.id = gt.genre_id')
+            ->where('g.status = :banned')
         ;
 
-        $invert = array_values(array_diff(
-            GenreStatus::ALL_STATUSES,
-            array_map(fn (GenreStatus $status) => (string) $status, $values)
-        ));
-
-        if (empty($invert)) {
-            return;
-        }
-
-        [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($invert, 'g.status', 'nomark');
-        $this->dbalUtil->andWhere($noMarkedQb, $sqlPart, $args);
+        $markedQb->setParameter('banned', GenreStatus::BANNED);
         $noMarkedSql = $noMarkedQb->getSQL();
 
         $qb->andWhere("t.id NOT IN ($noMarkedSql)");
