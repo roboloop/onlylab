@@ -423,7 +423,7 @@ final class TopicDoctrineRepository extends DoctrineRepository implements TopicR
             ->innerJoin('g', 'genre_topic', 'gt', 'g.id = gt.genre_id')
         ;
 
-        $values = [GenreStatus::UNBANNED];
+        $values = [GenreStatus::unbanned()];
         [$sqlPart, $args] = $this->dbalUtil->orLikeExpr($values, 'g.status', 'mark');
         $this->dbalUtil->andWhere($markedQb, $sqlPart, $args);
         $markedSql = $markedQb->getSQL();
