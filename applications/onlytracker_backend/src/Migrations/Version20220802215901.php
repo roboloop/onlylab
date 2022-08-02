@@ -16,7 +16,7 @@ final class Version20220802215901 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        $this->addSql('ALTER TABLE genres ADD status CLOB NOT NULL');
+        $this->addSql("ALTER TABLE genres ADD status CLOB NOT NULL default 'unbanned'");
     }
 
     public function down(Schema $schema) : void
