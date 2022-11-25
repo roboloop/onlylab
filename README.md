@@ -52,4 +52,8 @@ git commit --allow-empty -m 'empty commit'
 git push
 ```
 
-8. Don’t forget to move the dump from the folder `/var/www/html/dump/` to `/var/www/html/data.db`
+8. Don’t forget to move the dump from the folder `/var/www/html/dump/` to `/var/www/onlytracker/var/data.db` and set the permissions:
+
+```shell
+chmod 777 /var/www/onlytracker/var/data.db
+```
