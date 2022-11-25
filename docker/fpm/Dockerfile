@@ -1,7 +1,6 @@
-FROM php:7.4-fpm
+FROM php:7.4-fpm-alpine
 
-RUN apt update && apt install -y \
-    vim sqlite3 npm python
+RUN apk add --upgrade sqlite npm python3 yarn
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 RUN install-php-extensions zip xdebug

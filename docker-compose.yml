@@ -6,8 +6,10 @@ services:
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
+    tty: true
+    restart: unless-stopped
     ports:
-      - "8005:80"
+      - "443:443"
     volumes:
       - ./:/var/www/html
 
@@ -15,5 +17,10 @@ services:
     build:
       context: .
       dockerfile: docker/fpm/Dockerfile
+    tty: true
+#    restart: unless-stopped
+    working_dir: /var/www/html
+    expose:
+      - "9000"
     volumes:
-      - ./:/var/www/html
+      - ./:/var/www/html/

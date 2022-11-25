@@ -42,7 +42,7 @@ final class TopicFeatureController
             $this->topicPageHandler->handle($content);
             $topic = $this->topicService->getFullTopicById($topic->getId());
         } catch (ExceptionInterface $e) {
-            return new JsonResponse(null, 500);
+            return new JsonResponse((string) $e, 500);
         }
 
         return new RedirectResponse('/topics/' . $topic->getId());

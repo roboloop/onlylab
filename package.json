@@ -1,32 +1,35 @@
 {
-    "name": "onlytracker",
-    "version": "1.0.0",
-    "devDependencies": {
-        "@symfony/webpack-encore": "^0.28.3",
-        "core-js": "^3.6.5",
-        "handlebars-loader": "^1.7.1",
-        "node-sass": "^4.14.0",
-        "regenerator-runtime": "^0.13.5",
-        "sass-loader": "^7.3.1",
-        "webpack-notifier": "^1.6.0"
-    },
-    "license": "UNLICENSED",
-    "private": true,
-    "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.13.0",
-        "bootstrap": "^4.4.1",
-        "copy-to-clipboard": "^3.3.1",
-        "dotenv-webpack": "^1.7.0",
-        "handlebars": "^4.7.6",
-        "jquery": "^3.5.0",
-        "material-design-icons": "^3.0.1",
-        "popper.js": "^1.16.1",
-        "vue-router": "^3.1.6"
-    }
+  "name": "onlytracker",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.2.1",
+    "bootstrap": "^4.0.0",
+    "copy-to-clipboard": "^3.3.3",
+    "dotenv-webpack": "^8.0.1",
+    "handlebars": "^4.7.7",
+    "jquery": "^3.6.1",
+    "popper.js": "^1.16.1",
+    "vue-router": "3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@symfony/webpack-encore": "^4.1.2",
+    "core-js": "^3.26.1",
+    "handlebars-loader": "^1.7.2",
+    "node-sass": "^8.0.0",
+    "regenerator-runtime": "^0.13.11",
+    "sass-loader": "^13.2.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0",
+    "webpack-notifier": "^1.15.0"
+  }
 }
