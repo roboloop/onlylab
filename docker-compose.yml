@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: docker/nginx/Dockerfile
     tty: true
-    restart: unless-stopped
+    restart: always
     ports:
       - "443:443"
     volumes:
@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: docker/fpm/Dockerfile
     tty: true
-#    restart: unless-stopped
+    restart: always
     working_dir: /var/www/html
     expose:
       - "9000"
