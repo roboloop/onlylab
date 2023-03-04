@@ -26,7 +26,12 @@ class TopicService
 
     public function makeNotLoaded(string $id, string $rawTitle, Forum $forum, ?Size $size, ?DateTimeImmutable $exCreatedAt)
     {
-        $parsedTitle = $this->parsedTitleService->make($rawTitle);
+        // If cartoons category (hard to parse, keep title)
+        if ($forum->getId() === '1711') {
+            $keepTitle = true;
+        }
+
+        $parsedTitle = $this->parsedTitleService->make($rawTitle, $keepTitle ?? false);
 
         $topic = $this->topicFactory->make($id, $parsedTitle, $forum, $size, $exCreatedAt, false);
 

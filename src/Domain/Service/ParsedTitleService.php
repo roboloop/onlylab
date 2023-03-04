@@ -16,9 +16,11 @@ class ParsedTitleService
         $this->parserManager        = $parserManager;
     }
 
-    public function make(string $rawTitle)
+    public function make(string $rawTitle, bool $keepTitle = false)
     {
-        $title      = $this->parserManager->originalTitle($rawTitle);
+        $title = $keepTitle
+            ? $rawTitle
+            : $this->parserManager->originalTitle($rawTitle);
         $year       = $this->parserManager->year($rawTitle);
         $quality    = $this->parserManager->quality($rawTitle);
 

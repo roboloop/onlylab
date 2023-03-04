@@ -3,7 +3,7 @@
 set -eo
 
 if [ -f "init" ]; then
-    echo " exists."
+    echo "Init exists"
     exec nginx -g 'daemon off;'
     exit 0
 fi
