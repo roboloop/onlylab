@@ -120,7 +120,7 @@ class StudioService
 
     public function getOrMakeDummy()
     {
-        $dummy = $this->studioRepository->findBy(['title' => self::DUMMY]);
+        $dummy = $this->studioRepository->findBy(['url' => self::DUMMY]);
         if ($dummy) {
             return $dummy[0];
         }
