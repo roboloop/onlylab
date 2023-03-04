@@ -10,6 +10,7 @@ use OnlyTracker\Infrastructure\Util\ObjectArrayModifier;
 
 class StudioService
 {
+    const DUMMY = 'Dummy Studio';
     private $studioRepository;
     private $studioFactory;
 
@@ -115,5 +116,18 @@ class StudioService
                 )
             )
         );
+    }
+
+    public function getOrMakeDummy()
+    {
+        $dummy = $this->studioRepository->findBy(['title' => self::DUMMY]);
+        if ($dummy) {
+            return $dummy[0];
+        }
+
+        $dummy = $this->studioFactory->make(self::DUMMY, StudioStatus::typical());
+        $this->studioRepository->saveMultiple([$dummy]);
+
+        return $dummy;
     }
 }

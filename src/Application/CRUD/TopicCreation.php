@@ -97,12 +97,22 @@ class TopicCreation
             $topic->addImage($image);
         }
 
-        foreach ($genres as $genre) {
-            $topic->addGenre($genre);
-        }
 
-        foreach ($studios as $studio) {
-            $topic->addStudio($studio);
+        // If cartoons category (hard to parse, keep title)
+        if ($forum->getId() === '8510') {
+            $dummyGenre = $this->genreService->getOrMakeDummy();
+            $dummyStudio = $this->studioService->getOrMakeDummy();
+
+            $topic->addGenre($dummyGenre);
+            $topic->addStudio($dummyStudio);
+        } else {
+            foreach ($genres as $genre) {
+                $topic->addGenre($genre);
+            }
+
+            foreach ($studios as $studio) {
+                $topic->addStudio($studio);
+            }
         }
 
         return $topic;

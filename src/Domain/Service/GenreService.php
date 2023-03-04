@@ -2,6 +2,7 @@
 
 namespace OnlyTracker\Domain\Service;
 
+use OnlyTracker\Domain\Entity\Enum\GenreStatus;
 use OnlyTracker\Domain\Entity\Genre;
 use OnlyTracker\Domain\Factory\GenreFactory;
 use OnlyTracker\Domain\Repository\GenreRepositoryInterface;
@@ -9,6 +10,7 @@ use OnlyTracker\Infrastructure\Util\ObjectArrayModifier;
 
 class GenreService
 {
+    const DUMMY = 'Dummy Genre';
     private $genreRepository;
     private $genreFactory;
 
@@ -122,5 +124,18 @@ class GenreService
                 )
             )
         );
+    }
+
+    public function getOrMakeDummy()
+    {
+        $dummy = $this->genreRepository->findBy(['title' => self::DUMMY]);
+        if ($dummy) {
+            return $dummy[0];
+        }
+
+        $dummy = $this->genreFactory->make(self::DUMMY, null, false);
+        $this->genreRepository->saveMultiple([$dummy]);
+
+        return $dummy;
     }
 }
