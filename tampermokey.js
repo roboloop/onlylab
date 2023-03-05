@@ -22,6 +22,7 @@
     const link = 'https://873.332.933.331/topics/' + topicId;
 
     window.open(link, '_blank').focus();
+    this.style.color='#009900';
 
     return false;
   });
