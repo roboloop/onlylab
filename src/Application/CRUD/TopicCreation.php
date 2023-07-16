@@ -83,8 +83,13 @@ class TopicCreation
 
         $this->topicRepository->save($topic);
 
-        /** @var \OnlyTracker\Application\Dto\RawImageDto $rawImageDto */
-        foreach ($dto->getImages() as $rawImageDto) {
+        /** @var \OnlyTracker\Application\Dto\RawImageDto[] $rawImageDtos */
+        $rawImageDtos = $dto->getImages();
+        if (count($rawImageDtos) > 20) {
+            $rawImageDtos = array_rand($rawImageDtos, 20);
+        }
+
+        foreach ($rawImageDtos as $rawImageDto) {
             // Ignore the upload of photosets
             if (ImageFormat::isPhotoset($rawImageDto->getSpoilerName() ?? '')) {
                 continue;
