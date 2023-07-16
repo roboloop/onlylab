@@ -22,6 +22,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TopicCreation
 {
+    private const MAX_IMAGES = 20;
     private $validator;
     private $parserManager;
     private $genreService;
@@ -85,8 +86,9 @@ class TopicCreation
 
         /** @var \OnlyTracker\Application\Dto\RawImageDto[] $rawImageDtos */
         $rawImageDtos = $dto->getImages();
-        if (count($rawImageDtos) > 20) {
-            $rawImageDtos = array_rand($rawImageDtos, 20);
+        if (count($rawImageDtos) > self::MAX_IMAGES) {
+            shuffle($rawImageDtos);
+            $rawImageDtos = array_slice($rawImageDtos, 0, self::MAX_IMAGES);
         }
 
         foreach ($rawImageDtos as $rawImageDto) {
