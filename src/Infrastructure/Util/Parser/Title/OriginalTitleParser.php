@@ -19,6 +19,12 @@ class OriginalTitleParser
                 return trim($matches[1]);
             }
 
+            // if no studious
+            preg_match('~^([^\[\]]+)~', $content, $matches);
+            if (isset($matches[1])) {
+                return trim($matches[1]);
+            }
+
             return null;
         }
 

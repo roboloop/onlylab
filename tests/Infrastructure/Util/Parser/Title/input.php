@@ -145,4 +145,19 @@ return [
             'lobn' => '6009',
         ],
     ],
+    // nx jecmpddi
+    [
+        'vjotwdtzac dofocnn kuzermx prnylyz q dfti [2691, kdoqxmt, asmy, lcd feh, 5463g]',
+        [
+            'oekldz' => [
+                'kdoqxmt',
+                'asmy',
+                'lcd feh',
+            ],
+            'mlybzqsqmlxhm' => 'vjotwdtzac dofocnn kuzermx prnylyz q dfti',
+            'thkyxai' => '5463g',
+            'sdxbldv' => [],
+            'lobn' => '2691',
+        ],
+    ],
 ];
