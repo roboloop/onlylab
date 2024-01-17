@@ -1,59 +1,75 @@
-````
 # OnlyTracker
 
 ## Deployment
 
-1. Upload the repository to the folder `/opt/git/onlytracker.git` using scp
+1. Create a folder on the server with a bare repository
 
-2. Create the hook `/opt/git/onlytracker.git/hooks/post-receive` and put the following content into it:
+    ```shell
+    git init --bare /opt/git/onlytracker.git
+    ```
 
-```shell
-#!/bin/bash
+2. Create a hook and give it write permissions:
 
-TARGET="/var/www/onlytracker"
-GIT_DIR="/opt/git/onlytracker.git"
-BRANCH="master"
+    ```shell
+    touch /opt/git/onlytracker.git/hooks/post-receive
+    chmod +x /opt/git/onlytracker.git/hooks/post-receive
+    ```
 
-mkdir -p "$TARGET"
+3. Put the following content into the hook:
 
-while read oldrev newrev ref
-do
-    git --work-tree=$TARGET --git-dir=$GIT_DIR checkout -f $BRANCH
+    ```shell
+    #!/bin/bash
+
+    TARGET="/var/www/onlytracker"
+    GIT_DIR="/opt/git/onlytracker.git"
+    BRANCH="master"
+
+    read oldrev newrev ref
+
+    mkdir -p "$TARGET"
+    git --work-tree="$TARGET" --git-dir="$GIT_DIR" checkout -f "$BRANCH"
     cd "$TARGET"
+    docker compose up -d
     docker compose exec fpm composer install
     docker compose exec fpm yarn install
     docker compose exec fpm yarn build
     docker compose exec fpm php bin/console doctrine:migrations:migrate -n
-done
-````
+    ```
 
-3. Go to this folder and run `docker compose up -d`
+4. On the local machine, set the new remote repository (`remote_server` — the name in `.ssh/config`):
 
-4. Check the logs of the running nginx container: `docker logs onlytracker-nginx-1`
+    ```shell
+    git remote set-url origin root@remote_server:/opt/git/onlytracker.git
+    ```
 
-5. Find the user and password there:
+5. Push a test commit
 
-```
-Adding password for user tracker_user
-User: tracker_user
-Pass: secret
-```
+    ```shell
+    git commit --allow-empty -m 'New remote server'
+    git push
+    ```
 
-6. On the local machine, set the new remote repository (`remote_server` — the name in `.ssh/config`):
+6. The login and password are in the logs `docker logs onlytracker-nginx-1`:
 
-```shell
-git remote set-url origin root@remote_server:/opt/git/onlytracker.git
-```
+    ```shell
+    cd /var/www/onlytracker
+    docker compose logs nginx
 
-7. Push a test commit:
+    # Adding password for user tracker_user
+    # User: tracker_user
+    # Pass: secret
+    ```
 
-```shell
-git commit --allow-empty -m 'empty commit'
-git push
-```
+7. Upload the dump from the local folder to the server
 
-8. Don’t forget to move the dump from the folder `/var/www/html/dump/` to `/var/www/onlytracker/var/data.db` and set the permissions:
+    ```shell
+    scp var/data.db remote_server:/var/www/onlytracker/var/data.db
+    chmod 777 /var/www/onlytracker/var/data.db
+    ```
 
-```shell
-chmod 777 /var/www/onlytracker/var/data.db
-```
+8. Access via SSH, open `https://127.0.0.1:9000`
+
+    ```shell
+    ssh -L 9000:127.0.0.1:443 remote_server
+    ```
+
