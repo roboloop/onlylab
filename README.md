@@ -49,7 +49,7 @@
     git push
     ```
 
-6. The login and password are in the logs `docker logs onlytracker-nginx-1`:
+6. The login and password can be found in the logs `docker logs onlytracker-nginx-1`:
 
     ```shell
     cd /var/www/onlytracker
@@ -60,11 +60,11 @@
     # Pass: secret
     ```
 
-7. Upload the dump from the local folder to the server
+7. Upload the dump from the local folder to the server and set correct permissions
 
     ```shell
     scp var/data.db remote_server:/var/www/onlytracker/var/data.db
-    chmod 777 /var/www/onlytracker/var/data.db
+    chmod 777 -R /var/www/onlytracker/var/
     ```
 
 8. Access via SSH, open `https://127.0.0.1:9000`
