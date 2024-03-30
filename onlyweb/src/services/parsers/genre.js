@@ -23,8 +23,8 @@ export function parseGenre(original) {
   const totalClosed = original.match(/\]/g)?.length ?? 0
   let matched =
     totalOpened !== totalClosed
-      ? original.match(/[\[(]([^\[\]()]*)[\])]\s*$/i)
-      : original.match(/(?:\[[^\]]+\])?[^\[]+\[([^\]]+)\]/i)
+      ? original.match(/[[(]([^[\]()]*)[\])]\s*$/i)
+      : original.match(/(?:\[[^\]]+\])?[^[]+\[([^\]]+)\]/i)
 
   if (!matched) {
     return []

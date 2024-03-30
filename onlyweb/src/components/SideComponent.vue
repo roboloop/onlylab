@@ -61,10 +61,11 @@ const emit = defineEmits(['exit'])
     </h5>
     <ul class="nav flex-column">
       <!--      <li class="nav-item"><a :href="profile.link" target="_blank">Babepedia</a></li>-->
-      <li class="nav-item">Age: {{ profile.age }}</li>
-      <li class="nav-item">Nationality: {{ profile.nationality }}</li>
-      <li class="nav-item">Boobs: {{ profile.boobs }}</li>
+      <li class="nav-item" v-if="profile.age">Age: {{ profile.age }}</li>
+      <li class="nav-item" v-if="profile.nationality">Nationality: {{ profile.nationality }}</li>
+      <li class="nav-item" v-if="profile.boobs">Boobs: {{ profile.boobs }}</li>
     </ul>
+    <br />
   </template>
 
   <h5>Info</h5>
