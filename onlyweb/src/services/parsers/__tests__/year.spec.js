@@ -1,0 +1,10 @@
+import { describe, it, expect } from 'vitest'
+import { parseYear } from '../year'
+import data from './input'
+
+describe.each(data)('$source -> $expected.originalTitle', ({ source, expected }) => {
+  it('test', () => {
+    const result = parseYear(source)
+    expect(expected.year).toStrictEqual(result)
+  })
+})

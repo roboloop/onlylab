@@ -1,0 +1,128 @@
+export default [
+  {
+    source:
+      '[ipzixdvvxd.zzs] aihdg 41 ruwfd hix qjafgd eywi gsfiwkzz mzbi wzp avxi pu6696 / 65.67.6486 [pjzz, asmy, omdu, kpj pwan, bstyfrz, 0614g]',
+    expected: {
+      genres: ['pjzz', 'asmy', 'omdu', 'kpj pwan', 'bstyfrz'],
+      originalTitle: 'aihdg 41 ruwfd hix qjafgd eywi gsfiwkzz mzbi wzp avxi pu6696 / 65.67.6486',
+      quality: '0614g',
+      studios: ['ipzixdvvxd.zzs'],
+      year: '6486',
+      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'aihdg 41'
+    }
+  },
+  {
+    source:
+      "[spkwkbsy.zzs] xlrlk gpxxqc - xlrlk'm phxan asmy (72.73.6486) [6486 l., asmy, sygbhz, wdvy, ygc ixa, pgcjavlpl, gvt, kpj jxpo, etpfp, bfgzztpn, fnoohek pwan, whdhjc, ydpjdusl, yvwlc pwmlc, ohjjvqc, ofespjt, 081g]",
+    expected: {
+      genres: [
+        'asmy',
+        'sygbhz',
+        'wdvy',
+        'ygc ixa',
+        'pgcjavlpl',
+        'gvt',
+        'kpj jxpo',
+        'etpfp',
+        'bfgzztpn',
+        'fnoohek pwan',
+        'whdhjc',
+        'ydpjdusl',
+        'yvwlc pwmlc',
+        'ohjjvqc',
+        'ofespjt'
+      ],
+      originalTitle: "xlrlk gpxxqc - xlrlk'm phxan asmy (72.73.6486)",
+      quality: '081g',
+      studios: ['spkwkbsy.zzs'],
+      year: '6486',
+      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'xlrlk gpxxqc'
+    }
+  },
+  {
+    source:
+      '[ngpopjlkdvrqto.zzs / kpttvzhr.zzs] trytpu yvdsy (zxdwv-yaoudyjb twx fonv / 23.09.1980) [1980, kqe rkdrvji,kpj kqe,kpj pwan rkdrvji,egzwsk,wihzbyn (cmj),rdpi uiai,mdjwi,lffk,dijl pwan,qboptdbm,rrthxt,oewbom,vvtvzyffcm, 6f]',
+    expected: {
+      genres: [
+        'kqe rkdrvji',
+        'kpj kqe',
+        'kpj pwan rkdrvji',
+        'egzwsk',
+        'wihzbyn (cmj)',
+        'rdpi uiai',
+        'mdjwi',
+        'lffk',
+        'dijl pwan',
+        'qboptdbm',
+        'rrthxt',
+        'oewbom',
+        'vvtvzyffcm'
+      ],
+      originalTitle: 'trytpu yvdsy (zxdwv-yaoudyjb twx fonv / 23.09.1980)',
+      quality: '1941g',
+      studios: ['ngpopjlkdvrqto.zzs', 'kpttvzhr.zzs'],
+      year: '1980',
+      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'trytpu yvdsy'
+    }
+  },
+  {
+    source:
+      "[spkwkbsy.zzs] tvqgbcny ttgk(tvqgbcny'h asmy kdet )[6486 l., etpfp asmy bfgzztpn, 081g]",
+    expected: {
+      genres: ['etpfp', 'asmy', 'bfgzztpn'],
+      originalTitle: "tvqgbcny ttgk(tvqgbcny'h asmy kdet )",
+      quality: '081g',
+      studios: ['spkwkbsy.zzs'],
+      year: '6486',
+      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'tvqgbcny ttgk'
+    }
+  },
+  {
+    source:
+      "[tptqgf'h cmj euxgdq jfoh / komvipfvrfcc.zzs / zycyi6hvdb.zzs] pdcbd bjqgqnf (phdribxh nv aukoeajt hfkemq ekczlm pzktj feh tnbqrq olausgxdjs) [3889, pha pfin, qekhzyl, byk, vwvbq, bsse, 0614g]",
+    expected: {
+      genres: ['pha pfin', 'qekhzyl', 'byk', 'vwvbq', 'bsse'],
+      originalTitle:
+        'pdcbd bjqgqnf (phdribxh nv aukoeajt hfkemq ekczlm pzktj feh tnbqrq olausgxdjs)',
+      quality: '0614g',
+      studios: ["tptqgf'h cmj euxgdq jfoh", 'komvipfvrfcc.zzs', 'zycyi6hvdb.zzs'],
+      year: '3889',
+      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'pdcbd bjqgqnf'
+    }
+  },
+  {
+    source:
+      '[zuqluub.zzs / sblcnlxerhtk.zzs] kaskc nwcip - kaskc jtds dy j pctsqd (65.72.3889 l., asmy, lcd feh, ohjjvqc, 0614g]',
+    expected: {
+      genres: ['asmy', 'lcd feh', 'ohjjvqc'],
+      originalTitle: 'kaskc nwcip - kaskc jtds dy j pctsqd',
+      quality: '0614g',
+      studios: ['zuqluub.zzs', 'sblcnlxerhtk.zzs'],
+      year: '3889',
+      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'kaskc nwcip'
+    }
+  },
+  {
+    source:
+      '[swajvyh.zzs] qrgl mzon (mzon, mzon, mpusvlj wy get joajbxsp / 41.31.6009) [6009 l., asmy, hasgvnl pwmlc, mm, 6j, 5463g] [xiqnmf blse / zdkyr 6 / khni]',
+    expected: {
+      genres: ['asmy', 'hasgvnl pwmlc', 'mm'],
+      originalTitle: 'qrgl mzon (mzon, mzon, mpusvlj wy get joajbxsp / 41.31.6009)',
+      quality: '5463g',
+      studios: ['swajvyh.zzs'],
+      year: '6009',
+      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'qrgl mzon'
+    }
+  },
+  {
+    source: 'vjotwdtzac dofocnn kuzermx prnylyz q dfti [2691, kdoqxmt, asmy, lcd feh, 5463g]',
+    expected: {
+      genres: ['kdoqxmt', 'asmy', 'lcd feh'],
+      originalTitle: 'vjotwdtzac dofocnn kuzermx prnylyz q dfti',
+      quality: '5463g',
+      studios: [],
+      year: '2691',
+      profileLink: ''
+    }
+  }
+]
