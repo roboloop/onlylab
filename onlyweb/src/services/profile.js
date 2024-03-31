@@ -41,7 +41,7 @@ export default {
     }
 
     const link = makeLink(name)
-    const html = await client.get(link)
+    const html = await client.send({ url: link })
 
     const parser = new DOMParser()
     const doc = parser.parseFromString(html, 'text/html')

@@ -7,7 +7,7 @@ export default {
     }
 
     try {
-      const data = await client.get(href, { Accept: 'text/html', 'User-Agent': 'curl/8.4.0' })
+      const data = await client.send({ url: href, Accept: 'text/html', 'User-Agent': 'curl/8.4.0' })
       const matched = data.match(/src="(.+?fastpic\.org\/big\/.+?)"/)
       if (matched) {
         return matched[1]

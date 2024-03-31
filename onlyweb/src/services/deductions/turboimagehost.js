@@ -7,7 +7,7 @@ export default {
     }
 
     try {
-      const data = await client.get(href)
+      const data = await client.send({ url: href })
       const matched = data.match(/<meta property="og:image" content="([^"]+)"/)
       if (matched) {
         return matched[1]

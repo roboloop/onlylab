@@ -1,6 +1,6 @@
 <script setup>
 import { BCarousel, BCarouselSlide } from 'bootstrap-vue'
-import { onDeactivated, ref } from 'vue'
+import { ref } from 'vue'
 import pLimit from 'p-limit'
 import Deduction from '../services/deductions/deduction'
 
@@ -25,21 +25,17 @@ for (const { title, href } of props.images) {
 }
 
 const handler = (e) => {
-  switch (e.which) {
-    case 37: // left
-      carousel.value.prev()
-      return false
-    case 39: // right
-      carousel.value.next()
-      return false
+  if (e.which === 37) {
+    // left
+    carousel.value.prev()
+  }
+  if (e.which === 39) {
+    // right
+    carousel.value.next()
   }
 }
 
 window.addEventListener('keydown', handler)
-
-onDeactivated(() => {
-  window.removeEventListener('keydown', handler)
-})
 </script>
 
 <template>

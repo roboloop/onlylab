@@ -1,16 +1,17 @@
 <script setup>
-import { ref, onDeactivated } from 'vue'
+import { ref, watch } from 'vue'
 import { parseDom } from './services/parseDom'
 import { parseText } from './services/parseText'
 import SideComponent from './components/SideComponent.vue'
 import ImagesComponent from './components/ImagesComponent.vue'
 import store from 'store'
+import client from './services/clients'
 
 let { raw, size, createdAt, downloadLink, images } = parseDom(window.document)
 const { title } = parseText(raw)
 const show = ref(false)
 
-const onKeydown = (e) => {
+window.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.key === 'a') {
     e.preventDefault()
     show.value = !show.value
@@ -19,19 +20,25 @@ const onKeydown = (e) => {
     e.preventDefault()
     store.clearAll()
   }
-}
-window.addEventListener('keydown', onKeydown)
-onDeactivated(() => {
-  window.removeEventListener('keydown', onKeydown)
+  if (e.ctrlKey && e.key === 'd') {
+    e.preventDefault()
+    const file = client.send({ url: downloadLink }).then((resp) => {
+      store.set('torrent', btoa(resp))
+      console.log(resp.responseText)
+    })
+    console.log(file)
+    // window.open(downloadLink, '_blank')
+  }
+})
+
+watch(show, (newVal) => {
+  document.body.style.overflow = newVal ? 'hidden' : 'auto'
 })
 </script>
 
 <template>
-  <!--  <Banner-->
-  <!--      @click="openOverlay"-->
-  <!--  ></Banner>-->
-  <div class="overlay" v-show="show">
-    <div class="overlay-item">
+  <div class="overlay-container" v-show="show">
+    <div class="overlay-content">
       <div class="container-fluid" style="">
         <div class="row">
           <div class="col-sm-2"></div>
@@ -65,24 +72,20 @@ onDeactivated(() => {
 </template>
 
 <style scoped lang="scss">
-.overlay {
+.overlay-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  z-index: 9998;
+  overflow-y: auto;
+  overscroll-behavior: none;
 }
 
-.overlay-item {
-  position: absolute;
-  background-color: lightgray;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
+.overlay-content {
+  background-color: ghostwhite;
   border: none;
 }
 

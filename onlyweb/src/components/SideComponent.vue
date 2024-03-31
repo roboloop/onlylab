@@ -3,6 +3,9 @@ import { computed, ref, defineEmits, defineProps } from 'vue'
 import { parseText } from '../services/parseText.js'
 import profile from '../services/profile'
 import { parseName } from '../services/parsers/name.js'
+import qbit from '../services/qbit'
+import { BBadge } from 'bootstrap-vue'
+// TODO: DATABASE: https://www.babepedia.com/babelist.txt
 
 const props = defineProps({
   raw: String,
@@ -36,10 +39,24 @@ for (const name of names) {
   profile.parameters(name).then((profile) => profiles.value.push(profile))
 }
 
-// profile.parameters(profileLink).then(({boobs: boobsParams}) => boobs.value = boobsParams ? boobsParams : '<no data>')
-
 const emit = defineEmits(['exit'])
-// TODO: DATABASE: https://www.babepedia.com/babelist.txt
+const onDownload = async () => {
+  const today = new Date()
+  const day = ('0' + today.getDate()).slice(-2)
+  const month = ('0' + (today.getMonth() + 1)).slice(-2)
+  const folder = day + month
+  const result = await qbit.upload(props.downloadLink, folder)
+
+  showSuccessBadge.value = result
+  showWarningBadge.value = !result
+
+  setTimeout(() => {
+    showSuccessBadge.value = false
+    showWarningBadge.value = false
+  }, 5000)
+}
+const showSuccessBadge = ref(false)
+const showWarningBadge = ref(false)
 </script>
 
 <template>
@@ -50,17 +67,26 @@ const emit = defineEmits(['exit'])
       <a href="#" target="_blank" @click.prevent.stop="emit('exit')">Exit</a>
     </li>
     <li class="nav-item">
-      <a :href="downloadLink" target="_blank">Download</a>
+      <a :href="downloadLink" target="_blank" @click.prevent.stop="onDownload">Download</a>
+      <Transition appear>
+        <b-badge variant="success" :pill="true" style="margin-left: 12px" v-if="showSuccessBadge"
+          >Success</b-badge
+        >
+      </Transition>
+      <Transition appear>
+        <b-badge variant="warning" :pill="true" style="margin-left: 12px" v-if="showWarningBadge"
+          >Fail</b-badge
+        >
+      </Transition>
     </li>
   </ul>
   <br />
 
   <template v-for="profile in profiles" :key="profile.name">
     <h5>
-      <a :href="profile.link" target="_blank">{{ profile.name }}</a>
+      <a :href="profile.link" target="_blank" rel="noreferrer">{{ profile.name }}</a>
     </h5>
     <ul class="nav flex-column">
-      <!--      <li class="nav-item"><a :href="profile.link" target="_blank">Babepedia</a></li>-->
       <li class="nav-item" v-if="profile.age">Age: {{ profile.age }}</li>
       <li class="nav-item" v-if="profile.nationality">Nationality: {{ profile.nationality }}</li>
       <li class="nav-item" v-if="profile.boobs">Boobs: {{ profile.boobs }}</li>
@@ -97,6 +123,16 @@ const emit = defineEmits(['exit'])
 </template>
 
 <style scoped lang="scss">
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .nav-item {
   font-size: 14px;
   font-weight: normal;

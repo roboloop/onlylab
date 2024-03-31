@@ -19,7 +19,7 @@ a.banner {
   outline: none;
   cursor: pointer;
   position: fixed;
-  z-index: 9999999999;
+  z-index: 9999;
   transition: top 0.2s ease;
 }
 </style>
