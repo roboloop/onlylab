@@ -35,7 +35,7 @@ const aValue = (doc, span) => {
 
 export default {
   async parameters(name) {
-    const fromCache = store.get(name)
+    const fromCache = store.get('profile:' + name)
     if (fromCache) {
       return fromCache
     }
@@ -54,7 +54,7 @@ export default {
       link: link
     }
 
-    store.set(name, profile)
+    store.set('profile:' + name, profile)
 
     return profile
   }

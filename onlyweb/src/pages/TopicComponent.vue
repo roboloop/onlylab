@@ -6,7 +6,9 @@ import SideComponent from '../components/SideComponent.vue'
 import ImagesComponent from '../components/ImagesComponent.vue'
 import store from 'store'
 
-let { raw, size, createdAt, downloadLink, images } = parseDom(window.document)
+let { raw, topic, size, createdAt, seeds, duration, downloadLink, images } = parseDom(
+  window.document
+)
 const { title } = parseText(raw)
 
 window.addEventListener('keydown', (e) => {
@@ -22,6 +24,7 @@ window.addEventListener('keydown', (e) => {
 
 const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
 const show = ref(enableOnOpen)
+const imagesRef = ref(null)
 document.body.style.overflow = enableOnOpen ? 'hidden' : 'auto'
 
 watch(show, (newVal) => {
@@ -46,7 +49,7 @@ watch(show, (newVal) => {
               </template>
             </header>
 
-            <ImagesComponent :images="images" ref="imagesRef"></ImagesComponent>
+            <ImagesComponent :images="images" :topic="topic" ref="imagesRef"></ImagesComponent>
           </div>
 
           <div class="col-sm-2">
@@ -55,7 +58,10 @@ watch(show, (newVal) => {
               :downloadLink="downloadLink"
               :size="size"
               :createdAt="createdAt"
+              :seeds="seeds"
+              :duration="duration"
               @exit="show = false"
+              @reload="imagesRef.reloadImages()"
             ></SideComponent>
           </div>
         </div>

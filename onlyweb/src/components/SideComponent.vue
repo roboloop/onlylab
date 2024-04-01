@@ -11,6 +11,8 @@ const props = defineProps({
   raw: String,
   downloadLink: String,
   createdAt: String,
+  seeds: String,
+  duration: String,
   size: String
 })
 
@@ -39,7 +41,7 @@ for (const name of names) {
   profile.parameters(name).then((profile) => profiles.value.push(profile))
 }
 
-const emit = defineEmits(['exit'])
+const emit = defineEmits(['exit', 'reload'])
 const onDownload = async () => {
   const today = new Date()
   const day = ('0' + today.getDate()).slice(-2)
@@ -65,6 +67,9 @@ const showWarningBadge = ref(false)
   <ul class="nav flex-column">
     <li class="nav-item">
       <a href="#" target="_blank" @click.prevent.stop="emit('exit')">Exit</a>
+    </li>
+    <li class="nav-item">
+      <a href="#" target="_blank" @click.prevent.stop="emit('reload')">Reload</a>
     </li>
     <li class="nav-item">
       <a :href="downloadLink" target="_blank" @click.prevent.stop="onDownload">Download</a>
@@ -106,7 +111,10 @@ const showWarningBadge = ref(false)
     <li class="nav-item">{{ createdAt }}</li>
   </ul>
   <ul class="nav flex-column">
-    <li class="nav-item">{{ size }}</li>
+    <li class="nav-item">{{ size }} (↓{{ seeds }})</li>
+  </ul>
+  <ul v-if="duration" class="nav flex-column">
+    <li class="nav-item">{{ duration }}</li>
   </ul>
   <br />
 

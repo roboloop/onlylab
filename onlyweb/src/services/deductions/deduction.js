@@ -13,15 +13,19 @@ export default {
       return false
     }
 
-    const fromStore = store.get(title)
+    const fromStore = store.get('img:' + title)
     if (fromStore) {
       return fromStore
     }
 
     const result = await strategy.do(title, href)
-    store.set(title, result)
+    store.set('img:' + title, result)
 
     return result
+  },
+
+  clear(title) {
+    store.remove('img:' + title)
   },
 
   support(title, href) {
