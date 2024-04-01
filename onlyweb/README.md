@@ -19,6 +19,6 @@ npm run format
 
 ### TODO
 
-- notify on a tab if all images are loaded
 - issue with displaying Bootstrap styles on the entire page
 - image limit
+- deployment

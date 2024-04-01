@@ -83,8 +83,11 @@ const getDuration = (document) => {
 
   if (el.nextSibling) {
     el.nextSibling.textContent && candidates.push(el.nextSibling.textContent)
-    el.nextSibling.nextSibling.textContent &&
-      candidates.push(el.nextSibling.nextSibling.textContent)
+
+    if (el.nextSibling.nextSibling) {
+      el.nextSibling.nextSibling.textContent &&
+        candidates.push(el.nextSibling.nextSibling.textContent)
+    }
   }
 
   if (el.parentElement.nextElementSibling) {

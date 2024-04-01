@@ -36,6 +36,14 @@ const reloadImages = () => {
 
 defineExpose({ reloadImages })
 
+const originalTitle = document.title
+let totalLoaded = 0
+const handleLoad = () => {
+  console.log('handleLoad', `[${totalLoaded}/${props.images.length}] ${originalTitle}`)
+  totalLoaded++
+  document.title = `[${totalLoaded}/${props.images.length}] ${originalTitle}`
+}
+
 const handler = (e) => {
   if (e.which === 37) {
     // left
@@ -63,7 +71,11 @@ window.addEventListener('keydown', handler)
     label-prev=""
     ref="carousel"
   >
-    <b-carousel-slide v-for="link in imageLinks" :key="link" :img-src="link"></b-carousel-slide>
+    <b-carousel-slide v-for="link in imageLinks" :key="link" :img-src="link">
+      <template #img>
+        <img class="d-block img-fluid w-100" :src="link" alt="" @load="handleLoad" />
+      </template>
+    </b-carousel-slide>
   </b-carousel>
 </template>
 

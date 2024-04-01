@@ -11,6 +11,10 @@ const data = [
     expected: ['fmjmnlj zwsnw']
   },
   {
+    source: 'gpwyb tiag — hafeqlkjiouq ydpjdusl gpwyb tiag dvbcwh bfgzztpn bc',
+    expected: ['gpwyb tiag']
+  },
+  {
     source: 'uinheocrz e - j ozoi nqqjxqz uzfd (09.09.2691)',
     expected: ['uinheocrz e']
   },
