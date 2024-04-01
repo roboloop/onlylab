@@ -22,3 +22,4 @@ npm run format
 - issue with displaying Bootstrap styles on the entire page
 - image limit
 - deployment
+- search page /forum/tracker.php

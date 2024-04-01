@@ -106,7 +106,6 @@ const showWarningBadge = ref(false)
   <ul v-if="quality" class="nav flex-column">
     <li class="nav-item">{{ quality }}</li>
   </ul>
-  <i v-else>no quality</i>
   <ul class="nav flex-column">
     <li class="nav-item">{{ createdAt }}</li>
   </ul>

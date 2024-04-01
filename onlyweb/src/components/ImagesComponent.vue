@@ -39,7 +39,6 @@ defineExpose({ reloadImages })
 const originalTitle = document.title
 let totalLoaded = 0
 const handleLoad = () => {
-  console.log('handleLoad', `[${totalLoaded}/${props.images.length}] ${originalTitle}`)
   totalLoaded++
   document.title = `[${totalLoaded}/${props.images.length}] ${originalTitle}`
 }

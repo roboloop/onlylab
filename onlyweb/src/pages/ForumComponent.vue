@@ -14,15 +14,6 @@ const handleNotBannedTopics = (fn) => {
   document.querySelectorAll('.forum tr:not(.fade-out):has(> td.tt)').forEach((el) => fn(el))
 }
 
-// logic
-// 0. Open in new tab
-// 1. fade banned
-// 2. "redify" banned
-// 3. apply filter (from state)
-// 3.1. Hide faded and non-matched
-// 3.2. "yellowfy" matched part
-// 3.3. If filter empty, default state
-
 // Open in a new tab
 handleAllTopics((tr) => (tr.querySelector('a').target = '_blank'))
 
@@ -103,6 +94,14 @@ window.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.key === 'f') {
     e.preventDefault()
     inputRef.value.focus()
+  }
+  if (e.altKey && e.key === 'ArrowLeft') {
+    e.preventDefault()
+    document.querySelector('#pagination a:nth-child(2)').click()
+  }
+  if (e.altKey && e.key === 'ArrowRight') {
+    e.preventDefault()
+    document.querySelector('#pagination a:last-child').click()
   }
 })
 </script>

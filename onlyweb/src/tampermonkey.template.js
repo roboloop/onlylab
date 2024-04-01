@@ -52,7 +52,6 @@
     app.mount('#app')
   }
 
-  console.log(window)
   await addCss()
   await addJs()
   addApp()

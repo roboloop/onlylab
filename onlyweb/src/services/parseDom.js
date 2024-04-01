@@ -67,7 +67,8 @@ const getCreatedAt = (document) => {
 }
 
 const getSeeds = (document) => {
-  return document.querySelector('.forumline tr .seed b').textContent
+  const seeds = document.querySelector('.forumline tr .seed b')
+  return seeds ? seeds.textContent : '0'
 }
 
 const getDuration = (document) => {
