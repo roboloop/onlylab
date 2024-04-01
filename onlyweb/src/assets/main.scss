@@ -1,0 +1,28 @@
+tr.fade-out {
+  background-color: rgba(0, 0, 0, 0.75);
+
+  .seedmed,
+  .leechmed {
+    color: #000;
+  }
+
+  a,
+  a:hover,
+  a:link,
+  a:visited {
+    text-decoration: none;
+    color: inherit;
+
+    > span.banned {
+      background-color: firebrick;
+    }
+  }
+}
+
+tr {
+  a {
+    > span.filter {
+      background-color: goldenrod;
+    }
+  }
+}
