@@ -28,6 +28,7 @@ const loadImages = () => {
 loadImages()
 
 const reloadImages = () => {
+  totalLoaded = 0
   props.images.forEach(({ t }) => Deduction.clear(t))
   imageLinks.value.splice(0)
 

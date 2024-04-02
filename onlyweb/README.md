@@ -23,3 +23,4 @@ npm run format
 - image limit
 - deployment
 - search page /forum/tracker.php
+- fastpic links without .html (t=5862961)
