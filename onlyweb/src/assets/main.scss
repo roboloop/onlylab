@@ -1,8 +1,10 @@
-tr.fade-out {
+tr.fade-out, td.fade-out {
   background-color: rgba(0, 0, 0, 0.75);
 
   .seedmed,
-  .leechmed {
+  .leechmed,
+  &.leechmed,
+  .tor-icon {
     color: #000;
   }
 
