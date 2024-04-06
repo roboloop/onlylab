@@ -6,12 +6,14 @@ import store from 'store'
 import escapeStringRegexp from 'escape-string-regexp'
 
 const handleAllTopics = (fn) =>
-  document.querySelectorAll('.forum tr:has(> td.tt)').forEach((el) => fn(el))
+  document.querySelectorAll('.forumline tbody tr:has(> td.tCenter)').forEach((el) => fn(el))
 const handleBannedTopics = (fn) => {
-  document.querySelectorAll('.forum tr.fade-out:has(> td.tt)').forEach((el) => fn(el))
+  document.querySelectorAll('.forumline tbody tr:has(> td.fade-out)').forEach((el) => fn(el))
 }
 const handleNotBannedTopics = (fn) => {
-  document.querySelectorAll('.forum tr:not(.fade-out):has(> td.tt)').forEach((el) => fn(el))
+  document
+    .querySelectorAll('.forumline tbody tr:has(> td.tCenter):not(:has(.fade-out))')
+    .forEach((el) => fn(el))
 }
 
 // Open in a new tab
@@ -36,7 +38,7 @@ handleAllTopics((tr) => {
     return [...commonGenres, ...commonStudious]
   }
 
-  const textElement = tr.querySelector('.tt-text')
+  const textElement = tr.querySelector('.tLink,.tt-text')
   const raw = textElement.textContent
   const words = bannedWords(raw)
   if (words.length) {
@@ -46,7 +48,7 @@ handleAllTopics((tr) => {
       new RegExp('\\b(' + escaped + ')(?:\\\\b|[^\\w])', 'gi'),
       '<span class="banned">$1</span>'
     )
-    tr.classList.add('fade-out')
+    Array.from(tr.children).forEach((td) => td.classList.add('fade-out'))
   }
 })
 
@@ -54,7 +56,9 @@ handleAllTopics((tr) => {
 const applyFilter = (filter) => {
   handleAllTopics((tr) => (tr.style.display = ''))
   handleNotBannedTopics(
-    (tr) => (tr.querySelector('.tt-text').innerHTML = tr.querySelector('.tt-text').textContent)
+    (tr) =>
+      (tr.querySelector('.tLink,.tt-text').innerHTML =
+        tr.querySelector('.tLink,.tt-text').textContent)
   )
   if (!filter) {
     return
@@ -62,7 +66,7 @@ const applyFilter = (filter) => {
 
   handleBannedTopics((tr) => (tr.style.display = 'none'))
   handleNotBannedTopics((tr) => {
-    const raw = tr.querySelector('.tt-text').textContent
+    const raw = tr.querySelector('.tLink,.tt-text').textContent
     const words = filter
       .split(';')
       .map((w) => w.trim())
@@ -70,7 +74,7 @@ const applyFilter = (filter) => {
     const every = words.every((w) => raw.toLowerCase().includes(w.toLowerCase()))
     if (every) {
       const escaped = words.map((w) => escapeStringRegexp(w)).join('|')
-      tr.querySelector('.tt-text').innerHTML = raw.replaceAll(
+      tr.querySelector('.tLink,.tt-text').innerHTML = raw.replaceAll(
         new RegExp('(' + escaped + ')', 'gi'),
         '<span class="filter">$1</span>'
       )
@@ -97,11 +101,11 @@ window.addEventListener('keydown', (e) => {
   }
   if (e.altKey && e.key === 'ArrowLeft') {
     e.preventDefault()
-    document.querySelector('#pagination a:nth-child(2)').click()
+    document.querySelector('.bottom_info .nav a:nth-child(2)').click()
   }
   if (e.altKey && e.key === 'ArrowRight') {
     e.preventDefault()
-    document.querySelector('#pagination a:last-child').click()
+    document.querySelector('.bottom_info .nav a:last-child').click()
   }
 })
 </script>
