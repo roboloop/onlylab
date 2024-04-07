@@ -1,4 +1,5 @@
-tampermonkey.template.js
+tampermonkey.dev.js
+tampermonkey/*.js
 vite.config.js
 dev/**/*.js
 dummy/**/*.js

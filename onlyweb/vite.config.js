@@ -5,6 +5,14 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { viteSingleFile } from "vite-plugin-singlefile"
 
+const tampermonkey = () => {
+  return {
+    name: 'tampermonkey-build',
+    generateBundle(outputOptions, bundle) {
+      // Leave here till better times
+    },
+  }
+}
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
