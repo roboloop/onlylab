@@ -33,4 +33,5 @@ node prod.js
 - issue with displaying Bootstrap styles on the entire page
 - image limit
 - working deployment
+- add a list of image hosters to @connect
 - fastpic links without .html (t=5862961)
