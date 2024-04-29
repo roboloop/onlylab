@@ -35,3 +35,5 @@ node prod.js
 - working deployment
 - add a list of image hosters to @connect
 - fastpic links without .html (t=5862961)
+- display the spoiler title if it has a name, duration, size, etc
+- come up with a more convenient mechanism for blocking studios/genres
