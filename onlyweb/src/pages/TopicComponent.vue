@@ -12,11 +12,11 @@ let { raw, topic, size, createdAt, seeds, duration, downloadLink, images } = par
 const { title } = parseText(raw)
 
 window.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.key === 'a') {
+  if (e.ctrlKey && e.code === 'KeyA') {
     e.preventDefault()
     show.value = !show.value
   }
-  if (e.ctrlKey && e.key === 'c') {
+  if (e.ctrlKey && e.code === 'KeyC') {
     e.preventDefault()
     store.clearAll()
   }

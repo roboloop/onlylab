@@ -41,7 +41,6 @@ It's work based on building a single tampermonkey script that accumulates all th
 ### TODO
 
 - issue with displaying Bootstrap styles on the entire page
-- image limit
 - add a list of image hosters to @connect
 - display the spoiler title if it has a name, duration, size, etc
 - fastpic — some images dont

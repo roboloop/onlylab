@@ -4,7 +4,9 @@ import { ref, defineExpose } from 'vue'
 import pLimit from 'p-limit'
 import Deduction from '../services/deductions/deduction'
 
-const MAX_CONCURRENCY = 3
+const MAX_CONCURRENCY = 4
+const PER_IMAGES = 20
+let current_images = PER_IMAGES
 
 const props = defineProps({
   images: Array
@@ -12,9 +14,11 @@ const props = defineProps({
 const carousel = ref(null)
 const imageLinks = ref([])
 
-const loadImages = () => {
-  const limit = pLimit(MAX_CONCURRENCY)
-  for (const { header, title, href } of props.images) {
+let resolveOuter
+const limit = pLimit(MAX_CONCURRENCY)
+const loadImages = async () => {
+  for (const index in props.images) {
+    const { header, title, href } = props.images[index]
     limit(async () => {
       if (Deduction.support(title, href)) {
         const link = await Deduction.do(title, href)
@@ -23,9 +27,23 @@ const loadImages = () => {
         imageLinks.value.push({ link: title, header })
       }
     })
+
+    if (+index + 1 >= current_images) {
+      const p = new Promise((resolve) => {
+        resolveOuter = resolve
+      })
+      await Promise.all([p])
+      current_images += PER_IMAGES
+    }
   }
 }
 loadImages()
+
+const handleSlidingEnd = (slide) => {
+  if (slide >= current_images - PER_IMAGES / 2) {
+    resolveOuter()
+  }
+}
 
 const reloadImages = () => {
   totalLoaded = 0
@@ -54,7 +72,6 @@ const handler = (e) => {
     carousel.value.next()
   }
 }
-
 window.addEventListener('keydown', handler)
 </script>
 
@@ -69,8 +86,10 @@ window.addEventListener('keydown', handler)
     label-next=""
     label-prev=""
     ref="carousel"
+    @sliding-end="handleSlidingEnd"
   >
-    <b-carousel-slide v-for="{ link, header } in imageLinks" :key="link" :img-src="link">
+    <b-carousel-slide v-for="({ link, header }, index) in imageLinks" :key="link" :img-src="link">
+      {{ `${index + 1} / ${images.length}` }}
       <template #img>
         <i>{{ header }}</i>
         <img class="d-block img-fluid w-100" :src="link" alt="" @load="handleLoad" />

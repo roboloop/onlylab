@@ -89,9 +89,15 @@ const showWarningBadge = ref(false)
 
   <template v-for="profile in profiles" :key="profile.name">
     <h5>
-      <a :href="profile.link" target="_blank" rel="noreferrer">{{ profile.name }}</a>
+      {{ profile.name }}
     </h5>
     <ul class="nav flex-column">
+      <li class="nav-item">
+        <a :href="profile.babeLink" target="_blank" rel="noreferrer">Babepedia</a>
+      </li>
+      <li class="nav-item">
+        <a :href="profile.trackerLink" target="_blank" rel="noreferrer">Tracker</a>
+      </li>
       <li class="nav-item" v-if="profile.age">Age: {{ profile.age }}</li>
       <li class="nav-item" v-if="profile.nationality">Nationality: {{ profile.nationality }}</li>
       <li class="nav-item" v-if="profile.boobs">Boobs: {{ profile.boobs }}</li>

@@ -29,7 +29,7 @@ const getPlace = (el) => {
     parentElement = parentElement.parentNode
   }
 
-  const header = (getCategory(lowest) === lowest) ? lowest : ''
+  const header = isCategory(lowest) ? '' : lowest
   return { place: getCategory(heist), header }
 }
 
@@ -53,6 +53,16 @@ const getCategory = (place) => {
   }
 
   return place
+}
+
+const isCategory = (place) => {
+  if (!place) {
+    return false
+  }
+
+  return [...SCREENSHOTS, ...SCREENLIST, ...GIFS].some((word) =>
+    place.toLowerCase().includes(word.toLowerCase())
+  )
 }
 
 const getRaw = (document) => {

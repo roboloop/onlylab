@@ -8,9 +8,9 @@
 // @author       You
 // @match        https://tracker.net/forum/*
 // @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYGD4DwABBAEAX+XDSwAAAABJRU5ErkJggg==
-// @connect      http://localhost/*
-// @connect      https://www.babepedia.com/*
-// @connect      https://fastpic.org/*
+// @connect      localhost
+// @connect      babepedia.com
+// @connect      fastpic.org
 // @connect      *
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getResourceText

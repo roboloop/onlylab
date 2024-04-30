@@ -95,7 +95,7 @@ watch(input, (filter) => {
 applyFilter(filter)
 
 window.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.key === 'f') {
+  if (e.ctrlKey && e.code === 'KeyF') {
     e.preventDefault()
     inputRef.value.focus()
   }

@@ -1,8 +1,12 @@
 import client from './clients'
 import store from 'store'
 
-const makeLink = (name) => {
+const makeBabeLink = (name) => {
   return 'https://www.babepedia.com/babe/' + name
+}
+
+const makeTrackerLink = (name) => {
+  return `https://ptzkpdek.hct/forum/tracker.php?nm=%22${name}%22`
 }
 
 const listValue = (doc, span) => {
@@ -40,7 +44,7 @@ export default {
       return fromCache
     }
 
-    const link = makeLink(name)
+    const link = makeBabeLink(name)
     const html = await client.send({ url: link })
 
     const parser = new DOMParser()
@@ -51,7 +55,8 @@ export default {
       age: listValue(doc, 'Age'),
       nationality: listValue(doc, 'Nationality'),
       boobs: aValue(doc, 'Boobs'),
-      link: link
+      babeLink: link,
+      trackerLink: makeTrackerLink(name)
     }
 
     store.set('profile:' + name, profile)
