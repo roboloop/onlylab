@@ -6,10 +6,10 @@ const getImages = (document) => {
     .querySelectorAll('var[class="postImg"]')
   const images = []
   for (const imageDocument of imageDocuments) {
-    const place = getPlace(imageDocument)
+    const { place, header } = getPlace(imageDocument)
     const title = imageDocument.title
     const href = imageDocument.parentElement?.href
-    images.push({ place, title, href })
+    images.push({ place, header, title, href })
   }
 
   return images
@@ -18,36 +18,41 @@ const getImages = (document) => {
 const getPlace = (el) => {
   let parentElement = el.parentElement
   let heist = null
+  let lowest = null
   while (!parentElement.classList.contains('post_body')) {
     if (parentElement.classList.contains('sp-body')) {
       heist = parentElement.previousElementSibling.textContent
+      if (!lowest) {
+        lowest = heist
+      }
     }
     parentElement = parentElement.parentNode
   }
-  return getCategory(heist)
+
+  const header = (getCategory(lowest) === lowest) ? lowest : ''
+  return { place: getCategory(heist), header }
 }
 
 const SCREENSHOTS = ['Скриншот', 'Screenshots', 'Примеры']
 const SCREENLIST = ['Скринлист', 'ScreenLists', 'ScreenListing']
 const GIFS = ['GIF']
 
-const getCategory = (heist) => {
-  if (!heist) {
+const getCategory = (place) => {
+  if (!place) {
     return 'Постер'
   }
 
-  heist = heist.toLowerCase()
-  if (SCREENSHOTS.some((word) => heist.includes(word.toLowerCase()))) {
+  if (SCREENSHOTS.some((word) => place.toLowerCase().includes(word.toLowerCase()))) {
     return SCREENSHOTS[0]
   }
-  if (SCREENLIST.some((word) => heist.includes(word.toLowerCase()))) {
+  if (SCREENLIST.some((word) => place.toLowerCase().includes(word.toLowerCase()))) {
     return SCREENLIST[0]
   }
-  if (GIFS.some((word) => heist.includes(word.toLowerCase()))) {
+  if (GIFS.some((word) => place.toLowerCase().includes(word.toLowerCase()))) {
     return GIFS[0]
   }
 
-  return heist
+  return place
 }
 
 const getRaw = (document) => {

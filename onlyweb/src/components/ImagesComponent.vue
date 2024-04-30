@@ -14,13 +14,13 @@ const imageLinks = ref([])
 
 const loadImages = () => {
   const limit = pLimit(MAX_CONCURRENCY)
-  for (const { title, href } of props.images) {
+  for (const { header, title, href } of props.images) {
     limit(async () => {
       if (Deduction.support(title, href)) {
         const link = await Deduction.do(title, href)
-        imageLinks.value.push(link)
+        imageLinks.value.push({ link, header })
       } else {
-        imageLinks.value.push(title)
+        imageLinks.value.push({ link: title, header })
       }
     })
   }
@@ -66,13 +66,13 @@ window.addEventListener('keydown', handler)
     label-indicators="_"
     :interval="0"
     no-animation
-    style="text-shadow: 0 0 2px #000"
     label-next=""
     label-prev=""
     ref="carousel"
   >
-    <b-carousel-slide v-for="link in imageLinks" :key="link" :img-src="link">
+    <b-carousel-slide v-for="{ link, header } in imageLinks" :key="link" :img-src="link">
       <template #img>
+        <i>{{ header }}</i>
         <img class="d-block img-fluid w-100" :src="link" alt="" @load="handleLoad" />
       </template>
     </b-carousel-slide>

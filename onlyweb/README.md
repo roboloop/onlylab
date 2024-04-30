@@ -1,17 +1,5 @@
 # onlyweb
 
-### Dev
-
-Run two programs in separate tabs:
-
-```shell
-docker run --rm -it -p 80:80 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine
-
-NODE_ENV=development npx vite build -w --minify=false
-```
-
-Add plugin to browser `tampermonkey.dev.js`
-
 ### Lint
 
 ```shell
@@ -21,19 +9,39 @@ npm run format
 
 ### Deploy
 
-```shell
-npm run build
-node prod.js
+It's work based on building a single tampermonkey script that accumulates all the dependencies (js, css, tampermonkey logic). The delivery process is:
 
-# Copy paste the code to tampermonkey
-```
+1. Bump a new version in `tampermonkey/*.js.template`
+2. Run a build process
+
+    ```shell
+    # Production env
+    npm run build
+
+    # Development env
+    NODE_ENV=development npx vite build -w --minify=false
+    ```
+3. Run nginx server to serve files
+
+    ```shell
+    docker run --rm -it -p 80:80 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine
+    ```
+
+4. If it is the first deploy:
+
+    1. Open Tampermonkey Dashboard
+    2. Move to `Utilities` / `Import from file`
+    3. Choose the file `dist/tampermonkey.js`
+    4. Save
+
+5. Open the settings of tampermonkey's script
+6. Click "Check for userscript updates"
+7. Apply new updates
 
 ### TODO
 
 - issue with displaying Bootstrap styles on the entire page
 - image limit
-- working deployment
 - add a list of image hosters to @connect
-- fastpic links without .html (t=5862961)
 - display the spoiler title if it has a name, duration, size, etc
-- come up with a more convenient mechanism for blocking studios/genres
+- fastpic — some images dont

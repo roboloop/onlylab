@@ -1,18 +1,35 @@
 /* eslint-disable */
-import { fileURLToPath, URL } from 'node:url'
-
-import { defineConfig } from 'vite'
+import { readFileSync } from 'fs'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { viteSingleFile } from "vite-plugin-singlefile"
 
-const tampermonkey = () => {
+const env = loadEnv('', process.cwd(), 'VITE_')
+
+const tampermonkey = (templateFile) => {
   return {
-    name: 'tampermonkey-build',
+    name: 'tampermonkey',
     generateBundle(outputOptions, bundle) {
-      // Leave here till better times
+      const template = readFileSync(templateFile, 'utf8')
+      const js = bundle['assets/index.js'].code
+      const css = bundle['assets/index.css'].source
+
+      const backendUrl = env.VITE_DEV_BACKEND
+      let result = template.replaceAll(/<%= backend_url %>/g, backendUrl)
+
+      if (result.includes('<%= css %>')) {
+        const [first, second, third] = result.split(/(?:<%= css %>)|(?:<%= js %>)/)
+        result = first + css + second + js + third
+      }
+
+      this.emitFile({
+        type: 'asset',
+        fileName: 'tampermonkey.js',
+        source: result
+      })
     },
   }
 }
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -25,11 +42,11 @@ export default defineConfig({
         }
       }
     }),
+    tampermonkey(process.env.NODE_ENV === 'production' ? 'tampermonkey/prod.js.template' : 'tampermonkey/dev.js.template')
   ],
   resolve: {
     alias: {
       vue: '@vue/compat',
-      // '@': fileURLToPath(new URL('./src', import.meta.url)),
     }
   },
   build: {
@@ -39,6 +56,6 @@ export default defineConfig({
         chunkFileNames: `assets/[name].js`,
         assetFileNames: `assets/[name].[ext]`
       }
-    }
+    },
   }
 })
