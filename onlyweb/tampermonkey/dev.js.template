@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OnlyWeb Dev
 // @namespace    http://localhost/
-// @version      0.1
+// @version      0.3
 // @description  try to take over the world!
 // @updateURL    <%= backend_url %>/tampermonkey.js
 // @downloadURL  <%= backend_url %>/tampermonkey.js
@@ -31,20 +31,20 @@
 
   async function addCss() {
     const response = await GM.xmlHttpRequest({ url: cssUrl }).catch((e) => log(e))
+    if (!response) {
+      return
+    }
     const css = response.responseText
     GM_addStyle(css)
   }
 
   async function addJs() {
     const response = await GM.xmlHttpRequest({ url: jsUrl }).catch((e) => log(e))
+    if (!response) {
+      return
+    }
     const js = response.responseText
     eval(js)
-    return
-    const element = document.createElement('script')
-    element.textContent = js
-    element.setAttribute('type', 'module')
-    element.setAttribute('crossorigin', '')
-    document.body.appendChild(element)
   }
 
   function addApp() {

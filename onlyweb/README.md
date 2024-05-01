@@ -24,7 +24,7 @@ It's work based on building a single tampermonkey script that accumulates all th
 3. Run nginx server to serve files
 
     ```shell
-    docker run --rm -it -p 80:80 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine
+    docker run --rm -it -p 80:80 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine sh -c "sed -i '4i\add_header Cache-Control \"no-cache\";' /etc/nginx/conf.d/default.conf && nginx -g nginx -g 'daemon off;'"
     ```
 
 4. If it is the first deploy:

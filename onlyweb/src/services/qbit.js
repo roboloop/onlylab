@@ -4,7 +4,7 @@ const qbitBaseUrl = import.meta.env.VITE_QBIT_BASE_URL
 const addEndpoint = '/api/v2/torrents/add'
 
 export default {
-  async upload(downloadLink, folder) {
+  async upload(downloadLink, folder, paused) {
     const raw = await client.sendBlob({ url: downloadLink, responseType: 'blob' })
     const blob = new Blob([raw])
     const file = new File([blob], 'name.torrent', { type: 'application/x-bittorrent' })
@@ -12,7 +12,7 @@ export default {
     formData.append('torrents', file)
     formData.append('autoTMM', 'false')
     formData.append('rename', '')
-    formData.append('paused', 'false')
+    formData.append('paused', String(paused))
     formData.append('savepath', '/home/media/' + folder)
 
     const response = await client

@@ -3,8 +3,7 @@ import { computed, ref, defineEmits, defineProps } from 'vue'
 import { parseText } from '../services/parseText.js'
 import profile from '../services/profile'
 import { parseName } from '../services/parsers/name.js'
-import qbit from '../services/qbit'
-import { BBadge } from 'bootstrap-vue'
+import DownloadComponent from './DownloadComponent.vue'
 // TODO: DATABASE: https://www.babepedia.com/babelist.txt
 
 const props = defineProps({
@@ -42,23 +41,6 @@ for (const name of names) {
 }
 
 const emit = defineEmits(['exit', 'reload'])
-const onDownload = async () => {
-  const today = new Date()
-  const day = ('0' + today.getDate()).slice(-2)
-  const month = ('0' + (today.getMonth() + 1)).slice(-2)
-  const folder = day + month
-  const result = await qbit.upload(props.downloadLink, folder)
-
-  showSuccessBadge.value = result
-  showWarningBadge.value = !result
-
-  setTimeout(() => {
-    showSuccessBadge.value = false
-    showWarningBadge.value = false
-  }, 5000)
-}
-const showSuccessBadge = ref(false)
-const showWarningBadge = ref(false)
 </script>
 
 <template>
@@ -72,17 +54,18 @@ const showWarningBadge = ref(false)
       <a href="#" target="_blank" @click.prevent.stop="emit('reload')">Reload</a>
     </li>
     <li class="nav-item">
-      <a :href="downloadLink" target="_blank" @click.prevent.stop="onDownload">Download</a>
-      <Transition appear>
-        <b-badge variant="success" :pill="true" style="margin-left: 12px" v-if="showSuccessBadge"
-          >Success</b-badge
-        >
-      </Transition>
-      <Transition appear>
-        <b-badge variant="warning" :pill="true" style="margin-left: 12px" v-if="showWarningBadge"
-          >Fail</b-badge
-        >
-      </Transition>
+      <DownloadComponent
+        :download-link="downloadLink"
+        text="Download"
+        :paused="false"
+      ></DownloadComponent>
+    </li>
+    <li class="nav-item">
+      <DownloadComponent
+        :download-link="downloadLink"
+        text="Add to queue"
+        :paused="true"
+      ></DownloadComponent>
     </li>
   </ul>
   <br />
@@ -136,16 +119,6 @@ const showWarningBadge = ref(false)
 </template>
 
 <style scoped lang="scss">
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-
 .nav-item {
   font-size: 14px;
   font-weight: normal;

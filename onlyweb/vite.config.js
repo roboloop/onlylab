@@ -8,6 +8,9 @@ const env = loadEnv('', process.cwd(), 'VITE_')
 const tampermonkey = (templateFile) => {
   return {
     name: 'tampermonkey',
+    buildStart() {
+      this.addWatchFile(templateFile)
+    },
     generateBundle(outputOptions, bundle) {
       const template = readFileSync(templateFile, 'utf8')
       const js = bundle['assets/index.js'].code
