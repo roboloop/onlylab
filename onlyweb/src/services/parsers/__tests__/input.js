@@ -124,5 +124,16 @@ export default [
       year: '2691',
       profileLink: ''
     }
+  },
+  {
+    source: '[cnsmxmp.zzs / rutkezkgcwf.zzs]rqwxy ffom ( vgu kktzpaup asmy jcbn) [8502 l., etpfp, bfgzztpn ,pysjbvm, lcd feh, asmy , sn 0614g]',
+    expected: {
+      genres: ['etpfp', 'bfgzztpn', 'pysjbvm', 'lcd feh', 'asmy', 'sn'],
+      originalTitle: 'rqwxy ffom ( vgu kktzpaup asmy jcbn)',
+      quality: '0614g',
+      studios: ['cnsmxmp.zzs', 'rutkezkgcwf.zzs'],
+      year: '8502',
+      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'rqwxy ffom'
+    }
   }
 ]
