@@ -1,6 +1,7 @@
 import client from './clients'
 
 const qbitBaseUrl = import.meta.env.VITE_QBIT_BASE_URL
+const qbitSavePath = import.meta.env.VITE_QBIT_SAVE_PATH
 const addEndpoint = '/api/v2/torrents/add'
 
 export default {
@@ -13,7 +14,7 @@ export default {
     formData.append('autoTMM', 'false')
     formData.append('rename', '')
     formData.append('paused', String(paused))
-    formData.append('savepath', '/home/media/' + folder)
+    formData.append('savepath', qbitSavePath + folder)
 
     const response = await client
       .send({ method: 'POST', url: qbitBaseUrl + addEndpoint, data: formData })
