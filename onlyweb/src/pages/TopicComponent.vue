@@ -31,6 +31,13 @@ window.addEventListener('keydown', (e) => {
       window.open(link, '_blank')
     }
   }
+  if (e.ctrlKey && (e.code === 'KeyP' || e.code === 'KeyL')) {
+    e.preventDefault()
+    const link = sidebarRef.value.profiles?.[0]?.trackerLink
+    if (link) {
+      window.open(link, '_blank')
+    }
+  }
 })
 
 const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
