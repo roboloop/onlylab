@@ -10,7 +10,7 @@ const makeTrackerLink = (name) => {
   return `https://ptzkpdek.hct/forum/tracker.php?nm=%22${name}%22`
 }
 
-const lastValue = (doc, span) => {
+const nthValue = (doc, span, nth) => {
   const node = doc.evaluate(
     '//main//div[@id="biography"]//ul[@id="biolist"]//span[contains(text(), "' + span + '")]',
     doc,
@@ -21,7 +21,14 @@ const lastValue = (doc, span) => {
   if (!node) {
     return null
   }
-  return node.parentElement.lastChild.textContent
+  if (nth === -1) {
+    return node.parentElement.lastChild.textContent
+  }
+  return node.parentElement.childNodes[nth].textContent
+}
+
+const lastValue = (doc, span) => {
+  return nthValue(doc, span, -1)
 }
 
 export default {
@@ -41,7 +48,7 @@ export default {
     const profile = {
       name: name,
       age: lastValue(doc, 'Age'),
-      height: lastValue(doc, 'Height')?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
+      height: nthValue(doc, 'Height', 1)?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
       weight: lastValue(doc, 'Weight')?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
       country: country,
       flag: flag(country),

@@ -75,7 +75,7 @@ const getTopic = (document) => {
 
 const getForums = (document) => {
   const elements = document.querySelectorAll('td[valign="bottom"] table a[href^="./viewforum.php"]')
-  return Array.from(elements).map(a => a.href.match(/=(\w+)$/)[1])
+  return Array.from(elements).map((a) => a.href.match(/=(\w+)$/)[1])
 }
 
 const getSize = (document) => {
