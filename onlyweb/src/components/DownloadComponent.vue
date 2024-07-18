@@ -22,7 +22,7 @@ const onDownload = async () => {
   showWarningBadge.value = !result
 
   if (result) {
-    const downloadedAt = format(today, 'dd.MM.yyyy HH:mm')
+    const downloadedAt = new Date().toISOString()
     store.set('downloaded:' + props.topic, downloadedAt)
   }
 

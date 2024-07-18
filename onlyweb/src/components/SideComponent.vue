@@ -91,6 +91,10 @@ defineExpose({ reloadProfile, profiles })
         :topic="props.topic"
       ></DownloadComponent>
     </li>
+    <li class="nav-item tracker-icon">
+      <!-- todo: mv to fn, also encodeURIComponent() -->
+      <a :href="`https://ptzkpdek.hct/forum/tracker.php?nm=%22${title}%22`" target="_blank" rel="noreferrer">Related</a>
+    </li>
   </ul>
   <br />
 
@@ -142,7 +146,7 @@ defineExpose({ reloadProfile, profiles })
     <li class="nav-item">{{ duration }}</li>
   </ul>
   <ul v-if="downloadedAt" class="nav flex-column">
-    <li class="nav-item">{{ downloadedAt }}</li>
+    <li class="nav-item">{{ formatDate(downloadedAt) }}</li>
   </ul>
   <br />
 
