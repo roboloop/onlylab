@@ -73,6 +73,11 @@ const getTopic = (document) => {
   return document.querySelector('table h1.maintitle a').href.match(/\d+$/)[0]
 }
 
+const getForums = (document) => {
+  const elements = document.querySelectorAll('td[valign="bottom"] table a[href^="./viewforum.php"]')
+  return Array.from(elements).map(a => a.href.match(/=(\w+)$/)[1])
+}
+
 const getSize = (document) => {
   return document.querySelector('.forumline tr td b:nth-child(1)').textContent
 }
@@ -122,6 +127,7 @@ export function parseDom(document) {
   return {
     raw: getRaw(document),
     topic: getTopic(document),
+    forums: getForums(document),
     size: getSize(document),
     createdAt: getCreatedAt(document),
     seeds: getSeeds(document),

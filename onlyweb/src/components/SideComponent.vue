@@ -6,12 +6,14 @@ import { parseName } from '../services/parsers/name.js'
 import DownloadComponent from './DownloadComponent.vue'
 import store from 'store'
 import { formatDistance } from 'date-fns'
+import _ from 'lodash'
 
 // TODO: DATABASE: https://www.babepedia.com/babelist.txt
 
 const props = defineProps({
   raw: String,
   topic: String,
+  forums: Array,
   downloadLink: String,
   createdAt: String,
   seeds: String,
@@ -28,6 +30,7 @@ const {
 } = parseText(props.raw)
 const names = parseName(title)
 const profiles = ref([])
+const ignoredForums = import.meta.env.VITE_IGNORED_FORUMS.split(',')
 
 const genres = computed(() => {
   return unsortedGenres
@@ -41,6 +44,11 @@ const studious = computed(() => {
 })
 
 const reloadProfile = (force = false) => {
+  if (_.intersection(ignoredForums, props.forums).length > 0) {
+    console.log('Ignored', ignoredForums, props.forums)
+    return
+  }
+
   profiles.value.splice(0)
   for (const name of names) {
     profile.parameters(name, force).then((profile) => profiles.value.push(profile))

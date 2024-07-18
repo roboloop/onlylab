@@ -6,7 +6,7 @@ import SideComponent from '../components/SideComponent.vue'
 import ImagesComponent from '../components/ImagesComponent.vue'
 import store from 'store'
 
-let { raw, topic, size, createdAt, seeds, duration, downloadLink, images } = parseDom(
+let { raw, topic, forums, size, createdAt, seeds, duration, downloadLink, images } = parseDom(
   window.document
 )
 const { title } = parseText(raw)
@@ -72,6 +72,7 @@ watch(show, (newVal) => {
             <SideComponent
               :raw="raw"
               :topic="topic"
+              :forums="forums"
               :downloadLink="downloadLink"
               :size="size"
               :createdAt="createdAt"
