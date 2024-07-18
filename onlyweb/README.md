@@ -44,3 +44,6 @@ It's work based on building a single tampermonkey script that accumulates all th
 - add a list of image hosters to @connect
 - display the spoiler title if it has a name, duration, size, etc
 - fastpic — some images dont
+- move storage management to a separate service
+- popup with hotkeys
+- separate service for registering hotkeys

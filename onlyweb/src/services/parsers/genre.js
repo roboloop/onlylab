@@ -35,7 +35,7 @@ export function parseGenre(original) {
   const splitted = matched[1].split(/\.|,/).filter(Boolean)
   const regexPattern = [...qualities, ...months, ...reserved].join('|')
   const regex = new RegExp(regexPattern, 'iu')
-  let [ filtered, candidates ] = _.partition(splitted, (element) => !regex.test(element))
+  let [filtered, candidates] = _.partition(splitted, (element) => !regex.test(element))
 
   // Check if a genre is a part of quality
   if (candidates.length > 1) {

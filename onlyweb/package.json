@@ -15,6 +15,8 @@
     "@vue/compat": "^3.4.21",
     "bootstrap": "^4.6.2",
     "bootstrap-vue": "^2.23.1",
+    "country-emoji": "^1.5.6",
+    "date-fns": "^3.6.0",
     "escape-string-regexp": "^5.0.0",
     "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",

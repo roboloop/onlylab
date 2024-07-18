@@ -1,5 +1,6 @@
 import client from './clients'
 import store from 'store'
+import { flag } from 'country-emoji'
 
 const makeBabeLink = (name) => {
   return 'https://www.babepedia.com/babe/' + name
@@ -9,9 +10,9 @@ const makeTrackerLink = (name) => {
   return `https://ptzkpdek.hct/forum/tracker.php?nm=%22${name}%22`
 }
 
-const listValue = (doc, span) => {
+const lastValue = (doc, span) => {
   const node = doc.evaluate(
-    '//main//div[@id="biography"]//span[text()="' + span + ':"]',
+    '//main//div[@id="biography"]//ul[@id="biolist"]//span[contains(text(), "' + span + '")]',
     doc,
     null,
     XPathResult.FIRST_ORDERED_NODE_TYPE,
@@ -20,27 +21,13 @@ const listValue = (doc, span) => {
   if (!node) {
     return null
   }
-  return node.nextSibling.textContent
-}
-
-const aValue = (doc, span) => {
-  const node = doc.evaluate(
-    '//main//div[@id="biography"]//span[text()="' + span + ':"]',
-    doc,
-    null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE,
-    null
-  ).singleNodeValue
-  if (!node) {
-    return null
-  }
-  return node.nextSibling.nextSibling.textContent
+  return node.parentElement.lastChild.textContent
 }
 
 export default {
-  async parameters(name) {
+  async parameters(name, force = false) {
     const fromCache = store.get('profile:' + name)
-    if (fromCache) {
+    if (fromCache && !force) {
       return fromCache
     }
 
@@ -50,13 +37,20 @@ export default {
     const parser = new DOMParser()
     const doc = parser.parseFromString(html, 'text/html')
 
+    const country = lastValue(doc, 'Birthplace')
     const profile = {
       name: name,
-      age: listValue(doc, 'Age'),
-      nationality: listValue(doc, 'Nationality'),
-      boobs: aValue(doc, 'Boobs'),
+      age: lastValue(doc, 'Age'),
+      height: lastValue(doc, 'Height')?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
+      weight: lastValue(doc, 'Weight')?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
+      country: country,
+      flag: flag(country),
+      nationality: lastValue(doc, 'Nationality'),
+      boobs: lastValue(doc, 'Boobs'),
+      braSize: lastValue(doc, 'Bra/cup size')?.trim(),
       babeLink: link,
-      trackerLink: makeTrackerLink(name)
+      trackerLink: makeTrackerLink(name),
+      updatedAt: new Date().toISOString()
     }
 
     store.set('profile:' + name, profile)

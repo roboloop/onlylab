@@ -2,22 +2,29 @@
 import { BBadge } from 'bootstrap-vue'
 import qbit from '../services/qbit.js'
 import { defineProps, ref } from 'vue'
+import store from 'store'
+import { format } from 'date-fns'
 
 const props = defineProps({
   text: String,
   downloadLink: String,
-  paused: Boolean
+  paused: Boolean,
+  topic: Number
 })
 
 const onDownload = async () => {
   const today = new Date()
-  const day = ('0' + today.getDate()).slice(-2)
-  const month = ('0' + (today.getMonth() + 1)).slice(-2)
-  const folder = day + month
+
+  const folder = format(today, 'ddMM')
   const result = await qbit.upload(props.downloadLink, folder, props.paused)
 
   showSuccessBadge.value = result
   showWarningBadge.value = !result
+
+  if (result) {
+    const downloadedAt = format(today, 'dd.MM.yyyy HH:mm')
+    store.set('downloaded:' + props.topic, downloadedAt)
+  }
 
   setTimeout(() => {
     showSuccessBadge.value = false

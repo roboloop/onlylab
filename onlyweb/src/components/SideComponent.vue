@@ -1,13 +1,17 @@
 <script setup>
-import { computed, ref, defineEmits, defineProps } from 'vue'
+import { computed, ref, defineEmits, defineProps, defineExpose } from 'vue'
 import { parseText } from '../services/parseText.js'
 import profile from '../services/profile'
 import { parseName } from '../services/parsers/name.js'
 import DownloadComponent from './DownloadComponent.vue'
+import store from 'store'
+import { formatDistance } from 'date-fns'
+
 // TODO: DATABASE: https://www.babepedia.com/babelist.txt
 
 const props = defineProps({
   raw: String,
+  topic: String,
   downloadLink: String,
   createdAt: String,
   seeds: String,
@@ -36,11 +40,21 @@ const studious = computed(() => {
     .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
 })
 
-for (const name of names) {
-  profile.parameters(name).then((profile) => profiles.value.push(profile))
+const reloadProfile = (force = false) => {
+  profiles.value.splice(0)
+  for (const name of names) {
+    profile.parameters(name, force).then((profile) => profiles.value.push(profile))
+  }
+}
+const formatDate = (date) => {
+  return formatDistance(date, new Date(), { addSuffix: true })
 }
 
+const downloadedAt = store.get('downloaded:' + props.topic)
+
+reloadProfile()
 const emit = defineEmits(['exit', 'reload'])
+defineExpose({ reloadProfile, profiles })
 </script>
 
 <template>
@@ -58,6 +72,7 @@ const emit = defineEmits(['exit', 'reload'])
         :download-link="downloadLink"
         text="Download"
         :paused="false"
+        :topic="props.topic"
       ></DownloadComponent>
     </li>
     <li class="nav-item">
@@ -65,6 +80,7 @@ const emit = defineEmits(['exit', 'reload'])
         :download-link="downloadLink"
         text="Add to queue"
         :paused="true"
+        :topic="props.topic"
       ></DownloadComponent>
     </li>
   </ul>
@@ -75,15 +91,28 @@ const emit = defineEmits(['exit', 'reload'])
       {{ profile.name }}
     </h5>
     <ul class="nav flex-column">
-      <li class="nav-item">
+      <li class="nav-item babepedia-icon">
         <a :href="profile.babeLink" target="_blank" rel="noreferrer">Babepedia</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item tracker-icon">
         <a :href="profile.trackerLink" target="_blank" rel="noreferrer">Tracker</a>
       </li>
       <li class="nav-item" v-if="profile.age">Age: {{ profile.age }}</li>
+      <li class="nav-item" v-if="profile.height">Height: {{ profile.height }}</li>
+      <li class="nav-item" v-if="profile.weight">Weight: {{ profile.weight }}</li>
+      <li
+        class="nav-item country-icon"
+        :style="{ '--flag': `'${profile.flag}'` }"
+        v-if="profile.country"
+      >
+        Country: {{ profile.country }}
+      </li>
       <li class="nav-item" v-if="profile.nationality">Nationality: {{ profile.nationality }}</li>
       <li class="nav-item" v-if="profile.boobs">Boobs: {{ profile.boobs }}</li>
+      <li class="nav-item" v-if="profile.braSize">Bra size: {{ profile.braSize }}</li>
+      <li class="nav-item" v-if="profile.updatedAt">
+        Updated: {{ formatDate(profile.updatedAt) }}
+      </li>
     </ul>
     <br />
   </template>
@@ -104,6 +133,9 @@ const emit = defineEmits(['exit', 'reload'])
   <ul v-if="duration" class="nav flex-column">
     <li class="nav-item">{{ duration }}</li>
   </ul>
+  <ul v-if="downloadedAt" class="nav flex-column">
+    <li class="nav-item">{{ downloadedAt }}</li>
+  </ul>
   <br />
 
   <h5>Genres</h5>
@@ -122,5 +154,53 @@ const emit = defineEmits(['exit', 'reload'])
 .nav-item {
   font-size: 14px;
   font-weight: normal;
+}
+
+.tracker-icon {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background-image: url('../assets/favicon.ico');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+.babepedia-icon {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background-image: url('../assets/babepedia.ico');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+.country-icon {
+  position: relative;
+
+  &::before {
+    content: var(--flag);
+    position: absolute;
+    left: -18px;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+  }
 }
 </style>

@@ -20,13 +20,29 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault()
     store.clearAll()
   }
+  if (e.ctrlKey && e.code === 'KeyR') {
+    e.preventDefault()
+    onReload()
+  }
+  if (e.ctrlKey && e.code === 'KeyB') {
+    e.preventDefault()
+    const link = sidebarRef.value.profiles?.[0]?.babeLink
+    if (link) {
+      window.open(link, '_blank')
+    }
+  }
 })
 
 const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
 const show = ref(enableOnOpen)
 const imagesRef = ref(null)
-document.body.style.overflow = enableOnOpen ? 'hidden' : 'auto'
+const sidebarRef = ref(null)
+const onReload = () => {
+  imagesRef.value.reloadImages()
+  sidebarRef.value.reloadProfile(true)
+}
 
+document.body.style.overflow = enableOnOpen ? 'hidden' : 'auto'
 watch(show, (newVal) => {
   document.body.style.overflow = newVal ? 'hidden' : 'auto'
 })
@@ -49,19 +65,21 @@ watch(show, (newVal) => {
               </template>
             </header>
 
-            <ImagesComponent :images="images" :topic="topic" ref="imagesRef"></ImagesComponent>
+            <ImagesComponent :images="images" ref="imagesRef"></ImagesComponent>
           </div>
 
           <div class="col-sm-2">
             <SideComponent
               :raw="raw"
+              :topic="topic"
               :downloadLink="downloadLink"
               :size="size"
               :createdAt="createdAt"
               :seeds="seeds"
               :duration="duration"
+              ref="sidebarRef"
               @exit="show = false"
-              @reload="imagesRef.reloadImages()"
+              @reload="onReload"
             ></SideComponent>
           </div>
         </div>

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OnlyWeb Dev
 // @namespace    http://localhost/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @updateURL    <%= backend_url %>/tampermonkey.js
 // @downloadURL  <%= backend_url %>/tampermonkey.js
