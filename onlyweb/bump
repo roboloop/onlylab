@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -e
+
+help="To bump new version use:
+- To bump dev:  ./bump dev
+- To bump prod: ./bump prod"
+[ "dev" != "$1" ] && [ "prod" != "$1" ] || [ -z "$1" ] && echo "$help" && exit 1
+
+[ "dev" = "$1" ] && file=tampermonkey/dev.js.template
+[ "prod" = "$1" ] && file=tampermonkey/prod.js.template
+version_line=$(cat "$file" | grep -E '^// @version')
+IFS='.' read -r first minor < <(echo "$version_line")
+minor=$((minor + 1))
+
+sed -i '' -E -e "/\/\/ @version/ s/(.+[0-9]+\.).+/\1${minor}/" "$file"

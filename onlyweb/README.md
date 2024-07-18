@@ -12,6 +12,15 @@ npm run format
 It's work based on building a single tampermonkey script that accumulates all the dependencies (js, css, tampermonkey logic). The delivery process is:
 
 1. Bump a new version in `tampermonkey/*.js.template`
+
+    ```shell
+    # Bump dev
+    ./bump dev
+
+    # Bump prod
+    ./bump prod
+    ```
+
 2. Run a build process
 
     ```shell
