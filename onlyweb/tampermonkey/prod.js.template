@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OnlyWeb
 // @namespace    http://localhost/
-// @version      0.9
+// @version      0.10
 // @description  try to take over the world!
 // @updateURL    <%= backend_url %>/tampermonkey.js
 // @downloadURL  <%= backend_url %>/tampermonkey.js
@@ -11,6 +11,9 @@
 // @connect      localhost
 // @connect      babepedia.com
 // @connect      fastpic.org
+// @connect      imagevenue.com
+// @connect      imgbox.com
+// @connect      turboimagehost.com
 // @connect      *
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getResourceText

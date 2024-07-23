@@ -1,5 +1,5 @@
 import client from './clients'
-import store from 'store'
+import storage from './storage'
 import { flag } from 'country-emoji'
 
 const makeBabeLink = (name) => {
@@ -33,7 +33,7 @@ const lastValue = (doc, span) => {
 
 export default {
   async parameters(name, force = false) {
-    const fromCache = store.get('profile:' + name)
+    const fromCache = storage.getProfile(name)
     if (fromCache && !force) {
       return fromCache
     }
@@ -60,7 +60,7 @@ export default {
       updatedAt: new Date().toISOString()
     }
 
-    store.set('profile:' + name, profile)
+    storage.putProfile(name, profile)
 
     return profile
   }

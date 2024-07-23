@@ -2,8 +2,9 @@
 import { ref, watch } from 'vue'
 import { parseText } from '../services/parseText.js'
 import _ from 'lodash'
-import store from 'store'
+import storage from '../services/storage'
 import escapeStringRegexp from 'escape-string-regexp'
+import hotkeys from '../services/hotkeys'
 
 const handleAllTopics = (fn) =>
   document.querySelectorAll('.forumline tbody tr:has(> td.tCenter)').forEach((el) => fn(el))
@@ -84,30 +85,23 @@ const applyFilter = (filter) => {
   })
 }
 
-const filter = store.get('filter') ?? ''
+const filter = storage.getFilter() ?? ''
 const input = ref(filter)
 const inputRef = ref(null)
 watch(input, (filter) => {
   applyFilter(filter)
-  store.set('filter', filter)
+  storage.putFilter(filter)
 })
 
 applyFilter(filter)
 
-window.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.code === 'KeyF') {
-    e.preventDefault()
-    inputRef.value.focus()
-  }
-  if (e.altKey && e.key === 'ArrowLeft') {
-    e.preventDefault()
-    document.querySelector('.bottom_info .nav a:nth-child(2)').click()
-  }
-  if (e.altKey && e.key === 'ArrowRight') {
-    e.preventDefault()
-    document.querySelector('.bottom_info .nav a:last-child').click()
-  }
-})
+hotkeys.register('KeyF', 'Focus on search line', { ctrlKey: true }, () => inputRef.value.focus())
+hotkeys.register('ArrowLeft', 'Previous page', { altKey: true }, () =>
+  document.querySelector('.bottom_info .nav a:nth-child(2)').click()
+)
+hotkeys.register('ArrowRight', 'Next page', { altKey: true }, () =>
+  document.querySelector('.bottom_info .nav a:last-child').click()
+)
 </script>
 
 <template>
@@ -132,7 +126,7 @@ window.addEventListener('keydown', (e) => {
   color: #fff;
   padding: 10px;
   box-sizing: border-box;
-  z-index: 999;
+  z-index: 99;
 }
 
 .filter-input {

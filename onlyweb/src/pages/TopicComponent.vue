@@ -4,39 +4,25 @@ import { parseDom } from './../services/parseDom'
 import { parseText } from './../services/parseText'
 import SideComponent from '../components/SideComponent.vue'
 import ImagesComponent from '../components/ImagesComponent.vue'
-import store from 'store'
+import hotkeys from '../services/hotkeys'
 
 let { raw, topic, forums, size, createdAt, seeds, duration, downloadLink, images } = parseDom(
   window.document
 )
 const { title } = parseText(raw)
 
-window.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.code === 'KeyA') {
-    e.preventDefault()
-    show.value = !show.value
+hotkeys.register('KeyA', 'Open/Close OnlyWeb', { ctrlKey: true }, () => (show.value = !show.value))
+hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())
+hotkeys.register('KeyB', 'Open the first babepedia link', { ctrlKey: true }, () => {
+  const link = sidebarRef.value.profiles?.[0]?.babeLink
+  if (link) {
+    window.open(link, '_blank')
   }
-  if (e.ctrlKey && e.code === 'KeyC') {
-    e.preventDefault()
-    store.clearAll()
-  }
-  if (e.ctrlKey && e.code === 'KeyR') {
-    e.preventDefault()
-    onReload()
-  }
-  if (e.ctrlKey && e.code === 'KeyB') {
-    e.preventDefault()
-    const link = sidebarRef.value.profiles?.[0]?.babeLink
-    if (link) {
-      window.open(link, '_blank')
-    }
-  }
-  if (e.ctrlKey && (e.code === 'KeyP' || e.code === 'KeyL')) {
-    e.preventDefault()
-    const link = sidebarRef.value.profiles?.[0]?.trackerLink
-    if (link) {
-      window.open(link, '_blank')
-    }
+})
+hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }, () => {
+  const link = sidebarRef.value.profiles?.[0]?.trackerLink
+  if (sidebarRef.value.profiles?.[0]?.trackerLink) {
+    window.open(link, '_blank')
   }
 })
 
@@ -104,7 +90,7 @@ watch(show, (newVal) => {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  z-index: 99;
   overflow-y: auto;
   overscroll-behavior: none;
 }

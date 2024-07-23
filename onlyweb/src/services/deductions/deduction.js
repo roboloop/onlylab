@@ -1,4 +1,4 @@
-import store from 'store'
+import storage from '../storage'
 import Fastpic from './fastpic'
 import Imgbox from './imgbox'
 import Imagevenue from './imagevenue'
@@ -13,19 +13,19 @@ export default {
       return false
     }
 
-    const fromStore = store.get('img:' + title)
+    const fromStore = storage.getImg(title)
     if (fromStore) {
       return fromStore
     }
 
     const result = await strategy.do(title, href)
-    store.set('img:' + title, result)
+    storage.putImg(title, result)
 
     return result
   },
 
   clear(title) {
-    store.remove('img:' + title)
+    storage.removeImg(title)
   },
 
   support(title, href) {

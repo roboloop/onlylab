@@ -4,7 +4,7 @@ import { parseText } from '../services/parseText.js'
 import profile from '../services/profile'
 import { parseName } from '../services/parsers/name.js'
 import DownloadComponent from './DownloadComponent.vue'
-import store from 'store'
+import storage from '../services/storage'
 import { formatDistance } from 'date-fns'
 import _ from 'lodash'
 
@@ -58,7 +58,7 @@ const formatDate = (date) => {
   return formatDistance(date, new Date(), { addSuffix: true })
 }
 
-const downloadedAt = store.get('downloaded:' + props.topic)
+const downloadedAt = storage.getDownloaded(props.topic)
 
 reloadProfile()
 const emit = defineEmits(['exit', 'reload'])
@@ -93,7 +93,12 @@ defineExpose({ reloadProfile, profiles })
     </li>
     <li class="nav-item tracker-icon">
       <!-- todo: mv to fn, also encodeURIComponent() -->
-      <a :href="`https://ptzkpdek.hct/forum/tracker.php?nm=%22${title}%22`" target="_blank" rel="noreferrer">Related</a>
+      <a
+        :href="`https://ptzkpdek.hct/forum/tracker.php?nm=%22${title}%22`"
+        target="_blank"
+        rel="noreferrer"
+        >Related</a
+      >
     </li>
   </ul>
   <br />

@@ -1,6 +1,7 @@
 <script setup>
 import TopicComponent from './pages/TopicComponent.vue'
 import ForumComponent from './pages/ForumComponent.vue'
+import HelpComponent from './components/HelpComponent.vue'
 
 const loadTopic = window.location.pathname === '/forum/viewtopic.php'
 const loadForum = window.location.pathname === '/forum/viewforum.php'
@@ -10,6 +11,7 @@ const loadTracker = window.location.pathname === '/forum/tracker.php'
 <template>
   <TopicComponent v-if="loadTopic"></TopicComponent>
   <ForumComponent v-if="loadForum || loadTracker"></ForumComponent>
+  <HelpComponent></HelpComponent>
 </template>
 
 <style scoped></style>

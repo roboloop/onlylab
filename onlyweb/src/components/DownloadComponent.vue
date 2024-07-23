@@ -2,7 +2,7 @@
 import { BBadge } from 'bootstrap-vue'
 import qbit from '../services/qbit.js'
 import { defineProps, ref } from 'vue'
-import store from 'store'
+import storage from '../services/storage'
 import { format } from 'date-fns'
 
 const props = defineProps({
@@ -22,8 +22,7 @@ const onDownload = async () => {
   showWarningBadge.value = !result
 
   if (result) {
-    const downloadedAt = new Date().toISOString()
-    store.set('downloaded:' + props.topic, downloadedAt)
+    storage.putDownloaded(props.topic)
   }
 
   setTimeout(() => {

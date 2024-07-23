@@ -3,6 +3,7 @@ import { BCarousel, BCarouselSlide } from 'bootstrap-vue'
 import { ref, defineExpose } from 'vue'
 import pLimit from 'p-limit'
 import Deduction from '../services/deductions/deduction'
+import hotkeys from '../services/hotkeys'
 
 const MAX_CONCURRENCY = 4
 const PER_IMAGES = 20
@@ -22,9 +23,9 @@ const loadImages = async () => {
     limit(async () => {
       if (Deduction.support(title, href)) {
         const link = await Deduction.do(title, href)
-        imageLinks.value.push({ link, header })
+        imageLinks.value.push({ title, link, header })
       } else {
-        imageLinks.value.push({ link: title, header })
+        imageLinks.value.push({ title, link: title, header })
       }
     })
 
@@ -47,7 +48,7 @@ const handleSlidingEnd = (slide) => {
 
 const reloadImages = () => {
   totalLoaded = 0
-  props.images.forEach(({ t }) => Deduction.clear(t))
+  props.images.forEach(({ title }) => Deduction.clear(title))
   imageLinks.value.splice(0)
 
   loadImages()
@@ -62,17 +63,8 @@ const handleLoad = () => {
   document.title = `[${totalLoaded}/${props.images.length}] ${originalTitle}`
 }
 
-const handler = (e) => {
-  if (e.which === 37) {
-    // left
-    carousel.value.prev()
-  }
-  if (e.which === 39) {
-    // right
-    carousel.value.next()
-  }
-}
-window.addEventListener('keydown', handler)
+hotkeys.register('ArrowLeft', '', {}, () => carousel.value.prev())
+hotkeys.register('ArrowRight', '', {}, () => carousel.value.next())
 </script>
 
 <template>
