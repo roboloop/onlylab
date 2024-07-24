@@ -8,7 +8,6 @@ export default [
       quality: '0614g',
       studios: ['ipzixdvvxd.zzs'],
       year: '6486',
-      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'aihdg 41'
     }
   },
   {
@@ -36,7 +35,6 @@ export default [
       quality: '081g',
       studios: ['spkwkbsy.zzs'],
       year: '6486',
-      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'xlrlk gpxxqc'
     }
   },
   {
@@ -62,7 +60,6 @@ export default [
       quality: '1941g',
       studios: ['ngpopjlkdvrqto.zzs', 'kpttvzhr.zzs'],
       year: '1980',
-      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'trytpu yvdsy'
     }
   },
   {
@@ -74,7 +71,6 @@ export default [
       quality: '081g',
       studios: ['spkwkbsy.zzs'],
       year: '6486',
-      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'tvqgbcny ttgk'
     }
   },
   {
@@ -87,7 +83,6 @@ export default [
       quality: '0614g',
       studios: ["tptqgf'h cmj euxgdq jfoh", 'komvipfvrfcc.zzs', 'zycyi6hvdb.zzs'],
       year: '3889',
-      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'pdcbd bjqgqnf'
     }
   },
   {
@@ -99,7 +94,6 @@ export default [
       quality: '0614g',
       studios: ['zuqluub.zzs', 'sblcnlxerhtk.zzs'],
       year: '3889',
-      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'kaskc nwcip'
     }
   },
   {
@@ -111,7 +105,6 @@ export default [
       quality: '5463g',
       studios: ['swajvyh.zzs'],
       year: '6009',
-      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'qrgl mzon'
     }
   },
   {
@@ -122,7 +115,6 @@ export default [
       quality: '5463g',
       studios: [],
       year: '2691',
-      profileLink: ''
     }
   },
   {
@@ -134,7 +126,6 @@ export default [
       quality: '0614g',
       studios: ['cnsmxmp.zzs', 'rutkezkgcwf.zzs'],
       year: '8502',
-      profileLink: 'ezavi://biv.hkhqnhpxa.zzs/ujyz/' + 'rqwxy ffom'
     }
   }
 ]

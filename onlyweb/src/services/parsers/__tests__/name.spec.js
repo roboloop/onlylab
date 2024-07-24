@@ -52,6 +52,14 @@ const data = [
     source: 'bfvpf lij nuhy, lexv koepxl (6 tmack-wnt zqeyb)',
     expected: ['bfvpf lij nuhy', 'lexv koepxl']
   },
+  {
+    source: 'tne yktd & bavggc tvopq. rzr-gs epjlg (8502-26-79)',
+    expected: ['tne yktd', 'bavggc tvopq']
+  },
+  {
+    source: 'vhbox rastwh / vhbox zhrod\'h plpnjau zib asmy wuakmfvipc (904 xuirzud)',
+    expected: ['vhbox rastwh']
+  },
 
   // kmf-fdbduzwb
   {
