@@ -1,0 +1,52 @@
+.nav-item {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.tracker-icon {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background-image: url('../assets/favicon.ico');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+.babepedia-icon {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background-image: url('../assets/babepedia.ico');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+.country-icon {
+  position: relative;
+
+  &::before {
+    content: var(--flag);
+    position: absolute;
+    left: -18px;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+  }
+}

@@ -15,7 +15,7 @@ const props = defineProps({
 const onDownload = async () => {
   const today = new Date()
 
-  const folder = format(today, 'ddMM')
+  const folder = format(today, 'MMyy')
   const result = await qbit.upload(props.downloadLink, folder, props.paused)
 
   showSuccessBadge.value = result

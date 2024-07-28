@@ -57,7 +57,7 @@ const data = [
     expected: ['tne yktd', 'bavggc tvopq']
   },
   {
-    source: 'vhbox rastwh / vhbox zhrod\'h plpnjau zib asmy wuakmfvipc (904 xuirzud)',
+    source: "vhbox rastwh / vhbox zhrod'h plpnjau zib asmy wuakmfvipc (904 xuirzud)",
     expected: ['vhbox rastwh']
   },
 

@@ -2,9 +2,11 @@
 import { ref, watch } from 'vue'
 import { parseDom } from './../services/parseDom'
 import { parseText } from './../services/parseText'
-import SideComponent from '../components/SideComponent.vue'
+import LeftSideComponent from '../components/LeftSideComponent.vue'
+import RightSideComponent from '../components/RightSideComponent.vue'
 import ImagesComponent from '../components/ImagesComponent.vue'
 import hotkeys from '../services/hotkeys'
+import links from '../services/links'
 
 let { raw, topic, forums, size, createdAt, seeds, duration, downloadLink, images } = parseDom(
   window.document
@@ -14,25 +16,25 @@ const { title } = parseText(raw)
 hotkeys.register('KeyA', 'Open/Close OnlyWeb', { ctrlKey: true }, () => (show.value = !show.value))
 hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())
 hotkeys.register('KeyB', 'Open the first babepedia link', { ctrlKey: true }, () => {
-  const link = sidebarRef.value.profiles?.[0]?.babeLink
-  if (link) {
-    window.open(link, '_blank')
+  const name = rightSidebarRef.value.profiles?.[0]?.name
+  if (rightSidebarRef.value.profiles?.[0]?.name) {
+    window.open(links.babepediaLink(name), '_blank')
   }
 })
 hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }, () => {
-  const link = sidebarRef.value.profiles?.[0]?.trackerLink
-  if (sidebarRef.value.profiles?.[0]?.trackerLink) {
-    window.open(link, '_blank')
+  const name = rightSidebarRef.value.profiles?.[0]?.name
+  if (rightSidebarRef.value.profiles?.[0]?.name) {
+    window.open(links.trackerSearchLink(name), '_blank')
   }
 })
 
 const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
 const show = ref(enableOnOpen)
 const imagesRef = ref(null)
-const sidebarRef = ref(null)
+const rightSidebarRef = ref(null)
 const onReload = () => {
   imagesRef.value.reloadImages()
-  sidebarRef.value.reloadProfile(true)
+  rightSidebarRef.value.reloadProfile(true)
 }
 
 document.body.style.overflow = enableOnOpen ? 'hidden' : 'auto'
@@ -46,7 +48,19 @@ watch(show, (newVal) => {
     <div class="overlay-content">
       <div class="container-fluid" style="">
         <div class="row">
-          <div class="col-sm-2"></div>
+          <div class="col-sm-2 mt-1">
+            <LeftSideComponent
+              :raw="raw"
+              :topic="topic"
+              :downloadLink="downloadLink"
+              :createdAt="createdAt"
+              :seeds="seeds"
+              :duration="duration"
+              :size="size"
+              @exit="show = false"
+              @reload="onReload"
+            ></LeftSideComponent>
+          </div>
           <div class="col-sm-8">
             <header class="topic-header">
               <template v-if="title">
@@ -61,20 +75,12 @@ watch(show, (newVal) => {
             <ImagesComponent :images="images" ref="imagesRef"></ImagesComponent>
           </div>
 
-          <div class="col-sm-2">
-            <SideComponent
+          <div class="col-sm-2 mt-1">
+            <RightSideComponent
               :raw="raw"
-              :topic="topic"
               :forums="forums"
-              :downloadLink="downloadLink"
-              :size="size"
-              :createdAt="createdAt"
-              :seeds="seeds"
-              :duration="duration"
-              ref="sidebarRef"
-              @exit="show = false"
-              @reload="onReload"
-            ></SideComponent>
+              ref="rightSidebarRef"
+            ></RightSideComponent>
           </div>
         </div>
       </div>

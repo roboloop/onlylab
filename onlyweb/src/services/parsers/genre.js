@@ -17,7 +17,7 @@ const months = [
   'december'
 ]
 
-const reserved = ['SiteRip']
+const reserved = ['SiteRip', 'uncen', 'cen', 'Oculus Rift', 'Quest 2', 'Quest 3', 'Vive']
 
 export function parseGenre(original) {
   // If title is invalid
@@ -25,14 +25,18 @@ export function parseGenre(original) {
   const totalClosed = original.match(/\]/g)?.length ?? 0
   let matched =
     totalOpened !== totalClosed
-      ? original.match(/[[(]([^[\]()]*)[\])]\s*$/i)
-      : original.match(/(?:\[[^\]]+\])?[^[]+\[([^\]]+)\]/i)
+      ? original.match(/[[(](?<genres>[^[\]()]*)[\])]\s*$/i)
+      : original.match(/(?:\[[^\]]+\])?[^[]+\[(?<genres>[^\]]+)\](?:[^[]+\[(?<genres2>[^\]]+)\])?/i)
 
   if (!matched) {
     return []
   }
 
-  const splitted = matched[1].split(/\.|,/).filter(Boolean)
+  const splitted = matched.groups.genres.split(/,/).filter(Boolean)
+  if (matched.groups.genres2) {
+    const splitted2 = matched.groups.genres2.split(/,/).filter(Boolean)
+    splitted.push(...splitted2)
+  }
   const regexPattern = [...qualities, ...months, ...reserved].join('|')
   const regex = new RegExp(regexPattern, 'iu')
   let [filtered, candidates] = _.partition(splitted, (element) => !regex.test(element))

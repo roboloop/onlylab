@@ -7,7 +7,7 @@ export default [
       originalTitle: 'aihdg 41 ruwfd hix qjafgd eywi gsfiwkzz mzbi wzp avxi pu6696 / 65.67.6486',
       quality: '0614g',
       studios: ['ipzixdvvxd.zzs'],
-      year: '6486',
+      year: '6486'
     }
   },
   {
@@ -34,7 +34,7 @@ export default [
       originalTitle: "xlrlk gpxxqc - xlrlk'm phxan asmy (72.73.6486)",
       quality: '081g',
       studios: ['spkwkbsy.zzs'],
-      year: '6486',
+      year: '6486'
     }
   },
   {
@@ -59,7 +59,7 @@ export default [
       originalTitle: 'trytpu yvdsy (zxdwv-yaoudyjb twx fonv / 23.09.1980)',
       quality: '1941g',
       studios: ['ngpopjlkdvrqto.zzs', 'kpttvzhr.zzs'],
-      year: '1980',
+      year: '1980'
     }
   },
   {
@@ -70,7 +70,7 @@ export default [
       originalTitle: "tvqgbcny ttgk(tvqgbcny'h asmy kdet )",
       quality: '081g',
       studios: ['spkwkbsy.zzs'],
-      year: '6486',
+      year: '6486'
     }
   },
   {
@@ -82,7 +82,7 @@ export default [
         'pdcbd bjqgqnf (phdribxh nv aukoeajt hfkemq ekczlm pzktj feh tnbqrq olausgxdjs)',
       quality: '0614g',
       studios: ["tptqgf'h cmj euxgdq jfoh", 'komvipfvrfcc.zzs', 'zycyi6hvdb.zzs'],
-      year: '3889',
+      year: '3889'
     }
   },
   {
@@ -93,7 +93,7 @@ export default [
       originalTitle: 'kaskc nwcip - kaskc jtds dy j pctsqd',
       quality: '0614g',
       studios: ['zuqluub.zzs', 'sblcnlxerhtk.zzs'],
-      year: '3889',
+      year: '3889'
     }
   },
   {
@@ -104,7 +104,7 @@ export default [
       originalTitle: 'qrgl mzon (mzon, mzon, mpusvlj wy get joajbxsp / 41.31.6009)',
       quality: '5463g',
       studios: ['swajvyh.zzs'],
-      year: '6009',
+      year: '6009'
     }
   },
   {
@@ -114,18 +114,30 @@ export default [
       originalTitle: 'vjotwdtzac dofocnn kuzermx prnylyz q dfti',
       quality: '5463g',
       studios: [],
-      year: '2691',
+      year: '2691'
     }
   },
   {
     source:
-      '[cnsmxmp.zzs / rutkezkgcwf.zzs]rqwxy ffom ( vgu kktzpaup asmy jcbn) [8502 l., etpfp, bfgzztpn ,pysjbvm, lcd feh, asmy , sn 0614g]',
+      '[cnsmxmp.zzs / rutkezkgcwf.zzs]rqwxy ffom ( vgu kktzpaup asmy jcbn) [8502 l., etpfp, a.n.m., bfgzztpn ,pysjbvm, lcd feh, asmy , sn 0614g]',
     expected: {
-      genres: ['etpfp', 'bfgzztpn', 'pysjbvm', 'lcd feh', 'asmy', 'sn'],
+      genres: ['etpfp', 'a.n.m.', 'bfgzztpn', 'pysjbvm', 'lcd feh', 'asmy', 'sn'],
       originalTitle: 'rqwxy ffom ( vgu kktzpaup asmy jcbn)',
       quality: '0614g',
       studios: ['cnsmxmp.zzs', 'rutkezkgcwf.zzs'],
-      year: '8502',
+      year: '8502'
+    }
+  },
+  // ttrgzaup
+  {
+    source:
+      '[wlaqjgsu.zzs] oftgpecc (toqkcsnqu, daomck uzv, xfejz uzv) asmy evwitqnzczjw [qnswo] [8502 l., meshrfrevwnq, abknh, xhit, asmy, 0614g]',
+    expected: {
+      genres: ['meshrfrevwnq', 'abknh', 'xhit', 'asmy'],
+      originalTitle: 'oftgpecc (toqkcsnqu, daomck uzv, xfejz uzv) asmy evwitqnzczjw',
+      quality: '0614g',
+      studios: ['wlaqjgsu.zzs'],
+      year: '8502'
     }
   }
 ]

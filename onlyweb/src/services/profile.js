@@ -1,14 +1,7 @@
 import client from './clients'
 import storage from './storage'
 import { flag } from 'country-emoji'
-
-const makeBabeLink = (name) => {
-  return 'https://www.babepedia.com/babe/' + name
-}
-
-const makeTrackerLink = (name) => {
-  return `https://ptzkpdek.hct/forum/tracker.php?nm=%22${name}%22`
-}
+import links from './links'
 
 const nthValue = (doc, span, nth) => {
   const node = doc.evaluate(
@@ -38,8 +31,7 @@ export default {
       return fromCache
     }
 
-    const link = makeBabeLink(name)
-    const html = await client.send({ url: link })
+    const html = await client.send({ url: links.babepediaLink(name) })
 
     const parser = new DOMParser()
     const doc = parser.parseFromString(html, 'text/html')
@@ -55,8 +47,6 @@ export default {
       nationality: lastValue(doc, 'Nationality'),
       boobs: lastValue(doc, 'Boobs'),
       braSize: lastValue(doc, 'Bra/cup size')?.trim(),
-      babeLink: link,
-      trackerLink: makeTrackerLink(name),
       updatedAt: new Date().toISOString()
     }
 

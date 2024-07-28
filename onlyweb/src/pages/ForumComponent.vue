@@ -7,21 +7,28 @@ import escapeStringRegexp from 'escape-string-regexp'
 import hotkeys from '../services/hotkeys'
 
 const handleAllTopics = (fn) =>
-  document.querySelectorAll('.forumline tbody tr:has(> td.tCenter)').forEach((el) => fn(el))
-const handleBannedTopics = (fn) => {
-  document.querySelectorAll('.forumline tbody tr:has(> td.fade-out)').forEach((el) => fn(el))
-}
-const handleNotBannedTopics = (fn) => {
-  document
-    .querySelectorAll('.forumline tbody tr:has(> td.tCenter):not(:has(.fade-out))')
-    .forEach((el) => fn(el))
-}
+  Array.from(document.querySelectorAll('.forumline tbody tr:has(> td.tCenter)')).reduce(
+    (acc, el) => acc + (fn(el) ?? 0),
+    0
+  )
+const handleBannedTopics = (fn) =>
+  Array.from(document.querySelectorAll('.forumline tbody tr:has(> td.fade-out)')).reduce(
+    (acc, el) => acc + (fn(el) ?? 0),
+    0
+  )
+const handleNotBannedTopics = (fn) =>
+  Array.from(
+    document.querySelectorAll('.forumline tbody tr:has(> td.tCenter):not(:has(.fade-out))')
+  ).reduce((acc, el) => acc + (fn(el) ?? 0), 0)
+
+const totalHidden = ref(0)
+const totalBanned = ref(0)
 
 // Open in a new tab
 handleAllTopics((tr) => (tr.querySelector('a').target = '_blank'))
 
 // Fading out and redify banned
-handleAllTopics((tr) => {
+totalBanned.value = handleAllTopics((tr) => {
   const bannedWords = (raw) => {
     const bannedGenres = import.meta.env.VITE_BANNED_GENRES.split(',')
     const bannedStudious = import.meta.env.VITE_BANNED_STUDIOUS.split(',')
@@ -50,6 +57,7 @@ handleAllTopics((tr) => {
       '<span class="banned">$1</span>'
     )
     Array.from(tr.children).forEach((td) => td.classList.add('fade-out'))
+    return true
   }
 })
 
@@ -62,11 +70,15 @@ const applyFilter = (filter) => {
         tr.querySelector('.tLink,.tt-text').textContent)
   )
   if (!filter) {
+    totalHidden.value = 0
     return
   }
 
-  handleBannedTopics((tr) => (tr.style.display = 'none'))
-  handleNotBannedTopics((tr) => {
+  const hiddenBanned = handleBannedTopics((tr) => {
+    tr.style.display = 'none'
+    return true
+  })
+  const hiddenFiltered = handleNotBannedTopics((tr) => {
     const raw = tr.querySelector('.tLink,.tt-text').textContent
     const words = filter
       .split(';')
@@ -81,8 +93,10 @@ const applyFilter = (filter) => {
       )
     } else {
       tr.style.display = 'none'
+      return true
     }
   })
+  totalHidden.value = hiddenBanned + hiddenFiltered
 }
 
 const filter = storage.getFilter() ?? ''
@@ -91,11 +105,17 @@ const inputRef = ref(null)
 watch(input, (filter) => {
   applyFilter(filter)
   storage.putFilter(filter)
+  isShowAll = false
 })
-
+let isShowAll = false
+const toggleFilter = () => {
+  applyFilter(isShowAll ? filter : '')
+  isShowAll = !isShowAll
+}
 applyFilter(filter)
 
 hotkeys.register('KeyF', 'Focus on search line', { ctrlKey: true }, () => inputRef.value.focus())
+hotkeys.register('KeyS', 'Show all topics', { ctrlKey: true }, () => toggleFilter())
 hotkeys.register('ArrowLeft', 'Previous page', { altKey: true }, () =>
   document.querySelector('.bottom_info .nav a:nth-child(2)').click()
 )
@@ -113,6 +133,10 @@ hotkeys.register('ArrowRight', 'Next page', { altKey: true }, () =>
       v-model="input"
       ref="inputRef"
     />
+    <div>
+      <img src="../assets/eye-regular.svg" class="icon" alt="" @click="toggleFilter" />
+      <span>Hidden topics: {{ totalHidden }}. Banned topics: {{ totalBanned }}.</span>
+    </div>
   </div>
 </template>
 
@@ -127,6 +151,14 @@ hotkeys.register('ArrowRight', 'Next page', { altKey: true }, () =>
   padding: 10px;
   box-sizing: border-box;
   z-index: 99;
+}
+
+.icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  filter: invert(100%);
+  padding-bottom: 4px;
 }
 
 .filter-input {
