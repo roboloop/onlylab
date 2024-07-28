@@ -7,8 +7,8 @@ export default [
       originalTitle: 'aihdg 41 ruwfd hix qjafgd eywi gsfiwkzz mzbi wzp avxi pu6696 / 65.67.6486',
       quality: '0614g',
       studios: ['ipzixdvvxd.zzs'],
-      year: '6486'
-    }
+      year: '6486',
+    },
   },
   {
     source:
@@ -34,8 +34,8 @@ export default [
       originalTitle: "xlrlk gpxxqc - xlrlk'm phxan asmy (72.73.6486)",
       quality: '081g',
       studios: ['spkwkbsy.zzs'],
-      year: '6486'
-    }
+      year: '6486',
+    },
   },
   {
     source:
@@ -59,8 +59,8 @@ export default [
       originalTitle: 'trytpu yvdsy (zxdwv-yaoudyjb twx fonv / 23.09.1980)',
       quality: '1941g',
       studios: ['ngpopjlkdvrqto.zzs', 'kpttvzhr.zzs'],
-      year: '1980'
-    }
+      year: '1980',
+    },
   },
   {
     source:
@@ -70,8 +70,8 @@ export default [
       originalTitle: "tvqgbcny ttgk(tvqgbcny'h asmy kdet )",
       quality: '081g',
       studios: ['spkwkbsy.zzs'],
-      year: '6486'
-    }
+      year: '6486',
+    },
   },
   {
     source:
@@ -82,8 +82,8 @@ export default [
         'pdcbd bjqgqnf (phdribxh nv aukoeajt hfkemq ekczlm pzktj feh tnbqrq olausgxdjs)',
       quality: '0614g',
       studios: ["tptqgf'h cmj euxgdq jfoh", 'komvipfvrfcc.zzs', 'zycyi6hvdb.zzs'],
-      year: '3889'
-    }
+      year: '3889',
+    },
   },
   {
     source:
@@ -93,8 +93,8 @@ export default [
       originalTitle: 'kaskc nwcip - kaskc jtds dy j pctsqd',
       quality: '0614g',
       studios: ['zuqluub.zzs', 'sblcnlxerhtk.zzs'],
-      year: '3889'
-    }
+      year: '3889',
+    },
   },
   {
     source:
@@ -104,8 +104,8 @@ export default [
       originalTitle: 'qrgl mzon (mzon, mzon, mpusvlj wy get joajbxsp / 41.31.6009)',
       quality: '5463g',
       studios: ['swajvyh.zzs'],
-      year: '6009'
-    }
+      year: '6009',
+    },
   },
   {
     source: 'vjotwdtzac dofocnn kuzermx prnylyz q dfti [2691, kdoqxmt, asmy, lcd feh, 5463g]',
@@ -114,8 +114,8 @@ export default [
       originalTitle: 'vjotwdtzac dofocnn kuzermx prnylyz q dfti',
       quality: '5463g',
       studios: [],
-      year: '2691'
-    }
+      year: '2691',
+    },
   },
   {
     source:
@@ -125,8 +125,8 @@ export default [
       originalTitle: 'rqwxy ffom ( vgu kktzpaup asmy jcbn)',
       quality: '0614g',
       studios: ['cnsmxmp.zzs', 'rutkezkgcwf.zzs'],
-      year: '8502'
-    }
+      year: '8502',
+    },
   },
   // ttrgzaup
   {
@@ -137,7 +137,18 @@ export default [
       originalTitle: 'oftgpecc (toqkcsnqu, daomck uzv, xfejz uzv) asmy evwitqnzczjw',
       quality: '0614g',
       studios: ['wlaqjgsu.zzs'],
-      year: '8502'
-    }
-  }
+      year: '8502',
+    },
+  },
+  {
+    source:
+      'uasgh - hjzlts\'h sdontoxnuefg. (mgkmvntu iormf) [jj-13] [qnswo] [8502 l., asmy, txv, gnyfqdpys, docwjg, 0614g]',
+    expected: {
+      genres: ['asmy', 'txv', 'gnyfqdpys', 'docwjg'],
+      originalTitle: 'uasgh - hjzlts\'h sdontoxnuefg. (mgkmvntu iormf)',
+      quality: '0614g',
+      studios: [],
+      year: '8502',
+    },
+  },
 ]

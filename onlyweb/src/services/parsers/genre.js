@@ -26,17 +26,20 @@ export function parseGenre(original) {
   let matched =
     totalOpened !== totalClosed
       ? original.match(/[[(](?<genres>[^[\]()]*)[\])]\s*$/i)
-      : original.match(/(?:\[[^\]]+\])?[^[]+\[(?<genres>[^\]]+)\](?:[^[]+\[(?<genres2>[^\]]+)\])?/i)
+      : original.match(/(?:\[[^\]]+\])?[^[]+\[(?<genres>[^\]]+)\](?:[^[]+\[(?<genres2>[^\]]+)\])?(?:[^[]+\[(?<genres3>[^\]]+)\])?/i)
 
   if (!matched) {
     return []
   }
 
-  const splitted = matched.groups.genres.split(/,/).filter(Boolean)
-  if (matched.groups.genres2) {
-    const splitted2 = matched.groups.genres2.split(/,/).filter(Boolean)
-    splitted.push(...splitted2)
-  }
+  const groups = [matched.groups.genres]
+  matched.groups.genres2 && groups.push(matched.groups.genres2)
+  matched.groups.genres3 && groups.push(matched.groups.genres3)
+
+  const splitted = groups
+    .map(g => g.split(/,/).filter(Boolean))
+    .filter(g => g.length !== 1)
+    .flat()
   const regexPattern = [...qualities, ...months, ...reserved].join('|')
   const regex = new RegExp(regexPattern, 'iu')
   let [filtered, candidates] = _.partition(splitted, (element) => !regex.test(element))
