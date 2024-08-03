@@ -1,4 +1,4 @@
-import client from './../clients'
+import client from './../clients/client'
 
 export default {
   async do(title, href) {
@@ -8,9 +8,6 @@ export default {
 
     try {
       href = href.replace(/^https?/, 'https')
-      // if (href.match(/\.jpe?g$/)) {
-      //   return href
-      // }
 
       const data = await client.send({
         url: href,

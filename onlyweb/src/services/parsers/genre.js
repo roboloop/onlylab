@@ -26,7 +26,9 @@ export function parseGenre(original) {
   let matched =
     totalOpened !== totalClosed
       ? original.match(/[[(](?<genres>[^[\]()]*)[\])]\s*$/i)
-      : original.match(/(?:\[[^\]]+\])?[^[]+\[(?<genres>[^\]]+)\](?:[^[]+\[(?<genres2>[^\]]+)\])?(?:[^[]+\[(?<genres3>[^\]]+)\])?/i)
+      : original.match(
+          /(?:\[[^\]]+\])?[^[]+\[(?<genres>[^\]]+)\](?:[^[]+\[(?<genres2>[^\]]+)\])?(?:[^[]+\[(?<genres3>[^\]]+)\])?/i
+        )
 
   if (!matched) {
     return []
@@ -37,8 +39,8 @@ export function parseGenre(original) {
   matched.groups.genres3 && groups.push(matched.groups.genres3)
 
   const splitted = groups
-    .map(g => g.split(/,/).filter(Boolean))
-    .filter(g => g.length !== 1)
+    .map((g) => g.split(/,/).filter(Boolean))
+    .filter((g) => g.length !== 1)
     .flat()
   const regexPattern = [...qualities, ...months, ...reserved].join('|')
   const regex = new RegExp(regexPattern, 'iu')

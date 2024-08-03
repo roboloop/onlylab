@@ -1,10 +1,10 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { parseText } from '../services/parseText.js'
 import _ from 'lodash'
 import storage from '../services/storage'
 import escapeStringRegexp from 'escape-string-regexp'
 import hotkeys from '../services/hotkeys'
+import { parse } from '../services/parsers/parser.js'
 
 const handleAllTopics = (fn) =>
   Array.from(document.querySelectorAll('.forumline tbody tr:has(> td.tCenter)')).reduce(
@@ -33,7 +33,7 @@ totalBanned.value = handleAllTopics((tr) => {
     const bannedGenres = import.meta.env.VITE_BANNED_GENRES.split(',')
     const bannedStudious = import.meta.env.VITE_BANNED_STUDIOUS.split(',')
 
-    const { genres, studious } = parseText(raw)
+    const { genres, studious } = parse(raw)
     const commonGenres = _.intersection(
       genres.map((i) => i.toLowerCase()),
       bannedGenres.map((i) => i.toLowerCase())

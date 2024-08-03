@@ -1,17 +1,18 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { parseDom } from './../services/parseDom'
-import { parseText } from './../services/parseText'
 import LeftSideComponent from '../components/LeftSideComponent.vue'
 import RightSideComponent from '../components/RightSideComponent.vue'
 import ImagesComponent from '../components/ImagesComponent.vue'
 import hotkeys from '../services/hotkeys'
 import links from '../services/links'
+import { parse } from '../services/parsers/parser.js'
 
 let { raw, topic, forums, size, createdAt, seeds, duration, downloadLink, images } = parseDom(
   window.document
 )
-const { title } = parseText(raw)
+
+const { title } = parse(raw)
 
 hotkeys.register('KeyA', 'Open/Close OnlyWeb', { ctrlKey: true }, () => (show.value = !show.value))
 hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())

@@ -1,4 +1,4 @@
-import client from './../clients'
+import client from './../clients/client'
 
 export default {
   async do(title, href) {

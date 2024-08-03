@@ -43,6 +43,9 @@ const putDownloaded = (topic) => {
 const getDownloaded = (topic) => {
   return store.get(downloadedKey(topic))
 }
+const removeDownloaded = (topic) => {
+  store.remove(downloadedKey(topic))
+}
 
 export default {
   putProfile,
@@ -56,5 +59,6 @@ export default {
   getFilter,
 
   putDownloaded,
-  getDownloaded
+  getDownloaded,
+  removeDownloaded
 }

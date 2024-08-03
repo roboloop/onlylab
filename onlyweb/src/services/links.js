@@ -8,7 +8,12 @@ const trackerSearchLink = (content) => {
   return `https://ptzkpdek.hct/forum/tracker.php?nm=%22${encoded}%22`
 }
 
+const trackerViewTorrentLink = () => {
+  return `https://ptzkpdek.hct/forum/viewtorrent.php`
+}
+
 export default {
   babepediaLink,
-  trackerSearchLink
+  trackerSearchLink,
+  trackerViewTorrentLink
 }

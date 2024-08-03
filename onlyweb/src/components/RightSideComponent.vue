@@ -1,18 +1,18 @@
 <script setup>
 import { computed, ref, defineProps, defineExpose } from 'vue'
-import { parseText } from '../services/parseText.js'
-import profile from '../services/profile'
+import profile from '../services/clients/babe'
 import links from '../services/links'
-import { parseName } from '../services/parsers/name.js'
+import { parseName } from '../services/parsers/name'
 import { formatDistance } from 'date-fns'
 import _ from 'lodash'
+import { parse } from '../services/parsers/parser'
 
 const props = defineProps({
   raw: String,
   forums: Array
 })
 
-const { title, genres: unsortedGenres, studious: unsortedStudious } = parseText(props.raw)
+const { title, genres: unsortedGenres, studious: unsortedStudious } = parse(props.raw)
 const names = parseName(title)
 const profiles = ref([])
 const ignoredForums = import.meta.env.VITE_IGNORED_FORUMS.split(',')

@@ -1,29 +1,17 @@
 <script setup>
 import { BBadge } from 'bootstrap-vue'
-import qbit from '../services/qbit.js'
-import { defineProps, ref } from 'vue'
-import storage from '../services/storage'
-import { format } from 'date-fns'
+import { defineProps, ref, defineExpose } from 'vue'
 
 const props = defineProps({
   text: String,
-  downloadLink: String,
-  paused: Boolean,
-  topic: Number
+  handler: Function
 })
 
-const onDownload = async () => {
-  const today = new Date()
-
-  const folder = format(today, 'MMyy')
-  const result = await qbit.upload(props.downloadLink, folder, props.paused)
+const onClick = async () => {
+  const result = await props.handler()
 
   showSuccessBadge.value = result
   showWarningBadge.value = !result
-
-  if (result) {
-    storage.putDownloaded(props.topic)
-  }
 
   setTimeout(() => {
     showSuccessBadge.value = false
@@ -32,10 +20,12 @@ const onDownload = async () => {
 }
 const showSuccessBadge = ref(false)
 const showWarningBadge = ref(false)
+
+defineExpose({ onClick })
 </script>
 
 <template>
-  <a :href="downloadLink" target="_blank" @click.prevent.stop="onDownload">{{ props.text }}</a>
+  <a href="#" target="_blank" @click.prevent.stop="onClick">{{ props.text }}</a>
   <Transition appear>
     <b-badge variant="success" :pill="true" style="margin-left: 12px" v-if="showSuccessBadge"
       >Success</b-badge

@@ -3,7 +3,7 @@ import _ from 'lodash'
 const getImages = (document) => {
   const imageDocuments = document
     .querySelector('table[class="topic"] div[class="post_body"]')
-    .querySelectorAll('var[class="postImg"]')
+    .querySelectorAll('var[class*="postImg"]')
   const images = []
   for (const imageDocument of imageDocuments) {
     const { place, header } = getPlace(imageDocument)

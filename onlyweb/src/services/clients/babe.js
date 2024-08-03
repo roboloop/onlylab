@@ -1,7 +1,7 @@
-import client from './clients'
-import storage from './storage'
+import client from './client'
+import storage from './../storage'
 import { flag } from 'country-emoji'
-import links from './links'
+import links from './../links'
 
 const nthValue = (doc, span, nth) => {
   const node = doc.evaluate(
