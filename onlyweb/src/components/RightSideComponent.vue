@@ -59,9 +59,9 @@ defineExpose({ reloadProfile, profiles })
       <li class="nav-item tracker-icon">
         <a :href="links.trackerSearchLink(profile.name)" target="_blank" rel="noreferrer">Tracker</a>
       </li>
-      <li class="nav-item" v-if="profile.age">Age: {{ profile.age }}</li>
-      <li class="nav-item" v-if="profile.height">Height: {{ profile.height }}</li>
-      <li class="nav-item" v-if="profile.weight">Weight: {{ profile.weight }}</li>
+      <li class="nav-item">Age: {{ profile.age || '—' }}</li>
+      <li class="nav-item">Height: {{ profile.height || '—' }}</li>
+      <li class="nav-item">Weight: {{ profile.weight || '—' }}</li>
       <li
         class="nav-item country-icon"
         :style="{ '--flag': `'${profile.flag}'` }"
@@ -69,12 +69,11 @@ defineExpose({ reloadProfile, profiles })
       >
         Country: {{ profile.country }}
       </li>
-      <li class="nav-item" v-if="profile.nationality">Nationality: {{ profile.nationality }}</li>
-      <li class="nav-item" v-if="profile.boobs">Boobs: {{ profile.boobs }}</li>
-      <li class="nav-item" v-if="profile.braSize">Bra size: {{ profile.braSize }}</li>
-      <li class="nav-item" v-if="profile.updatedAt">
-        Updated: {{ formatDate(profile.updatedAt) }}
-      </li>
+      <li class="nav-item country-icon" v-else>Country: {{ '—' }}</li>
+      <li class="nav-item">Nationality: {{ profile.nationality || '—' }}</li>
+      <li class="nav-item">Boobs: {{ profile.boobs || '—' }}</li>
+      <li class="nav-item">Bra size: {{ profile.braSize || '—' }}</li>
+      <li class="nav-item">Updated: {{ formatDate(profile.updatedAt) }}</li>
     </ul>
     <br />
   </template>

@@ -3,25 +3,31 @@ import storage from './../storage'
 import { flag } from 'country-emoji'
 import links from './../links'
 
-const nthValue = (doc, span, nth) => {
-  const node = doc.evaluate(
+const spanElement = (doc, span) => {
+  return doc.evaluate(
     '//main//div[@id="biography"]//ul[@id="biolist"]//span[contains(text(), "' + span + '")]',
     doc,
     null,
     XPathResult.FIRST_ORDERED_NODE_TYPE,
     null
   ).singleNodeValue
+}
+
+const next = (doc, span) => {
+  const node = spanElement(doc, span)
   if (!node) {
     return null
   }
-  if (nth === -1) {
-    return node.parentElement.lastChild.textContent
-  }
-  return node.parentElement.childNodes[nth].textContent
+  const sibling = node.nextSibling.textContent.trim()
+  return sibling ? sibling : node.nextElementSibling.textContent
 }
 
-const lastValue = (doc, span) => {
-  return nthValue(doc, span, -1)
+const lastElement = (doc, span) => {
+  const node = spanElement(doc, span)
+  if (!node) {
+    return null
+  }
+  return node.parentElement.lastChild.textContent
 }
 
 export default {
@@ -36,17 +42,17 @@ export default {
     const parser = new DOMParser()
     const doc = parser.parseFromString(html, 'text/html')
 
-    const country = lastValue(doc, 'Birthplace')
+    const country = lastElement(doc, 'Birthplace')
     const profile = {
       name: name,
-      age: lastValue(doc, 'Age'),
-      height: nthValue(doc, 'Height', 1)?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
-      weight: lastValue(doc, 'Weight')?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
+      age: next(doc, 'Age'),
+      height: next(doc, 'Height')?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
+      weight: next(doc, 'Weight')?.match(/\(or ([^)]+?)\)/)?.[1] ?? undefined,
       country: country,
       flag: flag(country),
-      nationality: lastValue(doc, 'Nationality'),
-      boobs: lastValue(doc, 'Boobs'),
-      braSize: lastValue(doc, 'Bra/cup size')?.trim(),
+      nationality: next(doc, 'Nationality'),
+      boobs: next(doc, 'Boobs'),
+      braSize: next(doc, 'Bra/cup size')?.trim(),
       updatedAt: new Date().toISOString()
     }
 

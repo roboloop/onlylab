@@ -4,7 +4,8 @@ import _ from 'lodash'
 import storage from '../services/storage'
 import escapeStringRegexp from 'escape-string-regexp'
 import hotkeys from '../services/hotkeys'
-import { parse } from '../services/parsers/parser.js'
+import { parse } from '../services/parsers/parser'
+import { parseName } from '../services/parsers/name.js'
 
 const handleAllTopics = (fn) =>
   Array.from(document.querySelectorAll('.forumline tbody tr:has(> td.tCenter)')).reduce(
@@ -58,6 +59,30 @@ totalBanned.value = handleAllTopics((tr) => {
     )
     Array.from(tr.children).forEach((td) => td.classList.add('fade-out'))
     return true
+  }
+})
+
+// Add fake books info
+handleAllTopics((tr) => {
+  const createPill = (text) => {
+    const template = document.createElement('template')
+    template.innerHTML = `<span style="font-size: 10px;" class="badge badge-warning badge-pill">${text}</span>`
+    return template.content.children[0]
+  }
+  const textElement = tr.querySelector('.tLink,.tt-text')
+  const { title } = parse(textElement.textContent)
+  const names = parseName(title)
+  const allFakeBoobs = names.every((name) => {
+    const profile = storage.getProfile(name)
+    if (!profile || !profile.boobs) {
+      return false
+    }
+    return !!profile.boobs.match(/fake/i)
+  })
+  if (allFakeBoobs) {
+    const pill = createPill('Fake boobs')
+    console.log(pill)
+    tr.querySelector('.tt > .torTopic').appendChild(pill)
   }
 })
 

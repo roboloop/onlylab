@@ -13,7 +13,8 @@ const files = async (topic) => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(resp, 'text/html')
 
-  const elements = doc.querySelectorAll('span').length ? doc.querySelectorAll('span') : [doc.body]
+  const spans = doc.querySelectorAll('span:not([class])')
+  const elements = spans.length ? spans : [doc.body]
   return Array.from(elements).map((el) => ({
     name: el.childNodes[0].textContent.trim(),
     size: filesize(el.childNodes[1].textContent.trim(), { standard: 'jedec' })
