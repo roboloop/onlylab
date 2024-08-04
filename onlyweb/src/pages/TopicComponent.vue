@@ -7,12 +7,49 @@ import ImagesComponent from '../components/ImagesComponent.vue'
 import hotkeys from '../services/hotkeys'
 import links from '../services/links'
 import { parse } from '../services/parsers/parser.js'
+import storage from '../services/storage.js'
 
-let { raw, topic, forums, size, createdAt, seeds, duration, downloadLink, images } = parseDom(
-  window.document
-)
-
+let {
+  raw,
+  topic,
+  forums,
+  size,
+  createdAt,
+  seeds,
+  duration,
+  downloadLink,
+  topicImages,
+  commentImages
+} = parseDom(window.document)
 const { title } = parse(raw)
+
+const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
+const show = ref(enableOnOpen)
+
+const images = ref([])
+images.value.push(...topicImages)
+const onTopicImages = () => {
+  images.value.splice(0)
+  images.value.push(...topicImages)
+}
+const onCommentImages = () => {
+  images.value.splice(0)
+  images.value.push(...commentImages)
+}
+
+const rightSidebarRef = ref(null)
+const onReload = () => {
+  ;[...topicImages, ...commentImages].forEach(({ title }) => storage.removeImg(title))
+  images.value.splice(0)
+  images.value.push(...topicImages)
+
+  rightSidebarRef.value.reloadProfile(true)
+}
+
+document.body.style.overflow = enableOnOpen ? 'hidden' : 'auto'
+watch(show, (newVal) => {
+  document.body.style.overflow = newVal ? 'hidden' : 'auto'
+})
 
 hotkeys.register('KeyA', 'Open/Close OnlyWeb', { ctrlKey: true }, () => (show.value = !show.value))
 hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())
@@ -27,20 +64,6 @@ hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }
   if (rightSidebarRef.value.profiles?.[0]?.name) {
     window.open(links.trackerSearchLink(name), '_blank')
   }
-})
-
-const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
-const show = ref(enableOnOpen)
-const imagesRef = ref(null)
-const rightSidebarRef = ref(null)
-const onReload = () => {
-  imagesRef.value.reloadImages()
-  rightSidebarRef.value.reloadProfile(true)
-}
-
-document.body.style.overflow = enableOnOpen ? 'hidden' : 'auto'
-watch(show, (newVal) => {
-  document.body.style.overflow = newVal ? 'hidden' : 'auto'
 })
 </script>
 
@@ -60,6 +83,8 @@ watch(show, (newVal) => {
               :size="size"
               @exit="show = false"
               @reload="onReload"
+              @topicImages="onTopicImages"
+              @commentImages="onCommentImages"
             ></LeftSideComponent>
           </div>
           <div class="col-sm-8">
@@ -73,7 +98,7 @@ watch(show, (newVal) => {
               </template>
             </header>
 
-            <ImagesComponent :images="images" ref="imagesRef"></ImagesComponent>
+            <ImagesComponent :images="images"></ImagesComponent>
           </div>
 
           <div class="col-sm-2 mt-1">

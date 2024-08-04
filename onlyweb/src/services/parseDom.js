@@ -1,9 +1,7 @@
 import _ from 'lodash'
 
-const getImages = (document) => {
-  const imageDocuments = document
-    .querySelector('table[class="topic"] div[class="post_body"]')
-    .querySelectorAll('var[class*="postImg"]')
+const getImages = (document, selector) => {
+  const imageDocuments = document.querySelectorAll(selector)
   const images = []
   for (const imageDocument of imageDocuments) {
     const { place, header } = getPlace(imageDocument)
@@ -13,6 +11,18 @@ const getImages = (document) => {
   }
 
   return images
+}
+
+const getTopicImages = (document) => {
+  const selector =
+    'table[class="topic"] tbody:nth-child(2) div[class="post_body"] var[class*="postImg"]'
+  return getImages(document, selector)
+}
+
+const getCommentImages = (document) => {
+  const selector =
+    'table[class="topic"] tbody:not(:nth-child(2)) div[class="post_body"] var[class*="postImg"]'
+  return getImages(document, selector)
 }
 
 const getPlace = (el) => {
@@ -120,7 +130,7 @@ const getDuration = (document) => {
 }
 
 const getDownloadLink = (document) => {
-  return document.querySelector('table.attach .dl-link').href
+  return document.querySelector('table.attach .dl-link')?.href
 }
 
 export function parseDom(document) {
@@ -133,6 +143,7 @@ export function parseDom(document) {
     seeds: getSeeds(document),
     duration: getDuration(document),
     downloadLink: getDownloadLink(document),
-    images: getImages(document)
+    topicImages: getTopicImages(document),
+    commentImages: getCommentImages(document)
   }
 }

@@ -55,7 +55,7 @@ hotkeys.register('KeyQ', 'Add topic to queue', { ctrlKey: true }, () =>
   addToQueueRef.value.onClick()
 )
 
-const emit = defineEmits(['exit', 'reload'])
+const emit = defineEmits(['exit', 'reload', 'topicImages', 'commentImages'])
 
 const files = ref([])
 const showFiles = ref(true)
@@ -79,7 +79,14 @@ const onShowFiles = async () => {
       <a href="#" target="_blank" @click.prevent.stop="emit('reload')">Reload</a>
     </li>
     <li class="nav-item">
+      <a href="#" target="_blank" @click.prevent.stop="emit('topicImages')">Topic images</a>
+    </li>
+    <li class="nav-item">
+      <a href="#" target="_blank" @click.prevent.stop="emit('commentImages')">Comment images</a>
+    </li>
+    <li class="nav-item">
       <LinkComponent
+        v-if="downloadLink"
         text="Download"
         :handler="() => downloadHandler(false)"
         ref="downloadRef"
@@ -87,6 +94,7 @@ const onShowFiles = async () => {
     </li>
     <li class="nav-item">
       <LinkComponent
+        v-if="downloadLink"
         text="Add to queue"
         :handler="() => downloadHandler(true)"
         ref="addToQueueRef"

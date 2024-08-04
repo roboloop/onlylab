@@ -24,10 +24,6 @@ export default {
     return result
   },
 
-  clear(title) {
-    storage.removeImg(title)
-  },
-
   support(title, href) {
     return strategies.some((strategy) => strategy.support(title, href))
   }
