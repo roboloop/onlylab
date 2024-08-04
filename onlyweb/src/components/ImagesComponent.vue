@@ -79,6 +79,7 @@ hotkeys.register('ArrowRight', '', {}, () => carouselRef.value.next())
     label-prev=""
     ref="carouselRef"
     @sliding-end="onNextSlide"
+    v-if="imageLinks.length"
   >
     <b-carousel-slide v-for="({ link, header }, index) in imageLinks" :key="link" :img-src="link">
       {{ `${index + 1} / ${images.length}` }}
@@ -88,6 +89,16 @@ hotkeys.register('ArrowRight', '', {}, () => carouselRef.value.next())
       </template>
     </b-carousel-slide>
   </b-carousel>
+  <div class="centred" v-else>No images</div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.centred {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  height: 50vh;
+  color: #bbb;
+}
+</style>

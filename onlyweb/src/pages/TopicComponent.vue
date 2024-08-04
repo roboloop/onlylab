@@ -81,6 +81,8 @@ hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }
               :seeds="seeds"
               :duration="duration"
               :size="size"
+              :totalTopicImages="topicImages.length"
+              :totalCommentImages="commentImages.length"
               @exit="show = false"
               @reload="onReload"
               @topicImages="onTopicImages"

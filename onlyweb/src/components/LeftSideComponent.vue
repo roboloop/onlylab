@@ -16,7 +16,9 @@ const props = defineProps({
   createdAt: String,
   seeds: String,
   duration: String,
-  size: String
+  size: String,
+  totalTopicImages: Number,
+  totalCommentImages: Number
 })
 
 const { title, quality, year } = parse(props.raw)
@@ -80,9 +82,11 @@ const onShowFiles = async () => {
     </li>
     <li class="nav-item">
       <a href="#" target="_blank" @click.prevent.stop="emit('topicImages')">Topic images</a>
+      [{{ props.totalTopicImages }}]
     </li>
     <li class="nav-item">
       <a href="#" target="_blank" @click.prevent.stop="emit('commentImages')">Comment images</a>
+      [{{ props.totalCommentImages }}]
     </li>
     <li class="nav-item">
       <LinkComponent

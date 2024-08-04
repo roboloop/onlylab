@@ -51,7 +51,7 @@ export default {
       country: country,
       flag: flag(country),
       nationality: next(doc, 'Nationality'),
-      boobs: next(doc, 'Boobs'),
+      boobs: next(doc, 'Boobs')?.replace(/\s+\($/, ''),
       braSize: next(doc, 'Bra/cup size')?.trim(),
       updatedAt: new Date().toISOString()
     }
