@@ -77,6 +77,29 @@ const data = [
   {
     source: 'baryyssygngkl',
     expected: ['baryyssygngkl']
+  },
+  {
+    source: 'kcpubg (cpe kcpubg gajckkb) - xfqnxbpj kcpubg rsoj get vtriitm zgexa kqe weyjsq gs',
+    expected: ['kcpubg', 'kcpubg gajckkb']
+  },
+  {
+    source:
+      'duhgn(cpe duhgn j), wohynzs awogt (cpe zznrkt mxlukw, fwztqd) - g csir, rcrl bzk jfrs lcd pmco kcpubg',
+    expected: ['duhgn', 'duhgn j', 'wohynzs awogt', 'zznrkt mxlukw', 'fwztqd']
+  },
+  {
+    source:
+      'sampu amivcv (cpe hlivrjtn fhjocm), lhydi uwwy, qkqhd shhr - jtqnylb lrmpnjwg tt. 2 / nzmcgimfqbf czlupysc (pnblu 2)',
+    expected: ['sampu amivcv', 'hlivrjtn fhjocm', 'lhydi uwwy', 'qkqhd shhr']
+  },
+  {
+    source:
+      'qjafgd (ovb: qjafgd r, qjafgd zeqtpn, qjafgd rxlsrsz, vxviq, tjmsgb ouj) (13.73.2560 l.)',
+    expected: ['qjafgd', 'qjafgd r', 'qjafgd zeqtpn', 'qjafgd rxlsrsz', 'vxviq', 'tjmsgb ouj']
+  },
+  {
+    source: '8502-13-31 navwji hlpa - rzglbnycao xqz 3376',
+    expected: ['navwji hlpa']
   }
 ]
 
