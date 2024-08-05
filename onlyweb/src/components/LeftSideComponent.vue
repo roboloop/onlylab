@@ -124,7 +124,7 @@ const onShowFiles = async () => {
   </ul>
   <br />
 
-  <h5>Files</h5>
+  <h5>Files <span v-if="!showFiles">[{{ files.length }}]</span></h5>
   <ul class="nav flex-column" v-if="showFiles">
     <li class="nav-item">
       <a href="#" @click.prevent.stop="onShowFiles">Show files</a>

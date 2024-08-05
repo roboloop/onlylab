@@ -33,7 +33,7 @@ It's work based on building a single tampermonkey script that accumulates all th
 3. Run nginx server to serve files
 
     ```shell
-    docker run --rm -it -p 80:80 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine sh -c "sed -i '4i\add_header Cache-Control \"no-cache\";' /etc/nginx/conf.d/default.conf && nginx -g nginx -g 'daemon off;'"
+    docker run --rm -it -p 80:80 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine sh -c "sed -i '4i\add_header Cache-Control \"no-cache\";' /etc/nginx/conf.d/default.conf && sed -i '/worker_processes/ s/auto/2/' /etc/nginx/nginx.conf && nginx -g nginx -g 'daemon off;'"
     ```
 
 4. (optional) If it is the first deploy:
@@ -54,3 +54,4 @@ It's work based on building a single tampermonkey script that accumulates all th
 - send notification after rebuilding
 - come up with a more convenient mechanism for blocking studios/genres
 - send notification when rebuilding
+- broken search https://tracker.net/forum/tracker.php

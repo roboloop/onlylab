@@ -75,7 +75,7 @@ export default [
   },
   {
     source:
-      "[tptqgf'h cmj euxgdq jfoh / komvipfvrfcc.zzs / zycyi6hvdb.zzs] pdcbd bjqgqnf (phdribxh nv aukoeajt hfkemq ekczlm pzktj feh tnbqrq olausgxdjs) [3889, pha pfin, qekhzyl, byk, vwvbq, bsse, 0614g]",
+      "[tptqgf'h cmj euxgdq jfoh / komvipfvrfcc.zzs / zycyi6hvdb.zzs] pdcbd bjqgqnf (phdribxh nv aukoeajt hfkemq ekczlm pzktj feh tnbqrq olausgxdjs) [3889, pha pfin, qekhzyl, byk, vwvbq, bsse., 0614g]",
     expected: {
       genres: ['pha pfin', 'qekhzyl', 'byk', 'vwvbq', 'bsse'],
       originalTitle:

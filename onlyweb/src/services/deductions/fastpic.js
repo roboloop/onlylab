@@ -31,8 +31,6 @@ export default {
       )
 
       return 'data:image/jpeg;base64,' + base64
-
-      // return href
     } catch (error) {
       // TODO: good processing?
       console.log(`Fail to load ${href}`, error)

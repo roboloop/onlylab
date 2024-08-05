@@ -39,9 +39,10 @@ export function parseGenre(original) {
   matched.groups.genres3 && groups.push(matched.groups.genres3)
 
   const splitted = groups
-    .map((g) => g.split(/,/).filter(Boolean))
-    .filter((g) => g.length !== 1)
+    .map((g) => g.split(/,/))
     .flat()
+    .filter(Boolean)
+    .map((g) => g.replace(/(?<=^[^.]+)\.$/, ''))
   const regexPattern = [...qualities, ...months, ...reserved].join('|')
   const regex = new RegExp(regexPattern, 'iu')
   let [filtered, candidates] = _.partition(splitted, (element) => !regex.test(element))
@@ -61,5 +62,5 @@ export function parseGenre(original) {
     filtered = filtered[0].split(/\s+/).filter(Boolean)
   }
 
-  return filtered.map((f) => f.trim())
+  return _.uniq(filtered.map((f) => f.trim()))
 }

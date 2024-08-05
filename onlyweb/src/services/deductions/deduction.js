@@ -2,9 +2,10 @@ import storage from '../storage'
 import Fastpic from './fastpic'
 import Imgbox from './imgbox'
 import Imagevenue from './imagevenue'
+import Imagebam from './imagebam'
 import Turboimagehost from './turboimagehost'
 
-const strategies = [Fastpic, Imgbox, Imagevenue, Turboimagehost]
+const strategies = [Fastpic, Imgbox, Imagevenue, Imagebam, Turboimagehost]
 
 export default {
   async do(title, href) {
