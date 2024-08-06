@@ -100,6 +100,14 @@ const data = [
   {
     source: '8502-13-31 navwji hlpa - rzglbnycao xqz 3376',
     expected: ['navwji hlpa']
+  },
+  {
+    source: 'hgab fthi – vgu icrgox tasw jalcr dy (8502-13-67)',
+    expected: ['hgab fthi']
+  },
+  {
+    source: 'hgab fthi — vgu icrgox tasw jalcr dy (8502-13-67)',
+    expected: ['hgab fthi']
   }
 ]
 

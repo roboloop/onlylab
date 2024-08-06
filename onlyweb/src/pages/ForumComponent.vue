@@ -81,8 +81,7 @@ handleAllTopics((tr) => {
   })
   if (allFakeBoobs) {
     const pill = createPill('Fake boobs')
-    console.log(pill)
-    tr.querySelector('.tt > .torTopic').appendChild(pill)
+    tr.querySelector('a[class*="bold"]').appendChild(pill)
   }
 })
 

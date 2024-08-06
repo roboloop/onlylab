@@ -1,9 +1,5 @@
 export default {
-  do(title, href) {
-    if (href) {
-      return href
-    }
-
+  do(title) {
     const isFull = title.match(/o\.[^.]+$/)
     if (isFull) {
       return title

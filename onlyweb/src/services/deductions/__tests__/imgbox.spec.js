@@ -16,11 +16,6 @@ const doData = [
     title: 'ezavi://qfixlt6.wrqovk.zzs/h6/55/0n6dhe0f_f.wze',
     href: '',
     expected: 'ezavi://jpikex6.wrqovk.zzs/h6/55/0n6dhe0f_z.wze'
-  },
-  {
-    title: 'ezavi://jpikex6.wrqovk.zzs/19/72/8wy2lv4q_z.wze',
-    href: 'ezavi://jpikex6.wrqovk.zzs/61/1u/e3nouyu0_z.wze',
-    expected: 'ezavi://jpikex6.wrqovk.zzs/61/1u/e3nouyu0_z.wze'
   }
 ]
 
