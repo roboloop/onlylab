@@ -54,3 +54,4 @@ It's work based on building a single tampermonkey script that accumulates all th
 - send notification after rebuilding
 - come up with a more convenient mechanism for blocking studios/genres
 - send notification when rebuilding
+- title parser fail 5262723

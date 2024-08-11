@@ -1,4 +1,4 @@
-import client from "../clients/client.js";
+import client from '../clients/client.js'
 
 export default {
   async do(title, href) {
@@ -8,7 +8,7 @@ export default {
 
     try {
       const data = await client.send({
-        url: href,
+        url: href
         // redirect: 'manual',
         // overrideMimeType: 'text/html',
         // headers: {

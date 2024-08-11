@@ -4,10 +4,10 @@ const getImages = (document, selector) => {
   const imageDocuments = document.querySelectorAll(selector)
   const images = []
   for (const imageDocument of imageDocuments) {
-    const { place, header } = getPlace(imageDocument)
+    const { spoiler, header } = getPlace(imageDocument)
     const title = imageDocument.title
     const href = imageDocument.parentElement?.href
-    images.push({ place, header, title, href })
+    images.push({ spoiler, header, title, href })
   }
 
   return images
@@ -40,30 +40,13 @@ const getPlace = (el) => {
   }
 
   const header = isCategory(lowest) ? '' : lowest
-  return { place: getCategory(heist), header }
+  heist = heist ? heist : 'No spoiler'
+  return { spoiler: heist, header }
 }
 
 const SCREENSHOTS = ['Скриншот', 'Screenshots', 'Примеры']
 const SCREENLIST = ['Скринлист', 'ScreenLists', 'ScreenListing']
 const GIFS = ['GIF']
-
-const getCategory = (place) => {
-  if (!place) {
-    return 'Постер'
-  }
-
-  if (SCREENSHOTS.some((word) => place.toLowerCase().includes(word.toLowerCase()))) {
-    return SCREENSHOTS[0]
-  }
-  if (SCREENLIST.some((word) => place.toLowerCase().includes(word.toLowerCase()))) {
-    return SCREENLIST[0]
-  }
-  if (GIFS.some((word) => place.toLowerCase().includes(word.toLowerCase()))) {
-    return GIFS[0]
-  }
-
-  return place
-}
 
 const isCategory = (place) => {
   if (!place) {
@@ -133,7 +116,7 @@ const getDownloadLink = (document) => {
   return document.querySelector('table.attach .dl-link')?.href
 }
 
-export function parseDom(document) {
+export function dom(document) {
   return {
     raw: getRaw(document),
     topic: getTopic(document),

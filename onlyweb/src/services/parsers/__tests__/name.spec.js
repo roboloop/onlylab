@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { parseName } from '../name'
+import name from '../name'
 
 const data = [
   {
@@ -78,6 +78,7 @@ const data = [
     source: 'baryyssygngkl',
     expected: ['baryyssygngkl']
   },
+  // cpe
   {
     source: 'kcpubg (cpe kcpubg gajckkb) - xfqnxbpj kcpubg rsoj get vtriitm zgexa kqe weyjsq gs',
     expected: ['kcpubg', 'kcpubg gajckkb']
@@ -97,23 +98,91 @@ const data = [
       'qjafgd (ovb: qjafgd r, qjafgd zeqtpn, qjafgd rxlsrsz, vxviq, tjmsgb ouj) (13.73.2560 l.)',
     expected: ['qjafgd', 'qjafgd r', 'qjafgd zeqtpn', 'qjafgd rxlsrsz', 'vxviq', 'tjmsgb ouj']
   },
+  // vszwlusjgc
   {
     source: '8502-13-31 navwji hlpa - rzglbnycao xqz 3376',
     expected: ['navwji hlpa']
   },
   {
-    source: 'hgab fthi – vgu icrgox tasw jalcr dy (8502-13-67)',
+    source: 'hgab fthi – nrxvjx arkynw',
     expected: ['hgab fthi']
   },
   {
-    source: 'hgab fthi — vgu icrgox tasw jalcr dy (8502-13-67)',
+    source: 'hgab fthi — tkks arkynw',
     expected: ['hgab fthi']
+  },
+  {
+    source: 'ljpwey uuueb • sddfncrc • atmy 6 • 242 xuirzud',
+    expected: ['ljpwey uuueb']
+  },
+  {
+    source: 'noe bivid | ewjp 6: q/q/m | (80 xuirzud) uzot (fuuilgl, lqhl)',
+    expected: ['noe bivid']
   }
 ]
 
 describe.each(data)('$source -> $expected', ({ source, expected }) => {
-  it('test', () => {
-    const result = parseName(source)
+  it('parseName', () => {
+    const result = name.parseName(source)
+    expect(expected).toStrictEqual(result)
+  })
+})
+
+const multipleNames = [
+  {
+    source:
+      'mrnnd nxusenwq (cpe hbsy-mrnnd dsuaphaoh, xlr iaizjyey, tlwmtnjppaz, vzpgaoqtgxrvj, byxfsdqoswrji) • nepjzkh • 289 xuirzud',
+    expected: [
+      [
+        'mrnnd nxusenwq',
+        'hbsy-mrnnd dsuaphaoh',
+        'xlr iaizjyey',
+        'tlwmtnjppaz',
+        'vzpgaoqtgxrvj',
+        'byxfsdqoswrji'
+      ]
+    ]
+  },
+  {
+    source: 'qhmxztbfkslbzs (cpe iqdsc tejzqpw) • sddfncrc • 08 xuirzud (znsvyv + 65)',
+    expected: [['qhmxztbfkslbzs', 'iqdsc tejzqpw']]
+  },
+  {
+    source:
+      'dsahzz oju (cpe bole vdusy, enbmzs e, ndr vxlwxo, bole, qwlurh mpcjoheh) (08 xuirzud) uzot',
+    expected: [['dsahzz oju', 'bole vdusy', 'enbmzs e', 'ndr vxlwxo', 'bole', 'qwlurh mpcjoheh']]
+  },
+  {
+    source: 'kcpubg (cpe kcpubg gajckkb) - xfqnxbpj kcpubg rsoj get vtriitm zgexa kqe weyjsq gs',
+    expected: [['kcpubg', 'kcpubg gajckkb']]
+  },
+  {
+    source:
+      'duhgn(cpe duhgn j) zib wohynzs awogt (cpe zznrkt mxlukw, fwztqd) - g csir, rcrl bzk jfrs lcd pmco kcpubg',
+    expected: [
+      ['duhgn', 'duhgn j'],
+      ['wohynzs awogt', 'zznrkt mxlukw', 'fwztqd']
+    ]
+  },
+  {
+    source:
+      'sampu amivcv (cpe hlivrjtn fhjocm, hlivrjtn-fhjocm), lhydi uwwy, qkqhd shhr (cpe qkqhd-shhr) - jtqnylb lrmpnjwg tt. 2 / nzmcgimfqbf czlupysc (pnblu 2)',
+    expected: [
+      ['sampu amivcv', 'hlivrjtn fhjocm', 'hlivrjtn-fhjocm'],
+      ['lhydi uwwy'],
+      ['qkqhd shhr', 'qkqhd-shhr']
+    ]
+  },
+  {
+    source:
+      'qjafgd (ovb: qjafgd r, qjafgd zeqtpn, qjafgd rxlsrsz, vxviq, tjmsgb ouj) (13.73.2560 l.)',
+    expected: [['qjafgd', 'qjafgd r', 'qjafgd zeqtpn', 'qjafgd rxlsrsz', 'vxviq', 'tjmsgb ouj']]
+  }
+]
+
+describe.each(multipleNames)('$source -> $expected', ({ source, expected }) => {
+  it('parseNames', () => {
+    const result = name.parseNames(source)
     expect(expected).toStrictEqual(result)
   })
 })

@@ -15,10 +15,12 @@ const files = async (topic) => {
 
   const spans = doc.querySelectorAll('span:not([class])')
   const elements = spans.length ? spans : [doc.body]
-  return Array.from(elements).filter(el => el.childNodes.length).map((el) => ({
-    name: el.childNodes[0].textContent.trim(),
-    size: filesize(el.childNodes[1].textContent.trim(), { standard: 'jedec' })
-  }))
+  return Array.from(elements)
+    .filter((el) => el.childNodes.length)
+    .map((el) => ({
+      name: el.childNodes[0].textContent.trim(),
+      size: filesize(el.childNodes[1].textContent.trim(), { standard: 'jedec' })
+    }))
 }
 
 export default {

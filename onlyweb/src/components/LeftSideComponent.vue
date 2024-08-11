@@ -8,6 +8,8 @@ import { parse } from '../services/parsers/parser.js'
 import qbit from '../services/clients/qbit.js'
 import tracker from '../services/clients/tracker.js'
 import hotkeys from '../services/hotkeys.js'
+import { BBadge } from 'bootstrap-vue'
+import _ from 'lodash'
 
 const props = defineProps({
   raw: String,
@@ -17,8 +19,8 @@ const props = defineProps({
   seeds: String,
   duration: String,
   size: String,
-  totalTopicImages: Number,
-  totalCommentImages: Number
+  topicImages: Array,
+  commentImages: Array
 })
 
 const { title, quality, year } = parse(props.raw)
@@ -57,7 +59,9 @@ hotkeys.register('KeyQ', 'Add topic to queue', { ctrlKey: true }, () =>
   addToQueueRef.value.onClick()
 )
 
-const emit = defineEmits(['exit', 'reload', 'topicImages', 'commentImages'])
+const TOPIC = 'topic'
+const COMMENTS = 'comments'
+const emit = defineEmits(['exit', 'reload', 'images'])
 
 const files = ref([])
 const showFiles = ref(true)
@@ -68,9 +72,12 @@ const onShowFiles = async () => {
   files.value = await tracker.files(props.topic)
   showFiles.value = false
 }
+
+const groups = _.mapValues(_.groupBy(props.topicImages, 'spoiler'), (g) => g.length)
 </script>
 
 <template>
+  <b-badge variant="danger" :pill="true" v-if="!storage.isEnabled">Storage is run out</b-badge>
   <h5>Options</h5>
 
   <ul class="nav flex-column">
@@ -79,14 +86,6 @@ const onShowFiles = async () => {
     </li>
     <li class="nav-item">
       <a href="#" target="_blank" @click.prevent.stop="emit('reload')">Reload</a>
-    </li>
-    <li class="nav-item">
-      <a href="#" target="_blank" @click.prevent.stop="emit('topicImages')">Topic images</a>
-      [{{ props.totalTopicImages }}]
-    </li>
-    <li class="nav-item">
-      <a href="#" target="_blank" @click.prevent.stop="emit('commentImages')">Comment images</a>
-      [{{ props.totalCommentImages }}]
     </li>
     <li class="nav-item">
       <LinkComponent
@@ -124,7 +123,26 @@ const onShowFiles = async () => {
   </ul>
   <br />
 
-  <h5>Files <span v-if="!showFiles">[{{ files.length }}]</span></h5>
+  <h5>Images</h5>
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a href="#" target="_blank" @click.prevent.stop="emit('images', TOPIC)">Topic images</a>
+      [{{ props.topicImages.length }}]
+    </li>
+    <li class="nav-item">
+      <a href="#" target="_blank" @click.prevent.stop="emit('images', COMMENTS)">Comment images</a>
+      [{{ props.commentImages.length }}]
+    </li>
+    <li class="nav-item" v-for="(total, name) in groups" :key="name">
+      <a href="#" target="_blank" @click.prevent.stop="emit('images', name)">{{ name }}</a>
+      [{{ total }}]
+    </li>
+  </ul>
+  <br />
+
+  <h5>
+    Files <span v-if="!showFiles">[{{ files.length }}]</span>
+  </h5>
   <ul class="nav flex-column" v-if="showFiles">
     <li class="nav-item">
       <a href="#" @click.prevent.stop="onShowFiles">Show files</a>

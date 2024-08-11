@@ -5,7 +5,7 @@ import storage from '../services/storage'
 import escapeStringRegexp from 'escape-string-regexp'
 import hotkeys from '../services/hotkeys'
 import { parse } from '../services/parsers/parser'
-import { parseName } from '../services/parsers/name.js'
+import name from '../services/parsers/name.js'
 
 const handleAllTopics = (fn) =>
   Array.from(document.querySelectorAll('.forumline tbody tr:has(> td.tCenter)')).reduce(
@@ -71,7 +71,7 @@ handleAllTopics((tr) => {
   }
   const textElement = tr.querySelector('.tLink,.tt-text')
   const { title } = parse(textElement.textContent)
-  const names = parseName(title)
+  const names = name.parseName(title)
   const allFakeBoobs = names.every((name) => {
     const profile = storage.getProfile(name)
     if (!profile || !profile.boobs) {
@@ -81,7 +81,7 @@ handleAllTopics((tr) => {
   })
   if (allFakeBoobs) {
     const pill = createPill('Fake boobs')
-    tr.querySelector('a[class*="bold"]').appendChild(pill)
+    tr.querySelector('a[class*="bold"]').parentElement.appendChild(pill)
   }
 })
 
@@ -159,7 +159,8 @@ hotkeys.register('ArrowRight', 'Next page', { altKey: true }, () =>
     />
     <div>
       <img src="../assets/eye-regular.svg" class="icon" alt="" @click="toggleFilter" />
-      <span>Hidden topics: {{ totalHidden }}. Banned topics: {{ totalBanned }}.</span>
+      <span @click="toggleFilter">Hidden topics: {{ totalHidden }}.</span>
+      <span>Banned topics: {{ totalBanned }}.</span>
     </div>
   </div>
 </template>

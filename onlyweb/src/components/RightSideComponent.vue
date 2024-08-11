@@ -1,8 +1,9 @@
 <script setup>
 import { computed, ref, defineProps, defineExpose } from 'vue'
-import profile from '../services/clients/babe'
+import babe from '../services/clients/babe'
+import hotkeys from '../services/hotkeys'
 import links from '../services/links'
-import { parseName } from '../services/parsers/name'
+import name from '../services/parsers/name'
 import { formatDistance } from 'date-fns'
 import _ from 'lodash'
 import { parse } from '../services/parsers/parser'
@@ -13,8 +14,8 @@ const props = defineProps({
 })
 
 const { title, genres: unsortedGenres, studious: unsortedStudious } = parse(props.raw)
-const names = parseName(title)
-const profiles = ref([])
+const groupNames = name.parseNames(title)
+const groupedProfiles = ref([])
 const ignoredForums = import.meta.env.VITE_IGNORED_FORUMS.split(',')
 
 const genres = computed(() => {
@@ -28,15 +29,35 @@ const studious = computed(() => {
     .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
 })
 
-const reloadProfile = (force = false) => {
+const reloadProfile = async (force = false) => {
   if (_.intersection(ignoredForums, props.forums).length > 0) {
     console.log('Ignored', ignoredForums, props.forums)
     return
   }
 
-  profiles.value.splice(0)
-  for (const name of names) {
-    profile.parameters(name, force).then((profile) => profiles.value.push(profile))
+  groupedProfiles.value.splice(0)
+  for (const groupName of groupNames.filter((g) => g.length)) {
+    const promises = groupName.map((name) => babe.profile(name, force))
+    const profiles = await Promise.all(promises)
+
+    const mainName = groupName[0]
+    const [nonNullGroup, nullGroup] = _.partition(profiles, (p) => !!p.babeName)
+    const grouped = nonNullGroup.length
+      ? Object.entries(_.groupBy(nonNullGroup, (p) => p.babeName)).map(([n, p]) => [
+          n,
+          [...p, ...nullGroup]
+        ])
+      : Object.entries({ [mainName]: nullGroup })
+    for (const [babeName, profiles] of grouped) {
+      groupedProfiles.value.push({
+        name: mainName,
+        babeName: babeName,
+        aliases: _.uniq(
+          [...profiles, { name: babeName }].map((p) => p.name).filter((n) => n !== mainName)
+        ),
+        profile: profiles.find((p) => p.babeName) ?? profiles[0]
+      })
+    }
   }
 }
 const formatDate = (date) => {
@@ -44,17 +65,33 @@ const formatDate = (date) => {
 }
 
 reloadProfile()
-defineExpose({ reloadProfile, profiles })
+defineExpose({ reloadProfile })
+
+hotkeys.register('KeyB', 'Open the first babepedia link', { ctrlKey: true }, () => {
+  const name = groupedProfiles.value[0]?.babeName
+  if (name) {
+    window.open(links.babepediaLink(name), '_blank')
+  }
+})
+hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }, () => {
+  const name = groupedProfiles.value[0]?.name
+  if (name) {
+    window.open(links.trackerSearchLink(name), '_blank')
+  }
+})
 </script>
 
 <template>
-  <template v-for="profile in profiles" :key="profile.name">
+  <template v-for="{ name, babeName, aliases, profile } in groupedProfiles" :key="name">
     <h5>
-      {{ profile.name }}
+      {{ name }}
     </h5>
     <ul class="nav flex-column">
+      <li class="nav-item" v-for="alias in aliases" :key="alias">
+        {{ alias }}
+      </li>
       <li class="nav-item babepedia-icon">
-        <a :href="links.babepediaLink(profile.name)" target="_blank" rel="noreferrer">Babepedia</a>
+        <a :href="links.babepediaLink(babeName)" target="_blank" rel="noreferrer">Babepedia</a>
       </li>
       <li class="nav-item tracker-icon">
         <a :href="links.trackerSearchLink(profile.name)" target="_blank" rel="noreferrer">Tracker</a>
@@ -73,7 +110,9 @@ defineExpose({ reloadProfile, profiles })
       <li class="nav-item">Nationality: {{ profile.nationality || '—' }}</li>
       <li class="nav-item">Boobs: {{ profile.boobs || '—' }}</li>
       <li class="nav-item">Bra size: {{ profile.braSize || '—' }}</li>
-      <li class="nav-item">Updated: {{ formatDate(profile.updatedAt) }}</li>
+      <li class="nav-item">
+        Updated: {{ profile.updatedAt ? formatDate(profile.updatedAt) : '—' }}
+      </li>
     </ul>
     <br />
   </template>

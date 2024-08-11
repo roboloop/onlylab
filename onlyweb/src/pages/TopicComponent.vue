@@ -1,11 +1,10 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { parseDom } from './../services/parseDom'
+import { dom } from '../services/parsers/dom'
 import LeftSideComponent from '../components/LeftSideComponent.vue'
 import RightSideComponent from '../components/RightSideComponent.vue'
 import ImagesComponent from '../components/ImagesComponent.vue'
 import hotkeys from '../services/hotkeys'
-import links from '../services/links'
 import { parse } from '../services/parsers/parser.js'
 import storage from '../services/storage.js'
 
@@ -20,7 +19,7 @@ let {
   downloadLink,
   topicImages,
   commentImages
-} = parseDom(window.document)
+} = dom(window.document)
 const { title } = parse(raw)
 
 const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
@@ -28,6 +27,18 @@ const show = ref(enableOnOpen)
 
 const images = ref([])
 images.value.push(...topicImages)
+const onImages = (name) => {
+  images.value.splice(0)
+  if (name === 'topic') {
+    images.value.push(...topicImages)
+  } else if (name === 'comments') {
+    images.value.push(...commentImages)
+  } else {
+    const ti = topicImages.filter((ti) => ti.spoiler === name)
+    images.value.push(...ti)
+  }
+}
+
 const onTopicImages = () => {
   images.value.splice(0)
   images.value.push(...topicImages)
@@ -53,18 +64,6 @@ watch(show, (newVal) => {
 
 hotkeys.register('KeyA', 'Open/Close OnlyWeb', { ctrlKey: true }, () => (show.value = !show.value))
 hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())
-hotkeys.register('KeyB', 'Open the first babepedia link', { ctrlKey: true }, () => {
-  const name = rightSidebarRef.value.profiles?.[0]?.name
-  if (rightSidebarRef.value.profiles?.[0]?.name) {
-    window.open(links.babepediaLink(name), '_blank')
-  }
-})
-hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }, () => {
-  const name = rightSidebarRef.value.profiles?.[0]?.name
-  if (rightSidebarRef.value.profiles?.[0]?.name) {
-    window.open(links.trackerSearchLink(name), '_blank')
-  }
-})
 </script>
 
 <template>
@@ -81,10 +80,11 @@ hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }
               :seeds="seeds"
               :duration="duration"
               :size="size"
-              :totalTopicImages="topicImages.length"
-              :totalCommentImages="commentImages.length"
+              :topicImages="topicImages"
+              :commentImages="commentImages"
               @exit="show = false"
               @reload="onReload"
+              @images="onImages"
               @topicImages="onTopicImages"
               @commentImages="onCommentImages"
             ></LeftSideComponent>

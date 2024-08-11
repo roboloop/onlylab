@@ -1,4 +1,14 @@
-import store from 'store'
+import engine from 'store/src/store-engine'
+import localStorage from 'store/storages/localStorage'
+import memoryStorage from 'store/storages/memoryStorage'
+import json2 from 'store/plugins/json2'
+const localStore = engine.createStore([localStorage], [json2])
+const memoryStore = engine.createStore([memoryStorage], [json2])
+const store = localStore.enabled ? localStore : memoryStore
+
+const isEnabled = () => {
+  return localStore.enabled
+}
 
 const profileKey = (name) => {
   return 'profile:' + name
@@ -60,5 +70,7 @@ export default {
 
   putDownloaded,
   getDownloaded,
-  removeDownloaded
+  removeDownloaded,
+
+  isEnabled
 }
