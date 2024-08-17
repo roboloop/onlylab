@@ -150,5 +150,17 @@ export default [
       studios: [],
       year: '8502'
     }
+  },
+  {
+    source:
+      'mpcjoheh oaxr - rjdfuy iiqkd yekqjiwp evwt (41 xuirzud) uzot (mpcjoheh umnn, ukrcj) (r2.2 [8502-16-93] znsvyv + 09) [2691 - 8502, nb unfulj asmy, bc, pvp, sk, mgk, scnsg gpzrkcv feh, hagvzlxdig, jfrs bldxtevi, orq, sxcxpud, tcsudkbn, dejkncbbtps, qccjlhemvqx, yjscki eudqvntn, vtriitm fnoohek pwan, hamw qqpn]',
+    expected: {
+      genres: ['asmy', 'txv', 'gnyfqdpys', 'docwjg'],
+      originalTitle:
+        'mpcjoheh oaxr - rjdfuy iiqkd yekqjiwp evwt (41 xuirzud) uzot (mpcjoheh umnn, ukrcj) (r2.2 [8502-16-93] znsvyv + 09)',
+      quality: '0614g',
+      studios: [],
+      year: '8502'
+    }
   }
 ]

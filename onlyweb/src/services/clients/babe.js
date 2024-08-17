@@ -75,5 +75,5 @@ export default {
     storage.putProfile(name, profile)
 
     return profile
-  },
+  }
 }

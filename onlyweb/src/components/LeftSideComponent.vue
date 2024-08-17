@@ -8,8 +8,8 @@ import { parse } from '../services/parsers/parser.js'
 import qbit from '../services/clients/qbit.js'
 import tracker from '../services/clients/tracker.js'
 import hotkeys from '../services/hotkeys.js'
-import { BBadge } from 'bootstrap-vue'
 import _ from 'lodash'
+import StorageComponent from '@/components/StorageComponent.vue'
 
 const props = defineProps({
   raw: String,
@@ -33,7 +33,6 @@ const downloadHandler = async (paused) => {
   const today = new Date()
   const folder = format(today, 'MMyy')
   const result = await qbit.upload(props.topic, props.downloadLink, folder, paused)
-  console.log('downloadHandler', result)
   if (result) {
     storage.putDownloaded(props.topic)
   }
@@ -77,9 +76,7 @@ const groups = _.mapValues(_.groupBy(props.topicImages, 'spoiler'), (g) => g.len
 </script>
 
 <template>
-  <b-badge variant="danger" :pill="true" v-if="!storage.isEnabled">Storage is run out</b-badge>
   <h5>Options</h5>
-
   <ul class="nav flex-column">
     <li class="nav-item">
       <a href="#" target="_blank" @click.prevent.stop="emit('exit')">Exit</a>
@@ -111,6 +108,8 @@ const groups = _.mapValues(_.groupBy(props.topicImages, 'spoiler'), (g) => g.len
     </li>
   </ul>
   <br />
+
+  <StorageComponent />
 
   <h5>Info</h5>
   <ul class="nav flex-column">

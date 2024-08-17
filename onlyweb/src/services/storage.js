@@ -10,8 +10,17 @@ const isEnabled = () => {
   return localStore.enabled
 }
 
+const removeWithPrefix = (prefix) => {
+  store.each((val, key) => {
+    if (key.startsWith(prefix)) {
+      store.remove(key)
+    }
+  })
+}
+
+const profilePrefix = 'profile:'
 const profileKey = (name) => {
-  return 'profile:' + name
+  return profilePrefix + name
 }
 const putProfile = (name, profile) => {
   store.set(profileKey(name), profile)
@@ -19,9 +28,13 @@ const putProfile = (name, profile) => {
 const getProfile = (name) => {
   return store.get(profileKey(name))
 }
+const removeProfiles = () => {
+  removeWithPrefix(profilePrefix)
+}
 
+const imgPrefix = 'img:'
 const imgKey = (title) => {
-  return 'img:' + title
+  return imgPrefix + title
 }
 const putImg = (title, href) => {
   store.set(imgKey(title), href)
@@ -31,6 +44,9 @@ const getImg = (title) => {
 }
 const removeImg = (title) => {
   store.remove(imgKey(title))
+}
+const removeImgs = () => {
+  removeWithPrefix(imgPrefix)
 }
 
 const filterKey = () => {
@@ -43,6 +59,7 @@ const getFilter = () => {
   return store.get(filterKey())
 }
 
+const downloadedPrefix = 'downloaded:'
 const downloadedKey = (topic) => {
   return 'downloaded:' + topic
 }
@@ -57,13 +74,60 @@ const removeDownloaded = (topic) => {
   store.remove(downloadedKey(topic))
 }
 
+const removeAll = () => {
+  store.clearAll()
+}
+
+const stat = () => {
+  let profiles = 0,
+    images = 0,
+    downloads = 0,
+    total = 0
+  store.each((val, key) => {
+    const size = key.length + JSON.stringify(val).length
+    if (key.startsWith(profilePrefix)) {
+      profiles += size
+    } else if (key.startsWith(imgPrefix)) {
+      images += size
+    } else if (key.startsWith(downloadedPrefix)) {
+      downloads += size
+    }
+    total += size
+  })
+  const format = (s) => (s / 1024 / 1024).toFixed(4) + ' Mb'
+
+  return {
+    total: format(total),
+    profiles: format(profiles),
+    images: format(images),
+    downloads: format(downloads)
+  }
+}
+
+const readAll = () => {
+  const data = {}
+  store.each((val, key) => {
+    data[key] = val
+  })
+  return data
+}
+
+const writeAll = (data) => {
+  store.clearAll()
+  for (const key in data) {
+    store.set(key, data[key])
+  }
+}
+
 export default {
   putProfile,
   getProfile,
+  removeProfiles,
 
   putImg,
   getImg,
   removeImg,
+  removeImgs,
 
   putFilter,
   getFilter,
@@ -72,5 +136,10 @@ export default {
   getDownloaded,
   removeDownloaded,
 
-  isEnabled
+  removeAll,
+
+  isEnabled,
+  stat,
+  readAll,
+  writeAll
 }

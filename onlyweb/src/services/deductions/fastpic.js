@@ -22,15 +22,7 @@ export default {
       if (matched) {
         return matched[1]
       }
-
-      const base64 = btoa(
-        data
-          .split('')
-          .map((c) => String.fromCharCode(c, 2))
-          .join('')
-      )
-
-      return 'data:image/jpeg;base64,' + base64
+      // TODO: what to do?
     } catch (error) {
       // TODO: good processing?
       console.log(`Fail to load ${href}`, error)

@@ -2,6 +2,9 @@
 import { readFileSync } from 'fs'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import notifier from 'node-notifier'
+import packageJson from './package.json'
+import path from 'path'
 
 const env = loadEnv('', process.cwd(), 'VITE_')
 
@@ -33,6 +36,20 @@ const tampermonkey = (templateFile) => {
   }
 }
 
+const notifierPlugin = () => {
+  return {
+    name: 'tampermonkey',
+    buildEnd(error) {
+      const message = error ? `Build error: ${error.id}` : 'Build success'
+
+      notifier.notify({
+        title: packageJson.name,
+        message,
+      });
+    },
+  }
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -45,11 +62,13 @@ export default defineConfig({
         }
       }
     }),
-    tampermonkey(process.env.NODE_ENV === 'production' ? 'tampermonkey/prod.js.template' : 'tampermonkey/dev.js.template')
+    tampermonkey(process.env.NODE_ENV === 'production' ? 'tampermonkey/prod.js.template' : 'tampermonkey/dev.js.template'),
+    notifierPlugin(),
   ],
   resolve: {
     alias: {
       vue: '@vue/compat',
+      '@': path.resolve(__dirname, './src'),
     }
   },
   build: {
