@@ -1,15 +1,15 @@
 export function parseTitle(original) {
-  let matched = original.match(/\]\s*([^[]+)\s*\[/)
+  let matched = original.match(/^([^[\]]+)(?![^(]+\))/)
   if (matched) {
     return matched[1].trim()
   }
 
-  matched = original.match(/\]\s*(.*)\s*\(/)
+  matched = original.match(/\]([^[]+)\[/)
   if (matched) {
     return matched[1].trim()
   }
 
-  matched = original.match(/^([^[\]]+)/)
+  matched = original.match(/\](.*)\(/)
   if (matched) {
     return matched[1].trim()
   }

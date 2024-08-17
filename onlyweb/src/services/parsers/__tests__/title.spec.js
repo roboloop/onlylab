@@ -5,6 +5,6 @@ import data from './input'
 describe.each(data)('$source -> $expected.originalTitle', ({ source, expected }) => {
   it('test', () => {
     const result = parseTitle(source)
-    expect(expected.originalTitle).toStrictEqual(result)
+    expect(result).toStrictEqual(expected.originalTitle)
   })
 })

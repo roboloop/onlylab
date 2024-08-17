@@ -5,6 +5,6 @@ import data from './input'
 describe.each(data)('$source -> $expected.quality', ({ source, expected }) => {
   it('test', () => {
     const result = parseQuality(source)
-    expect(expected.quality).toStrictEqual(result)
+    expect(result).toStrictEqual(expected.quality)
   })
 })

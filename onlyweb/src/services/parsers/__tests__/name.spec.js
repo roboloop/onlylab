@@ -124,7 +124,7 @@ const data = [
 describe.each(data)('$source -> $expected', ({ source, expected }) => {
   it('parseName', () => {
     const result = name.parseName(source)
-    expect(expected).toStrictEqual(result)
+    expect(result).toStrictEqual(expected)
   })
 })
 
@@ -183,6 +183,6 @@ const multipleNames = [
 describe.each(multipleNames)('$source -> $expected', ({ source, expected }) => {
   it('parseNames', () => {
     const result = name.parseNames(source)
-    expect(expected).toStrictEqual(result)
+    expect(result).toStrictEqual(expected)
   })
 })

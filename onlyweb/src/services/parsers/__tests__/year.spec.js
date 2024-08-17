@@ -5,6 +5,6 @@ import data from './input'
 describe.each(data)('$source -> $expected.year', ({ source, expected }) => {
   it('test', () => {
     const result = parseYear(source)
-    expect(expected.year).toStrictEqual(result)
+    expect(result).toStrictEqual(expected.year)
   })
 })

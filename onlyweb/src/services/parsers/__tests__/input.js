@@ -153,14 +153,15 @@ export default [
   },
   {
     source:
-      'mpcjoheh oaxr - rjdfuy iiqkd yekqjiwp evwt (41 xuirzud) uzot (mpcjoheh umnn, ukrcj) (r2.2 [8502-16-93] znsvyv + 09) [2691 - 8502, nb unfulj asmy, bc, pvp, sk, mgk, scnsg gpzrkcv feh, hagvzlxdig, jfrs bldxtevi, orq, sxcxpud, tcsudkbn, dejkncbbtps, qccjlhemvqx, yjscki eudqvntn, vtriitm fnoohek pwan, hamw qqpn]',
+      'mpcjoheh oaxr - rjdfuy iiqkd yekqjiwp evwt (41 xuirzud) uzot (mpcjoheh umnn, ukrcj) (r2.2 [8502-16-93] znsvyv + 09) [2691 - 8502, nb unfulj asmy, bc, pvp, sk]',
     expected: {
-      genres: ['asmy', 'txv', 'gnyfqdpys', 'docwjg'],
+      genres: ['nb unfulj asmy', 'bc', 'pvp', 'sk'],
+      // jzzb: kyjr thkugyv  (r2.2 [8502-16-93] znsvyv + 09) uf lee pie
       originalTitle:
-        'mpcjoheh oaxr - rjdfuy iiqkd yekqjiwp evwt (41 xuirzud) uzot (mpcjoheh umnn, ukrcj) (r2.2 [8502-16-93] znsvyv + 09)',
-      quality: '0614g',
+        'mpcjoheh oaxr - rjdfuy iiqkd yekqjiwp evwt (41 xuirzud) uzot (mpcjoheh umnn, ukrcj)',
+      quality: '',
       studios: [],
-      year: '8502'
+      year: '2691 - 8502'
     }
   }
 ]

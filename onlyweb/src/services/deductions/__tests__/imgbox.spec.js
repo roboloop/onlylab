@@ -22,7 +22,7 @@ const doData = [
 describe.each(doData)('$title -> $expected', ({ title, href, expected }) => {
   it('test', () => {
     const result = Imgbox.do(title, href)
-    expect(expected).toStrictEqual(result)
+    expect(result).toStrictEqual(expected)
   })
 })
 
@@ -57,6 +57,6 @@ const supportData = [
 describe.each(supportData)('$title -> $expected', ({ title, href, expected }) => {
   it('test', () => {
     const result = Imgbox.support(title, href)
-    expect(expected).toStrictEqual(result)
+    expect(result).toStrictEqual(expected)
   })
 })
