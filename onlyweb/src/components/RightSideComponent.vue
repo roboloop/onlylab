@@ -13,7 +13,8 @@ const props = defineProps({
   forums: Array
 })
 
-const { title, genres: unsortedGenres, studious: unsortedStudious } = parse(props.raw)
+const { title, genres: unsortedGenres, studious: unsortedStudious, year } = parse(props.raw)
+const years = year.split('-').map((y) => Number(y.trim()))
 const groupNames = name.parseNames(title)
 const groupedProfiles = ref([])
 const ignoredForums = import.meta.env.VITE_IGNORED_FORUMS.split(',')
@@ -49,13 +50,17 @@ const reloadProfile = async (force = false) => {
         ])
       : Object.entries({ [mainName]: nullGroup })
     for (const [babeName, profiles] of grouped) {
+      const profile = profiles.find((p) => p.babeName) ?? profiles[0]
+      const age = profile.age && profile.age.match(/\d+/)?.[0]
       groupedProfiles.value.push({
         name: mainName,
         babeName: babeName,
         aliases: _.uniq(
           [...profiles, { name: babeName }].map((p) => p.name).filter((n) => n !== mainName)
         ),
-        profile: profiles.find((p) => p.babeName) ?? profiles[0]
+        profile: profile,
+        // TODO: refactor
+        ages: age ? years.map((y) => +age - (new Date().getFullYear() - +y)) : []
       })
     }
   }
@@ -82,7 +87,7 @@ hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }
 </script>
 
 <template>
-  <template v-for="{ name, babeName, aliases, profile } in groupedProfiles" :key="name">
+  <template v-for="{ name, babeName, aliases, profile, ages } in groupedProfiles" :key="name">
     <h5>
       {{ name }}
     </h5>
@@ -97,6 +102,7 @@ hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }
         <a :href="links.trackerSearchLink(profile.name)" target="_blank" rel="noreferrer">Tracker</a>
       </li>
       <li class="nav-item">Age: {{ profile.age || '—' }}</li>
+      <li class="nav-item" v-if="ages.length">Acts: {{ ages.join('-') }}</li>
       <li class="nav-item">Height: {{ profile.height || '—' }}</li>
       <li class="nav-item">Weight: {{ profile.weight || '—' }}</li>
       <li
@@ -118,6 +124,7 @@ hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }
   </template>
 
   <h5>Genres</h5>
+  <span v-if="!genres.length"><i>No genres</i></span>
   <ul class="nav flex-column">
     <li class="nav-item" v-for="genre in genres" :key="genre">
       <a :href="links.trackerSearchLink(genre)" target="_blank" rel="noreferrer">{{ genre }}</a>
@@ -126,6 +133,7 @@ hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }
   <br />
 
   <h5>Studios</h5>
+  <span v-if="!studious.length"><i>No studious</i></span>
   <ul class="nav flex-column">
     <li class="nav-item" v-for="studio in studious" :key="studio">{{ studio }}</li>
   </ul>

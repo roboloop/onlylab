@@ -56,3 +56,5 @@ It's work based on building a single tampermonkey script that accumulates all th
 - send notification when rebuilding
 - title parser fail 5262723
 - image parsing 5262723, 5262721
+- nested grouping of images
+- confirmation on delete
