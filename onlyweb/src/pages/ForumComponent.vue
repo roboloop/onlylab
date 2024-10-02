@@ -81,7 +81,7 @@ handleAllTopics((tr) => {
   })
   if (names.length > 0 && allFakeBoobs) {
     const pill = createPill('Fake boobs')
-    tr.querySelector('a[class*="bold"]').parentElement.appendChild(pill)
+    tr.querySelector('a.tt-text').parentElement.appendChild(pill)
   }
 })
 

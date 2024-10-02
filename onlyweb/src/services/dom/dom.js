@@ -48,7 +48,7 @@ const getImages = (document) => {
     .filter((el) => el.querySelector('var.postImg'))
     .forEach((el) => {
       const id = generateId()
-      const h3 = el.querySelector('h3').textContent
+      const h3 = el.querySelector('h3')?.textContent ?? ''
       const header = h3.replace(/&#(\d+);/g, (m, d) => String.fromCharCode(d))
       const payload = Array.from(el.children).find((c) => c.nodeName === 'A')
         ? el.textContent.replace(h3, '').trim()
