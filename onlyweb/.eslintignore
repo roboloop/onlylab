@@ -3,3 +3,4 @@ tampermonkey/*.js
 vite.config.js
 dev/**/*.js
 dummy/**/*.js
+**/__tests__/*.html

@@ -79,7 +79,7 @@ handleAllTopics((tr) => {
     }
     return !!profile.boobs.match(/fake/i)
   })
-  if (allFakeBoobs) {
+  if (names.length > 0 && allFakeBoobs) {
     const pill = createPill('Fake boobs')
     tr.querySelector('a[class*="bold"]').parentElement.appendChild(pill)
   }

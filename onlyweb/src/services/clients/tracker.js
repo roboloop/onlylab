@@ -1,6 +1,5 @@
 import links from '../links.js'
 import client from './client.js'
-import { filesize } from 'filesize'
 
 const files = async (topic) => {
   const formData = new FormData()
@@ -19,7 +18,8 @@ const files = async (topic) => {
     .filter((el) => el.childNodes.length)
     .map((el) => ({
       name: el.childNodes[0].textContent.trim(),
-      size: filesize(el.childNodes[1].textContent.trim(), { standard: 'jedec' })
+      // size: filesize(el.childNodes[1].textContent.trim(), { standard: 'jedec' })
+      size: +el.childNodes[1].textContent.trim()
     }))
 }
 

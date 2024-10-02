@@ -1,58 +1,46 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { dom } from '../services/parsers/dom'
+import { dom } from '../services/dom/dom'
 import LeftSideComponent from '../components/LeftSideComponent.vue'
 import RightSideComponent from '../components/RightSideComponent.vue'
 import ImagesComponent from '../components/ImagesComponent.vue'
+import FilesComponent from '../components/FilesComponent.vue'
 import hotkeys from '../services/hotkeys'
 import { parse } from '../services/parsers/parser.js'
 import storage from '../services/storage.js'
+import tracker from '@/services/clients/tracker.js'
+import image from '@/services/parsers/image.js'
 
-let {
-  raw,
-  topic,
-  forums,
-  size,
-  createdAt,
-  seeds,
-  duration,
-  downloadLink,
-  topicImages,
-  commentImages
-} = dom(window.document)
+let { raw, topic, forums, size, createdAt, seeds, duration, downloadLink, images } = dom(
+  window.document
+)
 const { title } = parse(raw)
 
 const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
 const show = ref(enableOnOpen)
 
-const images = ref([])
-images.value.push(...topicImages)
-const onImages = (name) => {
-  images.value.splice(0)
-  if (name === 'topic') {
-    images.value.push(...topicImages)
-  } else if (name === 'comments') {
-    images.value.push(...commentImages)
-  } else {
-    const ti = topicImages.filter((ti) => ti.spoiler === name)
-    images.value.push(...ti)
-  }
+const showImages = ref(true)
+const showFiles = ref(false)
+
+const flattenImages = image.normalize(images)
+const showingImages = ref([])
+showingImages.value.push(...(flattenImages?.[0]?.images ?? []))
+const onImages = (id) => {
+  const imagesToShow = flattenImages.find((i) => i.id === id)?.images ?? []
+  showingImages.value.splice(0)
+  showingImages.value.push(...imagesToShow)
 }
 
-const onTopicImages = () => {
-  images.value.splice(0)
-  images.value.push(...topicImages)
-}
-const onCommentImages = () => {
-  images.value.splice(0)
-  images.value.push(...commentImages)
+const files = ref([])
+const onFiles = async () => {
+  files.value = await tracker.files(topic)
 }
 
 const rightSidebarRef = ref(null)
 const onReload = () => {
-  ;[...topicImages, ...commentImages].forEach(({ title }) => storage.removeImg(title))
-  images.value.splice(0)
-  images.value.push(...topicImages)
+  flattenImages.flatMap((p) => p.images).forEach(({ title }) => storage.removeImg(title))
+  showingImages.value.splice(0)
+  showingImages.value.push(...(flattenImages?.[0]?.images ?? []))
 
   rightSidebarRef.value.reloadProfile(true)
 }
@@ -80,13 +68,11 @@ hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())
               :seeds="seeds"
               :duration="duration"
               :size="size"
-              :topicImages="topicImages"
-              :commentImages="commentImages"
+              :images="flattenImages"
               @exit="show = false"
               @reload="onReload"
               @images="onImages"
-              @topicImages="onTopicImages"
-              @commentImages="onCommentImages"
+              @files="onFiles"
             ></LeftSideComponent>
           </div>
           <div class="col-sm-8">
@@ -100,7 +86,8 @@ hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())
               </template>
             </header>
 
-            <ImagesComponent :images="images"></ImagesComponent>
+            <ImagesComponent :images="showingImages" v-if="showImages"></ImagesComponent>
+            <FilesComponent :files="files" v-if="showFiles"></FilesComponent>
           </div>
 
           <div class="col-sm-2 mt-1">

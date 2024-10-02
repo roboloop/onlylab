@@ -8,8 +8,8 @@ import { parse } from '../services/parsers/parser.js'
 import qbit from '../services/clients/qbit.js'
 import tracker from '../services/clients/tracker.js'
 import hotkeys from '../services/hotkeys.js'
-import _ from 'lodash'
 import StorageComponent from '@/components/StorageComponent.vue'
+import { filesize } from 'filesize'
 
 const props = defineProps({
   raw: String,
@@ -19,8 +19,7 @@ const props = defineProps({
   seeds: String,
   duration: String,
   size: String,
-  topicImages: Array,
-  commentImages: Array
+  images: Array
 })
 
 const { title, quality, year } = parse(props.raw)
@@ -58,9 +57,7 @@ hotkeys.register('KeyQ', 'Add topic to queue', { ctrlKey: true }, () =>
   addToQueueRef.value.onClick()
 )
 
-const TOPIC = 'topic'
-const COMMENTS = 'comments'
-const emit = defineEmits(['exit', 'reload', 'images'])
+const emit = defineEmits(['exit', 'reload', 'images', 'files'])
 
 const files = ref([])
 const showFiles = ref(true)
@@ -71,8 +68,6 @@ const onShowFiles = async () => {
   files.value = await tracker.files(props.topic)
   showFiles.value = false
 }
-
-const groups = _.mapValues(_.groupBy(props.topicImages, 'spoiler'), (g) => g.length)
 </script>
 
 <template>
@@ -124,17 +119,9 @@ const groups = _.mapValues(_.groupBy(props.topicImages, 'spoiler'), (g) => g.len
 
   <h5>Images</h5>
   <ul class="nav flex-column">
-    <li class="nav-item">
-      <a href="#" target="_blank" @click.prevent.stop="emit('images', TOPIC)">Topic images</a>
-      [{{ props.topicImages.length }}]
-    </li>
-    <li class="nav-item">
-      <a href="#" target="_blank" @click.prevent.stop="emit('images', COMMENTS)">Comment images</a>
-      [{{ props.commentImages.length }}]
-    </li>
-    <li class="nav-item" v-for="(total, name) in groups" :key="name">
-      <a href="#" target="_blank" @click.prevent.stop="emit('images', name)">{{ name }}</a>
-      [{{ total }}]
+    <li class="nav-item" v-for="{ id, header, images } in images" :key="id">
+      <a href="#" target="_blank" @click.prevent.stop="emit('images', id)">{{ header }}</a>
+      [{{ images.length }}]
     </li>
   </ul>
   <br />
@@ -149,8 +136,8 @@ const groups = _.mapValues(_.groupBy(props.topicImages, 'spoiler'), (g) => g.len
   </ul>
 
   <ul class="nav flex-column" style="list-style: inherit">
-    <li class="nav-item" style="font-size: 12px" v-for="{ name, size } of files" :key="name + size">
-      [{{ size }}] {{ name }}
+    <li class="nav-item" style="font-size: 12px" v-for="{ name, size } in files" :key="name + size">
+      [{{ filesize(size, { standard: 'jedec' }) }}] {{ name }}
     </li>
   </ul>
   <br />

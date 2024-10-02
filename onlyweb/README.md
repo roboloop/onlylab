@@ -50,11 +50,13 @@ It's work based on building a single tampermonkey script that accumulates all th
 ### TODO
 
 - issue with displaying Bootstrap styles on the entire page
-- fastpic — some images dont
-- send notification after rebuilding
 - come up with a more convenient mechanism for blocking studios/genres
-- send notification when rebuilding
-- title parser fail 5262723
-- image parsing 5262723, 5262721
-- nested grouping of images
+- nested grouping of images, screenshot table
+  - no hierarchy for spoiler selection with pictures; ignore and other nonsense.
+  - pictures under the spoiler
+  - table with screenshots
 - confirmation on delete
+- fix ages activity
+2 names in 4 words
+- hide small images 48x48
+- parsing by databases
