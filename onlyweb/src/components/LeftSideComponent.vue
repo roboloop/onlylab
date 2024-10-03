@@ -6,10 +6,8 @@ import { format, formatDistance } from 'date-fns'
 import links from '../services/links'
 import { parse } from '../services/parsers/parser.js'
 import qbit from '../services/clients/qbit.js'
-import tracker from '../services/clients/tracker.js'
 import hotkeys from '../services/hotkeys.js'
 import StorageComponent from '@/components/StorageComponent.vue'
-import { filesize } from 'filesize'
 
 const props = defineProps({
   raw: String,
@@ -53,21 +51,12 @@ const downloadedAt = storage.getDownloaded(props.topic)
 const downloadRef = ref(null)
 const addToQueueRef = ref(null)
 hotkeys.register('KeyD', 'Download topic', { ctrlKey: true }, () => downloadRef.value.onClick())
+hotkeys.register('KeyF', 'Show files', { ctrlKey: true }, () => emit('files'))
 hotkeys.register('KeyQ', 'Add topic to queue', { ctrlKey: true }, () =>
   addToQueueRef.value.onClick()
 )
 
-const emit = defineEmits(['exit', 'reload', 'images', 'files'])
-
-const files = ref([])
-const showFiles = ref(true)
-const onShowFiles = async () => {
-  if (!showFiles.value) {
-    return
-  }
-  files.value = await tracker.files(props.topic)
-  showFiles.value = false
-}
+const emit = defineEmits(['exit', 'reload', 'images', 'screenlists', 'files'])
 </script>
 
 <template>
@@ -120,24 +109,23 @@ const onShowFiles = async () => {
   <h5>Images</h5>
   <ul class="nav flex-column">
     <li class="nav-item" v-for="{ id, header, images } in images" :key="id">
-      <a href="#" target="_blank" @click.prevent.stop="emit('images', id)">{{ header }}</a>
-      [{{ images.length }}]
+      <a href="#" @click.prevent.stop="emit('images', id)">{{ header }}</a>
+      <!-- TODO: normal UI -->
+      <template v-if="images.some((i) => i.header)">
+        [<a href="#" @click.prevent.stop="emit('screenlists', id)" class="text-danger">{{
+          images.length
+        }}</a
+        >]
+      </template>
+      <template v-else>[{{ images.length }}]</template>
     </li>
   </ul>
   <br />
 
-  <h5>
-    Files <span v-if="!showFiles">[{{ files.length }}]</span>
-  </h5>
-  <ul class="nav flex-column" v-if="showFiles">
+  <h5>Files</h5>
+  <ul class="nav flex-column">
     <li class="nav-item">
-      <a href="#" @click.prevent.stop="onShowFiles">Show files</a>
-    </li>
-  </ul>
-
-  <ul class="nav flex-column" style="list-style: inherit">
-    <li class="nav-item" style="font-size: 12px" v-for="{ name, size } in files" :key="name + size">
-      [{{ filesize(size, { standard: 'jedec' }) }}] {{ name }}
+      <a href="#" @click.prevent.stop="emit('files')">Show files</a>
     </li>
   </ul>
   <br />

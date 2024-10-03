@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 const handlers = []
 
 const register = (key, desc, opts, fn) => {
@@ -16,6 +18,12 @@ const register = (key, desc, opts, fn) => {
     }
   })
 }
+const unregister = (key, opts) => {
+  const index = handlers.findIndex((h) => key === key && _.isEqual(h.opts, opts))
+  if (index !== -1) {
+    handlers.splice(index, 1)
+  }
+}
 
 window.addEventListener('keydown', (e) => {
   handlers.forEach(({ fn }) => fn(e))
@@ -27,5 +35,6 @@ const registered = () => {
 
 export default {
   register,
+  unregister,
   registered
 }

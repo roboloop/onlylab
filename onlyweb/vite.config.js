@@ -56,6 +56,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
+          comments: false,
           compatConfig: {
             MODE: 2
           }

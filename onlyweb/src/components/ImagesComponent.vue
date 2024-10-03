@@ -1,6 +1,6 @@
 <script setup>
 import { BCarousel, BCarouselSlide } from 'bootstrap-vue'
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import pLimit from 'p-limit'
 import Deduction from '../services/deductions/deduction'
 import hotkeys from '../services/hotkeys'
@@ -44,15 +44,38 @@ const loadImages = async (images) => {
   }
 }
 
+const onSlidingStart = (slideIndex) => {
+  const link = imageLinks.value[slideIndex]?.link
+  if (link && dirtyImages.has(link)) {
+    // dirty hack that needs to determine the next or prev slide
+    slideIndex > currentSlide.value ? carouselRef.value.next() : carouselRef.value.prev()
+    console.log(`slide ${slideIndex} with image link ${link} was skipped`)
+  }
+}
+
 const onNextSlide = (slideIndex) => {
   if (slideIndex >= limitLoaded - STEP_LOADED / 2 && resolveOuter) {
     resolveOuter()
   }
 }
 
+const dirtyImages = new Set()
+const onLoad = (e, link) => {
+  ++totalLoaded.value
+
+  const constraint = 200
+  if (e.target.naturalWidth < constraint || e.target.naturalHeight < constraint) {
+    dirtyImages.add(link)
+  }
+}
+
+const currentSlide = ref(0)
 watch(
   () => props.images,
-  async (n) => await loadImages(n),
+  async (n) => {
+    currentSlide.value = 0
+    await loadImages(n)
+  },
   { deep: true, immediate: true }
 )
 watch(
@@ -64,8 +87,14 @@ watch(
 )
 
 const carouselRef = ref(null)
-hotkeys.register('ArrowLeft', '', {}, () => carouselRef.value.prev())
-hotkeys.register('ArrowRight', '', {}, () => carouselRef.value.next())
+onMounted(() => {
+  hotkeys.register('ArrowLeft', 'Next image', {}, () => carouselRef.value.prev())
+  hotkeys.register('ArrowRight', 'Prev image', {}, () => carouselRef.value.next())
+})
+onBeforeUnmount(() => {
+  hotkeys.unregister('ArrowLeft', {})
+  hotkeys.unregister('ArrowRight', {})
+})
 </script>
 
 <template>
@@ -78,14 +107,16 @@ hotkeys.register('ArrowRight', '', {}, () => carouselRef.value.next())
     label-next=""
     label-prev=""
     ref="carouselRef"
+    @sliding-start="onSlidingStart"
     @sliding-end="onNextSlide"
     v-if="imageLinks.length"
+    v-model="currentSlide"
   >
     <b-carousel-slide v-for="({ link, header }, index) in imageLinks" :key="link" :img-src="link">
       {{ `${index + 1} / ${images.length}` }}
       <template #img>
         <i>{{ header }}</i>
-        <img class="d-block img-fluid w-100" :src="link" alt="" @load="() => ++totalLoaded" />
+        <img class="d-block img-fluid w-100" :src="link" alt="" @load="(e) => onLoad(e, link)" />
       </template>
     </b-carousel-slide>
   </b-carousel>

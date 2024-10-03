@@ -49,7 +49,7 @@ const getImages = (document) => {
     .forEach((el) => {
       const id = generateId()
       const h3 = el.querySelector('h3')?.textContent ?? ''
-      const header = h3.replace(/&#(\d+);/g, (m, d) => String.fromCharCode(d))
+      const header = h3.replace(/&#(\d+);/g, (m, d) => String.fromCodePoint(d))
       const payload = Array.from(el.children).find((c) => c.nodeName === 'A')
         ? el.textContent.replace(h3, '').trim()
         : ''
@@ -74,7 +74,7 @@ const getImages = (document) => {
     .filter((id) => nodesByKey[id].parent)
     .forEach((id) => nodesByKey[nodesByKey[id].parent].children.push(nodesByKey[id]))
 
-  // remove parent properties
+  // remove 'parent' properties
   Object.keys(nodesByKey)
     .filter((id) => nodesByKey[id].parent)
     .forEach((id) => delete nodesByKey[id].parent && delete nodesByKey[id])
@@ -131,6 +131,8 @@ const getDuration = (document) => {
 
   if (el.parentElement.nextElementSibling) {
     el.parentElement.nextElementSibling.textContent &&
+      // 50 - it's just filter for not getting a whole page
+      el.parentElement.nextElementSibling.textContent.length < 50 &&
       candidates.push(el.parentElement.nextElementSibling.textContent)
   }
 

@@ -14,7 +14,7 @@ const normalize = (images) => {
     images: images
   })
   const recursive = (node) => {
-    // if it is the spoiler contain only screenshots, then combine these images in one node
+    // if it is the spoiler contains only screenshots, then combine these images in one node
     if (
       node.children.length > 0 &&
       node.children.every((c) => c.children.length === 0 && c.images.length === 1)

@@ -5,6 +5,7 @@ import LeftSideComponent from '../components/LeftSideComponent.vue'
 import RightSideComponent from '../components/RightSideComponent.vue'
 import ImagesComponent from '../components/ImagesComponent.vue'
 import FilesComponent from '../components/FilesComponent.vue'
+import ScreenlistsComponent from '../components/ScreenlistsComponent.vue'
 import hotkeys from '../services/hotkeys'
 import { parse } from '../services/parsers/parser.js'
 import storage from '../services/storage.js'
@@ -20,20 +21,44 @@ const enableOnOpen = !!import.meta.env.VITE_ENABLE_ON_OPEN
 const show = ref(enableOnOpen)
 
 const showImages = ref(true)
+const showScreenlists = ref(false)
 const showFiles = ref(false)
 
 const flattenImages = image.normalize(images)
 const showingImages = ref([])
 showingImages.value.push(...(flattenImages?.[0]?.images ?? []))
 const onImages = (id) => {
+  showImages.value = true
+  showScreenlists.value = false
+  showFiles.value = false
+
   const imagesToShow = flattenImages.find((i) => i.id === id)?.images ?? []
   showingImages.value.splice(0)
   showingImages.value.push(...imagesToShow)
 }
 
+const showingScreenlists = ref([])
+const onScreenlists = (id) => {
+  showImages.value = false
+  showScreenlists.value = true
+  showFiles.value = false
+
+  const screenlistsToShow = flattenImages.find((i) => i.id === id)?.images ?? []
+  showingScreenlists.value.splice(0)
+  showingScreenlists.value.push(...screenlistsToShow)
+}
+
 const files = ref([])
+const isBusy = ref(false)
 const onFiles = async () => {
-  files.value = await tracker.files(topic)
+  showImages.value = false
+  showScreenlists.value = false
+  showFiles.value = true
+
+  isBusy.value = true
+  files.value.splice(0)
+  files.value.push(...(await tracker.files(topic)))
+  isBusy.value = false
 }
 
 const rightSidebarRef = ref(null)
@@ -72,6 +97,7 @@ hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())
               @exit="show = false"
               @reload="onReload"
               @images="onImages"
+              @screenlists="onScreenlists"
               @files="onFiles"
             ></LeftSideComponent>
           </div>
@@ -87,7 +113,11 @@ hotkeys.register('KeyR', 'Reload topic', { ctrlKey: true }, () => onReload())
             </header>
 
             <ImagesComponent :images="showingImages" v-if="showImages"></ImagesComponent>
-            <FilesComponent :files="files" v-if="showFiles"></FilesComponent>
+            <ScreenlistsComponent
+              :images="showingScreenlists"
+              v-if="showScreenlists"
+            ></ScreenlistsComponent>
+            <FilesComponent :files="files" :is-busy="isBusy" v-if="showFiles"></FilesComponent>
           </div>
 
           <div class="col-sm-2 mt-1">

@@ -153,6 +153,17 @@ export default [
   },
   {
     source:
+      '[ymtalzneao.zzs] tipf gbha - pwmlc wughtl grafptt [2691-73-09, asmy, egzwsk, ohjjvqc, 0614g, nepjzkh]',
+    expected: {
+      genres: ['asmy', 'egzwsk', 'ohjjvqc'],
+      originalTitle: 'tipf gbha - pwmlc wughtl grafptt',
+      quality: '0614g',
+      studios: ['ymtalzneao.zzs'],
+      year: '2691'
+    }
+  },
+  {
+    source:
       'mpcjoheh oaxr - rjdfuy iiqkd yekqjiwp evwt (41 xuirzud) uzot (mpcjoheh umnn, ukrcj) (r2.2 [8502-16-93] znsvyv + 09) [2691 - 8502, nb unfulj asmy, bc, pvp, sk]',
     expected: {
       genres: ['nb unfulj asmy', 'bc', 'pvp', 'sk'],
