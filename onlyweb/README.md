@@ -50,13 +50,8 @@ It's work based on building a single tampermonkey script that accumulates all th
 ### TODO
 
 - issue with displaying Bootstrap styles on the entire page
-- come up with a more convenient mechanism for blocking studios/genres
-- nested grouping of images, screenshot table
-  - no hierarchy for spoiler selection with pictures; ignore and other nonsense.
-  - pictures under the spoiler
-  - table with screenshots
 - confirmation on delete
 - fix ages activity
-2 names in 4 words
-- hide small images 48x48
+- advanced search
+- parsing metadata from screenshots https://github.com/naptha/tesseract.js
 - parsing by databases

@@ -8,6 +8,7 @@ export default {
 
     try {
       href = href.replace(/^https?/, 'https')
+      console.log(href)
 
       const data = await client.send({
         url: href,

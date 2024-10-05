@@ -118,6 +118,14 @@ const data = [
   {
     source: 'noe bivid | ewjp 6: q/q/m | (80 xuirzud) uzot (fuuilgl, lqhl)',
     expected: ['noe bivid']
+  },
+  {
+    source: 'rqwxy ffom oxxsv lpex',
+    expected: ['rqwxy ffom', 'oxxsv lpex']
+  },
+  {
+    source: 'ackxr cbhkty s.6 (41 xuirzud) uzot',
+    expected: ['ackxr cbhkty']
   }
 ]
 

@@ -1,18 +1,26 @@
 const extractNamesPart = (title) => {
-  // drop date prefix
-  // find the latest one of them delimiters `-–—./•(`
-  // ignore `(` that followed by `aka`
-  // ignore these delimiters if there are inside `(` and `)`
-  return title.replace(/^\s*[0-9-]{10}/, '').split(/[-–—./•|](?![^(]*\))|(\((?!aka))/i)[0]
+  return (
+    title
+      // drop date prefix
+      .replace(/^\s*[0-9-]{10}/, '')
+      // drop chapter
+      .replace(/\sч\.\d\b/i, '')
+      // find the latest one of them delimiters `-–—./•(`
+      // ignore `(` that followed by `aka`
+      // ignore these delimiters if there are inside `(` and `)`
+      .split(/[-–—./•|](?![^(]*\))|(\((?!aka))/i)[0]
+  )
 }
 
 const parseName = (title) => {
-  const rawNames = extractNamesPart(title)
-
-  return rawNames
-    .split(/,|&|\band\b|(?:\(|\b)aka(?::|\b)|\)|\|\|/i)
-    .map((r) => r.trim())
-    .filter(Boolean)
+  return (
+    extractNamesPart(title)
+      .split(/,|&|\band\b|(?:\(|\b)aka(?::|\b)|\)|\|\|/i)
+      .map((r) => r.trim())
+      .filter(Boolean)
+      // if it is two names without delimiters
+      .flatMap((n) => (n.split(' ').length === 4 ? n.split(/(?<=^\S+\s\S+)\s/) : n))
+  )
 }
 
 const parseNames = (title) => {

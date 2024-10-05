@@ -5,7 +5,7 @@ const fromHuman = (size) => {
   if (!match) throw new Error('Invalid size format')
 
   const value = parseFloat(match[1].replace(',', '.'))
-  const unit = match[3].toUpperCase()
+  const unit = match[3].toUpperCase().replace('I', '')
 
   const exponent = units.indexOf(unit)
   if (exponent === -1) throw new Error('Invalid unit')

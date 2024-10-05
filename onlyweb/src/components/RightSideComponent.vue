@@ -102,7 +102,7 @@ hotkeys.register('KeyL', 'Open the first tracker search link', { ctrlKey: true }
         <a :href="links.trackerSearchLink(profile.name)" target="_blank" rel="noreferrer">Tracker</a>
       </li>
       <li class="nav-item">Age: {{ profile.age || '—' }}</li>
-      <li class="nav-item" v-if="ages.length">Ages activity: {{ ages.join('-') }}</li>
+      <li class="nav-item" v-if="ages.length">On video: {{ ages.join('-') }} years old</li>
       <li class="nav-item">Height: {{ profile.height || '—' }}</li>
       <li class="nav-item">Weight: {{ profile.weight || '—' }}</li>
       <li

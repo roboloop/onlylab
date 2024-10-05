@@ -5,6 +5,7 @@ const qbitSavePath = import.meta.env.VITE_QBIT_SAVE_PATH
 const addEndpoint = '/api/v2/torrents/add'
 const listEndpoint = '/api/v2/torrents/info'
 const deleteEndpoint = '/api/v2/torrents/delete'
+const maindataEndpoint = '/api/v2/sync/maindata'
 
 export default {
   async upload(topic, downloadLink, folder, paused) {
@@ -67,5 +68,13 @@ export default {
       .catch((e) => console.log(e))
 
     return true
+  },
+
+  async freeSpace() {
+    const response = await client
+      .send({ method: 'GET', url: qbitBaseUrl + maindataEndpoint })
+      .catch((e) => console.log(e))
+
+    return JSON.parse(response)?.server_state?.free_space_on_disk
   }
 }

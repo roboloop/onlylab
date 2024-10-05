@@ -1,10 +1,12 @@
 <script setup>
 import trashCan from '@/assets/trash.svg'
 import storage from '@/services/storage.js'
+import qbit from '@/services/clients/qbit.js'
 import { format } from 'date-fns'
 import { ref } from 'vue'
 import LinkComponent from './LinkComponent.vue'
 import _ from 'lodash'
+import { filesize } from 'filesize'
 
 const onDump = () => {
   try {
@@ -65,10 +67,15 @@ const uploadHandler = async () => {
 }
 
 const statistics = ref([])
-const onStatistics = () => {
+const onStatistics = async () => {
+  const stat = storage.stat()
+  const freeSpace = await qbit.freeSpace()
+  if (freeSpace) {
+    stat['Qbit free'] = freeSpace
+  }
+
   statistics.value.splice(0)
-  statistics.value = Object.entries(storage.stat())
-  console.log(statistics.value)
+  statistics.value = Object.entries(stat)
 }
 
 const onTrash = (type) => {
@@ -103,8 +110,19 @@ const onTrash = (type) => {
           v-for="[type, size] in statistics"
           :key="type"
         >
-          <img :src="trashCan" alt="" @click="() => onTrash(type)" class="trash-icon" />
-          <span>{{ _.startCase(type) }}: {{ size }}</span>
+          <img
+            :src="trashCan"
+            alt=""
+            @click="() => onTrash(type)"
+            class="trash-icon"
+            v-if="type !== 'Qbit free'"
+          />
+          <span
+            >{{ _.startCase(type) }}:
+            {{
+              filesize(size, { standard: 'iec', exponent: type === 'Qbit free' ? -1 : 2, round: 4 })
+            }}</span
+          >
         </li>
       </ul>
     </li>

@@ -49,7 +49,10 @@ const getImages = (document) => {
     .forEach((el) => {
       const id = generateId()
       const h3 = el.querySelector('h3')?.textContent ?? ''
-      const header = h3.replace(/&#(\d+);/g, (m, d) => String.fromCodePoint(d))
+      // const header = h3
+      //   .replace(/&#(\d+);/g, (m, d) => String.fromCodePoint(d))
+      //   .replace(/&#(x[0-9a-fA-F]+);/g, (m, d) => String.fromCodePoint(Number('0' + d)))
+      const header = new DOMParser().parseFromString(h3, 'text/html').documentElement.textContent;
       const payload = Array.from(el.children).find((c) => c.nodeName === 'A')
         ? el.textContent.replace(h3, '').trim()
         : ''

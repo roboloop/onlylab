@@ -94,13 +94,12 @@ const stat = () => {
     }
     total += size
   })
-  const format = (s) => (s / 1024 / 1024).toFixed(4) + ' Mb'
 
   return {
-    total: format(total),
-    profiles: format(profiles),
-    images: format(images),
-    downloads: format(downloads)
+    total,
+    profiles,
+    images,
+    downloads
   }
 }
 

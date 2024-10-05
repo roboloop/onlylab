@@ -3,7 +3,9 @@ import { BCarousel, BCarouselSlide } from 'bootstrap-vue'
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import pLimit from 'p-limit'
 import Deduction from '../services/deductions/deduction'
+import Fastpic from '../services/deductions/fastpic'
 import hotkeys from '../services/hotkeys'
+import storage from '@/services/storage.js'
 
 const ORIGINAL_TITLE = document.title
 const MAX_CONCURRENCY = 4
@@ -48,7 +50,7 @@ const onSlidingStart = (slideIndex) => {
   const link = imageLinks.value[slideIndex]?.link
   if (link && dirtyImages.has(link)) {
     // dirty hack that needs to determine the next or prev slide
-    slideIndex > currentSlide.value ? carouselRef.value.next() : carouselRef.value.prev()
+    slideIndex >= currentSlide.value ? carouselRef.value.next() : carouselRef.value.prev()
     console.log(`slide ${slideIndex} with image link ${link} was skipped`)
   }
 }
@@ -60,12 +62,24 @@ const onNextSlide = (slideIndex) => {
 }
 
 const dirtyImages = new Set()
-const onLoad = (e, link) => {
+const onLoad = (e, index, link) => {
   ++totalLoaded.value
 
   const constraint = 200
   if (e.target.naturalWidth < constraint || e.target.naturalHeight < constraint) {
     dirtyImages.add(link)
+    // if it is the first image
+    if (index === currentSlide.value) {
+      onSlidingStart(index)
+    }
+  }
+}
+
+const onError = async (e, index, link) => {
+  if (Fastpic.support(link)) {
+    const result = await Fastpic.do(link, link)
+    imageLinks.value[index].link = result
+    storage.putImg(link, result)
   }
 }
 
@@ -113,10 +127,16 @@ onBeforeUnmount(() => {
     v-model="currentSlide"
   >
     <b-carousel-slide v-for="({ link, header }, index) in imageLinks" :key="link" :img-src="link">
-      {{ `${index + 1} / ${images.length}` }}
+      <span class="p-1 bg-dark rounded">{{ `${index + 1} / ${images.length}` }}</span>
       <template #img>
         <i>{{ header }}</i>
-        <img class="d-block img-fluid w-100" :src="link" alt="" @load="(e) => onLoad(e, link)" />
+        <img
+          class="d-block img-fluid w-100"
+          :src="link"
+          alt=""
+          @load="(e) => onLoad(e, index, link)"
+          @error="(e) => onError(e, index, link)"
+        />
       </template>
     </b-carousel-slide>
   </b-carousel>

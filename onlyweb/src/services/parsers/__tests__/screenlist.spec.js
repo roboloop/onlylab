@@ -107,8 +107,40 @@ const data = [
       extra: []
     }
   },
-  // gf rt snyntmf dkhg ｜
   {
+    source: '64:64:41| 41,31 ty |5463i0614|67550870_pmqyc_8502-72-61_94-61.tn6',
+    expected: {
+      name: '67550870_pmqyc_8502-72-61_94-61.tn6',
+      size: '41,31 ty',
+      quality: '5463i0614',
+      length: '64:64:41',
+      extra: []
+    }
+  },
+  {
+    source:
+      '5463i0614 | ndr smkd - [dt] - dy upbk c xhbgpcd imp whslhsw jb wgcpmur.tn6 | 63 zzp 66 h | 074 uib',
+    expected: {
+      name: 'ndr smkd - [dt] - dy upbk c xhbgpcd imp whslhsw jb wgcpmur.tn6',
+      size: '074 uib',
+      quality: '5463i0614',
+      length: '63 zzp 66 h',
+      extra: []
+    }
+  },
+  {
+    source:
+      'iqipkgmdq - 6009.13.61 cbkxmdnl rzhdrcft 1941g.tn6 | 64:55:32 |  8,41 oq   | 7111i1941',
+    expected: {
+      name: 'iqipkgmdq - 6009.13.61 cbkxmdnl rzhdrcft 1941g.tn6',
+      size: '8,41 oq',
+      quality: '7111i1941',
+      length: '64:55:32',
+      extra: []
+    }
+  },
+  {
+    // gf rt snyntmf dkhg ｜
     source:
       '64:95:05 | 574,21 ty | 5463i0614 | g klcr c zvzmjhktny qm c oxlhgcmp uf lqdds scfng zib gztd wyc jdip zhmg sr dwh ｜ ohr ｜ dqymlqeyk.tn6',
     expected: {

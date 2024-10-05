@@ -17,7 +17,9 @@ const normalize = (images) => {
     // if it is the spoiler contains only screenshots, then combine these images in one node
     if (
       node.children.length > 0 &&
-      node.children.every((c) => c.children.length === 0 && c.images.length === 1)
+      node.children.every((c) => c.children.length === 0) &&
+      (node.children.every((c) => c.images.length === 1) ||
+        node.children.every((c) => c.images.length === 2))
     ) {
       return createNode(
         node.header,
