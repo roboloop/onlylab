@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { Buffer } from 'buffer'
 import { dom } from '../dom'
 import { JSDOM } from 'jsdom'
-import { readFileSync } from 'fs'
+import fs from 'node:fs/promises'
 import iconv from 'iconv-lite'
 
 const data = [
@@ -154,8 +154,8 @@ const data = [
 ]
 
 describe.each(data)('$source', ({ source, expected }) => {
-  it('dom', () => {
-    const html = readFileSync(source)
+  it('dom', async () => {
+    const html = await fs.readFile(source)
     const decoded = iconv.decode(Buffer.from(html), 'win1251')
     const jsdom = new JSDOM(decoded, { url: 'https://tracker.net/forum/' })
     const result = dom(jsdom.window.document)
