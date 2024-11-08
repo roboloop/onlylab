@@ -1,0 +1,73 @@
+li, span {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+}
+
+$list-offset: 18px;
+ul, ol {
+  margin-left: $list-offset;
+  padding-left: 0;
+}
+
+// TODO: broken scroll
+.modal {
+  background: none;
+}
+
+.tracker-icon {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -$list-offset;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background-image: url('@/assets/icons/tracker.ico');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+.babepedia-icon {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -$list-offset;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background-image: url('@/assets/icons/babepedia.ico');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+.country-icon {
+  position: relative;
+
+  &::before {
+    content: var(--flag);
+    position: absolute;
+    left: -$list-offset;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.tr-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "printWidth": 120,
+  "semi": false,
+  "singleQuote": true,
+  "bracketSameLine": true,
+  "arrowParens": "avoid",
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrderParserPlugins": ["typescript"],
+  "importOrderTypeScriptVersion": "5.5.0",
+  "importOrder": [
+    "<BUILTIN_MODULES>",
+    "<THIRD_PARTY_MODULES>",
+    "^[.@]",
+    "",
+    "<TYPES>^(node:)",
+    "<TYPES>",
+    "<TYPES>^[.@]"
+  ]
+}

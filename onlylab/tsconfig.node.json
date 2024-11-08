@@ -1,0 +1,32 @@
+{
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "include": [
+    "vite.config.*",
+    "vitest.config.*",
+    "cypress.config.*",
+    "nightwatch.conf.*",
+    "playwright.config.*",
+    "plugins/**/*.ts"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": [
+      "node",
+      "@types/tampermonkey",
+      "@types/lodash",
+      "@types/qbittorrent-api-v2",
+      "@types/jsdom",
+      "@types/file-saver",
+      "@types/postcss-prefix-selector"
+    ],
+
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  }
+}

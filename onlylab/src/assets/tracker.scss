@@ -1,0 +1,31 @@
+tr.fade-out,
+td.fade-out {
+  background-color: rgba(0, 0, 0, 0.75);
+
+  .seedmed,
+  .leechmed,
+  &.leechmed,
+  .tor-icon {
+    color: #000;
+  }
+
+  a,
+  a:hover,
+  a:link,
+  a:visited {
+    text-decoration: none;
+    color: inherit;
+
+    > span.ignore {
+      background-color: firebrick;
+    }
+  }
+}
+
+tr {
+  a {
+    > span.filter {
+      background-color: goldenrod;
+    }
+  }
+}
