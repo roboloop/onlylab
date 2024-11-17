@@ -13,11 +13,13 @@ class Fastpic implements Host {
 
       const data = await client.send({
         url: href,
-        redirect: 'manual',
+        // Follow to redirects because Fastpic could answer 302
+        redirect: 'follow',
         overrideMimeType: 'text/html',
         headers: {
-          accept: 'text/html',
-          'User-Agent': 'curl/8.4.0',
+          Accept: 'text/html',
+          // Mimic like it's not a browser
+          'User-Agent': 'curl/8.7.1',
         },
       } as Tampermonkey.Request)
       const matched = data.match(/src="(.+?fastpic\.org\/big\/.+?)"/)

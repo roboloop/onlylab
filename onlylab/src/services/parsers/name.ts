@@ -2,7 +2,7 @@ function extractNamesPart(title: string): string {
   return (
     title
       // drop date prefix
-      .replace(/^\s*[0-9-]{10}/, '')
+      .replace(/^\s*[0-9-.]{10}/, '')
       // drop chapter
       .replace(/\sч\.\d\b/i, '')
       // find the latest one of them delimiters `-–—./•(`

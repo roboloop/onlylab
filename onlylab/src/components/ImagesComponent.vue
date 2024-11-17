@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { BCarousel, BCarouselSlide, type BvCarouselEvent } from 'bootstrap-vue-next'
-import {ref, toRef, watchEffect} from 'vue'
+import { BCarousel, BCarouselSlide } from 'bootstrap-vue-next'
+import _ from 'lodash'
+import { nextTick, ref, toRef, useTemplateRef, watchEffect } from 'vue'
 import { useHotkeys } from '@/composables/useHotkeys'
 import { usePagination } from '@/composables/usePagination'
 import { useReTitle } from '@/composables/useReTitle'
+import { injectId } from '@/services/dom/injector'
 import { fastpic } from '@/services/host/fastpic'
 import { imageLink } from '@/services/host/host'
 import { putImage } from '@/services/store/images'
+import { getSettings } from '@/services/store/settings'
 
+import type { BvCarouselEvent } from 'bootstrap-vue-next'
 import type { ImageLink } from '@/services/dom/topic'
 
 interface Link {
@@ -23,6 +27,9 @@ const links = ref<Link[]>([])
 
 const { reset: resetLoaded, inc: incLoaded } = useReTitle(document.title, toRef(props, 'imageLinks'))
 const { reset: resetPagination, addCall, nextPageIfNeeded } = usePagination()
+const {
+  main: { skipSmallImages },
+} = await getSettings()
 
 async function loadImages() {
   resetLoaded()
@@ -39,33 +46,31 @@ async function loadImages() {
   }
 }
 
-function onSlide(event: BvCarouselEvent): void{
-  // TODO:
+function onSlid(event: BvCarouselEvent): void {
+  nextPageIfNeeded(event.to)
+
   const link = links.value[event.to]?.link
-  if (link && dirtyImages.has(link)) {
-    // dirty hack that needs to determine the next or prev slide
-    event.to >= currentSlide.value ? carouselRef.value?.next() : carouselRef.value?.prev()
-    console.log(`slide ${event.to} with image link ${link} was skipped`)
+  // the last condition is to prevent cycle
+  if (skipSmallImages && link && dirtyImages.has(link) && totalSkipped.value < links.value.length - 1) {
+    nextTick(() => {
+      event.direction === 'right' ? carouselRef.value?.next() : carouselRef.value?.prev()
+      totalSkipped.value++
+    })
   }
 }
 
-function onSlid(event: BvCarouselEvent): void{
-  nextPageIfNeeded(event.to)
-}
-
 const dirtyImages = new Set()
+const totalSkipped = ref<number>(0)
 const onLoad = (e: Event, index: number, link: string) => {
   incLoaded()
 
-  const constraint = 200
-  if (
-    (e.target as HTMLImageElement).naturalWidth < constraint ||
-    (e.target as HTMLImageElement).naturalHeight < constraint
-  ) {
+  const constraint = 128
+  const image = e.target as HTMLImageElement
+  if (skipSmallImages && (image.naturalWidth <= constraint || image.naturalHeight <= constraint)) {
     dirtyImages.add(link)
-    // if it is the first image
+    // if we're looking at that image
     if (index === currentSlide.value) {
-      onSlide(index)
+      carouselRef.value?.next()
     }
   }
 }
@@ -79,50 +84,82 @@ const onError = async (e: Event, index: number, link: string) => {
   }
 }
 
-const currentSlide = ref(0)
+const fitImages = ref<boolean>(false)
+const elementToScroll = document.querySelector(injectId)!
+function onImageClick(event: MouseEvent): void {
+  fitImages.value = !fitImages.value
+  if (fitImages.value) {
+    elementToScroll.scrollIntoView()
+    return
+  }
+
+  const image = event.target as HTMLImageElement
+  const imageBounds = image.getBoundingClientRect()
+  const imageClickY = event.clientY - imageBounds.top
+
+  // Top scroll is image's top (Math.random — hack to remove white pixel above)
+  // const finalTopScroll = Math.round(window.scrollY + imageBounds.top)
+
+  const finalTopScroll = window.scrollY + elementToScroll.getBoundingClientRect().top
+  const finalTopImageScroll = window.scrollY + imageBounds.top
+  const finalImageHeight = (carouselRef.value!.$el.offsetWidth / image.naturalWidth) * image.naturalHeight
+  const finalBottomScroll = finalTopImageScroll + finalImageHeight - window.innerHeight
+  const finalTargetScroll =
+    finalTopImageScroll + (imageClickY / imageBounds.height) * finalImageHeight - window.innerHeight / 2
+
+  const finalScroll = _.clamp(finalTargetScroll, finalTopScroll, finalBottomScroll)
+
+  // Wait until a browser renders a full size an image and scroll position becomes valid
+  nextTick(() => {
+    window.scrollTo({
+      top: finalScroll,
+      behavior: 'instant',
+    })
+  })
+}
+
+const currentSlide = ref<number>(0)
 watchEffect(async () => {
   currentSlide.value = 0
+  totalSkipped.value = 0
   await loadImages()
 })
 
-const carouselRef = ref<InstanceType<typeof BCarousel> | null>(null)
-const { registerHotkey } = useHotkeys()
-registerHotkey({ mac: 'left', win: 'left' }, 'Prev image', () => {
-  carouselRef.value?.prev()
-})
-registerHotkey({ mac: 'right', win: 'right' }, 'Next image', () => {
-  carouselRef.value?.next()
-})
+const carouselRef = useTemplateRef<typeof BCarousel>('carouselRef')
+const { registerPrevImage, registerNextImage } = useHotkeys()
+registerPrevImage(() => carouselRef.value?.prev())
+registerNextImage(() => carouselRef.value?.next())
 </script>
 
 <template>
   <BCarousel
+    v-if="imageLinks.length"
+    v-model="currentSlide"
     indicators
     controls
-    label-indicators="_"
     :interval="0"
     no-animation
-    label-next=""
-    label-prev=""
     ref="carouselRef"
-    @slide="onSlide"
-    @slid="onSlid"
-    v-if="imageLinks.length"
-    v-model="currentSlide">
-    <BCarouselSlide v-for="({ link, header }, index) in links" :key="index">
-      <span class="p-1 bg-dark rounded">{{ `${index + 1} / ${links.length}` }}</span>
+    background="unset"
+    @slid="onSlid">
+    <BCarouselSlide v-for="({ link }, index) in links" :key="index">
+      <template #text>
+        <span class="p-1 bg-dark rounded">{{ `${index + 1} / ${links.length}` }}</span>
+      </template>
       <template #img>
-        <i>{{ header }}</i>
         <img
-          class="d-block img-fluid w-100"
+          class="d-block w-100"
+          :class="{ fit: fitImages }"
           :src="link"
           alt=""
+          @click.prevent.stop="onImageClick"
           @load="e => onLoad(e, index, link)"
           @error="e => onError(e, index, link)" />
       </template>
     </BCarouselSlide>
   </BCarousel>
   <div class="centred" v-else>No images</div>
+  <div class="text-center">{{ links?.[currentSlide]?.header }}</div>
 </template>
 
 <style scoped lang="scss">
@@ -133,5 +170,16 @@ registerHotkey({ mac: 'right', win: 'right' }, 'Next image', () => {
   font-size: 50px;
   height: 50vh;
   color: #bbb;
+}
+
+.fit {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+// Allow clicking on capture area
+:global(.carousel-caption) {
+  pointer-events: none;
 }
 </style>

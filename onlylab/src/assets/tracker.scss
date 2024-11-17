@@ -15,17 +15,42 @@ td.fade-out {
   a:visited {
     text-decoration: none;
     color: inherit;
+  }
 
-    > span.ignore {
-      background-color: firebrick;
-    }
+  .actress-pill {
+    background-color: rgba(255, 193, 7, 0.5);
   }
 }
 
 tr {
   a {
+    > span.ignore {
+      background-color: firebrick;
+    }
+
     > span.filter {
       background-color: goldenrod;
     }
   }
+}
+
+.actress-pill {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.9em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+
+  // warning
+  color: #000;
+  background-color: rgba(255, 193, 7, 1);
+
+  // rounded
+  border-radius: 50rem;
+
+  pointer-events: none;
+  margin-left: 0.5em;
 }

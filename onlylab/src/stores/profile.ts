@@ -1,20 +1,37 @@
 import { defineStore } from 'pinia'
-import {ref, computed} from 'vue'
-import {useQuery} from "@tanstack/vue-query";
-import {NormalizedProfile, normalizeProfiles} from "@/services/babepedia/actress";
-
-
+import { computed, ref, toValue } from 'vue'
+import { normalizeProfiles } from '@/services/babepedia/actress'
+import { removeProfile } from '@/services/store/profiles'
+import { useQuery } from '@tanstack/vue-query'
 
 export const useProfileStore = defineStore('profile', () => {
-  const profiles = ref<NormalizedProfile[]>([])
-
+  const names = ref<string[][]>([])
   const { data: normalizedProfiles, refetch } = useQuery({
-    queryKey: [text],
-    queryFn: async () => normalizeProfiles(names, forced),
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
+    queryKey: [names],
+    queryFn: async () => await normalizeProfiles(names.value),
+    initialData: [],
+    enabled: () => names.value.length > 0,
   })
+  const mainNames = computed(() =>
+    normalizedProfiles.value.map((n): [string, string | undefined] => [n.mainName, n.babeName]),
+  )
 
-  return { count, name, doubleCount, increment }
+  function loadProfiles(newNames: string[][]): void {
+    names.value = newNames
+  }
+
+  // TODO: is it a good place for that code?
+  async function cleanCache(): Promise<void> {
+    for (const name of toValue(names).flatMap(n => n)) {
+      await removeProfile(name)
+    }
+    refetch()
+  }
+
+  return {
+    normalizedProfiles,
+    loadProfiles,
+    mainNames,
+    cleanCache,
+  }
 })

@@ -6,7 +6,8 @@ export interface Client {
 class TampermonkeyClient implements Client {
   async send(opts: Tampermonkey.Request): Promise<string> {
     try {
-      const response = await GM.xmlHttpRequest(opts)
+      // console.log('Sending request to ', opts.url)
+      const response = await window.GM.xmlHttpRequest(opts)
       return response.responseText
     } catch (error) {
       console.error('send', error)
@@ -16,7 +17,8 @@ class TampermonkeyClient implements Client {
 
   async sendBlob(opts: Tampermonkey.Request): Promise<Blob> {
     try {
-      const response = await GM.xmlHttpRequest(opts)
+      // console.log('Sending request to ', opts.url)
+      const response = await window.GM.xmlHttpRequest(opts)
       return response.response
     } catch (error) {
       console.error('sendBlob', error)

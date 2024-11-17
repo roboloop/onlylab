@@ -1,12 +1,11 @@
 import localforage from 'localforage'
-import * as utils from '@/services/store/utils'
 
 export interface TorrentStatus {
   downloadedAt?: Date
 }
 
-const store: LocalForage = localforage.createInstance({
-  name: `qbittorrent`,
+export const store: LocalForage = localforage.createInstance({
+  name: 'torrent',
   driver: [localforage.LOCALSTORAGE],
 })
 
@@ -28,6 +27,6 @@ export async function markAsRemoved(topic: string): Promise<void> {
   await store.setItem<TorrentStatus>(topic, status)
 }
 
-export async function storeSize(): Promise<number> {
-  return await utils.storeSize(store)
+export async function clearStore(): Promise<void> {
+  await store.clear()
 }

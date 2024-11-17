@@ -1,16 +1,16 @@
 // ==UserScript==
-// @name         OnlyLab
-// @namespace    http://localhost/
+// @name         <%- appName %>
+// @description  no description
+// @author       Who knows
 // @version      0.1
-// @description  try to take over the world!
 <% if (backendUrl) { -%>
-// @updateURL    <%= backendUrl %>/tampermonkey.js
-// @downloadURL  <%= backendUrl %>/tampermonkey.js
+// @updateURL    <%- backendUrl %>/<%- filename %>
+// @downloadURL  <%- backendUrl %>/<%- filename %>
 <% } -%>
-// @author       You
 // @match        https://tracker.net/forum/*
-// @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYGD4DwABBAEAX+XDSwAAAABJRU5ErkJggg==
-// @connect      localhost
+<% if (base64Icon) { -%>
+// @icon         <%- base64Icon %>
+<% } -%>
 // @connect      babepedia.com
 // @connect      fastpic.org
 // @connect      imagebam.com
@@ -19,29 +19,14 @@
 // @connect      turboimagehost.com
 // @connect      *
 // @grant        GM_xmlhttpRequest
-// @grant        GM_getResourceText
-// @grant        GM_addElement
-// @grant        GM_addStyle
+// @grant        GM.xmlHttpRequest
 // @grant        unsafeWindow
 // @run-at       document-end
 // ==/UserScript==
 
 (function () {
   'use strict'
-  function addApp() {
-    const element = document.createElement('div')
-    element.setAttribute('id', 'app')
-    document.body.insertBefore(element, document.body.firstChild)
-    app.mount('#app')
-  }
 
-  const css = `
-<%= css %>
-`
+<%- js %>
 
-GM_addStyle(css)
-
-<%= js %>
-
-   addApp()
 })()

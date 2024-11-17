@@ -1,35 +1,37 @@
 <script setup lang="ts">
 import { BFormInput, BModal, BTable } from 'bootstrap-vue-next'
 import { filesize } from 'filesize'
-import { computed, defineProps, ref } from 'vue'
+import { computed, defineProps, onMounted, ref, useTemplateRef, watch } from 'vue'
+import InputWrapper from '@/components/parts/InputWrapper.vue'
+import { useFilter } from '@/composables/useFilter'
+import { baseId } from '@/services/dom/injector'
 import { imageLink } from '@/services/host/host'
 import { parseScreenlist } from '@/services/parsers/screenlist'
+import { getTopicState, putTopicState } from '@/services/store/state'
 import { formatLength } from '@/services/utils/formatters'
 
 import type { TableFieldRaw } from 'bootstrap-vue-next'
 import type { ImageLink } from '@/services/dom/topic'
+import type { ParsedScreenlist } from '@/services/parsers/screenlist'
+import type { TopicState } from '@/services/store/state'
 
-interface ScreenlistTableField {
+interface ScreenlistTableField extends ParsedScreenlist {
   title: string
   href?: string
   name: string
-  size: string | number
-  quality: string
-  length: string
-  extra: string
 }
 
 const props = defineProps<{
   imageLinks: ImageLink[]
 }>()
 
-const fields = ref<TableFieldRaw<ScreenlistTableField>[]>([
+const fields: TableFieldRaw<ScreenlistTableField>[] = [
   { key: 'name', sortable: true, filterByFormatted: true },
   { key: 'size', sortable: true, filterByFormatted: true },
   { key: 'quality', sortable: true, filterByFormatted: true },
   { key: 'length', sortable: true, filterByFormatted: true },
   { key: 'extra', sortable: true, filterByFormatted: true },
-])
+]
 
 const items = computed(() => {
   return props.imageLinks.map(i => {
@@ -39,57 +41,52 @@ const items = computed(() => {
       title: i.title,
       href: i.href,
       ...parsed,
-    }
+      name: parsed.name ?? i.title,
+    } as ScreenlistTableField
   })
 })
 
-const onRowClicked = async item => {
+async function onRowClicked(item: ScreenlistTableField) {
   const { title, href } = item
   screenshotLink.value = await imageLink(title, href)
   screenshotRef.value?.show()
 }
-const screenshotRef = ref(null)
+const screenshotRef = useTemplateRef<typeof BModal>('screenshotRef')
 const screenshotLink = ref('')
 
-const filteredItems = ref([...items.value])
-const totalSize = computed((): number =>
-  filteredItems.value.filter(({ size }) => typeof size === 'number').reduce((acc, { size }) => acc + size, 0),
-)
-
-const totalLength = computed((): number =>
-  filteredItems.value.filter(({ length }) => typeof length === 'number').reduce((acc, { length }) => acc + length, 0),
-)
-
-const filter = ref<string>('')
-const filterRef = ref<InstanceType<typeof BFormInput> | null>(null)
-function onFiltered(items /*: TableItem<Person>[]*/): void {
-  filteredItems.value = items
-}
+const {
+  filter,
+  filteredItems,
+  totalComputed: [totalSize, totalLength],
+} = useFilter(items, 'name', ['size', 'length'])
+onMounted(async () => (filter.value = (await getTopicState()).filter))
+watch(filter, async (val: string) => {
+  const topic: TopicState = {
+    filter: val,
+  }
+  await putTopicState(topic)
+})
 </script>
 
 <template>
-  <BFormInput type="search" v-model="filter" placeholder="Enter filter..." ref="filterRef" />
-
+  <InputWrapper :content="`Found: ${filteredItems.length}. Total: ${items.length}.`" class="mb-2">
+    <BFormInput type="text" v-model="filter" placeholder="Enter filter..." :debounce="100" />
+  </InputWrapper>
   <BTable
-    :items="items"
+    :items="filteredItems"
     :fields="fields"
-    :filter="filter"
-    sort-by.sync="Name"
-    :small="true"
-    sticky-header="500px"
-    thead-tr-class="tr-sticky"
+    small
+    sticky-header="512px"
     head-variant="dark"
     foot-variant="dark"
     foot-clone
     no-footer-sorting
-    responsive
     striped
     hover
     show-empty
-    @row-clicked="onRowClicked"
-    @filtered="onFiltered">
+    @row-clicked="onRowClicked">
     <template #cell(name)="{ item }">
-      {{ item.name ?? item.title }}
+      <div v-html="item.name"></div>
     </template>
 
     <template #cell(size)="{ item }">
@@ -118,14 +115,12 @@ function onFiltered(items /*: TableItem<Person>[]*/): void {
 
   <BModal
     ref="screenshotRef"
-    size="xl"
     no-fade
-    static
     hide-header
     hide-footer
-    hide-backdrop
     content-class="border-0"
-    teleport-to="#app"
+    :teleport-to="baseId"
+    size="xl"
     @hidden="() => (screenshotLink = '')">
     <template #default>
       <img
@@ -133,7 +128,7 @@ function onFiltered(items /*: TableItem<Person>[]*/): void {
         class="d-block img-fluid w-100"
         :src="screenshotLink"
         alt=""
-        @click="screenshotRef.hide()" />
+        @click="screenshotRef?.hide()" />
     </template>
   </BModal>
 </template>

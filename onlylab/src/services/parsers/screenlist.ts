@@ -43,19 +43,3 @@ export function parseScreenlist(original?: string): ParsedScreenlist {
     extra,
   }
 }
-
-// interface NormalizedScreenlist {
-//   name?: string,
-//   size?: number,
-//   quality?: string,
-//   length?: number,
-//   extra: string[],
-// }
-//
-// export function normalizeScreenlist(parsed: ParsedScreenlist): NormalizedScreenlist {
-//   return {
-//     ...parsed,
-//     size: parsed.size ? parseHumanSize(parsed.size) : undefined,
-//     length: parsed.length ? parseLength(parsed.length) : undefined
-//   }
-// }

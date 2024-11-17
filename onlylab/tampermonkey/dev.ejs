@@ -1,15 +1,16 @@
 // ==UserScript==
-// @name         OnlyLab Dev
-// @namespace    http://localhost/
-// @version      0.1
-// @description  try to take over the world!
+// @name         <%- appName %> Dev
+// @description  no description
+// @author       Who knows
+// @version      0.8
 <% if (backendUrl) { -%>
-// @updateURL    <%= backendUrl %>/tampermonkey.js
-// @downloadURL  <%= backendUrl %>/tampermonkey.js
+// @updateURL    <%- backendUrl %>/<%- filename %>
+// @downloadURL  <%- backendUrl %>/<%- filename %>
 <% } -%>
-// @author       You
 // @match        https://tracker.net/forum/*
-// @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYGD4DwABBAEAX+XDSwAAAABJRU5ErkJggg==
+<% if (base64Icon) { -%>
+// @icon         <%- base64Icon %>
+<% } -%>
 // @connect      localhost
 // @connect      babepedia.com
 // @connect      fastpic.org
@@ -19,33 +20,21 @@
 // @connect      turboimagehost.com
 // @connect      *
 // @grant        GM_xmlhttpRequest
-// @grant        GM_getResourceText
-// @grant        GM_addElement
-// @grant        GM_addStyle
+// @grant        GM.xmlHttpRequest
 // @grant        unsafeWindow
 // @run-at       document-end
 // ==/UserScript==
 
 (async function () {
   'use strict'
-  const cssUrl = '<%= backendUrl %>/assets/index.css'
-  const jsUrl = '<%= backendUrl %>/assets/index.js'
+  const jsUrl = '<%- backendUrl %>/index.js'
 
   function log(...args) {
-    console.log('[OnlyLab]', ...args)
-  }
-
-  async function addCss() {
-    const response = await GM.xmlHttpRequest({ url: cssUrl }).catch((e) => log(e))
-    if (!response) {
-      return
-    }
-    const css = response.responseText
-    GM_addStyle(css)
+    console.log('[<%- appName %>]', ...args)
   }
 
   async function addJs() {
-    const response = await GM.xmlHttpRequest({ url: jsUrl }).catch((e) => log(e))
+    const response = await window.GM.xmlHttpRequest({ url: jsUrl }).catch((e) => log(e))
     if (!response) {
       return
     }
@@ -53,14 +42,5 @@
     eval(js)
   }
 
-  function addApp() {
-    const element = document.createElement('div')
-    element.setAttribute('id', 'app')
-    document.body.insertBefore(element, document.body.firstChild)
-    app.mount('#app')
-  }
-
-  await addCss()
   await addJs()
-  addApp()
 })()

@@ -1,21 +1,8 @@
-li, span {
-  font-size: 14px;
-  font-weight: normal;
-}
-
-a {
-  text-decoration: none;
-}
-
 $list-offset: 18px;
-ul, ol {
+ul,
+ol {
   margin-left: $list-offset;
   padding-left: 0;
-}
-
-// TODO: broken scroll
-.modal {
-  background: none;
 }
 
 .tracker-icon {
@@ -66,8 +53,7 @@ ul, ol {
   }
 }
 
-.tr-sticky {
-  position: sticky;
-  top: 0;
-  z-index: 2;
+span.filter {
+  background-color: gold;
+  font-size: unset;
 }

@@ -84,9 +84,10 @@ async function removeTorrent(): Promise<void> {
   })
 }
 
-const { registerHotkey } = useHotkeys()
-registerHotkey({ mac: 'control+D', win: 'alt+D' }, 'Download topic', () => downloadTorrent(false))
-registerHotkey({ mac: 'control+Q', win: 'alt+F' }, 'Add topic to queue', () => downloadTorrent(true))
+const { registerDownload, registerAddToQueue, registerRemove } = useHotkeys()
+registerDownload(() => downloadTorrent(false))
+registerAddToQueue(() => downloadTorrent(true))
+registerRemove(() => removeTorrent())
 </script>
 
 <template>
@@ -114,5 +115,4 @@ registerHotkey({ mac: 'control+Q', win: 'alt+F' }, 'Add topic to queue', () => d
   <br />
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

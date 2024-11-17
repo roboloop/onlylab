@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BiInfoCircle from '~icons/bi/info-circle'
 import {
   BButton,
   BCard,
@@ -8,36 +9,45 @@ import {
   BFormGroup,
   BFormInput,
   BFormTextarea,
-  BLink, BModal,
+  BLink,
+  BModal,
+  BPopover,
   BTab,
+  BTable,
   BTabs,
+  useToastController,
 } from 'bootstrap-vue-next'
-import { onMounted, ref } from 'vue'
+import _ from 'lodash'
+import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import DataComponent from '@/components/modals/DataComponent.vue'
+import { useHotkeys } from '@/composables/useHotkeys'
+import { baseId } from '@/services/dom/injector'
 import { getSettings, putSettings } from '@/services/store/settings'
+import { substitutes } from '@/services/utils/strings'
 
+import type { TableFieldRaw } from 'bootstrap-vue-next'
 import type { Settings } from '@/services/store/settings'
-import {useHotkeys} from "@/composables/useHotkeys";
 
 interface SettingsForm extends Settings {
   ignoredActressesText: string
   ignoredGenresText: string
   ignoredStudiosText: string
-  ignoredForumsText: string
+  disabledOnForumsText: string
 }
 
 const form = ref<SettingsForm | null>(null)
-
-onMounted(async () => {
-  const settings: Settings = await getSettings()
+async function loadSettings() {
+  const settings = await getSettings()
   form.value = {
     ...settings,
-    ignoredActressesText: settings.ignoredActresses.join('\n'),
-    ignoredGenresText: settings.ignoredGenres.join('\n'),
-    ignoredStudiosText: settings.ignoredStudios.join('\n'),
-    ignoredForumsText: settings.ignoredForums.join('\n'),
+    ignoredActressesText: settings.ignored.actresses.join('\n'),
+    ignoredGenresText: settings.ignored.genres.join('\n'),
+    ignoredStudiosText: settings.ignored.studios.join('\n'),
+    disabledOnForumsText: settings.main.disabledOnForums.join('\n'),
   }
-})
+}
+
+onMounted(loadSettings)
 
 async function onSubmit(): Promise<void> {
   if (form.value === null) {
@@ -50,44 +60,94 @@ async function onSubmit(): Promise<void> {
       .map(g => g.trim())
       .filter(Boolean)
 
-  const { ignoredActressesText, ignoredGenresText, ignoredStudiosText, ignoredForumsText, ...rest } = form.value
+  const {
+    ignoredActressesText,
+    ignoredGenresText,
+    ignoredStudiosText,
+    disabledOnForumsText,
+    main: { skipSmallImages },
+    ...rest
+  } = form.value
   const settings: Settings = {
     ...rest,
-    ignoredActresses: transform(ignoredActressesText),
-    ignoredGenres: transform(ignoredGenresText),
-    ignoredStudios: transform(ignoredStudiosText),
-    ignoredForums: transform(ignoredForumsText),
+    ignored: {
+      actresses: _.uniq(transform(ignoredActressesText)),
+      genres: _.uniq(transform(ignoredGenresText)),
+      studios: _.uniq(transform(ignoredStudiosText)),
+    },
+    main: {
+      disabledOnForums: _.uniq(transform(disabledOnForumsText)),
+      skipSmallImages,
+    },
   }
 
   await putSettings(settings)
 
+  changesWereMade.value = false
   settingsRef.value?.hide()
+  showToast?.({
+    props: {
+      title: 'Settings have been saved. Reloading...',
+      variant: 'success',
+    },
+  })
+  setTimeout(() => location.reload(), 2000)
 }
 
-const settingsRef = ref<InstanceType<typeof BModal> | null>(null)
-const isShown = ref<boolean>(false)
-const { registerHotkey } = useHotkeys()
-registerHotkey({ mac: 'shift+,', win: 'shift+,' }, 'Open settings', () => {
-  // TODO: reset form
-  isShown.value ? settingsRef.value?.hide() : settingsRef.value?.show()
-})
+const changesWereMade = ref<boolean>(false)
+watch(
+  form,
+  (newValue, oldValue) => {
+    if (oldValue !== null) {
+      changesWereMade.value = true
+    }
+  },
+  { deep: true },
+)
 
+const { show: showToast } = useToastController()
+async function onHidden() {
+  if (changesWereMade.value) {
+    showToast?.({
+      props: {
+        title: "Settings haven't been saved",
+        variant: 'warning',
+      },
+    })
+  }
+  await loadSettings()
+  changesWereMade.value = false
+}
+
+const { mode } = await getSettings()
+const allowModeChoice = import.meta.env.VITE_ALLOW_MODE_CHOICE === 'true'
+
+interface SubstitutesField {
+  code: string
+  desc: string
+  example: string
+}
+const substituteFields = ref<TableFieldRaw<SubstitutesField>[]>([{ key: 'code' }, { key: 'desc' }, { key: 'example' }])
+const substituteItems = Object.entries(substitutes).map(([code, [, desc, example]]) => ({ code, desc, example }))
+
+const settingsRef = useTemplateRef<typeof BModal>('settingsRef')
+const isShown = ref<boolean>(false)
+const { registerOpenSettings } = useHotkeys()
+registerOpenSettings(() => (isShown.value ? settingsRef.value?.hide() : settingsRef.value?.show()))
 </script>
 
 <template>
-  <!--TODO: bodyScrolling depends on fullscreen  -->
   <BModal
     id="settings"
     ref="settingsRef"
     v-model="isShown"
+    :teleportTo="baseId"
     noFade
-    teleportTo="#app"
-    @hide.prevent
     hideHeader
     hideFooter
-    bodyScrolling
+    :bodyScrolling="mode === 'overlay'"
     size="xl"
-  >
+    @hidden="onHidden">
     <template #default>
       <BForm v-if="form" :state="form" class="space-y-4" @submit.prevent.stop="onSubmit">
         <BTabs class="w-full">
@@ -97,24 +157,43 @@ registerHotkey({ mac: 'shift+,', win: 'shift+,' }, 'Open settings', () => {
                 <h6>Control the flow of basic settings</h6>
               </template>
               <BCardBody>
-                <BFormCheckbox v-model="form.enable">Enable on startup</BFormCheckbox>
+                <BFormCheckbox v-if="allowModeChoice" v-model="form.mode" value="overlay" unchecked-value="inject">
+                  Overlay mode
+                </BFormCheckbox>
 
-                <BFormCheckbox v-model="form.fullscreen">Fullscreen mode</BFormCheckbox>
+                <BFormGroup label="Disabled topic parsing on forums (separated by a new line)">
+                  <BFormTextarea v-model="form.disabledOnForumsText" placeholder="Something..." rows="3" />
+                </BFormGroup>
 
+                <BFormCheckbox v-model="form.main.skipSmallImages">
+                  <!-- TODO: global var for 128px -->
+                  Auto skip small images that are less than 128px in height or weight, like flags or banners
+                  <span>(experimental)</span>
+                </BFormCheckbox>
+              </BCardBody>
+
+              <template #footer>
+                <BButton type="submit" color="black">Save</BButton>
+              </template>
+            </BCard>
+          </BTab>
+
+          <BTab title="Ignoring">
+            <BCard>
+              <template #header>
+                <h6>Set up what you want to ignore</h6>
+              </template>
+              <BCardBody>
                 <BFormGroup label="Ignored actresses (separated by a new line)">
-                  <BFormTextarea v-model="form.ignoredActressesText" autoresize placeholder="Something..." />
+                  <BFormTextarea v-model="form.ignoredActressesText" placeholder="Something..." rows="3" />
                 </BFormGroup>
 
                 <BFormGroup label="Ignored genres (separated by a new line)">
-                  <BFormTextarea v-model="form.ignoredGenresText" autoresize placeholder="Something..." />
+                  <BFormTextarea v-model="form.ignoredGenresText" placeholder="Something..." rows="3" />
                 </BFormGroup>
 
                 <BFormGroup label="Ignored studios (separated by a new line)">
-                  <BFormTextarea v-model="form.ignoredStudiosText" autoresize placeholder="Something..." />
-                </BFormGroup>
-
-                <BFormGroup label="Ignored forums (separated by a new line)">
-                  <BFormTextarea v-model="form.ignoredForumsText" autoresize placeholder="Something..." />
+                  <BFormTextarea v-model="form.ignoredStudiosText" placeholder="Something..." rows="3" />
                 </BFormGroup>
               </BCardBody>
 
@@ -134,11 +213,14 @@ registerHotkey({ mac: 'shift+,', win: 'shift+,' }, 'Open settings', () => {
               </template>
 
               <BFormCheckbox v-model="form.babepedia.enable">Enable</BFormCheckbox>
-              <BFormCheckbox v-model="form.babepedia.enableOnTopic" :disabled="!form.babepedia.enable"
-              >Enable on topic
+              <BFormCheckbox v-model="form.babepedia.badges.fakeBoobs" :disabled="!form.babepedia.enable">
+                Show "Fake Boobs" badge to the right of the topic <span>(experimental)</span>
               </BFormCheckbox>
-              <BFormCheckbox v-model="form.babepedia.enableOnForum" :disabled="!form.babepedia.enable"
-              >Enable on forum
+              <BFormCheckbox v-model="form.babepedia.badges.tattoos" :disabled="!form.babepedia.enable">
+                Show "Tattoos" badge to the right of the topic <span>(experimental)</span>
+              </BFormCheckbox>
+              <BFormCheckbox v-model="form.babepedia.badges.piercings" :disabled="!form.babepedia.enable">
+                Show "Piercings" badge to the right of the topic <span>(experimental)</span>
               </BFormCheckbox>
 
               <template #footer>
@@ -172,7 +254,30 @@ registerHotkey({ mac: 'shift+,', win: 'shift+,' }, 'Open settings', () => {
                   placeholder="http://localhost:8080"
                   :disabled="!form.qbittorrent.enable" />
               </BFormGroup>
-              <BFormGroup label="Save path">
+              <BFormGroup>
+                <template #label>
+                  <div class="d-flex align-items-center">
+                    <span class="me-2" style="font-size: inherit">Save path</span>
+                    <BPopover
+                      close-on-hide
+                      placement="right"
+                      :delay="{ show: 0, hide: 0 }"
+                      style="max-width: 512px; width: 512px">
+                      <template #target>
+                        <BLink icon href="#" target="_blank" @click.prevent.stop="">
+                          <BiInfoCircle />
+                        </BLink>
+                      </template>
+                      <template #title>List of available substitutes</template>
+                      <BTable :items="substituteItems" :fields="substituteFields" head-variant="dark" small striped />
+                      <span>
+                        Example: <code>/home/videos/%Y/%q/</code> will render as
+                        <code>/home/videos/2024/1080p/</code>
+                      </span>
+                    </BPopover>
+                  </div>
+                </template>
+
                 <BFormInput
                   v-model="form.qbittorrent.savePath"
                   label="Save path"
@@ -180,14 +285,19 @@ registerHotkey({ mac: 'shift+,', win: 'shift+,' }, 'Open settings', () => {
                   :disabled="!form.qbittorrent.enable" />
               </BFormGroup>
               <BFormGroup label="Username">
-                <BFormInput v-model="form.qbittorrent.username" label="Username" :disabled="!form.qbittorrent.enable" />
+                <BFormInput
+                  v-model="form.qbittorrent.username"
+                  label="Username"
+                  disabled
+                  placeholder="No support yet" />
               </BFormGroup>
               <BFormGroup label="Password">
                 <BFormInput
                   v-model="form.qbittorrent.password"
                   label="Password"
                   type="password"
-                  :disabled="!form.qbittorrent.enable" />
+                  disabled
+                  placeholder="No support yet" />
               </BFormGroup>
               <template #footer>
                 <BButton type="submit" color="black">Save</BButton>
@@ -210,4 +320,9 @@ registerHotkey({ mac: 'shift+,', win: 'shift+,' }, 'Open settings', () => {
   </BModal>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.form-check,
+fieldset {
+  margin-bottom: 0.5em;
+}
+</style>

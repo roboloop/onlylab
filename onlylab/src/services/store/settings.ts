@@ -1,19 +1,31 @@
 import localforage from 'localforage'
-import * as utils from '@/services/store/utils'
+import _ from 'lodash'
 
+export type Mode = 'overlay' | 'inject'
 export interface Settings {
-  enable: boolean
-  ignoredActresses: string[]
-  ignoredGenres: string[]
-  ignoredStudios: string[]
-  ignoredForums: string[]
+  main: {
+    disabledOnForums: string[]
+    skipSmallImages: boolean
+  }
 
-  // Integrations
+  // Ignored users' filters
+  ignored: {
+    actresses: string[]
+    genres: string[]
+    studios: string[]
+  }
+
+  // Babepedia integration
   babepedia: {
     enable: boolean
-    enableOnTopic: boolean
-    enableOnForum: boolean
+    badges: {
+      fakeBoobs: boolean
+      tattoos: boolean
+      piercings: boolean
+    }
   }
+
+  // qBittorrent integration
   qbittorrent: {
     enable: boolean
     baseUrl: string
@@ -23,20 +35,28 @@ export interface Settings {
   }
 
   // hidden
-  fullscreen: boolean
+  mode: Mode
 }
 
 const defaultSettings: Settings = {
-  enable: false,
-  ignoredActresses: [],
-  ignoredGenres: [],
-  ignoredStudios: [],
-  ignoredForums: [],
-  // Integrations
+  main: {
+    disabledOnForums: ['2', '15', '566', '1684', '1693', '1817'],
+    skipSmallImages: true,
+  },
+
+  ignored: {
+    actresses: [],
+    genres: [],
+    studios: [],
+  },
+
   babepedia: {
-    enable: false,
-    enableOnTopic: true,
-    enableOnForum: false,
+    enable: true,
+    badges: {
+      fakeBoobs: false,
+      tattoos: false,
+      piercings: false,
+    },
   },
   qbittorrent: {
     enable: false,
@@ -46,22 +66,21 @@ const defaultSettings: Settings = {
     password: '',
   },
 
-  fullscreen: false,
+  mode: 'inject',
 } as const
 
-const store: LocalForage = localforage.createInstance({
-  name: `settings`,
+export const store: LocalForage = localforage.createInstance({
+  name: 'settings',
   driver: [localforage.LOCALSTORAGE],
 })
 
+// do not confuse with name
+const key = 'settings'
 export async function getSettings(): Promise<Settings> {
-  return { ...defaultSettings, ...(await store.getItem<Settings>('settings')) }
+  // TODO: default's of disabledOnForums are permanent
+  return _.merge(defaultSettings, await store.getItem<Settings>(key))
 }
 
 export async function putSettings(settings: Settings): Promise<void> {
-  await store.setItem<Settings>('settings', settings)
-}
-
-export async function storeSize(): Promise<number> {
-  return await utils.storeSize(store)
+  await store.setItem<Settings>(key, settings)
 }

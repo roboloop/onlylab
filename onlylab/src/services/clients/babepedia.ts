@@ -67,9 +67,9 @@ class DocumentManipulator {
   }
 }
 
-export async function profile(name: string, force: boolean): Promise<Profile> {
+export async function profile(name: string): Promise<Profile> {
   const cached = await getProfile(name)
-  if (cached && !force) {
+  if (cached) {
     return cached
   }
 
@@ -93,7 +93,9 @@ export async function profile(name: string, force: boolean): Promise<Profile> {
     profile.nationality = m.next('Nationality')
     profile.boobs = m.next('Boobs')?.replace(/\s+\($/, '')
     profile.braSize = m.next('Bra/cup size')?.trim()
-    // profile.pics = m.pics()
+    profile.bodyType = m.next('Body type')
+    profile.tattoos = m.next('Tattoos')
+    profile.piercings = m.next('Piercings')
   }
 
   await putProfile(name, profile)

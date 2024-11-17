@@ -1,6 +1,7 @@
 import pluginVue from 'eslint-plugin-vue'
 import vueTsEslintConfig from '@vue/eslint-config-typescript'
 import pluginVitest from '@vitest/eslint-plugin'
+import pluginQuery from '@tanstack/eslint-plugin-query'
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 import type { Linter } from "eslint";
 
@@ -22,6 +23,7 @@ export default [
   },
 
   ...pluginVue.configs['flat/essential'],
+  ...pluginQuery.configs['flat/recommended'],
   ...vueTsEslintConfig(),
 
   {

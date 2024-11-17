@@ -1,8 +1,7 @@
 import localforage from 'localforage'
-import * as utils from '@/services/store/utils'
 
-const store: LocalForage = localforage.createInstance({
-  name: `img`,
+export const store: LocalForage = localforage.createInstance({
+  name: 'img',
   driver: [localforage.LOCALSTORAGE],
 })
 
@@ -14,6 +13,10 @@ export async function putImage(title: string, href: string): Promise<void> {
   await store.setItem(title, href)
 }
 
-export async function storeSize(): Promise<number> {
-  return await utils.storeSize(store)
+export async function removeImage(title: string): Promise<void> {
+  await store.removeItem(title)
+}
+
+export async function clearStore(): Promise<void> {
+  await store.clear()
 }

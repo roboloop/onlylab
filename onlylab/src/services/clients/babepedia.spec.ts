@@ -27,6 +27,9 @@ const data: TestCase[] = [
       nationality: undefined,
       boobs: 'agzn (acmkbbc gisfsouj)',
       braSize: '25r (89r)',
+      bodyType: 'hgon',
+      piercings: 'lshf',
+      tattoos: 'lshf',
       updatedAt: '2024-01-01T00:00:00.000Z',
     },
   },
@@ -46,7 +49,7 @@ describe.each(data)('babepedia $source', ({ source, expected }: TestCase) => {
     const file = await fs.readFile(source, 'utf-8')
     ;(client.send as Mock).mockResolvedValueOnce(file)
 
-    const result = await profile('cpdmjio nyzhvfr', false)
+    const result = await profile('cpdmjio nyzhvfr')
     expect(client.send).toHaveBeenCalledWith({
       url: 'https://www.babepedia.com/babe/cpdmjio%20nyzhvfr',
     })

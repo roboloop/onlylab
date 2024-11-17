@@ -2,9 +2,13 @@ import { parseGenre } from '@/services/parsers/genre'
 import { parseName } from '@/services/parsers/name'
 import { parseStudio } from '@/services/parsers/studio'
 import { parseTitle } from '@/services/parsers/title'
+import { getProfile } from '@/services/store/profiles'
 import { getSettings } from '@/services/store/settings'
 import { nocaseIntersection } from '@/services/utils/array'
 import { Colorizer } from '@/services/utils/colorizer'
+import { extractFilteredWords } from '@/services/utils/filter'
+
+import type { Profile } from '@/services/store/profiles'
 
 type HandleTableRow = (tr: HTMLTableRowElement) => void
 
@@ -27,31 +31,26 @@ export interface FilterStat {
   ignored: number
 }
 
-// export async function applyActressesFeatures(tr: HTMLTableRowElement): boolean {
-//   // TODO: not only boobs
-//   const createPill = (text: string) => {
-//     const template = document.createElement('template')
-//     template.innerHTML = `<span style="font-size: 10px;" class="badge badge-warning badge-pill">${text}</span>`
-//     return template.content.children[0]
-//   }
-//   const textElement = tr.querySelector('.tLink,.tt-text')
-//   const { title } = parse(textElement.textContent)
-//   const names = parseName(title)
-//   const allFakeBoobs = names.every(name => {
-//     const profile = storage.getProfile(name)
-//     if (!profile || !profile.boobs) {
-//       return false
-//     }
-//     return !!profile.boobs.match(/fake/i)
-//   })
-//   if (names.length > 0 && allFakeBoobs) {
-//     const pill = createPill('Fake boobs')
-//     tr.querySelector('a.tt-text').parentElement.appendChild(pill)
-//   }
-// }
+function getIgnoredWords(
+  text: string,
+  ignoredActresses: string[],
+  ignoredGenres: string[],
+  ignoredStudios: string[],
+): string[] {
+  const actresses = parseName(parseTitle(text))
+  const genres = parseGenre(text)
+  const studios = parseStudio(text)
+
+  return [
+    ...nocaseIntersection(actresses, ignoredActresses),
+    ...nocaseIntersection(genres, ignoredGenres),
+    ...nocaseIntersection(studios, ignoredStudios),
+  ]
+}
 
 export async function applyFilter(document: Document, options: FilterOptions): Promise<FilterStat> {
-  const { ignoredActresses, ignoredGenres, ignoredStudios } = await getSettings()
+  const { ignored } = await getSettings()
+  const { actresses: ignoredActresses, genres: ignoredGenres, studios: ignoredStudios } = ignored
 
   const stat: FilterStat = {
     total: 0,
@@ -86,7 +85,8 @@ export async function applyFilter(document: Document, options: FilterOptions): P
     }
 
     // filtering
-    const filteredWords = getFilteredWords(text, options.filter)
+    // const filteredWords = getFilteredWords(text, options.filter)
+    const filteredWords = extractFilteredWords(text, options.filter)
     if (options.filter && filteredWords.length === 0) {
       tr.style.display = 'none'
       return
@@ -103,29 +103,51 @@ export async function applyFilter(document: Document, options: FilterOptions): P
   return stat
 }
 
-function getIgnoredWords(
-  text: string,
-  ignoredActresses: string[],
-  ignoredGenres: string[],
-  ignoredStudios: string[],
-): string[] {
-  const actresses = parseName(parseTitle(text))
-  const genres = parseGenre(text)
-  const studios = parseStudio(text)
+export async function addPills(document: Document): Promise<void> {
+  const { babepedia } = await getSettings()
+  if (!babepedia.enable) {
+    return
+  }
 
-  return [
-    ...nocaseIntersection(actresses, ignoredActresses),
-    ...nocaseIntersection(genres, ignoredGenres),
-    ...nocaseIntersection(studios, ignoredStudios),
-  ]
-}
+  const addPill = (tr: HTMLTableRowElement, text: string) => {
+    const template = document.createElement('template')
+    template.innerHTML = `<span class="actress-pill">${text}</span>`
+    const pill = template.content.children[0]
+    tr.querySelector('a.tt-text')?.parentElement?.appendChild(pill)
+  }
 
-function getFilteredWords(text: string, filter: string): string[] {
-  const words = filter
-    .split(';')
-    .map(w => w.trim())
-    .filter(Boolean)
-  const every = words.every(w => text.toLowerCase().includes(w.toLowerCase()))
+  handleAllTableRows(document, async (tr: HTMLTableRowElement) => {
+    const textElement = tr.querySelector('.tLink,.tt-text')
+    const text = textElement?.textContent ?? ''
+    if (!textElement || !text) {
+      return
+    }
 
-  return every ? words : []
+    const actresses = parseName(parseTitle(text))
+    const profiles: Profile[] = []
+
+    for (const actress of actresses) {
+      const profile = await getProfile(actress)
+      if (!profile || !profile.babeName) {
+        // skip if there is no profile or the saved profile is dummy
+        continue
+      }
+      profiles.push(profile)
+    }
+
+    const fakeBoobs = profiles.length && profiles.some(p => p.boobs?.match(/fake/i))
+    if (babepedia.badges.fakeBoobs && fakeBoobs) {
+      addPill(tr, 'Fake boobs')
+    }
+
+    const tattoos = profiles.length && profiles.some(p => p.tattoos)
+    if (babepedia.badges.tattoos && tattoos) {
+      addPill(tr, 'Tattoos')
+    }
+
+    const piercings = profiles.length && profiles.some(p => p.piercings)
+    if (babepedia.badges.piercings && piercings) {
+      addPill(tr, 'Piercings')
+    }
+  })
 }

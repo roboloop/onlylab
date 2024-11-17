@@ -1,5 +1,4 @@
 import localforage from 'localforage'
-import * as utils from '@/services/store/utils'
 
 export interface Profile {
   name: string
@@ -12,12 +11,14 @@ export interface Profile {
   nationality?: string
   boobs?: string
   braSize?: string
-  // pics?: string[]
+  bodyType?: string
+  tattoos?: string
+  piercings?: string
   updatedAt: string
 }
 
-const store: LocalForage = localforage.createInstance({
-  name: `profiles`,
+export const store: LocalForage = localforage.createInstance({
+  name: 'profiles',
   driver: [localforage.LOCALSTORAGE],
 })
 
@@ -29,6 +30,10 @@ export async function putProfile(name: string, profile: Profile): Promise<void> 
   await store.setItem(name, profile)
 }
 
-export async function storeSize(): Promise<number> {
-  return await utils.storeSize(store)
+export async function removeProfile(name: string): Promise<void> {
+  await store.removeItem(name)
+}
+
+export async function clearStore(): Promise<void> {
+  await store.clear()
 }

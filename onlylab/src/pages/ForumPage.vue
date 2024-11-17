@@ -1,94 +1,64 @@
 <script setup lang="ts">
-import { BFormCheckbox, BFormInput } from 'bootstrap-vue-next'
-import { onMounted, ref } from 'vue'
+import BiGear from '~icons/bi/gear?width=1.75em&height=1.75em'
+import BiQuestionCircle from '~icons/bi/question-circle?width=1.75em&height=1.75em'
+import { BFormCheckbox, BFormInput, BNavbar, BNavbarNav, BNavItem, useModal } from 'bootstrap-vue-next'
+import { onMounted, ref, useTemplateRef } from 'vue'
+import InputWrapper from '@/components/parts/InputWrapper.vue'
 import { useHotkeys } from '@/composables/useHotkeys'
-import { applyFilter } from '@/services/dom/forum'
-import { getForum, putForum } from '@/services/store/forum'
+import { addPills, applyFilter } from '@/services/dom/forum'
+import { getForumState, putForumState } from '@/services/store/state'
 
 import type { FilterStat } from '@/services/dom/forum'
-import type { Forum } from '@/services/store/forum'
+import type { ForumState } from '@/services/store/state'
 
 const filter = ref<string>('')
-const filterRef = ref<InstanceType<typeof BFormInput> | null>(null)
+const filterRef = useTemplateRef<typeof BFormInput>('filterRef')
 const hideIgnored = ref<boolean>(true)
 const stat = ref<FilterStat | null>(null)
 
 async function reapplyFilter() {
-  const forum: Forum = {
+  const forum: ForumState = {
     filter: filter.value,
     hideIgnored: hideIgnored.value,
   }
   stat.value = await applyFilter(document, forum)
 
-  await putForum(forum)
+  await putForumState(forum)
 }
 
 onMounted(async () => {
-  const forum = await getForum()
+  const forum = await getForumState()
   filter.value = forum.filter
   hideIgnored.value = forum.hideIgnored
 
   stat.value = await applyFilter(document, forum)
+  await addPills(document)
 })
 
-const { registerHotkey } = useHotkeys()
-registerHotkey({ mac: 'control+F', win: 'alt+F' }, 'Focus on the search line', () => filterRef.value?.focus())
-registerHotkey({ mac: 'option+left', win: 'alt+left' }, 'Previous page', () => {
-  ;(document.querySelector('.bottom_info .nav a:nth-child(2)') as HTMLAnchorElement)?.click()
-})
-registerHotkey({ mac: 'option+right', win: 'alt+right' }, 'Next page', () => {
-  ;(document.querySelector('.bottom_info .nav a:last-child') as HTMLAnchorElement)?.click()
-})
+const { show: showHelp } = useModal('help')
+const { show: showSettings } = useModal('settings')
+
+const { registerFocusOnSearch, registerPreviousPage, registerNextPage } = useHotkeys()
+registerFocusOnSearch(() => filterRef.value?.focus())
+registerPreviousPage(() => (document.querySelector('.bottom_info .nav a:nth-child(2)') as HTMLAnchorElement)?.click())
+registerNextPage(() => (document.querySelector('.bottom_info .nav a:last-child') as HTMLAnchorElement)?.click())
 </script>
 
 <template>
-  <div class="fixed-bottom-bar">
-    <div class="d-flex align-items-center">
-      <div class="me-2">
-        <BFormCheckbox v-model="hideIgnored" @change="reapplyFilter">Hide ignored</BFormCheckbox>
-      </div>
-      <BFormInput
-        type="text"
-        class="filter-input"
-        v-model="filter"
-        placeholder="Enter filter..."
-        ref="filterRef"
-        @input="reapplyFilter" />
-    </div>
-    <div v-if="stat">
-      <span>Total: {{ stat.total }}. </span>
-      <span>Ignored: {{ stat.ignored }}. </span>
-      <span>Found: {{ stat.found }}. </span>
-    </div>
-  </div>
+  <BNavbar fixed="bottom" class="bg-dark text-white">
+    <BFormCheckbox v-model="hideIgnored" @change="reapplyFilter" class="me-2">Hide ignored</BFormCheckbox>
+    <InputWrapper :content="stat ? `Found: ${stat.found}. Ignored: ${stat.ignored}. Total: ${stat.total}.` : ''">
+      <BFormInput type="text" v-model="filter" placeholder="Enter filter..." ref="filterRef" @input="reapplyFilter" />
+    </InputWrapper>
+    <BNavbarNav class="ms-auto mb-3 mb-lg-0">
+      <BNavItem title="Show help" linkClass="text-white" @click.stop.prevent="showHelp">
+        <BiQuestionCircle />
+      </BNavItem>
+      <BNavItem title="Show settings" linkClass="text-white" @click.stop.prevent="showSettings">
+        <BiGear />
+      </BNavItem>
+    </BNavbarNav>
+  </BNavbar>
 </template>
 
-<style scoped lang="scss">
-.fixed-bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  box-sizing: border-box;
-  z-index: 99;
-}
-
-.icon {
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  filter: invert(100%);
-  padding-bottom: 4px;
-}
-
-.filter-input {
-  width: calc(100% - 20px);
-  padding: 8px;
-  border: none;
-  border-radius: 5px;
-  margin-right: 10px;
-}
-</style>
+<style scoped lang="scss"></style>

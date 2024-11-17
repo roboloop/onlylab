@@ -1,32 +1,23 @@
 <script setup lang="ts">
 import { BButton, BModal } from 'bootstrap-vue-next'
-import {defineComponent, h, ref} from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import { registeredHotkeys, useHotkeys } from '@/composables/useHotkeys'
+import { baseId } from '@/services/dom/injector'
+import { getSettings } from '@/services/store/settings'
 
-const helpRef = ref<InstanceType<typeof BModal> | null>(null)
+const helpRef = useTemplateRef<typeof BModal>('helpRef')
 
 const isShown = ref<boolean>(false)
-const { registerHotkey } = useHotkeys()
-registerHotkey({ mac: 'shift+/', win: 'shift+/' }, 'Open this help', () => {
-  isShown.value ? helpRef.value?.hide() : helpRef.value?.show()
-})
-
+const { mode } = await getSettings()
+const { registerOpenHelp } = useHotkeys()
+registerOpenHelp(() => (isShown.value ? helpRef.value?.hide() : helpRef.value?.show()))
 </script>
 
 <template>
-  <BModal
-    id="help"
-    ref="helpRef"
-    noTrap
-    noFade
-    teleport-to="#app"
-    v-model="isShown"
-  >
+  <BModal id="help" ref="helpRef" v-model="isShown" noFade :teleportTo="baseId" :bodyScrolling="mode === 'overlay'">
     <template #default>
       <ul>
-        <li v-for="{ hotkey, desc } of registeredHotkeys" :key="hotkey" class="fs-6">
-          {{ hotkey }} — {{ desc }}
-        </li>
+        <li v-for="{ hotkey, desc } of registeredHotkeys" :key="hotkey" class="fs-6">{{ hotkey }} — {{ desc }}</li>
       </ul>
     </template>
     <template #header>
@@ -34,7 +25,7 @@ registerHotkey({ mac: 'shift+/', win: 'shift+/' }, 'Open this help', () => {
     </template>
     <template #footer>
       <div class="w-100">
-        <BButton variant="primary" size="sm" class="float-right" @click="(helpRef as any)?.hide()"> Close </BButton>
+        <BButton variant="primary" size="sm" class="float-right" @click="helpRef?.hide()"> Close </BButton>
       </div>
     </template>
   </BModal>

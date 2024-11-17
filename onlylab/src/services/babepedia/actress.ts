@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import * as babepedia from '@/services/clients/babepedia'
-import * as global from '@/services/store/global'
 
 // To be clear
 // [uratjn.zzs] ifectcsg yabgetk (cpe lwmrozhpf)
@@ -15,14 +14,11 @@ export interface NormalizedProfile extends Profile {
   aliases: string[]
 }
 
-export async function normalizeProfiles(
-  groupedNames: string[][],
-  force: boolean = false,
-): Promise<NormalizedProfile[]> {
+export async function normalizeProfiles(groupedNames: string[][]): Promise<NormalizedProfile[]> {
   const promises = groupedNames
     .filter(g => g.length)
     .map(async names => {
-      const promises = names.map(n => babepedia.profile(n, force))
+      const promises = names.map(n => babepedia.profile(n))
       // TODO: error handling
       const profiles = await Promise.all(promises)
 
