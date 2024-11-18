@@ -25,5 +25,4 @@ export function addInjectPlace(document: Document): void {
     throw new Error('Cannot add element in DOM')
   }
   place.insertAdjacentElement('beforebegin', element)
-  // place.insertBefore(element, place.firstChild)
 }

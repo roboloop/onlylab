@@ -1,13 +1,3 @@
-// export async function storeSize(store: LocalForage): Promise<number> {
-//   let total = 0
-//   await store.iterate((value, key) => {
-//     total += key.length + JSON.stringify(value).length
-//   })
-//   const totalKeys = await store.length()
-//   const { name } = store.config()
-//   return total + totalKeys * `${name}/`.length
-// }
-
 import { store as imagesStore } from './images'
 import { store as profilesStore } from './profiles'
 import { store as settingsStore } from './settings'

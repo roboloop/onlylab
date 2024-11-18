@@ -3,7 +3,7 @@ import PQueue from 'p-queue'
 const MAX_CONCURRENCY = 4
 const STEP_LOADED = 20
 
-// TODO: update a comment
+// TODO: drop comment, use tanstack's infinite query
 // The goal of loader is making as many calls as fit on one page. By default, is 20.
 // These calls are executed simultaneously, but with a limit - max 4 at the time (via pLimit).
 // There is an inner counter that is responsible for loading the next page.

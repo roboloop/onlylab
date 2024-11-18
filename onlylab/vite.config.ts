@@ -40,7 +40,7 @@ export default defineConfig({
     postcss: {
       plugins: [
         postcssPrefixSelector({
-          // Same logic from: src/services/dom/place.ts
+          // Same logic from src/services/dom/place.ts
           prefix: `.${env.VITE_APP_NAME.toLowerCase()}`,
           ignoreFiles: ['assets/tracker.scss'],
         }),
@@ -48,12 +48,13 @@ export default defineConfig({
     }
   },
   build: {
-    minify: 'terser',
-    terserOptions: {
-      format: {
-        comments: false,
-      },
-    },
+    minify: false,
+    // minify: 'terser',
+    // terserOptions: {
+    //   format: {
+    //     comments: false,
+    //   },
+    // },
     rollupOptions: {
       output: {
         format: 'iife',

@@ -120,7 +120,7 @@ async function onHidden() {
 }
 
 const { mode } = await getSettings()
-const allowModeChoice = import.meta.env.VITE_ALLOW_MODE_CHOICE === 'true'
+const allowModeChoice = import.meta.env.VITE_SHOW_HIDDEN === 'true'
 
 interface SubstitutesField {
   code: string

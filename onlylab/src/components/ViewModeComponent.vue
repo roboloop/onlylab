@@ -158,7 +158,7 @@ const { vScrollIntoView } = useScrollIntoView(document.querySelector(injectId)!)
         v-scroll-into-view />
     </template>
 
-    <!-- Babepedia. TODO: When you click on the title, jump to the first actress -->
+    <!-- Babepedia. TODO: clicking on the header should lead you to the first actress -->
     <ListGroupItem v-if="mainNames.length" text="Babepedia" class="list-group-item-dark" />
     <template v-for="([mainName, babeName], key) in mainNames" :key="key">
       <ListGroupItem

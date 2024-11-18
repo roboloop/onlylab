@@ -85,7 +85,6 @@ export async function applyFilter(document: Document, options: FilterOptions): P
     }
 
     // filtering
-    // const filteredWords = getFilteredWords(text, options.filter)
     const filteredWords = extractFilteredWords(text, options.filter)
     if (options.filter && filteredWords.length === 0) {
       tr.style.display = 'none'
