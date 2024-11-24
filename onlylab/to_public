@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Define the destination folder
+DESTINATION=~/projects/onlylab_public
+
+# Ensure the destination folder exists
+mkdir -p "$DESTINATION"
+
+# Remove all contents in the destination folder except .git
+find "$DESTINATION" -mindepth 1 -not -name ".git" -exec rm -rf {} +
+
+# Copy all files and folders recursively except the excluded ones
+rsync -av --exclude='TODO.md' --exclude='to_public' --exclude='/node_modules' --exclude='node_modules/' ./ "$DESTINATION"
+
+# Navigate to the destination folder
+cd "$DESTINATION" || exit
+
+# Find .html and .jpg files in the src folder and replace their contents with empty text
+find ./src -type f \( -name '*.html' -o -name '*.torrent' \) -exec sh -c 'echo it is empty just in case > "$1"' _ {} \;
+
+echo "Files copied and modifications completed."
