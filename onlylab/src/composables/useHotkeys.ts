@@ -61,6 +61,14 @@ export function useHotkeys() {
     registerHotkey({ mac: 'control+E', win: 'shift+E' }, 'Remove topic', fn)
   }
 
+  function registerAddFile(fn: Handler): void {
+    registerHotkey({ mac: 'control+shift+Q', win: 'shift+control+Q' }, 'Add current file', fn)
+  }
+
+  function registerRemoveFile(fn: Handler): void {
+    registerHotkey({ mac: 'control+shift+E', win: 'shift+control+E' }, 'Remove current file', fn)
+  }
+
   // Image
   function registerPrevImage(fn: Handler): void {
     registerHotkey({ mac: 'left', win: 'left' }, 'Prev image', fn)
@@ -101,6 +109,8 @@ export function useHotkeys() {
     registerDownload,
     registerAddToQueue,
     registerRemove,
+    registerAddFile,
+    registerRemoveFile,
 
     registerPrevImage,
     registerNextImage,

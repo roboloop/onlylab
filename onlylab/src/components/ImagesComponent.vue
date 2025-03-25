@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { BCarousel, BCarouselSlide } from 'bootstrap-vue-next'
+import { BCarousel, BCarouselSlide, useToastController } from 'bootstrap-vue-next'
 import _ from 'lodash'
 import { nextTick, ref, toRef, useTemplateRef, watchEffect } from 'vue'
 import { useHotkeys } from '@/composables/useHotkeys'
 import { usePagination } from '@/composables/usePagination'
 import { useReTitle } from '@/composables/useReTitle'
+import { addFile, removeFile } from '@/services/clients/qbittorrent'
 import { injectId } from '@/services/dom/injector'
 import { fastpic } from '@/services/host/fastpic'
 import { imageLink } from '@/services/host/host'
+import { parseScreenlist } from '@/services/parsers/screenlist'
 import { putImage } from '@/services/store/images'
 import { getSettings } from '@/services/store/settings'
+import { useQbittorrentStore } from '@/stores/qbittorrent'
 
 import type { BvCarouselEvent } from 'bootstrap-vue-next'
 import type { ImageLink } from '@/services/dom/topic'
@@ -86,6 +89,7 @@ const onError = async (e: Event, index: number, link: string) => {
 
 const fitImages = ref<boolean>(false)
 const elementToScroll = document.querySelector(injectId)!
+
 function onImageClick(event: MouseEvent): void {
   fitImages.value = !fitImages.value
   if (fitImages.value) {
@@ -125,10 +129,64 @@ watchEffect(async () => {
   await loadImages()
 })
 
+const { placeholder, getBlob } = useQbittorrentStore()
+const { show } = useToastController()
 const carouselRef = useTemplateRef<typeof BCarousel>('carouselRef')
-const { registerPrevImage, registerNextImage } = useHotkeys()
+const { registerPrevImage, registerNextImage, registerAddFile, registerRemoveFile } = useHotkeys()
 registerPrevImage(() => carouselRef.value?.prev())
 registerNextImage(() => carouselRef.value?.next())
+registerAddFile(async () => {
+  try {
+    const header = links.value?.[currentSlide.value]?.header
+    const { name } = parseScreenlist(header)
+    if (!name) {
+      throw new Error('No header found')
+    }
+
+    const blob = await getBlob()
+    await addFile(blob, placeholder, name)
+    show?.({
+      props: {
+        title: `File "${name}" was added`,
+        variant: 'success',
+      },
+    })
+  } catch (err) {
+    show?.({
+      props: {
+        title: 'Failed',
+        variant: 'danger',
+        body: (err as Error).message,
+      },
+    })
+  }
+})
+registerRemoveFile(async () => {
+  try {
+    const header = links.value?.[currentSlide.value]?.header
+    const { name } = parseScreenlist(header)
+    if (!name) {
+      throw new Error('No header found')
+    }
+
+    const blob = await getBlob()
+    await removeFile(blob, name)
+    show?.({
+      props: {
+        title: `File "${name}" was removed`,
+        variant: 'success',
+      },
+    })
+  } catch (err) {
+    show?.({
+      props: {
+        title: 'Failed',
+        variant: 'danger',
+        body: (err as Error).message,
+      },
+    })
+  }
+})
 </script>
 
 <template>

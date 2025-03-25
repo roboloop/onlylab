@@ -17,7 +17,8 @@ import { useHotkeys } from '@/composables/useHotkeys'
 import { addInjectPlace } from '@/services/dom/injector'
 import { parseTopic } from '@/services/dom/topic'
 import { parseGenre } from '@/services/parsers/genre'
-import { parseNames } from '@/services/parsers/name'
+import { parseName, parseNames } from '@/services/parsers/name'
+import { parseQuality } from '@/services/parsers/quality'
 import { parseStudio } from '@/services/parsers/studio'
 import { parseTitle } from '@/services/parsers/title'
 import { parseYear } from '@/services/parsers/year'
@@ -26,6 +27,7 @@ import { localSort } from '@/services/utils/array'
 import * as links from '@/services/utils/links'
 import { useImageStore } from '@/stores/image'
 import { useProfileStore } from '@/stores/profile'
+import { useQbittorrentStore } from '@/stores/qbittorrent'
 import { useViewModeStore } from '@/stores/viewMode'
 
 const { createdAt, downloadLink, duration, forums, forumName, imageNodes, seeds, size, text, topic } =
@@ -64,6 +66,13 @@ const names = parseNames(title)
 const profileStore = useProfileStore()
 profileStore.loadProfiles(names)
 const { normalizedProfiles } = storeToRefs(profileStore)
+
+// Global
+const { setPlaceholder, setDownloadLink } = useQbittorrentStore()
+const quality = parseQuality(text)
+const actresses = parseName(title)
+setPlaceholder(forumName, quality, actresses, studious)
+setDownloadLink(downloadLink)
 
 const { registerOpenBabepedia, registerOpenTracker } = useHotkeys()
 registerOpenBabepedia(() => {
