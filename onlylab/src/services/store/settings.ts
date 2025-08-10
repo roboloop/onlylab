@@ -6,6 +6,7 @@ export interface Settings {
   main: {
     disabledOnForums: string[]
     skipSmallImages: boolean
+    skipShortVideos: boolean
   }
 
   // Ignored users' filters
@@ -42,6 +43,7 @@ const defaultSettings: Settings = {
   main: {
     disabledOnForums: ['2', '15', '566', '1684', '1693', '1817'],
     skipSmallImages: true,
+    skipShortVideos: true,
   },
 
   ignored: {

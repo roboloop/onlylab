@@ -34,7 +34,7 @@ It works based on building a single tampermonkey script that accumulates all the
 3. Run a nginx server to serve files
 
     ```shell
-    docker run --rm -it -p 80:80 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine sh -c "sed -i '4i\add_header Cache-Control \"no-cache\";' /etc/nginx/conf.d/default.conf && sed -i '/worker_processes/ s/auto/1/' /etc/nginx/nginx.conf && nginx -g nginx -g 'daemon off;'"
+   docker run --rm -it -p 80:80 --cpuset-cpus=0 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine sh -c "sed -i '4i\add_header Cache-Control \"no-cache\";' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
     ```
 
 4. (optional) If it is the first deploy:

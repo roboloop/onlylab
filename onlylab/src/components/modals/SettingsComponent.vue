@@ -65,7 +65,7 @@ async function onSubmit(): Promise<void> {
     ignoredGenresText,
     ignoredStudiosText,
     disabledOnForumsText,
-    main: { skipSmallImages },
+    main: { skipSmallImages, skipShortVideos },
     ...rest
   } = form.value
   const settings: Settings = {
@@ -78,6 +78,7 @@ async function onSubmit(): Promise<void> {
     main: {
       disabledOnForums: _.uniq(transform(disabledOnForumsText)),
       skipSmallImages,
+      skipShortVideos,
     },
   }
 
@@ -168,6 +169,11 @@ registerOpenSettings(() => (isShown.value ? settingsRef.value?.hide() : settings
                 <BFormCheckbox v-model="form.main.skipSmallImages">
                   <!-- TODO: global var for 128px -->
                   Auto skip small images that are less than 128px in height or weight, like flags or banners
+                  <span>(experimental)</span>
+                </BFormCheckbox>
+                <BFormCheckbox v-model="form.main.skipSmallImages">
+                  <!-- TODO: global var for 30 seconds -->
+                  Auto skip short videos that are shorter than 30 seconds, like short clips
                   <span>(experimental)</span>
                 </BFormCheckbox>
               </BCardBody>

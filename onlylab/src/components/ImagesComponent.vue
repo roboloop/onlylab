@@ -31,7 +31,7 @@ const links = ref<Link[]>([])
 const { reset: resetLoaded, inc: incLoaded } = useReTitle(document.title, toRef(props, 'imageLinks'))
 const { reset: resetPagination, addCall, nextPageIfNeeded } = usePagination()
 const {
-  main: { skipSmallImages },
+  main: { skipSmallImages, skipShortVideos },
 } = await getSettings()
 
 async function loadImages() {
@@ -53,8 +53,14 @@ function onSlid(event: BvCarouselEvent): void {
   nextPageIfNeeded(event.to)
 
   const link = links.value[event.to]?.link
+  const header = links.value[event.to]?.header
+  const { length } = parseScreenlist(header)
+
+  const isSmallImage = skipSmallImages && link && dirtyImages.has(link)
+  const isShortVideo = skipShortVideos && length && typeof length === 'number' && length < 30
+
   // the last condition is to prevent cycle
-  if (skipSmallImages && link && dirtyImages.has(link) && totalSkipped.value < links.value.length - 1) {
+  if ((isSmallImage || isShortVideo) && totalSkipped.value < links.value.length - 1) {
     nextTick(() => {
       event.direction === 'right' ? carouselRef.value?.next() : carouselRef.value?.prev()
       totalSkipped.value++
