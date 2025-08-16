@@ -18,8 +18,6 @@ class Fastpic implements Host {
         overrideMimeType: 'text/html',
         headers: {
           Accept: 'text/html',
-          // Mimic like it's not a browser
-          'User-Agent': 'curl/8.7.1',
         },
       } as Tampermonkey.Request)
       const matched = data.match(/src="(.+?fastpic\.org\/big\/.+?)"/)
