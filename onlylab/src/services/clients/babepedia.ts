@@ -31,7 +31,7 @@ class DocumentManipulator {
   private spanElement(span: string): Node | null {
     // xpath because of text() function
     return this.document.evaluate(
-      '//main//div[@id="biography"]//ul[@id="biolist"]//span[contains(text(), "' + span + '")]',
+      '//main//div[@id="profile-info"]//span[contains(text(), "' + span + '")]',
       this.document,
       null,
       XPathResult.FIRST_ORDERED_NODE_TYPE,
@@ -44,12 +44,18 @@ class DocumentManipulator {
     if (!node) {
       return undefined
     }
-    const sibling = node.nextSibling?.textContent?.trim()
-    if (sibling) {
-      return sibling
+    if ((node as Element).nextElementSibling?.childElementCount == 0) {
+      return (node as Element).nextElementSibling?.textContent?.trim()
     }
 
-    return (node as Element).nextElementSibling?.textContent ?? undefined
+    return (node as Element).nextElementSibling?.firstChild?.textContent ?? undefined
+    //
+    // const sibling = node.nextSibling?.textContent?.trim()
+    // if (sibling) {
+    //   return sibling
+    // }
+    //
+    // return (node as Element).nextElementSibling?.firstElementChild?.textContent ?? undefined
   }
 
   last(span: string): string | undefined {
@@ -57,7 +63,7 @@ class DocumentManipulator {
     if (!node) {
       return undefined
     }
-    return node.parentElement?.lastChild?.textContent ?? undefined
+    return node.parentElement?.lastElementChild?.lastChild?.textContent ?? undefined
   }
 
   pics(): string[] {
@@ -90,12 +96,12 @@ export async function profile(name: string): Promise<Profile> {
     profile.weight = m.next('Weight')?.match(/\(\w+ ([^)]+?)\)/)?.[1] ?? undefined
     profile.country = birthplace
     profile.flag = birthplace ? flag(birthplace) : undefined
-    profile.nationality = m.next('Nationality')
+    profile.nationality = m.last('Nationality')?.trim().replace(/[()]/g, '')
     profile.boobs = m.next('Boobs')?.replace(/\s+\($/, '')
     profile.braSize = m.next('Bra/cup size')?.trim()
     profile.bodyType = m.next('Body type')
-    profile.tattoos = m.next('Tattoos')
-    profile.piercings = m.next('Piercings')
+    profile.tattoos = m.next('Tattoos')?.replace(/\.$/, '')
+    profile.piercings = m.next('Piercings')?.replace(/\.$/, '')
   }
 
   await putProfile(name, profile)
