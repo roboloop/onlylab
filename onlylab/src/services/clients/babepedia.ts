@@ -31,7 +31,7 @@ class DocumentManipulator {
   private spanElement(span: string): Node | null {
     // xpath because of text() function
     return this.document.evaluate(
-      '//main//div[@id="profile-info"]//span[contains(text(), "' + span + '")]',
+      '//main//div[@id="personal-info-block"]//span[contains(text(), "' + span + '")]',
       this.document,
       null,
       XPathResult.FIRST_ORDERED_NODE_TYPE,
