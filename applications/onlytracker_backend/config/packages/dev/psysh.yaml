@@ -1,5 +1,0 @@
-psysh:
-    variables:
-        em: '@doctrine.orm.entity_manager'
-        doctrine: '@doctrine'
-        privateContainer: '@test.private_services_locator'

@@ -1,8 +1,0 @@
-framework:
-    router:
-        strict_requirements: ~
-        utf8: true
-
-        # Do not override this parameters. Load routes executes in Kernel object.
-        #resource:
-        #type:

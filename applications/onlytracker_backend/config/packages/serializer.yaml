@@ -1,9 +1,0 @@
-framework:
-#    serializer:
-#        enabled:              true
-#        enable_annotations:   true
-#        name_converter:       ~
-#        circular_reference_handler: ~
-#        max_depth_handler:    ~
-#        mapping:
-#            paths:                []

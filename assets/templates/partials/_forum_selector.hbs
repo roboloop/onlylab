@@ -1,9 +1,0 @@
-<div class="form-group">
-    <label for="{{parameter}}">Forums</label>
-    <select multiple class="form-control" size="10" id="{{parameter}}">
-        <option value="-1" selected>All forums</option>
-        {{#each forums as | forum |}}
-            <option value="{{ forum.id }}">{{ forum.title }}</option>
-        {{/each}}
-    </select>
-</div>

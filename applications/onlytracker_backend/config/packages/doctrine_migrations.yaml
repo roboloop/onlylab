@@ -1,5 +1,0 @@
-doctrine_migrations:
-    migrations_paths:
-        space: '%kernel.project_dir%/src/Migrations'
-    # namespace is arbitrary but should be different from OnlyTracker\Migrations
-    # as migrations classes should NOT be autoloaded

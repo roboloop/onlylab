@@ -1,75 +1,49 @@
-# OnlyTracker
+# onlylab
 
-## Deployment
+### Lint
 
-1. Create a folder on the server with a bare repository
+```shell
+npm run format
+npm run lint
+npm run type-check
+```
 
-    ```shell
-    git init --bare /opt/git/onlytracker.git
-    ```
+### Deploy
 
-2. Create a hook and give it write permissions:
+It works based on building a single tampermonkey script that accumulates all the dependencies (js, css, tampermonkey logic). The delivery process is:
 
-    ```shell
-    touch /opt/git/onlytracker.git/hooks/post-receive
-    chmod +x /opt/git/onlytracker.git/hooks/post-receive
-    ```
-
-3. Put the following content into the hook:
+1. Bump a new version in `tampermonkey/*.js.template`
 
     ```shell
-    #!/bin/bash
+    # Bump dev
+    ./bump dev
 
-    TARGET="/var/www/onlytracker"
-    GIT_DIR="/opt/git/onlytracker.git"
-    BRANCH="master"
-
-    read oldrev newrev ref
-
-    mkdir -p "$TARGET"
-    git --work-tree="$TARGET" --git-dir="$GIT_DIR" checkout -f "$BRANCH"
-    cd "$TARGET"
-    docker compose up -d
-    docker compose exec fpm composer install
-    docker compose exec fpm yarn install
-    docker compose exec fpm yarn build
-    docker compose exec fpm php bin/console doctrine:migrations:migrate -n
+    # Bump prod
+    ./bump prod
     ```
 
-4. On the local machine, set the new remote repository (`remote_server` — the name in `.ssh/config`):
+2. Run a build process
 
     ```shell
-    git remote set-url origin root@remote_server:/opt/git/onlytracker.git
-    ```
+    # Production env
+    npm run build
 
-5. Push a test commit
+    # Development env
+    NODE_ENV=development npx vite build --watch --minify=false --mode development
+    ```
+3. Run a nginx server to serve files
 
     ```shell
-    git commit --allow-empty -m 'New remote server'
-    git push
+   docker run --rm -it -p 80:80 --cpuset-cpus=0 -v "$(pwd)/dist":/usr/share/nginx/html nginx:alpine sh -c "sed -i '4i\add_header Cache-Control \"no-cache\";' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
     ```
 
-6. The login and password can be found in the logs `docker logs onlytracker-nginx-1`:
+4. (optional) If it is the first deploy:
 
-    ```shell
-    cd /var/www/onlytracker
-    docker compose logs nginx
+   1. Open Tampermonkey Dashboard
+   2. Move to `Utilities` / `Import from file`
+   3. Choose the file `dist/onlylab.user.js`
+   4. Save
 
-    # Adding password for user tracker_user
-    # User: tracker_user
-    # Pass: secret
-    ```
-
-7. Upload the dump from the local folder to the server and set correct permissions
-
-    ```shell
-    scp var/data.db remote_server:/var/www/onlytracker/var/data.db
-    chmod 777 -R /var/www/onlytracker/var/
-    ```
-
-8. Access via SSH, open `https://127.0.0.1:9000`
-
-    ```shell
-    ssh -L 9000:127.0.0.1:443 remote_server
-    ```
-
+5. Open the settings of tampermonkey's script
+6. Click "Check for userscript updates"
+7. Apply new updates
