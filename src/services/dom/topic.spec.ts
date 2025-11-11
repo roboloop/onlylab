@@ -1,14 +1,11 @@
-import { Buffer } from 'node:buffer';
-import fs from 'node:fs/promises';
-import iconv from 'iconv-lite';
-import { JSDOM } from 'jsdom';
-import { describe, expect, it } from 'vitest';
-import { parseTopic } from '@/services/dom/topic';
+import { Buffer } from 'node:buffer'
+import fs from 'node:fs/promises'
+import iconv from 'iconv-lite'
+import { JSDOM } from 'jsdom'
+import { describe, expect, it } from 'vitest'
+import { parseTopic } from '@/services/dom/topic'
 
-
-
-import type { ParsedTopic } from '@/services/dom/topic';
-
+import type { ParsedTopic } from '@/services/dom/topic'
 
 interface TestCase {
   source: string

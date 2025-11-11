@@ -20,6 +20,7 @@ export default defineConfig({
       templatePath,
       iconPath,
       data: {
+        trackerUrl: env.VITE_TRACKER_URL,
         backendUrl: env.VITE_BACKEND_URL,
         appName: env.VITE_APP_NAME,
       }

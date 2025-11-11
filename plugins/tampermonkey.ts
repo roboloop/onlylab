@@ -8,6 +8,7 @@ export interface TampermonkeyOptions {
   templatePath: string
   iconPath: string
   data: {
+    trackerUrl: string
     backendUrl: string
     appName: string
   }

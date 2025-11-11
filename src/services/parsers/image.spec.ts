@@ -1,11 +1,8 @@
-import { describe, expect, it } from 'vitest';
-import { normalizeImages } from './image';
+import { describe, expect, it } from 'vitest'
+import { normalizeImages } from './image'
 
-
-
-import type { NormalizedImageNode } from './image';
-import type { ImageNode } from '@/services/dom/topic';
-
+import type { NormalizedImageNode } from './image'
+import type { ImageNode } from '@/services/dom/topic'
 
 interface TestCase {
   source: ImageNode

@@ -45,11 +45,11 @@ const data: SingleNameTestCase[] = [
     expected: ['zqnc duxdd', 'ddwuge yuzhli', 'sxenbs kbtobwomxq'],
   },
   {
-    source: 'jqdl kaskc aka jqdl kaskc96 and mtyd n\'keak - gnyfqdpys flxq hbvaq ofir',
-    expected: ['jqdl kaskc', 'jqdl kaskc96', 'mtyd n\'keak'],
+    source: "jqdl kaskc aka jqdl kaskc96 and mtyd n'keak - gnyfqdpys flxq hbvaq ofir",
+    expected: ['jqdl kaskc', 'jqdl kaskc96', "mtyd n'keak"],
   },
   {
-    source: 'tjsnde iamy jvoyfa - tloynqd keue tjsnde iamy zokib and wcolf wyc nms\'h bgjvxb hodlhslb',
+    source: "tjsnde iamy jvoyfa - tloynqd keue tjsnde iamy zokib and wcolf wyc nms'h bgjvxb hodlhslb",
     expected: ['tjsnde iamy jvoyfa'],
   },
   {
@@ -61,7 +61,7 @@ const data: SingleNameTestCase[] = [
     expected: ['tne yktd', 'bavggc tvopq'],
   },
   {
-    source: 'vhbox rastwh / vhbox zhrod\'h plpnjau and asmy wuakmfvipc (904 xuirzud)',
+    source: "vhbox rastwh / vhbox zhrod'h plpnjau and asmy wuakmfvipc (904 xuirzud)",
     expected: ['vhbox rastwh'],
   },
 
