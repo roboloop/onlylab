@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { BButton, BModal } from 'bootstrap-vue-next'
 import { ref, useTemplateRef } from 'vue'
+import { type ComponentExposed } from 'vue-component-type-helpers'
 import { registeredHotkeys, useHotkeys } from '@/composables/useHotkeys'
 import { baseId } from '@/services/dom/injector'
 import { getSettings } from '@/services/store/settings'
 
-const helpRef = useTemplateRef<typeof BModal>('helpRef')
+const helpRef = useTemplateRef<ComponentExposed<typeof BModal>>('helpRef')
 
 const isShown = ref<boolean>(false)
 const { mode } = await getSettings()
@@ -21,7 +22,7 @@ registerOpenHelp(() => (isShown.value ? helpRef.value?.hide() : helpRef.value?.s
       </ul>
     </template>
     <template #header>
-      <div class="w-100">Shortcuts</div>
+      <div class="w-100">Shortcuts 1234560000</div>
     </template>
     <template #footer>
       <div class="w-100">

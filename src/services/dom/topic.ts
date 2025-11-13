@@ -86,19 +86,19 @@ const getImageNodes = (document: Document): ImageNode[] => {
     const id = spoiler?.getAttribute('data-id') ?? ''
     const title = el.title
     const href = (el.parentElement as HTMLAnchorElement)?.href ?? undefined
-    nodesByKey[id].images.push({ title, href } as ImageLink)
+    nodesByKey[id]!.images.push({ title, href } as ImageLink)
   })
 
   // transform to the hierarchy structure
   Object.keys(nodesByKey)
-    .filter(id => nodesByKey[id].parent)
-    .forEach(id => nodesByKey[nodesByKey[id].parent!].children.push(nodesByKey[id]))
+    .filter(id => nodesByKey[id]!.parent)
+    .forEach(id => nodesByKey[nodesByKey[id]!.parent!]!.children.push(nodesByKey[id]!))
 
   // remove 'parent' properties
   Object.keys(nodesByKey)
-    .filter(id => nodesByKey[id].parent)
-    .forEach(id => delete nodesByKey[id].parent && delete nodesByKey[id])
-  Object.keys(nodesByKey).forEach(id => delete nodesByKey[id].parent)
+    .filter(id => nodesByKey[id]!.parent)
+    .forEach(id => delete nodesByKey[id]!.parent && delete nodesByKey[id])
+  Object.keys(nodesByKey).forEach(id => delete nodesByKey[id]!.parent)
 
   return Object.values(nodesByKey)
 }

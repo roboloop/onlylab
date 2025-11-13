@@ -10,7 +10,7 @@ export function openFile(contentType: string) {
       if (!resolved) {
         resolved = true
         const files = Array.from(input.files ?? [])
-        resolve(files[0])
+        resolve(files[0]!)
       }
     }
 

@@ -15,7 +15,7 @@ import {
   BTab,
   BTable,
   BTabs,
-  useToastController,
+  useToast,
 } from 'bootstrap-vue-next'
 import _ from 'lodash'
 import { onMounted, ref, useTemplateRef, watch } from 'vue'
@@ -86,11 +86,10 @@ async function onSubmit(): Promise<void> {
 
   changesWereMade.value = false
   settingsRef.value?.hide()
-  showToast?.({
-    props: {
-      title: 'Settings have been saved. Reloading...',
-      variant: 'success',
-    },
+  create({
+    title: 'Settings have been saved. Reloading...',
+    variant: 'success',
+    noProgress: true,
   })
   setTimeout(() => location.reload(), 2000)
 }
@@ -106,14 +105,13 @@ watch(
   { deep: true },
 )
 
-const { show: showToast } = useToastController()
+const { create } = useToast()
 async function onHidden() {
   if (changesWereMade.value) {
-    showToast?.({
-      props: {
-        title: "Settings haven't been saved",
-        variant: 'warning',
-      },
+    create({
+      title: "Settings haven't been saved",
+      variant: 'warning',
+      noProgress: true,
     })
   }
   await loadSettings()
@@ -144,8 +142,8 @@ registerOpenSettings(() => (isShown.value ? settingsRef.value?.hide() : settings
     v-model="isShown"
     :teleportTo="baseId"
     noFade
-    hideHeader
-    hideFooter
+    noHeader
+    noFooter
     :bodyScrolling="mode === 'overlay'"
     size="xl"
     @hidden="onHidden">

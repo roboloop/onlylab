@@ -8,5 +8,5 @@ export async function extractName(torrent: Blob): Promise<string> {
     throw new Error("Torrent name hasn't been found")
   }
 
-  return raw.slice(index + match[1].length, index + match[1].length + Number(match[2]))
+  return raw.slice(index + match[1]!.length, index + match[1]!.length + Number(match[2])!)
 }

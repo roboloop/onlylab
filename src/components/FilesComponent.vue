@@ -70,7 +70,7 @@ watch(filter, async (val: string) => {
     </template>
 
     <template #foot(size)>
-      <span class="text-light">{{ filesize(totalSize, { standard: 'jedec' }) }}</span>
+      <span class="text-light">{{ filesize(totalSize!, { standard: 'jedec' }) }}</span>
     </template>
   </BTable>
 </template>

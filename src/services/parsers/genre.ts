@@ -58,8 +58,8 @@ export function parseGenre(original: string): string[] {
   }
 
   // Check, if genres separated by space-symbol.
-  if (filtered.length === 1 && !filtered[0].includes(',')) {
-    filtered = filtered[0].split(/\s+/).filter(Boolean)
+  if (filtered.length === 1 && !filtered[0]!.includes(',')) {
+    filtered = filtered[0]!.split(/\s+/).filter(Boolean)
   }
 
   return _.uniq(filtered.map(f => f.trim()))

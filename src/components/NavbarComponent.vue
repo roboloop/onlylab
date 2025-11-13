@@ -4,16 +4,7 @@ import BiBoxArrowUpRight from '~icons/bi/box-arrow-up-right?width=1em&height=1em
 import BiGear from '~icons/bi/gear?width=1.75em&height=1.75em'
 import BiQuestionCircle from '~icons/bi/question-circle?width=1.75em&height=1.75em'
 import BiXCircle from '~icons/bi/x-circle?width=1.75em&height=1.75em'
-import {
-  BLink,
-  BNavbar,
-  BNavbarBrand,
-  BNavbarNav,
-  BNavItem,
-  useModal,
-  useToastController,
-  vBTooltip,
-} from 'bootstrap-vue-next'
+import { BLink, BNavbar, BNavbarBrand, BNavbarNav, BNavItem, useModal, useToast, vBTooltip } from 'bootstrap-vue-next'
 import { useHotkeys } from '@/composables/useHotkeys'
 import { parseTitle } from '@/services/parsers/title'
 import * as links from '@/services/utils/links'
@@ -30,9 +21,8 @@ const emit = defineEmits<{
   exit: []
 }>()
 
-const { show: showHelp } = useModal('help')
-const { show: showSettings } = useModal('settings')
-const { show: showToast } = useToastController()
+const { get: getModal } = useModal()
+const { create: createToast } = useToast()
 
 const { cleanCache: cleanCacheOfImageStore } = useImageStore()
 const { cleanCache: cleanCacheOfProfileStore } = useProfileStore()
@@ -41,13 +31,15 @@ async function reloadTopic() {
   await cleanCacheOfProfileStore()
   emit('reload')
 
-  showToast?.({
-    props: {
-      title: 'Reload is success',
-      variant: 'success',
-    },
+  createToast({
+    title: 'Reload is success',
+    variant: 'success',
+    noProgress: true,
   })
 }
+
+const showHelp = () => getModal('help')?.show()
+const showSettings = () => getModal('settings')?.show()
 
 const { registerReloadTopic, registerOpenClose } = useHotkeys()
 registerReloadTopic(() => reloadTopic())

@@ -6,8 +6,8 @@ export function parseHumanSize(size: string): number | undefined {
     return undefined
   }
 
-  const value = parseFloat(match[1].replace(',', '.'))
-  const unit = match[3].toUpperCase().replace('I', '')
+  const value = parseFloat(match[1]!.replace(',', '.'))
+  const unit = match[3]!.toUpperCase().replace('I', '')
 
   const exponent = units.indexOf(unit)
   if (exponent === -1) {

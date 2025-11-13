@@ -8,7 +8,7 @@ function extractNamesPart(title: string): string {
       // find the latest one of them delimiters `-–—./•(`
       // ignore `(` that followed by `aka`
       // ignore these delimiters if there are inside `(` and `)`
-      .split(/[-–—./•|](?![^(]*\))|(\((?!aka))/i)[0]
+      .split(/[-–—./•|](?![^(]*\))|(\((?!aka))/i)[0]!
   )
 }
 

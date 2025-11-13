@@ -8,7 +8,11 @@ import type { ImageNode } from '@/services/dom/topic'
 export const useImageStore = defineStore('image', () => {
   const imageNodes = ref<ImageNode[]>([])
   const topicImages = computed(() => {
-    const [topic] = imageNodes.value
+    if (imageNodes.value.length === 0) {
+      return []
+    }
+
+    const topic = imageNodes.value[0]!
     return normalizeImages(topic)
   })
   const commentImages = computed(() => {

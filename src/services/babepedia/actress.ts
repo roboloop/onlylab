@@ -22,7 +22,7 @@ export async function normalizeProfiles(groupedNames: string[][]): Promise<Norma
       // TODO: error handling
       const profiles = await Promise.all(promises)
 
-      const mainName = names[0]
+      const mainName = names[0]!
       const [nonNullGroup, nullGroup] = _.partition(profiles, p => !!p.babeName)
       const entries = Object.entries(_.groupBy(nonNullGroup, p => p.babeName))
       const groupFn: (arg: [string, Profile[]]) => [string, Profile[]] = ([n, p]) => [n, [...p, ...nullGroup]]
@@ -34,7 +34,7 @@ export async function normalizeProfiles(groupedNames: string[][]): Promise<Norma
           mainName: mainName,
           aliases: _.uniq([...profiles, { name: babeName }].map(p => p.name).filter(n => n !== mainName)),
           ...profile,
-        }
+        } as NormalizedProfile
       })
     })
 

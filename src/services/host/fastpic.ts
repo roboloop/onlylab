@@ -22,7 +22,7 @@ class Fastpic implements Host {
       } as Tampermonkey.Request)
       const matched = data.match(/src="(.+?fastpic\.org\/big\/.+?)"/)
       if (matched) {
-        return matched[1]
+        return matched[1]!
       }
     } catch (error) {
       console.error(`Fail to load ${href}`, error)

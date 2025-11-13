@@ -103,10 +103,10 @@ watch(filter, async (val: string) => {
 
     <template #foot(name)> Total: </template>
     <template #foot(size)>
-      {{ filesize(totalSize, { standard: 'jedec' }) }}
+      {{ totalSize ? filesize(totalSize, { standard: 'jedec' }) : '' }}
     </template>
     <template #foot(length)>
-      {{ formatLength(totalLength) }}
+      {{ totalLength ? formatLength(totalLength) : '' }}
     </template>
     <template #foot()>
       <span></span>

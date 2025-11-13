@@ -12,7 +12,7 @@ class Imagevenue implements Host {
       const data = await client.send({ url: href } as Tampermonkey.Request)
       const matched = data.match(/src="(https:\/\/cdn-images[^"]+)/)
       if (matched) {
-        return matched[1]
+        return matched[1]!
       }
     } catch (err) {
       console.error(`Fail to load ${href}`, err)

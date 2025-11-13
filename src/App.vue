@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BModalOrchestrator, BToastOrchestrator } from 'bootstrap-vue-next'
+import { BApp } from 'bootstrap-vue-next'
 import HelpComponent from '@/components/modals/HelpComponent.vue'
 import SettingsComponent from '@/components/modals/SettingsComponent.vue'
 import ForumPage from '@/pages/ForumPage.vue'
@@ -12,12 +12,12 @@ const loadTracker = window.location.pathname === '/forum/tracker.php'
 </script>
 
 <template>
-  <Suspense><TopicPage v-if="loadTopic"></TopicPage></Suspense>
-  <ForumPage v-if="loadForum || loadTracker"></ForumPage>
-  <Suspense><SettingsComponent></SettingsComponent></Suspense>
-  <Suspense><HelpComponent></HelpComponent></Suspense>
-  <BModalOrchestrator :teleport-to="baseId"></BModalOrchestrator>
-  <BToastOrchestrator :teleport-to="baseId"></BToastOrchestrator>
+  <BApp :teleport-to="baseId">
+    <Suspense><TopicPage v-if="loadTopic"></TopicPage></Suspense>
+    <ForumPage v-if="loadForum || loadTracker"></ForumPage>
+    <Suspense><SettingsComponent></SettingsComponent></Suspense>
+    <Suspense><HelpComponent></HelpComponent></Suspense>
+  </BApp>
 </template>
 
 <style scoped lang="scss"></style>

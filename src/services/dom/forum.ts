@@ -111,7 +111,7 @@ export async function addPills(document: Document): Promise<void> {
   const addPill = (tr: HTMLTableRowElement, text: string) => {
     const template = document.createElement('template')
     template.innerHTML = `<span class="actress-pill">${text}</span>`
-    const pill = template.content.children[0]
+    const pill = template.content.children[0]!
     tr.querySelector('a.tt-text')?.parentElement?.appendChild(pill)
   }
 

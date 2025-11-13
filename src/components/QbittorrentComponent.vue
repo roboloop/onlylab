@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BiArrowRight from '~icons/bi/arrow-right'
-import { BLink, useToastController } from 'bootstrap-vue-next'
+import { BLink, useToast } from 'bootstrap-vue-next'
 import { defineProps } from 'vue'
 import { useHotkeys } from '@/composables/useHotkeys'
 import { client } from '@/services/clients/client'
@@ -24,7 +24,7 @@ const quality = parseQuality(props.text)
 const actresses = parseName(parseTitle(props.text))
 const studios = parseStudio(props.text)
 
-const { show } = useToastController()
+const { create } = useToast()
 
 async function downloadTorrent(paused: boolean): Promise<void> {
   const placeholder: Placeholder = {
@@ -38,12 +38,11 @@ async function downloadTorrent(paused: boolean): Promise<void> {
     const blob = await client.sendBlob({ url: props.downloadLink, responseType: 'blob' })
     await qbittorrent.upload(blob, paused, placeholder)
   } catch (err) {
-    show?.({
-      props: {
-        title: 'Failed',
-        variant: 'danger',
-        body: (err as Error).message,
-      },
+    create({
+      title: 'Failed',
+      variant: 'danger',
+      body: (err as Error).message,
+      noProgress: true,
     })
     return
   }
@@ -51,11 +50,10 @@ async function downloadTorrent(paused: boolean): Promise<void> {
   await torrent.markAsDownloaded(props.topic)
 
   const title = paused ? 'Torrent has been added to queue' : 'Torrent has been added'
-  show?.({
-    props: {
-      title: title,
-      variant: 'success',
-    },
+  create({
+    title: title,
+    variant: 'success',
+    noProgress: true,
   })
 }
 
@@ -64,23 +62,21 @@ async function removeTorrent(): Promise<void> {
     const blob = await client.sendBlob({ url: props.downloadLink, responseType: 'blob' })
     await qbittorrent.remove(blob)
   } catch (err) {
-    show?.({
-      props: {
-        title: 'Failed',
-        variant: 'danger',
-        body: (err as Error).message,
-      },
+    create({
+      title: 'Failed',
+      variant: 'danger',
+      body: (err as Error).message,
+      noProgress: true,
     })
     return
   }
 
   await torrent.markAsRemoved(props.topic)
 
-  show?.({
-    props: {
-      title: 'Torrent has been removed',
-      variant: 'success',
-    },
+  create({
+    title: 'Torrent has been removed',
+    variant: 'success',
+    noProgress: true,
   })
 }
 

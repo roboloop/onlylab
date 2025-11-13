@@ -35,8 +35,9 @@ onMounted(async () => {
   await addPills(document)
 })
 
-const { show: showHelp } = useModal('help')
-const { show: showSettings } = useModal('settings')
+const { get: getModal } = useModal()
+const showHelp = () => getModal('help')?.show()
+const showSettings = () => getModal('settings')?.show()
 
 const { registerFocusOnSearch, registerPreviousPage, registerNextPage } = useHotkeys()
 registerFocusOnSearch(() => filterRef.value?.focus())

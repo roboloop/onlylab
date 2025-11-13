@@ -15,7 +15,7 @@ export function useScrollIntoView(element: Element) {
     beforeUnmount(el: HTMLElement) {
       const index = elements.findIndex(([e]) => e === el)
       if (index !== -1) {
-        const [, listener] = elements[index]
+        const [, listener] = elements[index]!
         el.removeEventListener(EVENT_NAME, listener)
         elements.splice(index, 1)
       }

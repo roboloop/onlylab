@@ -39,7 +39,7 @@ export class Colorizer {
         result += `<span class="${this.colorized[i]}">`
       }
 
-      previousColor = this.colorized[i]
+      previousColor = this.colorized[i]!
       result += this.text[i]
     }
     if (previousColor !== this.noneColor) {

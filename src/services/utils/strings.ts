@@ -25,7 +25,7 @@ export const substitutes: Substitute = {
   '%d': [({ date }: Placeholder): string => format(date, 'd'), 'Day', '9, 21'],
   '%D': [({ date }: Placeholder): string => format(date, 'dd'), 'Day', '09, 21'],
   '%f': [
-    ({ forum }: Placeholder): string => forum.split('/')[0].trim() || 'no forum',
+    ({ forum }: Placeholder): string => forum.split('/')[0]!.trim() || 'no forum',
     'Forum name',
     'Actresses Clips Packs',
   ],
@@ -39,7 +39,7 @@ export function interpolate(template: string, placeholder: Placeholder): string 
   for (const key in substitutes) {
     if (substitutes.hasOwnProperty(key)) {
       const regex = new RegExp(key, 'g')
-      const [fn] = substitutes[key]
+      const [fn] = substitutes[key]!
       result = result.replace(regex, filenamify(fn(placeholder), { maxLength: 255 }))
     }
   }

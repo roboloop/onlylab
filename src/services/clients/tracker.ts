@@ -15,8 +15,8 @@ function parseHtml(html: string): File[] {
     .filter(el => el.childNodes.length > 1)
     .map(
       (el): File => ({
-        name: el.childNodes[0].textContent?.trim() ?? '',
-        size: +(el.childNodes[1].textContent?.trim() || 0),
+        name: el.childNodes[0]!.textContent?.trim() ?? '',
+        size: +(el.childNodes[1]!.textContent?.trim() || 0),
       }),
     )
 }

@@ -25,7 +25,7 @@ export function normalizeImages(imageNodes: ImageNode[] | ImageNode | null): Nor
     ) {
       const spoilerNode = createNode(
         node.header,
-        node.children.map(c => ({ ...c.images[0], header: c.header })),
+        node.children.map(c => ({ ...c.images[0]!, header: c.header })),
       )
       return [spoilerNode]
     }

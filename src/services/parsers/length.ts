@@ -2,7 +2,7 @@ export function parseLength(size: string): number | undefined {
   // format: 04:24:31
   const matched = size.match(/(\d\d):(\d\d):(\d\d)/)
   if (matched) {
-    return +matched[1] * 60 * 60 + +matched[2] * 60 + +matched[3]
+    return +matched[1]! * 60 * 60 + +matched[2]! * 60 + +matched[3]!
   }
 
   // format: 4 h 24 min 31 s

@@ -68,10 +68,10 @@ const babepediaResult = computed(() => query.value.map(r => ({ isFetched: r.isFe
 function onBabepedia(key: number): void {
   enableFetchBabepedia.value = true
   watch(
-    () => babepediaResult.value[key].isFetched,
-    () => selectImageMode(babepediaResult.value[key].data?.map((i): ImageLink => ({ title: i })) ?? []),
+    () => babepediaResult.value[key]!.isFetched,
+    () => selectImageMode(babepediaResult.value[key]!.data?.map((i): ImageLink => ({ title: i })) ?? []),
     {
-      immediate: babepediaResult.value[key].isFetched,
+      immediate: babepediaResult.value[key]!.isFetched,
     },
   )
 }
@@ -163,7 +163,7 @@ const { vScrollIntoView } = useScrollIntoView(document.querySelector(injectId)!)
     <template v-for="([mainName, babeName], key) in mainNames" :key="key">
       <ListGroupItem
         :text="mainName + (babeName && babeName !== mainName ? ` (${babeName})` : '')"
-        :badge="babepediaResult[key].isFetched ? babepediaResult[key].data?.length : undefined"
+        :badge="babepediaResult[key]!.isFetched ? babepediaResult[key]!.data?.length : undefined"
         @click="onBabepedia(key)"
         v-highlight
         v-scroll-into-view />

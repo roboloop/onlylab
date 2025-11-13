@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BButton, BTable, useToastController } from 'bootstrap-vue-next'
+import { BButton, BTable, useToast } from 'bootstrap-vue-next'
 import { format } from 'date-fns'
 import { saveAs } from 'file-saver'
 import { filesize } from 'filesize'
@@ -24,7 +24,7 @@ const fields: TableFieldRaw<DataUsageTableField>[] = [{ key: 'name' }, { key: 's
 const items = ref<DataUsageTableField[]>([])
 const appName = import.meta.env.VITE_APP_NAME
 
-const { show: showToast } = useToastController()
+const { create } = useToast()
 
 async function onBackup(): Promise<void> {
   const settings = await getSettings()
@@ -33,11 +33,10 @@ async function onBackup(): Promise<void> {
   const date = format(new Date(), `dd.MM.yy_kk_mm_ss`)
   saveAs(blob, `${appName}_${date}.json`)
 
-  showToast?.({
-    props: {
-      title: 'Backup saved',
-      variant: 'success',
-    },
+  create({
+    title: 'Backup saved',
+    variant: 'success',
+    noProgress: true,
   })
 }
 
@@ -51,21 +50,19 @@ async function onRestore(): Promise<void> {
     const settings = JSON.parse(contents)
     await putSettings(settings)
 
-    showToast?.({
-      props: {
-        title: 'Backup restored. Reloading...',
-        variant: 'success',
-      },
+    create({
+      title: 'Backup restored. Reloading...',
+      variant: 'success',
+      noProgress: true,
     })
 
     setTimeout(() => location.reload(), 2000)
   } catch (err) {
-    showToast?.({
-      props: {
-        title: 'Failed to restore',
-        variant: 'danger',
-        body: (err as Error).message,
-      },
+    create({
+      title: 'Failed to restore',
+      variant: 'danger',
+      body: (err as Error).message,
+      noProgress: true,
     })
   }
 }
@@ -76,11 +73,10 @@ async function onClear(): Promise<void> {
   await clearProfilesStore()
   await clearTorrentStore()
 
-  showToast?.({
-    props: {
-      title: 'Cache cleared',
-      variant: 'success',
-    },
+  create({
+    title: 'Cache cleared',
+    variant: 'success',
+    noProgress: true,
   })
 
   items.value.length && (await onShowUsage())

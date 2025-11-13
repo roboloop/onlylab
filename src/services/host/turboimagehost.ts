@@ -12,7 +12,7 @@ class Turboimagehost implements Host {
       const data = await client.send({ url: href } as Tampermonkey.Request)
       const matched = data.match(/<meta property="og:image" content="([^"]+)"/)
       if (matched) {
-        return matched[1]
+        return matched[1]!
       }
     } catch (error) {
       console.error(`Fail to load ${href}`, error)

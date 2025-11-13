@@ -5,11 +5,11 @@ export function parseYear(original: string): string {
   const matched = original.match(/\D(?<!#)((?:19|20)[0-9][0-9](?!-[0-9][0-9]-)(\s*-\s*(19|20)[0-9][0-9])?)\D/)
 
   if (matched) {
-    return matched[1]
+    return matched[1]!
   }
 
   // Try to extract year from date like 2024-07-30
   const matched2 = original.match(/\D((?:19|20)[0-9][0-9])-[0-9][0-9]-[0-9][0-9]\D/)
 
-  return matched2 ? matched2[1] : ''
+  return matched2 ? matched2[1]! : ''
 }

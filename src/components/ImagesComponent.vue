@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BCarousel, BCarouselSlide, useToastController } from 'bootstrap-vue-next'
+import { BCarousel, BCarouselSlide, useToast } from 'bootstrap-vue-next'
 import _ from 'lodash'
 import { nextTick, ref, toRef, useTemplateRef, watchEffect } from 'vue'
 import { useHotkeys } from '@/composables/useHotkeys'
@@ -88,7 +88,7 @@ const onError = async (e: Event, index: number, link: string) => {
   // nasty hack for fixing nasty fastpic
   if (fastpic.support(link)) {
     const result = await fastpic.link(link, link)
-    links.value[index].link = result
+    links.value[index]!.link = result
     await putImage(link, result)
   }
 }
@@ -136,7 +136,7 @@ watchEffect(async () => {
 })
 
 const { placeholder, getBlob } = useQbittorrentStore()
-const { show } = useToastController()
+const { create } = useToast()
 const carouselRef = useTemplateRef<typeof BCarousel>('carouselRef')
 const { registerPrevImage, registerNextImage, registerAddFile, registerRemoveFile } = useHotkeys()
 registerPrevImage(() => carouselRef.value?.prev())
@@ -151,19 +151,17 @@ registerAddFile(async () => {
 
     const blob = await getBlob()
     await addFile(blob, placeholder, name)
-    show?.({
-      props: {
-        title: `File "${name}" was added`,
-        variant: 'success',
-      },
+    create({
+      title: `File "${name}" was added`,
+      variant: 'success',
+      noProgress: true,
     })
   } catch (err) {
-    show?.({
-      props: {
-        title: 'Failed',
-        variant: 'danger',
-        body: (err as Error).message,
-      },
+    create({
+      title: 'Failed',
+      variant: 'danger',
+      body: (err as Error).message,
+      noProgress: true,
     })
   }
 })
@@ -177,19 +175,17 @@ registerRemoveFile(async () => {
 
     const blob = await getBlob()
     await removeFile(blob, name)
-    show?.({
-      props: {
-        title: `File "${name}" was removed`,
-        variant: 'success',
-      },
+    create({
+      title: `File "${name}" was removed`,
+      variant: 'success',
+      noProgress: true,
     })
   } catch (err) {
-    show?.({
-      props: {
-        title: 'Failed',
-        variant: 'danger',
-        body: (err as Error).message,
-      },
+    create({
+      title: 'Failed',
+      variant: 'danger',
+      body: (err as Error).message,
+      noProgress: true,
     })
   }
 })
